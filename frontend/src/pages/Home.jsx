@@ -9,7 +9,7 @@ const Home = () => {
         const fetchItineraries = async () => {
             try {
                 // Testing backend connectivity
-                const response = await fetch('/api/itineraries');
+                const response = await fetch('/api/v1/itineraries');
                 const result = await response.json();
                 
                 // If API returns empty data, we populate with some dummy data for now

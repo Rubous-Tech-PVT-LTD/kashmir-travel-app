@@ -11,10 +11,10 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-// Dummy GET route for /api/itineraries
-app.get('/api/itineraries', (req, res) => {
+// Dummy GET route for /api/v1/itineraries
+app.get('/api/v1/itineraries', (req, res) => {
   res.json({
-    message: "Test dummy route for /api/itineraries",
+    message: "Test dummy route for /api/v1/itineraries",
     data: []
   });
 });
