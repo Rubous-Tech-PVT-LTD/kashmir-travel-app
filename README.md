@@ -102,6 +102,6 @@ The frontend will usually be accessible at `http://localhost:5173` and the backe
 ## API Endpoints
 
 ### Itineraries
-- `GET /api/itineraries` - Fetches the list of all available travel itineraries.
+- `GET /api/v1/itineraries` - Fetches the list of all available travel itineraries.
 
 *More endpoints will be documented as the application grows.*

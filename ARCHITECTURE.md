@@ -42,7 +42,7 @@ sequenceDiagram
     participant DB as MongoDB
 
     User->>Browser: Opens /itineraries page
-    Browser->>Server: GET /api/itineraries
+    Browser->>Server: GET /api/v1/itineraries
     activate Server
     Server->>DB: Mongoose query Itinerary.find()
     activate DB
