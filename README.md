@@ -17,6 +17,9 @@ A comprehensive full-stack travel booking and itinerary management application f
 ## Overview
 The Kashmir Travel App allows users to view destination details, browse predefined itineraries, and potentially book travel packages for Kashmir. The project is split into a robust backend API and a dynamic frontend UI.
 
+## 🔗 Reference
+For UI/UX design and tourism features, refer to: [Kashmir Tour Travel](https://kashmirtourtravel.com/)
+
 ## Architecture & Diagrams
 For deep documentation regarding system flow, integration, and architecture diagrams, please refer to our dedicated **[Architecture Documentation files (ARCHITECTURE.md)](./ARCHITECTURE.md)**. You will find Mermaid diagrams detailing the component flow and data sequences.
 
