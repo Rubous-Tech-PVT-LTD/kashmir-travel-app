@@ -28,9 +28,13 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/kashmir-tra
     });
   })
   .catch(err => {
-    console.error('MongoDB connection error:', err);
-    // Even if DB fails, let's start server for the test route (optional, but good for boilerplate)
+    if (err.message.includes('Authentication failed')) {
+      console.error('CRITICAL: MongoDB Authentication Failed! Please check your username/password and IP whitelist in Atlas.');
+    } else {
+      console.error('MongoDB connection error:', err);
+    }
+    // Start server anyway for dummy routes
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT} (DB connection failed)`);
+      console.log(`Server running on port ${PORT} (Database integration currently unavailable)`);
     });
   });
