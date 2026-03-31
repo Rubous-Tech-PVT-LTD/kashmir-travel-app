@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import Alltrip from './components/AllPopularTrip'
 import TripDetail from './pages/TripDetail'
+import DaysWiseTripDetail from './pages/DaysWiseTripDetail'
+import AllDaysWiseTrips from './pages/AllDaysWiseTrips'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -23,6 +25,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/alltrips" element={<Alltrip />} />
           <Route path="/trips/:tripId" element={<TripDetail />} />
+          <Route path="/daywise-trip/:tripId" element={<DaysWiseTripDetail />} />
+          <Route path="/all-daywise-trips" element={<AllDaysWiseTrips />} />
         </Routes>
       </div>
     </BrowserRouter>

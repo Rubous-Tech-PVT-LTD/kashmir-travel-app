@@ -1,7 +1,24 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
-const trips = [
+const NavDots = () => (
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+    <rect x="0" y="0" width="8" height="8" rx="1.5" fill="#38b2a3" />
+    <rect x="14" y="0" width="8" height="8" rx="1.5" fill="#38b2a3" />
+    <rect x="0" y="14" width="8" height="8" rx="1.5" fill="#38b2a3" />
+    <rect x="14" y="14" width="8" height="8" rx="1.5" fill="#38b2a3" />
+  </svg>
+)
+
+const PhoneIcon = () => (
+  <svg width="18" height="18" fill="none" stroke="#38b2a3" strokeWidth="2" viewBox="0 0 24 24">
+    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.22 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z" />
+  </svg>
+)
+
+const allTrips = [
   {
     id: 1,
     title: '2 Days Tour - Quick Srinagar Getaway',
@@ -106,20 +123,20 @@ const trips = [
 const filters = ['2-4 Days', '5-7 Days', 'Family Trips']
 
 const ArrowRight = () => (
-  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
-    <line x1="5" y1="12" x2="19" y2="12" />
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="5 12 19 12" />
     <polyline points="12 5 19 12 12 19" />
   </svg>
 )
 
 const ClockIcon = () => (
-  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <circle cx="12" cy="12" r="10" />
     <polyline points="12 6 12 12 16 14" />
   </svg>
 )
 
-export default function DaysWiseTrips() {
+export default function AllDaysWiseTrips() {
   const [activeFilter, setActiveFilter] = useState('2-4 Days')
   const navigate = useNavigate()
 
@@ -127,119 +144,122 @@ export default function DaysWiseTrips() {
     navigate(`/daywise-trip/${trip.id}`, { state: { trip } })
   }
 
+  const filteredTrips = allTrips.filter((trip) => {
+    const days = parseInt(trip.duration.split(' ')[0])
+    if (activeFilter === '2-4 Days') return days >= 2 && days <= 4
+    if (activeFilter === '5-7 Days') return days >= 5 && days <= 7
+    if (activeFilter === 'Family Trips') return trip.tag === 'Family Pick'
+    return true
+  })
+
   return (
-    <div
-      style={{
-        fontFamily: "'Segoe UI', system-ui, sans-serif",
-        backgroundColor: '#fff',
-        padding: '48px 0 72px',
-      }}
-    >
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
-
-        .dwt-card {
-          transition: box-shadow 0.28s ease, transform 0.28s ease;
-          cursor: pointer;
-        }
-        .dwt-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 16px 40px rgba(0,0,0,0.12) !important;
-        }
-        .dwt-card:hover .dwt-img {
-          transform: scale(1.04);
-        }
-        .dwt-img {
-          transition: transform 0.5s ease;
-        }
-        .dwt-link {
-          transition: color 0.2s;
-          text-decoration: none;
-        }
-        .dwt-link:hover {
-          color: #1d4ed8 !important;
-        }
-      `}</style>
-
-      <div style={{ maxWidth: '1160px', margin: '0 auto', padding: '0 32px' }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            marginBottom: '6px',
-            flexWrap: 'wrap',
-            gap: '16px',
-          }}
-        >
-          <div>
-            <h2
-              style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
-                fontSize: 'clamp(28px, 4vw, 44px)',
-                fontWeight: '800',
-                color: '#0f1923',
-                margin: '0 0 10px',
-                lineHeight: '1.1',
-              }}
-            >
-              Days-Wise Kashmir Trips
-            </h2>
-            <div
-              style={{
-                width: '52px',
-                height: '3.5px',
-                backgroundColor: '#2563eb',
-                borderRadius: '2px',
-              }}
-            />
-          </div>
-          <p
+    <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb', display: 'flex', flexDirection: 'column' }}>
+      {/* Top Bar */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '10px 32px',
+          borderBottom: '1px solid #e8e8e8',
+          backgroundColor: '#fff',
+          width: '100%',
+          boxSizing: 'border-box',
+          margin: 0,
+        }}
+      >
+        {/* Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <NavDots />
+          <span
             style={{
-              color: '#6b7280',
-              fontSize: '14px',
-              maxWidth: '520px',
-              lineHeight: '1.65',
-              fontFamily: "'DM Sans', sans-serif",
-              fontWeight: '300',
-              paddingTop: '6px',
+              fontSize: '22px',
+              fontWeight: '700',
+              color: '#1a2b4a',
+              letterSpacing: '-0.3px',
             }}
           >
-            Choose your perfect trip duration from 2 to 7 days with transparent pricing and curated day-by-day plans.
-          </p>
+            Kashmir Tour Travel
+          </span>
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            margin: '24px 0 32px',
-            flexWrap: 'wrap',
-            gap: '16px',
-          }}
-        >
-          <button
-            onClick={() => navigate('/all-daywise-trips')}
-            className="dwt-link"
-            style={{
-              color: '#2563eb',
-              fontSize: '14px',
-              fontWeight: '500',
-              fontFamily: "'DM Sans', sans-serif",
-              display: 'flex',
-              alignItems: 'center',
-              gap: '5px',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '0',
-            }}
-          >
-            See all days-wise trips →
-          </button>
+        {/* Center Info */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555', fontSize: '14px' }}>
+            <PhoneIcon />
+            <span>+1 323-913-4688</span>
+          </div>
+        </div>
 
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        {/* CTA Button */}
+        <button
+          style={{
+            backgroundColor: '#3dba8f',
+            color: '#fff',
+            border: 'none',
+            padding: '11px 24px',
+            borderRadius: '4px',
+            fontSize: '14px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            letterSpacing: '0.3px',
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = '#2ea87e')}
+          onMouseLeave={(e) => (e.target.style.backgroundColor = '#3dba8f')}
+        >
+          Get a Free Quote
+        </button>
+      </div>
+      <Navbar />
+
+      <div style={{ flex: 1 }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '40px 20px' }}>
+          {/* Header */}
+          <div style={{ marginBottom: '20px' }}>
+            <button
+              onClick={() => navigate('/')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                color: '#2563eb',
+                fontSize: '14px',
+                fontWeight: '600',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                marginBottom: '16px',
+                padding: '0',
+              }}
+            >
+              ← Back to Home
+            </button>
+            <h1
+              style={{
+                fontSize: '42px',
+                fontWeight: '700',
+                color: '#0f1923',
+                margin: '0 0 12px',
+                lineHeight: '1.2',
+              }}
+            >
+              All Kashmir Tours
+            </h1>
+            <p
+              style={{
+                fontSize: '16px',
+                color: '#6b7280',
+                margin: '0 0 32px',
+                maxWidth: '600px',
+              }}
+            >
+              Choose your perfect trip duration from 2 to 7 days with transparent pricing and curated day-by-day plans.
+            </p>
+          </div>
+
+          {/* Filters */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '40px' }}>
             {filters.map((f, i) => (
               <span key={f} style={{ display: 'flex', alignItems: 'center' }}>
                 <button
@@ -259,162 +279,181 @@ export default function DaysWiseTrips() {
                   {f}
                 </button>
                 {i < filters.length - 1 && (
-                  <span style={{ color: '#d1d5db', margin: '0 14px', fontSize: '16px' }}>|</span>
+                  <span style={{ color: '#d1d5db', margin: '0 24px', fontSize: '16px' }}>|</span>
                 )}
               </span>
             ))}
           </div>
-        </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '28px',
-          }}
-        >
-          {trips.map((trip) => (
-            <div
-              key={trip.id}
-              className="dwt-card"
-              style={{
-                backgroundColor: '#fff',
-                borderRadius: '10px',
-                border: '1px solid #e5e7eb',
-                overflow: 'hidden',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-              }}
-            >
-              <div style={{ position: 'relative', overflow: 'hidden', height: '210px' }}>
-                <img
-                  className="dwt-img"
-                  src={trip.image}
-                  alt={trip.title}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    display: 'block',
-                  }}
-                />
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '14px',
-                    left: '14px',
-                    backgroundColor: trip.tagColor,
-                    color: '#fff',
-                    fontSize: '10px',
-                    fontWeight: '700',
-                    letterSpacing: '0.8px',
-                    padding: '4px 10px',
-                    borderRadius: '20px',
-                    fontFamily: "'DM Sans', sans-serif",
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  {trip.tag}
-                </div>
-              </div>
-
-              <div style={{ padding: '22px 22px 26px' }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    color: '#9ca3af',
-                    fontSize: '12px',
-                    fontFamily: "'DM Sans', sans-serif",
-                    marginBottom: '8px',
-                  }}
-                >
-                  <ClockIcon />
-                  {trip.duration}
-                </div>
-
-                <h3
-                  style={{
-                    fontFamily: "'Playfair Display', Georgia, serif",
-                    fontSize: '19px',
-                    fontWeight: '700',
-                    color: '#0f1923',
-                    margin: '0 0 10px',
-                    lineHeight: '1.3',
-                  }}
-                >
-                  {trip.title}
-                </h3>
-
-                <p
-                  style={{
-                    color: '#6b7280',
-                    fontSize: '13.5px',
-                    lineHeight: '1.65',
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontWeight: '300',
-                    margin: '0 0 18px',
-                  }}
-                >
-                  {trip.description}
-                </p>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    paddingTop: '16px',
-                    borderTop: '1px solid #f3f4f6',
-                  }}
-                >
-                  <div>
-                    <span
-                      style={{
-                        fontSize: '10px',
-                        color: '#9ca3af',
-                        fontFamily: "'DM Sans', sans-serif",
-                        display: 'block',
-                        marginBottom: '2px',
-                      }}
-                    >
-                      Starting from
-                    </span>
-                    <span
-                      style={{
-                        fontSize: '18px',
-                        fontWeight: '700',
-                        color: '#0f1923',
-                        fontFamily: "'DM Sans', sans-serif",
-                      }}
-                    >
-                      {trip.price}
-                    </span>
-                  </div>
-
-                  <button
-                    onClick={() => handleViewTrip(trip)}
+          {/* Trips Grid */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '28px',
+            }}
+          >
+            {filteredTrips.map((trip) => (
+              <div
+                key={trip.id}
+                style={{
+                  backgroundColor: '#fff',
+                  borderRadius: '10px',
+                  border: '1px solid #e5e7eb',
+                  overflow: 'hidden',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)'
+                  e.currentTarget.style.transform = 'translateY(-4px)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.06)'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                }}
+              >
+                <div style={{ position: 'relative', overflow: 'hidden', height: '210px' }}>
+                  <img
+                    src={trip.image}
+                    alt={trip.title}
                     style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                      fontSize: '13px',
-                      fontWeight: '600',
-                      color: '#2563eb',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: '0',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '14px',
+                      left: '14px',
+                      backgroundColor: trip.tagColor,
+                      color: '#fff',
+                      fontSize: '10px',
+                      fontWeight: '700',
+                      letterSpacing: '0.8px',
+                      padding: '4px 10px',
+                      borderRadius: '20px',
+                      fontFamily: "'DM Sans', sans-serif",
+                      textTransform: 'uppercase',
                     }}
                   >
-                    View Trip <ArrowRight />
-                  </button>
+                    {trip.tag}
+                  </div>
+                </div>
+
+                <div style={{ padding: '22px 22px 26px' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      color: '#9ca3af',
+                      fontSize: '12px',
+                      fontFamily: "'DM Sans', sans-serif",
+                      marginBottom: '8px',
+                    }}
+                  >
+                    <ClockIcon />
+                    {trip.duration}
+                  </div>
+
+                  <h3
+                    style={{
+                      fontFamily: "'Playfair Display', Georgia, serif",
+                      fontSize: '19px',
+                      fontWeight: '700',
+                      color: '#0f1923',
+                      margin: '0 0 10px',
+                      lineHeight: '1.3',
+                    }}
+                  >
+                    {trip.title}
+                  </h3>
+
+                  <p
+                    style={{
+                      color: '#6b7280',
+                      fontSize: '13.5px',
+                      lineHeight: '1.65',
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontWeight: '300',
+                      margin: '0 0 18px',
+                    }}
+                  >
+                    {trip.description}
+                  </p>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      paddingTop: '16px',
+                      borderTop: '1px solid #f3f4f6',
+                    }}
+                  >
+                    <div>
+                      <span
+                        style={{
+                          fontSize: '10px',
+                          color: '#9ca3af',
+                          fontFamily: "'DM Sans', sans-serif",
+                          display: 'block',
+                          marginBottom: '2px',
+                        }}
+                      >
+                        Starting from
+                      </span>
+                      <span
+                        style={{
+                          fontSize: '18px',
+                          fontWeight: '700',
+                          color: '#0f1923',
+                          fontFamily: "'DM Sans', sans-serif",
+                        }}
+                      >
+                        {trip.price}
+                      </span>
+                    </div>
+
+                    <button
+                      onClick={() => handleViewTrip(trip)}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        fontSize: '13px',
+                        fontWeight: '600',
+                        color: '#2563eb',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '0',
+                      }}
+                    >
+                      View Trip <ArrowRight />
+                    </button>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+
+          {filteredTrips.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+              <p style={{ color: '#6b7280', fontSize: '16px' }}>
+                No trips found for the selected filter.
+              </p>
             </div>
-          ))}
+          )}
         </div>
       </div>
+
+      <Footer />
     </div>
   )
 }
