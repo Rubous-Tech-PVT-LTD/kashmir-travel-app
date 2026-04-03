@@ -68,45 +68,6 @@ exports.createReview = async (req, res) => {
   }
 };
 
-// Update review
-exports.updateReview = async (req, res) => {
-  try {
-    const { name, rating, comment } = req.body;
-
-    if (rating < 1 || rating > 5) {
-      return res.status(400).json({
-        success: false,
-        message: 'Rating must be between 1 and 5'
-      });
-    }
-
-    const review = await Review.findByIdAndUpdate(
-      req.params.id,
-      { name, rating, comment },
-      { new: true }
-    );
-
-    if (!review) {
-      return res.status(404).json({
-        success: false,
-        message: 'Review not found'
-      });
-    }
-
-    res.json({
-      success: true,
-      message: 'Review updated successfully',
-      data: review
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error updating review',
-      error: error.message
-    });
-  }
-};
-
 // Delete review
 exports.deleteReview = async (req, res) => {
   try {

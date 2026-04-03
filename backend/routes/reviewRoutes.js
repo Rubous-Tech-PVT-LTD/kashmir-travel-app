@@ -8,9 +8,6 @@ router.get('/', reviewController.getReviews);
 // Create review
 router.post('/', reviewController.createReview);
 
-// Update review
-router.put('/:id', reviewController.updateReview);
-
 // Delete review
 router.delete('/:id', reviewController.deleteReview);
 

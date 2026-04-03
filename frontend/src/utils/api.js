@@ -106,8 +106,6 @@ export const reviewAPI = {
 
   create: async (review) => dataOr(await request('/reviews', { method: 'POST', body: review }), null),
 
-  update: async (id, review) => dataOr(await request(`/reviews/${id}`, { method: 'PUT', body: review }), null),
-
   delete: async (id) => dataOr(await request(`/reviews/${id}`, { method: 'DELETE' }), null),
 }
 
