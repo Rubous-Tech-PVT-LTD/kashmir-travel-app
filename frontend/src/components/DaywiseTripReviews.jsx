@@ -2,8 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { BadgeCheck, MessageSquare, Star as StarIcon, UserCircle2, Loader } from 'lucide-react'
 import { reviewAPI } from '../utils/api'
 
-const storageKeyForTrip = (tripId) => `ktt-daywise-trip-reviews-${tripId}`
-
 const formatDate = (value) =>
   new Intl.DateTimeFormat('en-IN', {
     day: 'numeric',
@@ -33,7 +31,6 @@ function StarPicker({ value, active, onClick }) {
 }
 
 export default function DaywiseTripReviews({ tripId, tripTitle }) {
-  const storageKey = useMemo(() => storageKeyForTrip(tripId), [tripId])
   const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -41,11 +38,11 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
   const [reviewerName, setReviewerName] = useState('')
   const [reviewText, setReviewText] = useState('')
 
-  // Fetch daywise reviews from API on component mount and when tripId changes
   useEffect(() => {
     const fetchReviews = async () => {
       setLoading(true)
       setError(null)
+
       try {
         const data = await reviewAPI.getByItinerary(tripId, 'daywise')
         const transformed = data.map((review) => ({
@@ -54,6 +51,7 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
           comment: review.comment,
           createdAt: review.createdAt || new Date().toISOString(),
         }))
+
         setReviews(transformed)
       } catch (err) {
         setError('Failed to load reviews')
@@ -66,15 +64,6 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
 
     fetchReviews()
   }, [tripId])
-
-  // Save reviews to localStorage for persistence
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(storageKey, JSON.stringify(reviews))
-    } catch {
-      // Ignore storage write failures.
-    }
-  }, [reviews, storageKey])
 
   const summary = useMemo(() => {
     if (!reviews.length) {
@@ -95,32 +84,33 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
       return
     }
 
-    const nextReview = {
-      name: trimmedName,
-      rating,
-      comment: trimmedText,
-      createdAt: new Date().toISOString(),
-    }
-
-    // Add review to local state immediately for UX
-    setReviews((currentReviews) => [nextReview, ...currentReviews])
-
-    setReviewerName('')
-    setReviewText('')
-    setRating(5)
-
-    // Also post to backend API
     try {
-      await reviewAPI.create({
+      const createdReview = await reviewAPI.create({
         itineraryId: tripId,
         reviewType: 'daywise',
         name: trimmedName,
         rating,
         comment: trimmedText,
       })
+
+      if (createdReview) {
+        setReviews((currentReviews) => [
+          {
+            name: createdReview.name,
+            rating: createdReview.rating,
+            comment: createdReview.comment,
+            createdAt: createdReview.createdAt || new Date().toISOString(),
+          },
+          ...currentReviews,
+        ])
+      }
+
+      setReviewerName('')
+      setReviewText('')
+      setRating(5)
     } catch (err) {
       console.error('Error posting review:', err)
-      // Review is still saved locally, but user should know about the API error
+      setError('Failed to save review')
     }
   }
 
@@ -201,7 +191,7 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
             </div>
             <div>
               <h4 style={{ margin: 0, color: '#13213b', fontSize: 18 }}>Add a review</h4>
-              <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: 13 }}>This review will be saved only for this daywise trip.</p>
+              <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: 13 }}>This review will be saved to the database for this daywise trip.</p>
             </div>
           </div>
 

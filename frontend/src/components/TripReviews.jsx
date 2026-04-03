@@ -2,8 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { Star as StarIcon, MessageSquareQuote, User as UserIcon, Clock3, Loader } from 'lucide-react'
 import { reviewAPI } from '../utils/api'
 
-const getStorageKey = (tripId) => `ktt-trip-reviews-${tripId}`
-
 const formatDate = (value) =>
   new Intl.DateTimeFormat('en-IN', {
     day: 'numeric',
@@ -32,7 +30,6 @@ const StarButton = ({ active, onClick, label }) => (
 )
 
 export default function TripReviews({ tripId, tripTitle }) {
-  const storageKey = useMemo(() => getStorageKey(tripId), [tripId])
   const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -66,15 +63,6 @@ export default function TripReviews({ tripId, tripTitle }) {
     fetchReviews()
   }, [tripId])
 
-  // Save reviews to localStorage for persistence
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(storageKey, JSON.stringify(reviews))
-    } catch {
-      // Ignore storage failures and keep the UI usable.
-    }
-  }, [reviews, storageKey])
-
   const summary = useMemo(() => {
     if (!reviews.length) {
       return { average: 0, count: 0 }
@@ -97,31 +85,33 @@ export default function TripReviews({ tripId, tripTitle }) {
       return
     }
 
-    const nextReview = {
-      name: trimmedName,
-      rating,
-      comment: trimmedComment,
-      createdAt: new Date().toISOString(),
-    }
-
-    // Add review to local state immediately for UX
-    setReviews((currentReviews) => [nextReview, ...currentReviews])
-    setName('')
-    setComment('')
-    setRating(5)
-
-    // Also post to backend API
     try {
-      await reviewAPI.create({
+      const createdReview = await reviewAPI.create({
         itineraryId: tripId,
         reviewType: 'trip',
         name: trimmedName,
         rating,
         comment: trimmedComment,
       })
+
+      if (createdReview) {
+        setReviews((currentReviews) => [
+          {
+            name: createdReview.name,
+            rating: createdReview.rating,
+            comment: createdReview.comment,
+            createdAt: createdReview.createdAt || new Date().toISOString(),
+          },
+          ...currentReviews,
+        ])
+      }
+
+      setName('')
+      setComment('')
+      setRating(5)
     } catch (err) {
       console.error('Error posting review:', err)
-      // Review is still saved locally, but user should know about the API error
+      setError('Failed to save review')
     }
   }
 
@@ -202,7 +192,7 @@ export default function TripReviews({ tripId, tripTitle }) {
             </div>
             <div>
               <h4 style={{ margin: 0, color: '#1a2b4a', fontSize: 18 }}>Add your review</h4>
-              <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: 13 }}>Your review is saved only for this trip.</p>
+              <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: 13 }}>Your review is saved to the database for this trip.</p>
             </div>
           </div>
 

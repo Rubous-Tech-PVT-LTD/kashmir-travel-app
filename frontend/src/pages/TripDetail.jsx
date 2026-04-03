@@ -213,7 +213,7 @@ export default function TripDetail() {
               </div>
             </div>
 
-            <TripReviews tripId={trip.id} tripTitle={trip.title} />
+            <TripReviews tripId={trip._id || trip.id} tripTitle={trip.title} />
           </div>
 
           <aside style={{ position: "sticky", top: 84 }}>
