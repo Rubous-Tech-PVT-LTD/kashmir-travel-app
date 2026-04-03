@@ -6,35 +6,62 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  ...(process.env.FRONTEND_URL
+    ? process.env.FRONTEND_URL.split(',').map((origin) => origin.trim()).filter(Boolean)
+    : []),
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests from Postman/cURL (no origin) and configured browser origins.
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Not allowed by CORS'));
+  },
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Import routes
+const itineraryRoutes = require('./routes/itineraryRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 
 // Routes
-// Dummy GET route for /api/v1/itineraries
-app.get('/api/v1/itineraries', (req, res) => {
-  res.json({
-    message: "Test dummy route for /api/v1/itineraries",
-    data: []
-  });
+app.use('/api/v1/itineraries', itineraryRoutes);
+app.use('/api/v1/reviews', reviewRoutes);
+
+// Health check route
+app.get('/api/health', (req, res) => {
+  res.json({ message: 'Server is running', status: 'OK' });
 });
 
-// Database connection placeholder
+// Database connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/kashmir-travel-app')
   .then(() => {
-    console.log('MongoDB connected');
+    console.log('✅ MongoDB connected successfully');
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
   })
   .catch(err => {
     if (err.message.includes('Authentication failed')) {
-      console.error('CRITICAL: MongoDB Authentication Failed! Please check your username/password and IP whitelist in Atlas.');
+      console.error('🔴 CRITICAL: MongoDB Authentication Failed!');
+      console.error('Please check your MONGO_URI and credentials in .env file');
     } else {
-      console.error('MongoDB connection error:', err);
+      console.error('🔴 MongoDB connection error:', err.message);
     }
-    // Start server anyway for dummy routes
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT} (Database integration currently unavailable)`);
-    });
+    process.exit(1);
   });
+

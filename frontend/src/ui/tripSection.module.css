@@ -1,0 +1,67 @@
+.card {
+  transition: box-shadow 0.28s ease, transform 0.28s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12) !important;
+}
+
+.image {
+  transition: transform 0.5s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.04);
+}
+
+.linkButton {
+  transition: color 0.2s, gap 0.2s;
+  text-decoration: none;
+}
+
+.linkButton:hover {
+  color: #1d4ed8 !important;
+}
+
+.readMore {
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+  border-bottom: 1.5px solid transparent;
+  padding-bottom: 1px;
+}
+
+.readMore:hover {
+  border-bottom-color: #2563eb;
+  gap: 8px;
+}
+
+.filterButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  padding: 0;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

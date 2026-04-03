@@ -1,15 +1,12 @@
 import { useState } from "react";
+import { DollarSign, Globe, PhoneCall, Users } from "lucide-react";
  
 const reasons = [
   
   {
     id: 1,
     icon: (
-      <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" />
-        <line x1="2" y1="12" x2="22" y2="12" />
-        <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-      </svg>
+      <Globe width={24} height={24} strokeWidth={2} />
     ),
     title: "Local Expert Guides",
     description: "Born-and-raised locals who know every hidden trail and secret viewpoint.",
@@ -19,12 +16,7 @@ const reasons = [
   {
     id: 2,
     icon: (
-      <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 00-3-3.87" />
-        <path d="M16 3.13a4 4 0 010 7.75" />
-      </svg>
+      <Users width={24} height={24} strokeWidth={2} />
     ),
     title: "50,000+ Happy Travelers",
     description: "A 4.9★ average across 12,000 verified reviews from real travelers.",
@@ -35,10 +27,7 @@ const reasons = [
   {
     id: 3,
     icon: (
-      <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <line x1="12" y1="1" x2="12" y2="23" />
-        <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
-      </svg>
+      <DollarSign width={24} height={24} strokeWidth={2} />
     ),
     title: "No Hidden Charges",
     description: "All inclusions listed upfront. Best-price guarantee on every package.",
@@ -48,9 +37,7 @@ const reasons = [
   {
     id: 4,
     icon: (
-      <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 0111.62 19 19.5 19.5 0 015.8 13.18 19.79 19.79 0 013.1 4.2 2 2 0 015.08 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L9.91 9.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-      </svg>
+      <PhoneCall width={24} height={24} strokeWidth={2} />
     ),
     title: "24/7 On-Trip Support",
     description: "Real humans available round the clock — not bots, not voicemail.",
