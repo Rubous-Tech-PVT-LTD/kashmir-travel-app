@@ -1,85 +1,14 @@
 import { useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../shared/Navbar";
 
 const heroImage =
   "https://camo.githubusercontent.com/1b18608c396cc46626637014a8bf370ee07b60dd7602cd58f55bf1a64c6aa23d/68747470733a2f2f696d616765732e756e73706c6173682e636f6d2f70686f746f2d313539353831353737313631342d6164653964363532613635643f69786c69623d72622d342e302e33266175746f3d666f726d6174266669743d63726f7026773d3132303026713d3830";
 
-const NavDots = () => (
-  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-    <rect x="0" y="0" width="8" height="8" rx="1.5" fill="#38b2a3" />
-    <rect x="14" y="0" width="8" height="8" rx="1.5" fill="#38b2a3" />
-    <rect x="0" y="14" width="8" height="8" rx="1.5" fill="#38b2a3" />
-    <rect x="14" y="14" width="8" height="8" rx="1.5" fill="#38b2a3" />
-  </svg>
-);
-
-const PhoneIcon = () => (
-  <svg width="18" height="18" fill="none" stroke="#38b2a3" strokeWidth="2" viewBox="0 0 24 24">
-    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.22 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z" />
-  </svg>
-);
-
 export default function HeroSection() {
   return (
     <div style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", margin: 0, width: "100%", padding: 0 }}>
-      {/* Top Bar */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "10px 32px",
-          borderBottom: "1px solid #e8e8e8",
-          backgroundColor: "#fff",
-          width: "100%",
-          boxSizing: "border-box",
-          margin: 0,
-        }}
-      >
-        {/* Logo */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <NavDots />
-          <span
-            style={{
-              fontSize: "22px",
-              fontWeight: "700",
-              color: "#1a2b4a",
-              letterSpacing: "-0.3px",
-            }}
-          >
-            Kashmir Tour Travel
-          </span>
-        </div>
-
-        {/* Center Info */}
-        <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#555", fontSize: "14px" }}>
-            <PhoneIcon />
-            <span>+1 323-913-4688</span>
-          </div>
-        </div>
-
-        {/* CTA Button */}
-        <button
-          style={{
-            backgroundColor: "#3dba8f",
-            color: "#fff",
-            border: "none",
-            padding: "11px 24px",
-            borderRadius: "4px",
-            fontSize: "14px",
-            fontWeight: "600",
-            cursor: "pointer",
-            letterSpacing: "0.3px",
-            transition: "background 0.2s",
-          }}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = "#2ea87e")}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = "#3dba8f")}
-        >
-          Get a Free Quote
-        </button>
-      </div>
-<Navbar/>
+      {/* Navbar with TopHeader */}
+      <Navbar />
       {/* Hero Section */}
       <div
         style={{

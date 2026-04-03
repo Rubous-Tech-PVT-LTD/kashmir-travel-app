@@ -1,22 +1,16 @@
 import { useState } from 'react';
+import { ChevronDown as ChevronDownIcon, MapPin, Building2 } from 'lucide-react';
 
 const ChevronDown = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <polyline points="6 9 12 15 18 9" />
-  </svg>
+  <ChevronDownIcon width={18} height={18} strokeWidth={2} />
 );
 
 const LocationIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3dba8f" strokeWidth="2">
-    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-    <circle cx="12" cy="10" r="3" />
-  </svg>
+  <MapPin width={16} height={16} color="#3dba8f" strokeWidth={2} />
 );
 
 const HotelIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2">
-    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z" />
-  </svg>
+  <Building2 width={16} height={16} color="#64748b" strokeWidth={2} />
 );
 
 export default function TripItinerary({ tripData }) {

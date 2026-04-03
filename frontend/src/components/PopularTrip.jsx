@@ -1,186 +1,143 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ArrowRight as ArrowRightIcon, Clock3, Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { popularTrips as trips } from "../data/popularTrips";
- 
+import { itineraryAPI } from "../utils/api";
+import { sectionStyles } from "../ui/tripSectionStyles";
+import ui from "../ui/tripSection.module.css";
+
 const filters = ["View all trips", "Operator services", "Kashmir Honeymoon Packages"];
- 
+const bottomCtaStyle = {
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "8px",
+  backgroundColor: "#2563eb",
+  color: "#fff",
+  padding: "13px 32px",
+  borderRadius: "6px",
+  fontSize: "14px",
+  fontWeight: "600",
+  border: "none",
+  cursor: "pointer",
+  fontFamily: "'DM Sans', sans-serif",
+  letterSpacing: "0.3px",
+  transition: "background 0.2s",
+};
+
 const ArrowRight = () => (
-  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
-    <line x1="5" y1="12" x2="19" y2="12" />
-    <polyline points="12 5 19 12 12 19" />
-  </svg>
+  <ArrowRightIcon width={14} height={14} strokeWidth={2.2} />
 );
- 
+
 const ClockIcon = () => (
-  <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="10" />
-    <polyline points="12 6 12 12 16 14" />
-  </svg>
+  <Clock3 width={13} height={13} strokeWidth={2} />
 );
- 
+
 export default function PopularKashmirTrips() {
+  const [trips, setTrips] = useState([])
+  const [loading, setLoading] = useState(true)
   const [activeFilter, setActiveFilter] = useState("View all trips");
-  const [hoveredCard, setHoveredCard] = useState(null);
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    const fetchTrips = async () => {
+      setLoading(true)
+      try {
+        const data = await itineraryAPI.getByCategory('popular')
+        const transformed = data.map((trip) => ({
+          id: trip._id,
+          category: trip.category,
+          title: trip.title,
+          description: trip.description || '',
+          image: trip.coverImage,
+          duration: trip.itinerary ? 
+            `${trip.itinerary.length} Days / ${Math.max(0, trip.itinerary.length - 1)} Nights` : 
+            'N/A',
+          price: trip.price,
+          tag: trip.tag || 'Kashmir Tour',
+          tagColor: trip.tagColor || '#2563eb',
+          itinerary: trip.itinerary || []
+        }))
+        setTrips(transformed)
+      } catch (err) {
+        console.error('Error fetching trips:', err)
+        setTrips([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchTrips()
+  }, [])
+
   const openTrip = (tripId) => navigate(`/trips/${tripId}`);
- 
+
+  const visibleTrips = trips.filter((trip) => trip.category === 'popular').filter((trip) => {
+    if (activeFilter === "View all trips") {
+      return true;
+    }
+
+    const honeymoonMatch = /honeymoon|romantic/i.test(`${trip.title} ${trip.tag}`);
+
+    if (activeFilter === "Kashmir Honeymoon Packages") {
+      return honeymoonMatch;
+    }
+
+    if (activeFilter === "Operator services") {
+      return !honeymoonMatch;
+    }
+
+    return true;
+  });
+
   return (
-    <div
-      style={{
-        fontFamily: "'Segoe UI', system-ui, sans-serif",
-        backgroundColor: "#fff",
-        padding: "48px 0 72px",
-      }}
-    >
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+    <div style={sectionStyles.page}>
+      <div style={sectionStyles.container}>
  
-        .pkт-card {
-          transition: box-shadow 0.28s ease, transform 0.28s ease;
-          cursor: pointer;
-        }
-        .pkт-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 16px 40px rgba(0,0,0,0.12) !important;
-        }
-        .pkт-card:hover .card-img {
-          transform: scale(1.04);
-        }
-        .card-img {
-          transition: transform 0.5s ease;
-        }
-        .pkт-link {
-          transition: color 0.2s, gap 0.2s;
-          text-decoration: none;
-        }
-        .pkт-link:hover { color: #1d4ed8 !important; }
-        .filter-btn {
-          background: none;
-          border: none;
-          cursor: pointer;
-          transition: color 0.2s;
-          font-family: 'DM Sans', sans-serif;
-          padding: 0;
-        }
-        .read-more {
-          transition: all 0.2s;
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
-          font-size: 13px;
-          font-weight: 600;
-          color: #2563eb;
-          text-decoration: none;
-          border-bottom: 1.5px solid transparent;
-          padding-bottom: 1px;
-        }
-        .read-more:hover {
-          border-bottom-color: #2563eb;
-          gap: 8px;
-        }
-      `}</style>
- 
-      <div style={{ maxWidth: "1160px", margin: "0 auto", padding: "0 32px" }}>
- 
+        {loading ? (
+          <div style={sectionStyles.loadingWrap}>
+            <Loader size={40} className={ui.spin} />
+          </div>
+        ) : (
+          <>
         {/* Header Row */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            marginBottom: "6px",
-            flexWrap: "wrap",
-            gap: "16px",
-          }}
-        >
+        <div style={sectionStyles.headerRow}>
           <div>
-            <h2
-              style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
-                fontSize: "clamp(28px, 4vw, 44px)",
-                fontWeight: "800",
-                color: "#0f1923",
-                margin: "0 0 10px",
-                lineHeight: "1.1",
-              }}
-            >
+            <h2 style={sectionStyles.title}>
               Popular Kashmir Trips
             </h2>
             {/* Blue underline */}
-            <div
-              style={{
-                width: "52px",
-                height: "3.5px",
-                backgroundColor: "#2563eb",
-                borderRadius: "2px",
-              }}
-            />
+            <div style={sectionStyles.titleUnderline} />
           </div>
-          <p
-            style={{
-              color: "#6b7280",
-              fontSize: "14px",
-              maxWidth: "480px",
-              lineHeight: "1.65",
-              fontFamily: "'DM Sans', sans-serif",
-              fontWeight: "300",
-              paddingTop: "6px",
-            }}
-          >
+          <p style={{ ...sectionStyles.subtitle, maxWidth: '480px' }}>
             Explore our complete collection of trips with pricing, inclusions, and itineraries — crafted by local Kashmir experts.
           </p>
         </div>
  
         {/* See all link + Filters */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            margin: "24px 0 32px",
-            flexWrap: "wrap",
-            gap: "16px",
-          }}
-        >
+        <div style={sectionStyles.sectionRow}>
           <button
-            onClick={() => navigate('/alltrips')}
-            className="pkт-link"
-            style={{
-              color: "#2563eb",
-              fontSize: "14px",
-              fontWeight: "500",
-              fontFamily: "'DM Sans', sans-serif",
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: 0
-            }}
+            onClick={() => navigate("/alltrips")}
+            className={ui.linkButton}
+            style={sectionStyles.linkButton}
           >
             See all Kashmir trips →
           </button>
  
           {/* Filter Pills */}
           <div style={{ display: "flex", alignItems: "center", gap: "0" }}>
-            {filters.map((f, i) => (
-              <span key={f} style={{ display: "flex", alignItems: "center" }}>
+            {filters.map((filterLabel, filterIndex) => (
+              <span key={filterLabel} style={{ display: "flex", alignItems: "center" }}>
                 <button
-                  className="filter-btn"
-                  onClick={() => setActiveFilter(f)}
+                  className={ui.filterButton}
+                  onClick={() => setActiveFilter(filterLabel)}
                   style={{
-                    fontSize: "14px",
-                    fontWeight: activeFilter === f ? "600" : "400",
-                    color: activeFilter === f ? "#0f1923" : "#6b7280",
-                    borderBottom: activeFilter === f ? "2px solid #2563eb" : "2px solid transparent",
-                    paddingBottom: "3px",
+                    ...sectionStyles.filterButtonBase,
+                    ...(activeFilter === filterLabel ? sectionStyles.filterButtonActive : null),
                   }}
                 >
-                  {f}
+                  {filterLabel}
                 </button>
-                {i < filters.length - 1 && (
-                  <span style={{ color: "#d1d5db", margin: "0 14px", fontSize: "16px" }}>|</span>
+                {filterIndex < filters.length - 1 && (
+                  <span style={sectionStyles.filterSeparator}>|</span>
                 )}
               </span>
             ))}
@@ -188,148 +145,57 @@ export default function PopularKashmirTrips() {
         </div>
  
         {/* Cards Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "28px",
-          }}
-        >
-          {trips.map((trip) => (
+        <div style={sectionStyles.cardsGrid}>
+          {visibleTrips.length > 0 ? (
+            visibleTrips.map((trip) => (
             <div
               key={trip.id}
-              className="pkт-card"
+              className={ui.card}
               onClick={() => openTrip(trip.id)}
-              onMouseEnter={() => setHoveredCard(trip.id)}
-              onMouseLeave={() => setHoveredCard(null)}
-              style={{
-                backgroundColor: "#fff",
-                borderRadius: "10px",
-                border: "1px solid #e5e7eb",
-                overflow: "hidden",
-                boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-              }}
+              style={sectionStyles.card}
             >
               {/* Image */}
-              <div style={{ position: "relative", overflow: "hidden", height: "210px" }}>
+              <div style={sectionStyles.imageWrap}>
                 <img
-                  className="card-img"
+                  className={ui.image}
                   src={trip.image}
                   alt={trip.title}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    display: "block",
-                  }}
+                  style={sectionStyles.image}
                 />
                 {/* Tag badge */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "14px",
-                    left: "14px",
-                    backgroundColor: trip.tagColor,
-                    color: "#fff",
-                    fontSize: "10px",
-                    fontWeight: "700",
-                    letterSpacing: "0.8px",
-                    padding: "4px 10px",
-                    borderRadius: "20px",
-                    fontFamily: "'DM Sans', sans-serif",
-                    textTransform: "uppercase",
-                  }}
-                >
+                <div style={{ ...sectionStyles.badge, backgroundColor: trip.tagColor }}>
                   {trip.tag}
                 </div>
               </div>
  
               {/* Body */}
-              <div style={{ padding: "22px 22px 26px" }}>
+              <div style={sectionStyles.cardBody}>
                 {/* Duration */}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                    color: "#9ca3af",
-                    fontSize: "12px",
-                    fontFamily: "'DM Sans', sans-serif",
-                    marginBottom: "8px",
-                  }}
-                >
+                <div style={sectionStyles.duration}>
                   <ClockIcon />
                   {trip.duration}
                 </div>
  
                 {/* Title */}
-                <h3
-                  style={{
-                    fontFamily: "'Playfair Display', Georgia, serif",
-                    fontSize: "19px",
-                    fontWeight: "700",
-                    color: "#0f1923",
-                    margin: "0 0 10px",
-                    lineHeight: "1.3",
-                  }}
-                >
+                <h3 style={sectionStyles.cardTitle}>
                   {trip.title}
                 </h3>
  
                 {/* Description */}
-                <p
-                  style={{
-                    color: "#6b7280",
-                    fontSize: "13.5px",
-                    lineHeight: "1.65",
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontWeight: "300",
-                    margin: "0 0 18px",
-                  }}
-                >
+                <p style={sectionStyles.cardDescription}>
                   {trip.description}
                 </p>
  
                 {/* Price + CTA row */}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    paddingTop: "16px",
-                    borderTop: "1px solid #f3f4f6",
-                  }}
-                >
+                <div style={sectionStyles.priceRow}>
                   <div>
-                    <span
-                      style={{
-                        fontSize: "10px",
-                        color: "#9ca3af",
-                        fontFamily: "'DM Sans', sans-serif",
-                        display: "block",
-                        marginBottom: "2px",
-                      }}
-                    >
+                    <span style={sectionStyles.priceMeta}>
                       Starting from
                     </span>
-                    <span
-                      style={{
-                        fontSize: "18px",
-                        fontWeight: "700",
-                        color: "#0f1923",
-                        fontFamily: "'DM Sans', sans-serif",
-                      }}
-                    >
+                    <span style={sectionStyles.priceValue}>
                       {trip.price}
                     </span>
-                    <span
-                      style={{
-                        fontSize: "11px",
-                        color: "#9ca3af",
-                        fontFamily: "'DM Sans', sans-serif",
-                        marginLeft: "3px",
-                      }}
-                    >
+                    <span style={sectionStyles.priceSuffix}>
                       /person
                     </span>
                   </div>
@@ -338,43 +204,35 @@ export default function PopularKashmirTrips() {
                       e.stopPropagation();
                       openTrip(trip.id);
                     }}
-                    className="read-more"
-                    style={{ border: "none", background: "none", padding: 0, cursor: "pointer" }}
+                    className={ui.readMore}
+                    style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer' }}
                   >
                     View Trip <ArrowRight />
                   </button>
                 </div>
               </div>
             </div>
-          ))}
+            ))
+          ) : (
+            <div style={sectionStyles.emptyStateWrap}>
+              <p style={sectionStyles.emptyStateText}>No trips available. Please check back soon.</p>
+            </div>
+          )}
         </div>
  
         {/* Bottom CTA */}
         <div style={{ textAlign: "center", marginTop: "52px" }}>
           <button
-            onClick={() => navigate('/alltrips')}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              backgroundColor: "#2563eb",
-              color: "#fff",
-              padding: "13px 32px",
-              borderRadius: "6px",
-              fontSize: "14px",
-              fontWeight: "600",
-              border: "none",
-              cursor: "pointer",
-              fontFamily: "'DM Sans', sans-serif",
-              letterSpacing: "0.3px",
-              transition: "background 0.2s",
-            }}
+            onClick={() => navigate("/alltrips")}
+            style={bottomCtaStyle}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#1d4ed8")}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#2563eb")}
           >
             See All Kashmir Trips <ArrowRight />
           </button>
         </div>
+          </>
+        )}
       </div>
     </div>
   );

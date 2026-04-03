@@ -102,9 +102,68 @@ kashmir-travel-app/
 
 The frontend will usually be accessible at `http://localhost:5173` and the backend will run at `http://localhost:5000`.
 
-## API Endpoints
+
+
+### Health Check
+
+- GET /api/health  
+   Returns API health status.
 
 ### Itineraries
-- `GET /api/v1/itineraries` - Fetches the list of all available travel itineraries.
 
-*More endpoints will be documented as the application grows.*
+- GET /api/v1/itineraries  
+   Get all itineraries (newest first).
+
+- GET /api/v1/itineraries?category=popular  
+   Get itineraries filtered by category.
+
+- GET /api/v1/itineraries?category=daywise  
+   Get itineraries filtered by category.
+
+- GET /api/v1/itineraries/:id  
+   Get single itinerary by id.
+
+- POST /api/v1/itineraries  
+   Create itinerary.
+   Required fields: title, duration, price, coverImage  
+   Optional fields: description, category, gallery, tag, tagColor, itinerary
+
+- PUT /api/v1/itineraries/:id  
+   Update itinerary by id.
+   Updatable fields: title, description, duration, price, coverImage, category, gallery, tag, tagColor, itinerary
+
+- DELETE /api/v1/itineraries/:id  
+   Delete itinerary by id.
+
+- POST /api/v1/itineraries/:id/days  
+   Add one day entry into itinerary array.
+   Required fields: day, title, activities  
+   Optional fields: accommodation, meals, notes
+
+- PUT /api/v1/itineraries/:id/days/:dayIndex  
+   Update one day entry in itinerary array by zero-based index.
+   Required fields: day, title, activities  
+   Optional fields: accommodation, meals, notes
+
+- DELETE /api/v1/itineraries/:id/days/:dayIndex  
+   Delete one day entry in itinerary array by zero-based index.
+
+### Reviews
+
+- GET /api/v1/reviews?itineraryId=:itineraryId  
+   Get reviews for an itinerary.
+
+- GET /api/v1/reviews?itineraryId=:itineraryId&reviewType=trip  
+   Get reviews filtered by type (trip/daywise).
+
+- POST /api/v1/reviews  
+   Create review.
+   Required fields: itineraryId, name, rating, comment  
+   Optional fields: reviewType (default: trip)  
+   Validation: rating must be between 1 and 5
+
+- DELETE /api/v1/reviews/:id  
+   Delete review by id.
+
+
+

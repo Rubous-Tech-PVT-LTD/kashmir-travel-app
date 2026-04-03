@@ -1,47 +1,25 @@
 import { useState } from "react";
+import { Clock3, Grid2x2, Heart as HeartIcon, Phone, Search, Star as StarIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "../shared/Navbar";
+import Footer from "../shared/Footer";
 
 const Heart = ({ filled }) => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill={filled ? "#ff4757" : "none"} stroke={filled ? "#ff4757" : "#333"} strokeWidth="2">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-  </svg>
+  <HeartIcon width={20} height={20} fill={filled ? "#ff4757" : "none"} color={filled ? "#ff4757" : "#333"} strokeWidth={2} />
 );
 
 const Star = ({ filled }) => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill={filled ? "#f4c430" : "#ddd"} stroke="none">
-    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
-  </svg>
+  <StarIcon width={14} height={14} fill={filled ? "#f4c430" : "#ddd"} color={filled ? "#f4c430" : "#ddd"} strokeWidth={1.5} />
 );
 
 const SearchIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-    <circle cx="11" cy="11" r="8" />
-    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-  </svg>
+  <Search width={18} height={18} color="white" strokeWidth={2.5} />
 );
 
-const NavDots = () => (
-  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-    <rect x="0" y="0" width="8" height="8" rx="1.5" fill="#38b2a3" />
-    <rect x="14" y="0" width="8" height="8" rx="1.5" fill="#38b2a3" />
-    <rect x="0" y="14" width="8" height="8" rx="1.5" fill="#38b2a3" />
-    <rect x="14" y="14" width="8" height="8" rx="1.5" fill="#38b2a3" />
-  </svg>
-);
 
-const PhoneIcon = () => (
-  <svg width="18" height="18" fill="none" stroke="#38b2a3" strokeWidth="2" viewBox="0 0 24 24">
-    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.22 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z" />
-  </svg>
-);
 
 const ClockIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <circle cx="12" cy="12" r="10" />
-    <polyline points="12 6 12 12 16 14" />
-  </svg>
+  <Clock3 width={14} height={14} strokeWidth={2} />
 );
 
 const activities = [
@@ -124,62 +102,7 @@ export default function Alltrip() {
   return (
     <div style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: "#f9fafb", minHeight: "100vh", color: "#111", display: "flex", flexDirection: "column" }}>
       {/* Top Bar */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "10px 32px",
-          borderBottom: "1px solid #e8e8e8",
-          backgroundColor: "#fff",
-          width: "100%",
-          boxSizing: "border-box",
-          margin: 0,
-        }}
-      >
-        {/* Logo */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <NavDots />
-          <span
-            style={{
-              fontSize: "22px",
-              fontWeight: "700",
-              color: "#1a2b4a",
-              letterSpacing: "-0.3px",
-            }}
-          >
-            Kashmir Tour Travel
-          </span>
-        </div>
-
-        {/* Center Info */}
-        <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#555", fontSize: "14px" }}>
-            <PhoneIcon />
-            <span>+1 323-913-4688</span>
-          </div>
-        </div>
-
-        {/* CTA Button */}
-        <button
-          style={{
-            backgroundColor: "#3dba8f",
-            color: "#fff",
-            border: "none",
-            padding: "11px 24px",
-            borderRadius: "4px",
-            fontSize: "14px",
-            fontWeight: "600",
-            cursor: "pointer",
-            letterSpacing: "0.3px",
-            transition: "background 0.2s",
-          }}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = "#2ea87e")}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = "#3dba8f")}
-        >
-          Get a Free Quote
-        </button>
-      </div>
+      
       <Navbar />
 
       <div style={{ flex: 1 }}>
@@ -220,7 +143,7 @@ export default function Alltrip() {
                 fontSize: "16px",
                 color: "#6b7280",
                 margin: "0",
-                maxWidth: "600px",
+                maxWidth: "700px",
               }}
             >
               Discover all our curated Kashmir travel packages and find the perfect trip for your next adventure.
