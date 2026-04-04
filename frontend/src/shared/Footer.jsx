@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const websiteUrl = 'https://www.kashmirtourtravel.com'
+const websiteUrl = 'https://www.habakhatoontravels.com'
 
 const quickLinks = [
   { label: 'About Us', to: '/' },
@@ -10,7 +10,7 @@ const quickLinks = [
   { label: 'Hotels', to: '/services/hotel-booking' },
   { label: 'Car Rental', to: '/services/car-rentals' },
   { label: 'Travel Blog', to: '/alltrips' },
-  { label: 'Contact Us', href: 'mailto:info@kashmirtourtravel.com' },
+  { label: 'Contact Us', href: 'mailto:info@habakhatoontravels.com' },
 ]
 
 const popularPackages = [
@@ -40,7 +40,7 @@ const shareLinks = [
   },
   {
     label: 'Twitter',
-    href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(websiteUrl)}&text=${encodeURIComponent('Kashmir Tour Travel')}`,
+    href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(websiteUrl)}&text=${encodeURIComponent('Haba Khatoon Travels')}`,
     icon: (
       <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
         <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
@@ -49,7 +49,7 @@ const shareLinks = [
   },
   {
     label: 'Instagram',
-    href: 'mailto:info@kashmirtourtravel.com',
+    href: 'mailto:info@habakhatoontravels.com',
     icon: (
       <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
@@ -226,7 +226,7 @@ export default function Footer() {
               color: "#fff",
               margin: "0 0 14px",
             }}>
-              Kashmir Tour Travel
+              Haba Khatoon Travels
             </h3>
  
             <p style={{
@@ -309,7 +309,7 @@ export default function Footer() {
                 <polyline points="22,6 12,13 2,6" />
               </svg>
               <span className="contact-text">
-                <a href="mailto:info@kashmirtourtravel.com">info@kashmirtourtravel.com</a>
+                <a href="mailto:info@habakhatoontravels.com">info@habakhatoontravels.com</a>
               </span>
             </div>
  
@@ -321,8 +321,8 @@ export default function Footer() {
                 <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
               </svg>
               <span className="contact-text">
-                <a href="https://www.kashmirtourtravel.com" target="_blank" rel="noreferrer">
-                  www.kashmirtourtravel.com
+                <a href="https://www.habakhatoontravels.com" target="_blank" rel="noreferrer">
+                  www.habakhatoontravels.com
                 </a>
               </span>
             </div>
@@ -347,7 +347,7 @@ export default function Footer() {
           gap: "12px",
         }}>
           <p style={{ color: "#475569", fontSize: "13px", margin: 0, fontWeight: "400" }}>
-            © {new Date().getFullYear()} Kashmir Tour Travel. All rights reserved.
+            © {new Date().getFullYear()} Haba Khatoon Travels. All rights reserved.
           </p>
           <div style={{ display: "flex", gap: "24px" }}>
             {legalLinks.map((item) => (

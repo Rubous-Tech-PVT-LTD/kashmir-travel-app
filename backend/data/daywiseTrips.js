@@ -4,13 +4,13 @@ const daywiseTrips = [
     category: 'daywise',
     title: '2 Days Tour - Quick Srinagar Getaway',
     description: 'Perfect short break covering Dal Lake, Mughal gardens, and local markets in Srinagar.',
-    image: 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=700&q=80',
+    image: 'https://picsum.photos/id/10/1200/800',
     gallery: [
-      'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=800&q=80'
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800'
     ],
     duration: '2 Days / 1 Night',
     price: 5999,
@@ -26,13 +26,13 @@ const daywiseTrips = [
     category: 'daywise',
     title: '3 Days Tour - Srinagar & Gulmarg',
     description: 'Enjoy gondola rides, snow points, and scenic valley views with a balanced city + hill tour.',
-    image: 'https://images.unsplash.com/photo-1566837945700-30057527ade0?auto=format&fit=crop&w=700&q=80',
+    image: 'https://picsum.photos/id/10/1200/800',
     gallery: [
-      'https://images.unsplash.com/photo-1566837945700-30057527ade0?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1508264165352-258a6f82f9f3?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1455156218388-5e61b526818b?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1491557345352-5929e343eb89?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1571055107559-3e67626fa8be?auto=format&fit=crop&w=800&q=80'
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800'
     ],
     duration: '3 Days / 2 Nights',
     price: 8499,
@@ -49,13 +49,13 @@ const daywiseTrips = [
     category: 'daywise',
     title: '4 Days Tour - Srinagar, Gulmarg & Pahalgam',
     description: 'A complete first-timer Kashmir plan combining lakes, meadows, and alpine landscapes.',
-    image: 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=700&q=80',
+    image: 'https://picsum.photos/id/10/1200/800',
     gallery: [
-      'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1455156218388-5e61b526818b?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?auto=format&fit=crop&w=800&q=80'
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800'
     ],
     duration: '4 Days / 3 Nights',
     price: 10999,
@@ -73,13 +73,13 @@ const daywiseTrips = [
     category: 'daywise',
     title: '5 Days Tour - Family Special Package',
     description: 'Comfort-focused itinerary with gentle travel pace, family-friendly stays, and local support.',
-    image: 'https://images.unsplash.com/photo-1605640840605-14ac1855827b?auto=format&fit=crop&w=700&q=80',
+    image: 'https://picsum.photos/id/10/1200/800',
     gallery: [
-      'https://images.unsplash.com/photo-1605640840605-14ac1855827b?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1482192596544-9eb780fc7f66?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1517821365201-7f72c8e688a8?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=800&q=80'
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800'
     ],
     duration: '5 Days / 4 Nights',
     price: 13499,
@@ -98,13 +98,13 @@ const daywiseTrips = [
     category: 'daywise',
     title: '6 Days Tour - Mumbai to Kashmir',
     description: 'Well-planned extended tour with flight support, transfers, and curated sightseeing routes.',
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=700&q=80',
+    image: 'https://picsum.photos/id/10/1200/800',
     gallery: [
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?auto=format&fit=crop&w=800&q=80'
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800'
     ],
     duration: '6 Days / 5 Nights',
     price: 15999,
@@ -124,13 +124,13 @@ const daywiseTrips = [
     category: 'daywise',
     title: '7 Days Tour - Complete Kashmir Experience',
     description: 'Our comprehensive week-long package with premium experiences across top destinations.',
-    image: 'https://images.unsplash.com/photo-1571992440736-8f6c4db3a670?auto=format&fit=crop&w=700&q=80',
+    image: 'https://picsum.photos/id/10/1200/800',
     gallery: [
-      'https://images.unsplash.com/photo-1571992440736-8f6c4db3a670?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1548777121-7c8c41b84cae?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1455156218388-5e61b526818b?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=800&q=80'
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800',
+      'https://picsum.photos/id/10/1200/800'
     ],
     duration: '7 Days / 6 Nights',
     price: 18499,

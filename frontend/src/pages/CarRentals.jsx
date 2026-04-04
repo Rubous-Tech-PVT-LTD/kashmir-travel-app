@@ -25,7 +25,7 @@ const rentalFleet = [
     route: 'Srinagar City + Airport',
     seats: '4 Seats',
     price: '2,499/day',
-    image: 'https://images.unsplash.com/photo-1549399542-7e8f2e938b39?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/10/1200/800'
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ const rentalFleet = [
     route: 'Gulmarg + Sonamarg',
     seats: '6-7 Seats',
     price: '4,999/day',
-    image: 'https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/10/1200/800'
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ const rentalFleet = [
     route: 'Pahalgam + Aru Valley',
     seats: '6 Seats',
     price: '5,499/day',
-    image: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/10/1200/800'
   },
   {
     id: 4,
@@ -52,7 +52,7 @@ const rentalFleet = [
     route: '8-12 Pax Group Transfer',
     seats: '12 Seats',
     price: '7,999/day',
-    image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/10/1200/800'
   },
   {
     id: 5,
@@ -61,7 +61,7 @@ const rentalFleet = [
     route: 'Kashmir Valley Circuit',
     seats: '5 Seats',
     price: '5,999/day',
-    image: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/10/1200/800'
   },
   {
     id: 6,
@@ -70,7 +70,7 @@ const rentalFleet = [
     route: 'Snow and Offbeat Routes',
     seats: '7 Seats',
     price: '8,999/day',
-    image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/10/1200/800'
   }
 ]
 

@@ -59,6 +59,10 @@ const itinerarySchema = new mongoose.Schema({
     type: String,
     default: '#2563eb'
   },
+  isComingSoon: {
+    type: Boolean,
+    default: false
+  },
   itinerary: [itineraryDaySchema],
   createdAt: {
     type: Date,

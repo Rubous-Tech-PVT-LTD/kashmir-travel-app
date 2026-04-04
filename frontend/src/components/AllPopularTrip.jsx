@@ -31,7 +31,7 @@ const activities = [
     badge: "Popular",
     rating: 5,
     reviews: 26,
-    image: "https://images.unsplash.com/photo-1598091383021-15ddea10925d?auto=format&fit=crop&w=700&q=80",
+    image: "https://picsum.photos/id/10/1200/800",
   },
   {
     id: 2,
@@ -41,7 +41,7 @@ const activities = [
     badge: "Summer",
     rating: 4,
     reviews: 19,
-    image: "https://images.unsplash.com/photo-1566837945700-30057527ade0?auto=format&fit=crop&w=700&q=80",
+    image: "https://picsum.photos/id/10/1200/800",
   },
   {
     id: 3,
@@ -51,7 +51,7 @@ const activities = [
     badge: "Winter",
     rating: 5,
     reviews: 34,
-    image: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=700&q=80",
+    image: "https://picsum.photos/id/10/1200/800",
   },
   {
     id: 4,
@@ -61,7 +61,7 @@ const activities = [
     badge: "Honeymoon",
     rating: 5,
     reviews: 41,
-    image: "https://images.unsplash.com/photo-1605640840605-14ac1855827b?auto=format&fit=crop&w=700&q=80",
+    image: "https://picsum.photos/id/10/1200/800",
   },
   {
     id: 5,
@@ -71,7 +71,7 @@ const activities = [
     badge: "Adventure",
     rating: 4,
     reviews: 17,
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=700&q=80",
+    image: "https://picsum.photos/id/10/1200/800",
   },
   {
     id: 6,
@@ -81,7 +81,7 @@ const activities = [
     badge: "Weekend",
     rating: 4,
     reviews: 12,
-    image: "https://images.unsplash.com/photo-1571992440736-8f6c4db3a670?auto=format&fit=crop&w=700&q=80",
+    image: "https://picsum.photos/id/10/1200/800",
   },
 ];
 
@@ -146,7 +146,7 @@ export default function Alltrip() {
                 maxWidth: "700px",
               }}
             >
-              Discover all our curated Kashmir travel packages and find the perfect trip for your next adventure.
+              Discover all our curated Haba Khatoon Travels packages and find the perfect trip for your next adventure.
             </p>
           </div>
 

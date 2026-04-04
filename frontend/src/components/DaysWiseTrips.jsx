@@ -38,6 +38,7 @@ export default function DaysWiseTrips() {
           price: trip.price,
           tag: trip.tag || 'Kashmir Tour',
           tagColor: trip.tagColor || '#2563eb',
+          isComingSoon: trip.isComingSoon || false,
           itinerary: trip.itinerary || []
         }))
         setTrips(transformed)
@@ -140,6 +141,25 @@ export default function DaysWiseTrips() {
                 <div style={{ ...sectionStyles.badge, backgroundColor: trip.tagColor }}>
                   {trip.tag}
                 </div>
+                {/* Coming Soon Badge */}
+                {trip.isComingSoon && (
+                  <div style={{
+                    position: "absolute",
+                    top: "12px",
+                    right: "12px",
+                    background: "#f59e0b",
+                    color: "#000",
+                    fontSize: "10px",
+                    fontWeight: "800",
+                    padding: "4px 10px",
+                    borderRadius: "4px",
+                    textTransform: "uppercase",
+                    boxShadow: "0 4px 12px rgba(245, 158, 11, 0.4)",
+                    zIndex: 10
+                  }}>
+                    Coming Soon
+                  </div>
+                )}
               </div>
 
               <div style={sectionStyles.cardBody}>
@@ -162,16 +182,28 @@ export default function DaysWiseTrips() {
                       Starting from
                     </span>
                     <span style={sectionStyles.priceValue}>
-                      {trip.price}
+                      {trip.isComingSoon ? 'TBA' : trip.price}
                     </span>
                   </div>
 
                   <button
-                    onClick={() => handleViewTrip(trip)}
+                    onClick={() => {
+                      if (trip.isComingSoon) {
+                        const msg = encodeURIComponent(`Hi! I'm interested in the upcoming trip: ${trip.title}`);
+                        window.open(`https://wa.me/919149680276?text=${msg}`, '_blank');
+                      } else {
+                        handleViewTrip(trip)
+                      }
+                    }}
                     className={ui.readMore}
-                    style={sectionStyles.ctaButton}
+                    style={{
+                      ...sectionStyles.ctaButton,
+                      background: trip.isComingSoon ? '#f59e0b22' : 'none',
+                      color: trip.isComingSoon ? '#f59e0b' : 'inherit',
+                      fontWeight: trip.isComingSoon ? 'bold' : 'normal',
+                    }}
                   >
-                    View Trip <ArrowRight />
+                    {trip.isComingSoon ? 'Enquire' : 'View Trip'} <ArrowRight />
                   </button>
                 </div>
               </div>

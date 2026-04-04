@@ -51,7 +51,7 @@ exports.getItinerary = async (req, res) => {
 // Create itinerary
 exports.createItinerary = async (req, res) => {
   try {
-    const { title, description, duration, price, coverImage, category, gallery, tag, tagColor, itinerary: itineraryDays = [] } = req.body;
+    const { title, description, duration, price, coverImage, category, gallery, tag, tagColor, isComingSoon, itinerary: itineraryDays = [] } = req.body;
 
     if (!title || !duration || !price || !coverImage) {
       return res.status(400).json({
@@ -70,6 +70,7 @@ exports.createItinerary = async (req, res) => {
       gallery: Array.isArray(gallery) ? gallery : [],
       tag: tag || '',
       tagColor: tagColor || '#2563eb',
+      isComingSoon: !!isComingSoon,
       itinerary: itineraryDays
     });
 
@@ -91,7 +92,7 @@ exports.createItinerary = async (req, res) => {
 // Update itinerary details
 exports.updateItinerary = async (req, res) => {
   try {
-    const { title, description, duration, price, coverImage, category, gallery, tag, tagColor, itinerary: itineraryDays } = req.body;
+    const { title, description, duration, price, coverImage, category, gallery, tag, tagColor, isComingSoon, itinerary: itineraryDays } = req.body;
     
     const itinerary = await Itinerary.findByIdAndUpdate(
       req.params.id,
@@ -105,6 +106,7 @@ exports.updateItinerary = async (req, res) => {
         gallery: Array.isArray(gallery) ? gallery : [],
         tag: tag || '',
         tagColor: tagColor || '#2563eb',
+        isComingSoon: !!isComingSoon,
         ...(Array.isArray(itineraryDays) ? { itinerary: itineraryDays } : {}),
         updatedAt: new Date()
       },

@@ -14,8 +14,24 @@ export default function AdminPanel() {
   const [itineraries, setItineraries] = useState([])
   const [selectedItineraryId, setSelectedItineraryId] = useState(null)
   const [showNewItineraryForm, setShowNewItineraryForm] = useState(false)
-  const [newItineraryForm, setNewItineraryForm] = useState({ title: '', duration: '', price: '', coverImage: '' })
+  const [newItineraryForm, setNewItineraryForm] = useState({ 
+    title: '', 
+    duration: '', 
+    price: '', 
+    coverImage: '',
+    isComingSoon: false
+  })
   const [submitting, setSubmitting] = useState(false)
+  const [deletingItinerary, setDeletingItinerary] = useState(false)
+  const [isEditingTrip, setIsEditingTrip] = useState(false)
+  const [editTripForm, setEditTripForm] = useState({ 
+    title: '', 
+    duration: '', 
+    price: '', 
+    coverImage: '',
+    isComingSoon: false 
+  })
+  const [updatingTrip, setUpdatingTrip] = useState(false)
 
   // Day management state
   const [editingDayIndex, setEditingDayIndex] = useState(null)
@@ -27,10 +43,15 @@ export default function AdminPanel() {
   const [reviewType, setReviewType] = useState('trip')
   const [deletingReviewId, setDeletingReviewId] = useState(null)
   const [deletingReview, setDeletingReview] = useState(false)
+  
+  // Settings state
+  const [settings, setSettings] = useState({ heroImages: [] })
+  const [settingsSubmitting, setSettingsSubmitting] = useState(false)
 
   // Load itineraries on mount
   useEffect(() => {
     fetchItineraries()
+    fetchSettings()
   }, [])
 
   // Load reviews when selected itinerary changes
@@ -74,6 +95,65 @@ export default function AdminPanel() {
     }
   }
 
+  const fetchSettings = async () => {
+    try {
+      const data = await adminAPI.getSettings()
+      if (data.success) {
+        setSettings({ heroImages: data.data.heroImages || [] })
+      }
+    } catch (err) {
+      console.error('Error fetching settings:', err)
+    }
+  }
+
+  const updateHeroImageUrl = (index, value) => {
+    const newImages = [...settings.heroImages]
+    newImages[index] = value
+    setSettings({
+      ...settings,
+      heroImages: newImages
+    })
+  }
+
+  const handleUpdateSettings = async () => {
+    if (!settings.heroImages || settings.heroImages.length === 0) {
+      setError('At least one banner image URL is required')
+      return
+    }
+
+    try {
+      setSettingsSubmitting(true)
+      setError('')
+      const data = await adminAPI.updateSettings(settings)
+      if (data.success) {
+        setSettings({ heroImages: data.data.heroImages || [] })
+        alert('Settings updated successfully!')
+      } else {
+        setError(data.message || 'Failed to update settings')
+      }
+    } catch (err) {
+      setError('Error: ' + err.message)
+    } finally {
+      setSettingsSubmitting(false)
+    }
+  }
+
+  const addHeroImageUrl = () => {
+    setSettings({
+      ...settings,
+      heroImages: [...settings.heroImages, '']
+    })
+  }
+
+  const removeHeroImageUrl = (index) => {
+    const newImages = [...settings.heroImages]
+    newImages.splice(index, 1)
+    setSettings({
+      ...settings,
+      heroImages: newImages
+    })
+  }
+
   const selectedItinerary = itineraries.find(it => it._id === selectedItineraryId)
 
   const handleCreateItinerary = async () => {
@@ -90,12 +170,20 @@ export default function AdminPanel() {
         duration: newItineraryForm.duration,
         price: Number(newItineraryForm.price),
         coverImage: newItineraryForm.coverImage,
+        isComingSoon: newItineraryForm.isComingSoon,
+        category: 'popular'
       })
 
       if (data.success) {
         setItineraries([...itineraries, data.data])
         setSelectedItineraryId(data.data._id)
-        setNewItineraryForm({ title: '', duration: '', price: '', coverImage: '' })
+        setNewItineraryForm({ 
+          title: '', 
+          duration: '', 
+          price: '', 
+          coverImage: '',
+          isComingSoon: false 
+        })
         setShowNewItineraryForm(false)
       } else {
         setError(data.message || 'Failed to create itinerary')
@@ -104,6 +192,69 @@ export default function AdminPanel() {
       setError('Error: ' + err.message)
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  const handleDeleteItinerary = async () => {
+    if (!selectedItineraryId) return
+    if (!confirm('Are you sure you want to delete this ENTIRE itinerary? This action cannot be undone.')) return
+
+    try {
+      setDeletingItinerary(true)
+      setError('')
+      const data = await adminAPI.deleteItinerary(selectedItineraryId)
+
+      if (data.success) {
+        const remaining = itineraries.filter(it => it._id !== selectedItineraryId)
+        setItineraries(remaining)
+        setSelectedItineraryId(remaining.length > 0 ? remaining[0]._id : null)
+      } else {
+        setError(data.message || 'Failed to delete itinerary')
+      }
+    } catch (err) {
+      setError('Error: ' + err.message)
+    } finally {
+      setDeletingItinerary(false)
+    }
+  }
+
+  const handleEditTrip = () => {
+    if (!selectedItinerary) return
+    setEditTripForm({
+      title: selectedItinerary.title,
+      duration: selectedItinerary.duration,
+      price: selectedItinerary.price,
+      coverImage: selectedItinerary.coverImage,
+      isComingSoon: selectedItinerary.isComingSoon || false
+    })
+    setIsEditingTrip(true)
+    setError('')
+  }
+
+  const handleUpdateTrip = async () => {
+    if (!editTripForm.title || !editTripForm.duration || !editTripForm.price || !editTripForm.coverImage) {
+      setError('All fields are required')
+      return
+    }
+
+    try {
+      setUpdatingTrip(true)
+      setError('')
+      const data = await adminAPI.updateItinerary(selectedItineraryId, {
+        ...editTripForm,
+        price: Number(editTripForm.price)
+      })
+
+      if (data.success) {
+        setItineraries(itineraries.map(it => it._id === selectedItineraryId ? data.data : it))
+        setIsEditingTrip(false)
+      } else {
+        setError(data.message || 'Failed to update itinerary')
+      }
+    } catch (err) {
+      setError('Error: ' + err.message)
+    } finally {
+      setUpdatingTrip(false)
     }
   }
 
@@ -230,7 +381,7 @@ export default function AdminPanel() {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-4xl font-bold">🏔️ Admin Dashboard</h1>
-              <p className="text-blue-100 mt-2">Manage your Kashmir travel itineraries & reviews</p>
+              <p className="text-blue-100 mt-2">Manage your Haba Khatoon Travels itineraries & reviews</p>
             </div>
             <button
               onClick={handleLogout}
@@ -271,6 +422,16 @@ export default function AdminPanel() {
             }`}
           >
             ⭐ Reviews
+          </button>
+          <button
+            onClick={() => setActiveTab('settings')}
+            className={`px-6 py-3 rounded-lg font-semibold transition ${
+              activeTab === 'settings'
+                ? 'bg-blue-600 text-white shadow-lg'
+                : 'text-gray-300 hover:text-white'
+            }`}
+          >
+            ⚙️ Settings
           </button>
         </div>
 
@@ -319,6 +480,18 @@ export default function AdminPanel() {
                     onChange={(e) => setNewItineraryForm({...newItineraryForm, coverImage: e.target.value})}
                     className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
                   />
+                  <div className="flex items-center gap-3 bg-white/5 p-4 rounded-lg border border-white/10">
+                    <input
+                      id="isComingSoon"
+                      type="checkbox"
+                      checked={newItineraryForm.isComingSoon}
+                      onChange={(e) => setNewItineraryForm({...newItineraryForm, isComingSoon: e.target.checked})}
+                      className="w-5 h-5 accent-blue-500 cursor-pointer"
+                    />
+                    <label htmlFor="isComingSoon" className="text-sm font-medium text-blue-100 cursor-pointer select-none">
+                      Mark as "Coming Soon" (Trip will show badge but limit booking)
+                    </label>
+                  </div>
                   <div className="flex gap-3">
                     <button
                       onClick={handleCreateItinerary}
@@ -344,7 +517,25 @@ export default function AdminPanel() {
                 <h2 className="text-2xl font-bold mb-4">Manage Itinerary</h2>
 
                 <div className="mb-6">
-                  <label className="block text-sm font-semibold mb-2">Select Itinerary</label>
+                  <div className="flex justify-between items-end mb-2">
+                    <label className="block text-sm font-semibold">Select Itinerary</label>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handleEditTrip}
+                        disabled={!selectedItineraryId || isEditingTrip}
+                        className="px-4 py-2 bg-blue-600/80 hover:bg-blue-700 text-xs text-white rounded-lg transition flex items-center gap-1 disabled:opacity-50"
+                      >
+                        <Edit2 size={14} /> Edit Details
+                      </button>
+                      <button
+                        onClick={handleDeleteItinerary}
+                        disabled={deletingItinerary || !selectedItineraryId}
+                        className="px-4 py-2 bg-red-600/80 hover:bg-red-700 text-xs text-white rounded-lg transition flex items-center gap-1 disabled:opacity-50"
+                      >
+                        <Trash2 size={14} /> {deletingItinerary ? 'Deleting...' : 'Delete Itinerary'}
+                      </button>
+                    </div>
+                  </div>
                   <select
                     value={selectedItineraryId || ''}
                     onChange={(e) => setSelectedItineraryId(e.target.value)}
@@ -357,6 +548,89 @@ export default function AdminPanel() {
                     ))}
                   </select>
                 </div>
+
+                {/* Edit Trip Details Form */}
+                {isEditingTrip && selectedItinerary && (
+                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6 mb-8 space-y-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="text-xl font-bold text-blue-300">✏️ Edit Trip: {selectedItinerary.title}</h3>
+                      <button onClick={() => setIsEditingTrip(false)} className="text-gray-400 hover:text-white">
+                        <X size={20} />
+                      </button>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-blue-200">Trip Name</label>
+                        <input
+                          type="text"
+                          value={editTripForm.title}
+                          onChange={(e) => setEditTripForm({...editTripForm, title: e.target.value})}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-blue-200">Price (₹)</label>
+                        <input
+                          type="number"
+                          value={editTripForm.price}
+                          onChange={(e) => setEditTripForm({...editTripForm, price: e.target.value})}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-500 font-mono"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-blue-200">Duration</label>
+                        <input
+                          type="text"
+                          value={editTripForm.duration}
+                          onChange={(e) => setEditTripForm({...editTripForm, duration: e.target.value})}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-blue-200">Cover Image URL</label>
+                        <input
+                          type="text"
+                          value={editTripForm.coverImage}
+                          onChange={(e) => setEditTripForm({...editTripForm, coverImage: e.target.value})}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10">
+                      <input
+                        id="editIsComingSoon"
+                        type="checkbox"
+                        checked={editTripForm.isComingSoon}
+                        onChange={(e) => setEditTripForm({...editTripForm, isComingSoon: e.target.checked})}
+                        className="w-5 h-5 accent-blue-500 cursor-pointer"
+                      />
+                      <label htmlFor="editIsComingSoon" className="text-sm font-medium text-blue-100 cursor-pointer select-none">
+                        Show "Coming Soon" badge
+                      </label>
+                    </div>
+
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        onClick={handleUpdateTrip}
+                        disabled={updatingTrip}
+                        className="px-6 py-2.5 bg-green-600 hover:bg-green-700 rounded-lg font-semibold transition disabled:opacity-50 flex items-center gap-2"
+                      >
+                        {updatingTrip ? 'Saving...' : 'Save Changes'}
+                      </button>
+                      <button
+                        onClick={() => setIsEditingTrip(false)}
+                        className="px-6 py-2.5 bg-gray-600 hover:bg-gray-700 rounded-lg font-semibold transition"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {selectedItinerary && (
                   <>
@@ -542,6 +816,122 @@ export default function AdminPanel() {
                     </div>
                   ))
                 )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Settings Tab */}
+        {activeTab === 'settings' && (
+          <div className="space-y-6">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-8 text-white shadow-xl">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-blue-600 rounded-lg">
+                  <Plus className="w-6 h-6" /> {/* Using Plus as a placeholder icon if Settings isn't imported */}
+                </div>
+                <h2 className="text-3xl font-bold">Global Settings</h2>
+              </div>
+
+              <div className="space-y-8">
+                {/* Hero Banner Section */}
+                <div className="space-y-6">
+                  <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10">
+                    <div>
+                      <h3 className="text-xl font-bold text-blue-300 flex items-center gap-2">
+                        🏠 Home Page Banners
+                      </h3>
+                      <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest font-bold">Manage your hero image rotation strategy</p>
+                    </div>
+                    <button 
+                      onClick={addHeroImageUrl}
+                      className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-bold flex items-center gap-2 transition transform hover:scale-105 active:scale-95 shadow-lg shadow-blue-900/20"
+                    >
+                      <Plus size={18} /> Add New Banner
+                    </button>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {settings.heroImages.map((url, index) => (
+                      <div key={index} className="flex flex-col bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden shadow-2xl transition hover:border-blue-500/50 group">
+                        {/* URL Management Header */}
+                        <div className="p-4 bg-white/5 border-b border-white/10 flex items-center gap-3">
+                          <span className="flex items-center justify-center w-6 h-6 bg-blue-600 rounded-full text-[10px] font-black">{index + 1}</span>
+                          <div className="flex-1 min-w-0">
+                            <input
+                              type="text"
+                              value={url}
+                              onChange={(e) => updateHeroImageUrl(index, e.target.value)}
+                              placeholder="Image URL (Unsplash or direct link)"
+                              className="w-full bg-transparent border-none text-sm text-white focus:ring-0 placeholder-gray-500 truncate"
+                            />
+                          </div>
+                          {settings.heroImages.length > 1 && (
+                            <button 
+                              onClick={() => removeHeroImageUrl(index)}
+                              className="p-1.5 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white rounded-lg transition"
+                              title="Delete Banner"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Image Preview Window */}
+                        <div className="relative h-48 bg-black/40 overflow-hidden group-hover:brightness-110 transition">
+                          {url ? (
+                            <img 
+                              src={url} 
+                              alt={`Banner ${index + 1}`} 
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                const errDiv = document.createElement('div');
+                                errDiv.className = "flex items-center justify-center h-full text-red-500 text-sm font-bold bg-gray-900";
+                                errDiv.innerText = "⚠️ Invalid URL";
+                                e.target.parentNode.appendChild(errDiv);
+                              }}
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center h-full text-gray-500 text-sm font-bold bg-gray-900/50 italic border-2 border-dashed border-white/5 m-4 rounded-xl">
+                              Waiting for URL...
+                            </div>
+                          )}
+                          
+                          {/* Hover Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
+                            <span className="text-[10px] font-bold text-white/50 uppercase tracking-tighter">Live Banner Preview</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {settings.heroImages.length === 0 && (
+                    <div className="text-center py-20 bg-white/5 rounded-2xl border-2 border-dashed border-white/10">
+                      <div className="p-6 bg-blue-600/20 rounded-full w-fit mx-auto mb-4 border border-blue-500/30">
+                        <Plus className="w-10 h-10 text-blue-400" />
+                      </div>
+                      <p className="text-gray-300 font-bold text-xl mb-2">No Banners Found</p>
+                      <p className="text-gray-500 text-sm mb-6 max-w-xs mx-auto">Upload at least one beautiful image to start your home page rotation.</p>
+                      <button 
+                        onClick={addHeroImageUrl}
+                        className="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold transition shadow-xl shadow-blue-600/20"
+                      >
+                        Add First Image
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-8 border-t border-white/10 flex justify-end">
+                  <button
+                    onClick={handleUpdateSettings}
+                    disabled={settingsSubmitting}
+                    className="px-10 py-4 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 rounded-xl font-black text-lg shadow-2xl transition transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 uppercase tracking-widest"
+                  >
+                    {settingsSubmitting ? '⌛ Saving Strategy...' : '🚀 Save Global Settings'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -22,7 +22,7 @@ const kashmirHotels = [
     nights: '2N/3D Stay',
     rating: 5,
     price: '24,999',
-    image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   },
   {
     id: 2,
@@ -31,7 +31,7 @@ const kashmirHotels = [
     nights: '1N/2D Stay',
     rating: 4,
     price: '9,499',
-    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   },
   {
     id: 3,
@@ -40,7 +40,7 @@ const kashmirHotels = [
     nights: '2N/3D Stay',
     rating: 5,
     price: '18,999',
-    image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   },
   {
     id: 4,
@@ -49,7 +49,7 @@ const kashmirHotels = [
     nights: '3N/4D Stay',
     rating: 4,
     price: '12,499',
-    image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   },
   {
     id: 5,
@@ -58,7 +58,7 @@ const kashmirHotels = [
     nights: '2N/3D Stay',
     rating: 5,
     price: '21,999',
-    image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   },
   {
     id: 6,
@@ -67,7 +67,7 @@ const kashmirHotels = [
     nights: '2N/3D Stay',
     rating: 4,
     price: '14,999',
-    image: 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   },
   {
     id: 7,
@@ -76,7 +76,7 @@ const kashmirHotels = [
     nights: '2N/3D Stay',
     rating: 4,
     price: '16,999',
-    image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   },
   {
     id: 8,
@@ -85,7 +85,7 @@ const kashmirHotels = [
     nights: '2N/3D Stay',
     rating: 4,
     price: '13,999',
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   },
   {
     id: 9,
@@ -94,7 +94,7 @@ const kashmirHotels = [
     nights: '1N/2D Stay',
     rating: 3,
     price: '7,999',
-    image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   },
   {
     id: 10,
@@ -103,7 +103,7 @@ const kashmirHotels = [
     nights: '2N/3D Stay',
     rating: 5,
     price: '19,999',
-    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   },
   {
     id: 11,
@@ -112,7 +112,7 @@ const kashmirHotels = [
     nights: '1N/2D Stay',
     rating: 5,
     price: '11,499',
-    image: 'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   },
   {
     id: 12,
@@ -121,7 +121,7 @@ const kashmirHotels = [
     nights: '3N/4D Stay',
     rating: 4,
     price: '15,499',
-    image: 'https://images.unsplash.com/photo-1602002418082-a4443e081dd1?auto=format&fit=crop&w=900&q=80'
+    image: 'https://picsum.photos/id/16/1200/800'
   }
 ]
 

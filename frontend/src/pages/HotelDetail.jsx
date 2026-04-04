@@ -19,12 +19,12 @@ const hotelDetailsData = {
     nights: '2N/3D Stay',
     rating: 5,
     price: '24,999',
-    image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1631049307038-da0ec493d9cb?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1584622181563-430f63602d4b?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'Experience luxury in the heart of Gulmarg with world-class amenities and breathtaking mountain views.',
     amenities: ['Free WiFi', 'Swimming Pool', 'Spa & Wellness Center', 'Fine Dining Restaurant', '24/7 Room Service', 'Parking'],
@@ -63,12 +63,12 @@ const hotelDetailsData = {
     nights: '1N/2D Stay',
     rating: 4,
     price: '9,499',
-    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1496307653360-54dc08dd7d91?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'Get a unique experience staying on a traditional Kashmiri houseboat with stunning dal lake views.',
     amenities: ['Free WiFi', 'House Boat Dinners', 'Water Sports', 'Local Guide Service', 'Traditional Decor', 'Private Deck'],
@@ -107,12 +107,12 @@ const hotelDetailsData = {
     nights: '2N/3D Stay',
     rating: 5,
     price: '18,999',
-    image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1487730116645-74489c95b41b?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1552928735-37cf06d77987?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'A serene mountain retreat offering nature trails, adventure activities, and comfort in Pahalgam valley.',
     amenities: ['Free WiFi', 'Adventure Sports', 'Hiking Trails', 'Restaurant', 'Bonfire', 'Mountain Views'],
@@ -151,12 +151,12 @@ const hotelDetailsData = {
     nights: '3N/4D Stay',
     rating: 4,
     price: '12,499',
-    image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1469022563149-aa64dbd37dae?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'Intimate boutique hotel nestled in the serene Aru Valley with personalized service and local experiences.',
     amenities: ['Free WiFi', 'Restaurant', 'Hiking', 'Spa Services', 'Bonfire', 'Valley Views'],
@@ -195,12 +195,12 @@ const hotelDetailsData = {
     nights: '2N/3D Stay',
     rating: 5,
     price: '21,999',
-    image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1496307653360-54dc08dd7d91?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1631049307038-da0ec493d9cb?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1584622181563-430f63602d4b?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'Luxury hotel with pristine views of Dal Lake, offering world-class hospitality and dining experiences.',
     amenities: ['Free WiFi', 'Swimming Pool', 'Fine Dining', 'Spa', 'Gym', 'Lake View Rooms'],
@@ -239,12 +239,12 @@ const hotelDetailsData = {
     nights: '2N/3D Stay',
     rating: 4,
     price: '14,999',
-    image: 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1487730116645-74489c95b41b?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1552928735-37cf06d77987?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'Premier mountain lodge at Gulmarg Bowl with skiing facilities and panoramic views of the Himalayas.',
     amenities: ['Free WiFi', 'Ski Rentals', 'Restaurant', 'Bar', 'Mountain Views', 'Warm Fireplaces'],
@@ -283,12 +283,12 @@ const hotelDetailsData = {
     nights: '2N/3D Stay',
     rating: 4,
     price: '16,999',
-    image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1631049307038-da0ec493d9cb?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1584622181563-430f63602d4b?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'Contemporary hotel on Boulevard Road offering modern amenities with traditional Kashmiri hospitality.',
     amenities: ['Free WiFi', 'Swimming Pool', 'Fitness Center', 'Restaurant & Cafe', 'Business Center', 'Room Service'],
@@ -327,12 +327,12 @@ const hotelDetailsData = {
     nights: '2N/3D Stay',
     rating: 4,
     price: '13,999',
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1487730116645-74489c95b41b?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1469022563149-aa64dbd37dae?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'Riverside resort in Pahalgam with access to nature trails, adventure activities, and traditional cuisine.',
     amenities: ['Free WiFi', 'Restaurant', 'Riverside Views', 'Adventure Sports', 'Bonfire', 'Game Area'],
@@ -371,12 +371,12 @@ const hotelDetailsData = {
     nights: '1N/2D Stay',
     rating: 3,
     price: '7,999',
-    image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1631049307038-da0ec493d9cb?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1631049307038-da0ec493d9cb?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'Budget-friendly hotel in Srinagar City with comfortable rooms and convenient city access.',
     amenities: ['Free WiFi', 'Restaurant', 'City Views', 'Room Service', 'Parking'],
@@ -415,12 +415,12 @@ const hotelDetailsData = {
     nights: '2N/3D Stay',
     rating: 5,
     price: '19,999',
-    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1487730116645-74489c95b41b?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1552928735-37cf06d77987?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'Upscale resort in Gulmarg offering luxury accommodations with world-class amenities and scenic beauty.',
     amenities: ['Free WiFi', 'Swimming Pool', 'Spa Center', 'Fine Dining', 'Gym', 'Mountain Views'],
@@ -459,12 +459,12 @@ const hotelDetailsData = {
     nights: '1N/2D Stay',
     rating: 5,
     price: '11,499',
-    image: 'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1496307653360-54dc08dd7d91?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'Premium houseboat experience combining luxury with authentic Kashmiri tradition and culture.',
     amenities: ['Free WiFi', 'Houseboat Dinner', 'Water Sports', 'Spa', 'Traditional Decor', 'Private Deck'],
@@ -503,12 +503,12 @@ const hotelDetailsData = {
     nights: '3N/4D Stay',
     rating: 4,
     price: '15,499',
-    image: 'https://images.unsplash.com/photo-1602002418082-a4443e081dd1?auto=format&fit=crop&w=900&q=80',
+    image: 'https://picsum.photos/id/16/1200/800',
     images: [
-      'https://images.unsplash.com/photo-1602002418082-a4443e081dd1?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1487730116645-74489c95b41b?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1469022563149-aa64dbd37dae?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800',
+      'https://picsum.photos/id/16/1200/800'
     ],
     description: 'Charming retreat in Aru Valley surrounded by pine forests with easy access to trekking and hiking routes.',
     amenities: ['Free WiFi', 'Restaurant', 'Trekking Guide', 'Bonfire', 'Forest Views', 'Garden'],
@@ -658,14 +658,14 @@ export default function HotelDetail() {
               letterSpacing: '-0.3px',
             }}
           >
-            Kashmir Tour Travel
+            Haba Khatoon Travels
           </span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555', fontSize: '14px' }}>
             <PhoneIcon />
-            <span>+1 323-913-4688</span>
+            <span>+91-9149680276</span>
           </div>
         </div>
 

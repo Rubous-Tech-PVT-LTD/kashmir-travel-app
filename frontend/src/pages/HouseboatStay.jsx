@@ -226,7 +226,7 @@ export default function HouseboatStay() {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1513350681659-8c8f2f3d3f8d?auto=format&fit=crop&w=1200&q=80"
+                src="https://picsum.photos/id/54/1200/800"
                 alt="Houseboat on Dal Lake"
                 style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '16px', display: 'block', marginBottom: '16px' }}
               />
@@ -363,7 +363,7 @@ export default function HouseboatStay() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1520637836862-4d197d17c46a?auto=format&fit=crop&w=1200&q=80"
+              src="https://picsum.photos/id/54/1200/800"
               alt="Luxury houseboat interior"
               style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '16px', marginBottom: '18px', display: 'block' }}
             />

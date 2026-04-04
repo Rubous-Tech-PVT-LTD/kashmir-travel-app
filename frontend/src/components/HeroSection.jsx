@@ -1,10 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../shared/Navbar";
+import { adminAPI } from "../utils/api";
 
-const heroImage =
+const defaultHeroImage =
   "https://camo.githubusercontent.com/1b18608c396cc46626637014a8bf370ee07b60dd7602cd58f55bf1a64c6aa23d/68747470733a2f2f696d616765732e756e73706c6173682e636f6d2f70686f746f2d313539353831353737313631342d6164653964363532613635643f69786c69623d72622d342e302e33266175746f3d666f726d6174266669743d63726f7026773d3132303026713d3830";
 
 export default function HeroSection() {
+  const [heroImages, setHeroImages] = useState([defaultHeroImage]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const data = await adminAPI.getSettings();
+        if (data.success && data.data.heroImages && data.data.heroImages.length > 0) {
+          setHeroImages(data.data.heroImages);
+        }
+      } catch (err) {
+        console.error("Error fetching hero banner:", err);
+      }
+    };
+    fetchSettings();
+  }, []);
+
+  useEffect(() => {
+    if (heroImages.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
   return (
     <div style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", margin: 0, width: "100%", padding: 0 }}>
       {/* Navbar with TopHeader */}
@@ -16,19 +44,34 @@ export default function HeroSection() {
           width: "100%",
           height: "420px",
           overflow: "hidden",
-          backgroundImage: `url(${heroImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center 40%",
+          backgroundColor: "#1a2b4a",
           margin: 0,
           padding: 0,
         }}
       >
-        {/* Dark overlay on left */}
+        {/* Transparent Images Wrapper for Transitions */}
+        {heroImages.map((img, idx) => (
+          <div
+            key={idx}
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `url(${img})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center 40%",
+              opacity: idx === currentIndex ? 1 : 0,
+              transition: "opacity 1.5s ease-in-out",
+              zIndex: idx === currentIndex ? 1 : 0,
+            }}
+          />
+        ))}
+        {/* Dark overlay on left - Softened for 'Modern & Open' feel */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: "linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)",
+            background: "linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 45%, transparent 100%)",
+            zIndex: 2,
           }}
         />
 
@@ -36,19 +79,20 @@ export default function HeroSection() {
         <div
           style={{
             position: "relative",
-            zIndex: 2,
-            padding: "80px 48px",
-            maxWidth: "560px",
+            zIndex: 3,
+            padding: "60px 40px",
+            maxWidth: "500px",
           }}
         >
           <p
             style={{
-              color: "#e0e0e0",
+              color: "#3dba8f", // BRAND COLOR
               fontSize: "12px",
-              fontWeight: "600",
-              letterSpacing: "2.5px",
+              fontWeight: "700",
+              letterSpacing: "2px",
               textTransform: "uppercase",
-              marginBottom: "12px",
+              marginBottom: "10px",
+              textShadow: "0 2px 4px rgba(0,0,0,0.4)",
             }}
           >
             Explore Kashmir with Trusted Local Travel Experts
@@ -56,13 +100,14 @@ export default function HeroSection() {
           <h1
             style={{
               color: "#fff",
-              fontSize: "48px",
+              fontSize: "42px",
               fontWeight: "400",
-              lineHeight: "1.15",
-              margin: "0 0 32px 0",
+              lineHeight: "1.1",
+              margin: "0 0 24px 0",
+              textShadow: "0 4px 10px rgba(0,0,0,0.5)",
             }}
           >
-            Trust <strong style={{ fontWeight: "800" }}>Our Experience</strong>
+            Trust <strong style={{ fontWeight: "800", color: "#3dba8f" }}>Our Experience</strong>
           </h1>
           <button
             style={{
@@ -90,33 +135,6 @@ export default function HeroSection() {
           </button>
         </div>
 
-        {/* Slide Indicators */}
-        <div
-          style={{
-            position: "absolute",
-            right: "20px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            display: "flex",
-            flexDirection: "column",
-            gap: "6px",
-            zIndex: 3,
-          }}
-        >
-          {[true, false, false].map((active, i) => (
-            <div
-              key={i}
-              style={{
-                width: "10px",
-                height: active ? "28px" : "10px",
-                backgroundColor: active ? "#3dba8f" : "rgba(255,255,255,0.5)",
-                borderRadius: "4px",
-                transition: "all 0.2s",
-                cursor: "pointer",
-              }}
-            />
-          ))}
-        </div>
       </div>
     </div>
   );

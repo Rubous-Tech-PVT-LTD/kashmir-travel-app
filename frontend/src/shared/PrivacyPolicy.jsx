@@ -26,7 +26,7 @@ export default function PrivacyPolicy() {
           </p>
           <h1 style={{ fontSize: '44px', lineHeight: 1.05, color: '#0f172a', margin: '0 0 12px' }}>Privacy Policy</h1>
           <p style={{ color: '#64748b', fontSize: '16px', maxWidth: '760px', lineHeight: 1.7, margin: 0 }}>
-            This page explains how Kashmir Tour Travel collects and uses information when you contact us, request a quote, or browse our site.
+            This page explains how Haba Khatoon Travels collects and uses information when you contact us, request a quote, or browse our site.
           </p>
         </div>
 
@@ -57,7 +57,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 style={{ fontSize: '22px', color: '#0f172a', margin: '0 0 10px' }}>Contact</h2>
             <p style={{ color: '#475569', lineHeight: 1.75, margin: '0 0 8px' }}>
-              For privacy questions, email <a href="mailto:info@kashmirtourtravel.com" style={{ color: '#3dba8f', textDecoration: 'none' }}>info@kashmirtourtravel.com</a>.
+              For privacy questions, email <a href="mailto:info@habakhatoontravels.com" style={{ color: '#3dba8f', textDecoration: 'none' }}>info@habakhatoontravels.com</a>.
             </p>
             <p style={{ color: '#475569', lineHeight: 1.75, margin: 0 }}>
               Humham Near Masjid Muhammadi, Budgam Road, Srinagar, J&K, India - 190021

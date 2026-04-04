@@ -231,7 +231,7 @@ export default function ParaGliding() {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1540480551022-ee4b2fda3c3d?auto=format&fit=crop&w=1200&q=80"
+                src="https://picsum.photos/id/10/1200/800"
                 alt="Paragliding over mountain peaks"
                 style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '16px', display: 'block', marginBottom: '16px' }}
               />
@@ -368,7 +368,7 @@ export default function ParaGliding() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
+              src="https://picsum.photos/id/10/1200/800"
               alt="Mountain landscape from aerial view"
               style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '16px', marginBottom: '18px', display: 'block' }}
             />

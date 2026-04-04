@@ -2,45 +2,57 @@
 
 A comprehensive full-stack travel booking and itinerary management application for exploring Kashmir.
 
-![Kashmir Travel App Cover](https://images.unsplash.com/photo-1595815771614-ade9d652a65d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80) 
-*(Displaying a generic beautiful landscape as a placeholder)*
+![Kashmir Travel App Hero](https://images.unsplash.com/photo-1595815771614-ade9d652a65d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80) 
 
 ## 📑 Table of Contents
 - [Overview](#overview)
 - [Architecture & Diagrams](#architecture--diagrams)
 - [Features](#features)
+- [Admin Control Panel](#admin-control-panel)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
 - [API Endpoints](#api-endpoints)
 
 ## Overview
-The Kashmir Travel App allows users to view destination details, browse predefined itineraries, and potentially book travel packages for Kashmir. The project is split into a robust backend API and a dynamic frontend UI.
+The Kashmir Travel App allows users to view destination details, browse predefined itineraries, and book travel packages. It includes a powerful Admin Portal for managing content in real-time.
 
 ## 🔗 Reference
 For UI/UX design and tourism features, refer to: [Kashmir Tour Travel](https://kashmirtourtravel.com/)
 
 ## Architecture & Diagrams
-For deep documentation regarding system flow, integration, and architecture diagrams, please refer to our dedicated **[Architecture Documentation files (ARCHITECTURE.md)](./ARCHITECTURE.md)**. You will find Mermaid diagrams detailing the component flow and data sequences.
+Detailed documentation on system flows and Mermaid diagrams can be found in **[ARCHITECTURE.md](./ARCHITECTURE.md)**.
 
 ## Features
 - **MERN Stack Architecture:** MongoDB, Express, React, Node.js.
-- **Fast Build Times:** Driven by Vite on the frontend.
-- **Responsive Design:** Powered by TailwindCSS natively integrated.
-- **RESTful API:** Decoupled backend architecture for easy scaling.
+- **Dynamic Admin Dashboard:** Manage itineraries, reviews, and site settings without touching code.
+- **Real-time Price Updates:** Adjust trip pricing instantly from the control panel.
+- **Dynamic Hero Carousel:** Manage multiple rotating home page banners from the control panel.
+- **Responsive Design:** Optimized for mobile and desktop using custom CSS and standard layouts.
+
+## Admin Control Panel
+The Admin Panel is accessible at `/admin/login`.
+
+### Key Capabilities:
+- **Itinerary Management**: Add new trips or edit/delete existing ones (Price, Title, Duration, etc.).
+- **Day Management**: Add, update, or remove specific day-wise activities for any trip.
+- **Global Settings**: Manage a list of multiple rotating banners for the Home Page.
+- **Review Moderation**: View and delete user reviews.
+
+### Demo Credentials (Local):
+- **Username**: `admin`
+- **Password**: `ktt@admin2026`
 
 ## Tech Stack
 ### Frontend
-- React.js
-- Vite
-- TailwindCSS
+- **Framework**: React.js (Vite)
+- **Styling**: Vanilla CSS / Standard Layouts
+- **Icons**: Lucide-React
 
 ### Backend
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose ODM
-- CORS
+- **Environment**: Node.js & Express.js
+- **Database**: MongoDB (Mongoose ODM)
+- **Security**: CORS protection, Environment-based configuration
 
 ## Project Structure
 ```text
@@ -70,100 +82,52 @@ kashmir-travel-app/
 ## Getting Started
 
 ### Prerequisites
-- Node.js (v18+ recommended)
-- MongoDB Database (Local instance or MongoDB Atlas)
+- Node.js (v18+)
+- MongoDB (Atlas or Local)
 
 ### Setup Instructions
 
-1. **Clone the repository:**
+1. **Clone & Install**:
    ```bash
    git clone https://github.com/Rubous-Tech-PVT-LTD/kashmir-travel-app.git
    cd kashmir-travel-app
+   # Install both (or use workspace commands)
+   cd backend && npm install
+   cd ../frontend && npm install
    ```
 
-2. **Setup Backend:**
-   ```bash
-   cd backend
-   npm install
-   
-   # Create environment variables file
-   cp .env.example .env # Or manually create .env
-   # Add your MONGO_URI and PORT configuring your connections.
-   
-   npm start # or npm run dev if configured
-   ```
+2. **Environment Variables**:
+   - **Backend (`backend/.env`)**:
+     ```text
+     MONGO_URI=your_mongodb_uri
+     PORT=5000
+     ```
+   - **Frontend (`frontend/.env`)**:
+     ```text
+     VITE_API_URL=http://localhost:5000/api/v1
+     ```
 
-3. **Setup Frontend:**
-   ```bash
-   cd ../frontend
-   npm install
-   npm run dev
-   ```
+3. **Run Application**:
+   - Backend: `cd backend && npm run dev`
+   - Frontend: `cd frontend && npm run dev`
 
-The frontend will usually be accessible at `http://localhost:5173` and the backend will run at `http://localhost:5000`.
+## API Endpoints
 
-
-
-### Health Check
-
-- GET /api/health  
-   Returns API health status.
+### Health & Settings
+- `GET /api/health`: Check server status.
+- `GET /api/v1/settings`: Fetch global site settings.
+- `PUT /api/v1/settings`: Update settings (Admin only).
 
 ### Itineraries
+- `GET /api/v1/itineraries`: Fetch all trips.
+- `POST /api/v1/itineraries`: Create a new trip.
+- `PUT /api/v1/itineraries/:id`: Update trip details (Price, etc.).
+- `DELETE /api/v1/itineraries/:id`: Remove a trip.
 
-- GET /api/v1/itineraries  
-   Get all itineraries (newest first).
-
-- GET /api/v1/itineraries?category=popular  
-   Get itineraries filtered by category.
-
-- GET /api/v1/itineraries?category=daywise  
-   Get itineraries filtered by category.
-
-- GET /api/v1/itineraries/:id  
-   Get single itinerary by id.
-
-- POST /api/v1/itineraries  
-   Create itinerary.
-   Required fields: title, duration, price, coverImage  
-   Optional fields: description, category, gallery, tag, tagColor, itinerary
-
-- PUT /api/v1/itineraries/:id  
-   Update itinerary by id.
-   Updatable fields: title, description, duration, price, coverImage, category, gallery, tag, tagColor, itinerary
-
-- DELETE /api/v1/itineraries/:id  
-   Delete itinerary by id.
-
-- POST /api/v1/itineraries/:id/days  
-   Add one day entry into itinerary array.
-   Required fields: day, title, activities  
-   Optional fields: accommodation, meals, notes
-
-- PUT /api/v1/itineraries/:id/days/:dayIndex  
-   Update one day entry in itinerary array by zero-based index.
-   Required fields: day, title, activities  
-   Optional fields: accommodation, meals, notes
-
-- DELETE /api/v1/itineraries/:id/days/:dayIndex  
-   Delete one day entry in itinerary array by zero-based index.
+### Day Management
+- `POST /api/v1/itineraries/:id/days`: Add a day to a trip.
+- `PUT /api/v1/itineraries/:id/days/:index`: Edit a specific day.
+- `DELETE /api/v1/itineraries/:id/days/:index`: Remove a day.
 
 ### Reviews
-
-- GET /api/v1/reviews?itineraryId=:itineraryId  
-   Get reviews for an itinerary.
-
-- GET /api/v1/reviews?itineraryId=:itineraryId&reviewType=trip  
-   Get reviews filtered by type (trip/daywise).
-
-- POST /api/v1/reviews  
-   Create review.
-   Required fields: itineraryId, name, rating, comment  
-   Optional fields: reviewType (default: trip)  
-   Validation: rating must be between 1 and 5
-
-- DELETE /api/v1/reviews/:id  
-   Delete review by id.
-
-
 

@@ -134,7 +134,7 @@ export default function AdminLogin() {
 
         {/* Additional Info */}
         <div className="text-center mt-6 text-gray-400 text-sm">
-          <p>Kashmir Travel Co. • Admin Portal</p>
+          <p>Haba Khatoon Travels • Admin Portal</p>
         </div>
       </div>
     </div>
