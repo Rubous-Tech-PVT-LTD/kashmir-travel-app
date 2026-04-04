@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Clock3, Grid2x2, Heart as HeartIcon, Phone, Search, Star as StarIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../shared/Navbar";
 import Footer from "../shared/Footer";
+import { itineraryAPI } from "../utils/api";
 
 const Heart = ({ filled }) => (
   <HeartIcon width={20} height={20} fill={filled ? "#ff4757" : "none"} color={filled ? "#ff4757" : "#333"} strokeWidth={2} />
@@ -22,80 +23,46 @@ const ClockIcon = () => (
   <Clock3 width={14} height={14} strokeWidth={2} />
 );
 
-const activities = [
-  {
-    id: 1,
-    title: "Classic Family Trip",
-    meta: "6 Days / 5 Nights  Bestsellers",
-    price: "18,999",
-    badge: "Popular",
-    rating: 5,
-    reviews: 26,
-    image: "https://picsum.photos/id/10/1200/800",
-  },
-  {
-    id: 2,
-    title: "Kashmir Summer Trip",
-    meta: "5 Days / 4 Nights  Summer Special",
-    price: "14,999",
-    badge: "Summer",
-    rating: 4,
-    reviews: 19,
-    image: "https://picsum.photos/id/10/1200/800",
-  },
-  {
-    id: 3,
-    title: "Winter Kashmir Trip",
-    meta: "7 Days / 6 Nights  Winter Escape",
-    price: "22,499",
-    badge: "Winter",
-    rating: 5,
-    reviews: 34,
-    image: "https://picsum.photos/id/10/1200/800",
-  },
-  {
-    id: 4,
-    title: "Kashmir Honeymoon Package",
-    meta: "8 Days / 7 Nights  Most Romantic",
-    price: "27,999",
-    badge: "Honeymoon",
-    rating: 5,
-    reviews: 41,
-    image: "https://picsum.photos/id/10/1200/800",
-  },
-  {
-    id: 5,
-    title: "Adventure Kashmir Trek",
-    meta: "9 Days / 8 Nights  Adventure",
-    price: "24,999",
-    badge: "Adventure",
-    rating: 4,
-    reviews: 17,
-    image: "https://picsum.photos/id/10/1200/800",
-  },
-  {
-    id: 6,
-    title: "Weekend Kashmir Getaway",
-    meta: "4 Days / 3 Nights  Quick Escape",
-    price: "10,999",
-    badge: "Weekend",
-    rating: 4,
-    reviews: 12,
-    image: "https://picsum.photos/id/10/1200/800",
-  },
-];
-
 const filters = ["View all trips", "Family", "Honeymoon", "Adventure", "Winter"];
 
 export default function Alltrip() {
   const [wishlist, setWishlist] = useState({});
   const [activeFilter, setActiveFilter] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [managedTrips, setManagedTrips] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTrips = async () => {
+      try {
+        setLoading(true);
+        const data = await itineraryAPI.getByCategory('popular');
+        const transformedTrips = data.map((trip) => ({
+          id: trip._id,
+          title: trip.title,
+          meta: `${trip.duration}  Bestsellers`,
+          price: trip.price,
+          badge: trip.tag || "Popular",
+          rating: 5,
+          reviews: 24,
+          image: trip.coverImage,
+          tag: trip.tag,
+        }));
+        setManagedTrips(transformedTrips);
+      } catch (err) {
+        console.error('Error fetching popular trips:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrips();
+  }, []);
 
   const toggleWishlist = (id) => setWishlist((prev) => ({ ...prev, [id]: !prev[id] }));
 
-  const visibleTrips = activities.filter((trip) =>
+  const visibleTrips = managedTrips.filter((trip) =>
     trip.title.toLowerCase().includes(searchQuery.toLowerCase().trim())
   );
 
@@ -189,17 +156,23 @@ export default function Alltrip() {
           </div>
 
           {/* Trips Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "24px",
-            }}
-          >
-            {visibleTrips.map((act) => (
-              <div
-                key={act.id}
-                onClick={() => navigate(`/trips/${act.id}`)}
+          {loading ? (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '100px 0' }}>
+              <div style={{ width: '40px', height: '40px', border: '3px solid #f3f3f3', borderTop: '3px solid #2563eb', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+              <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: "24px",
+              }}
+            >
+              {visibleTrips.map((act) => (
+                <div
+                  key={act.id}
+                  onClick={() => navigate(`/trips/${act.id}`)}
                 style={{
                   borderRadius: "10px",
                   overflow: "hidden",
@@ -347,8 +320,9 @@ export default function Alltrip() {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {visibleTrips.length === 0 && (
             <div
