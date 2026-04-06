@@ -8,7 +8,7 @@ import {
   heroActionRowStyle,
   maxWidthContainerStyle,
   transparentCtaButtonStyle
-} from '../shared/servicePageStyles'
+} from '../ui/servicePageStyles'
 
 const groupHighlights = [
   {

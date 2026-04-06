@@ -36,11 +36,15 @@ app.use(express.urlencoded({ extended: true }));
 
 // Import routes
 const itineraryRoutes = require('./routes/itineraryRoutes');
+const hotelRoutes = require('./routes/hotelRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const carRentalRoutes = require('./routes/carRentalRoutes');
 
 // Routes
 app.use('/api/v1/itineraries', itineraryRoutes);
+app.use('/api/v1/hotels', hotelRoutes);
 app.use('/api/v1/reviews', reviewRoutes);
+app.use('/api/v1/car-rentals', carRentalRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

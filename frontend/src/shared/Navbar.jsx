@@ -3,8 +3,8 @@ import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TopHeader from "./TopHeader";
 
-const navLinks = ["Kashmir Packages", "Honeymoon", "Services", "Spiritual tour", "Activities"];
-const dropdownLinks = new Set(["Kashmir Packages", "Honeymoon", "Services", "Spiritual tour", "Activities"]);
+const navLinks = ["Kashmir Packages", "Honeymoon",  "Services", "Spiritual tour", "Activities"];
+const dropdownLinks = new Set(["Kashmir Packages", "Honeymoon",  "Services", "Spiritual tour", "Activities"]);
 
 const kashimirPackagesDropdown = [
   "Adventure Tour Package",
@@ -23,6 +23,8 @@ const honeymoonDropdown = [
   "6 Days Honeymoon",
   "View All Honeymoon",
 ];
+
+
 
 const activitiesDropdown = [
   "Shikara Ride",
@@ -75,6 +77,11 @@ export default function Navbar() {
     "4 Days Honeymoon": "/all-daywise-trips?days=4&theme=honeymoon",
     "6 Days Honeymoon": "/all-daywise-trips?days=6&theme=honeymoon",
     "View All Honeymoon": "/all-daywise-trips?theme=honeymoon",
+  };
+
+  const hotelRoutes = {
+    "All Hotels": "/all-hotels",
+    "Hotel Booking": "/services/hotel-booking",
   };
 
   const spiritualRoutes = {
@@ -133,6 +140,13 @@ export default function Navbar() {
   const handleHoneymoonClick = (item) => {
     const targetRoute = honeymoonRoutes[item] || "/all-daywise-trips?theme=honeymoon";
     setActiveLink("Honeymoon");
+    setOpenDropdown(null);
+    navigate(targetRoute);
+  };
+
+  const handleHotelsClick = (item) => {
+    const targetRoute = hotelRoutes[item] || "/all-hotels";
+    setActiveLink("Hotels");
     setOpenDropdown(null);
     navigate(targetRoute);
   };
@@ -293,6 +307,8 @@ export default function Navbar() {
               ))}
             </div>
           )}
+
+         
 
           {/* Activities Dropdown Menu */}
           {link === "Activities" && openDropdown === "Activities" && (

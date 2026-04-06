@@ -109,6 +109,17 @@ export const reviewAPI = {
   delete: async (id) => dataOr(await request(`/reviews/${id}`, { method: 'DELETE' }), null),
 }
 
+export const hotelAPI = {
+  getAll: () => safe(async () => dataOr(await request('/hotels'), []), [], 'Error fetching hotels'),
+  getById: (id) => safe(async () => dataOr(await request(`/hotels/${id}`), null), null, 'Error fetching hotel'),
+  addReview: async (id, review) => dataOr(await request(`/hotels/${id}/reviews`, { method: 'POST', body: review }), null),
+}
+
+export const carRentalAPI = {
+  getAll: async () => dataOr(await request('/car-rentals'), []),
+  getById: async (id) => dataOr(await request(`/car-rentals/${id}`), null),
+}
+
 export const adminAPI = {
   getItineraries: () => request('/itineraries'),
   getReviews: (itineraryId, reviewType) => request('/reviews', { query: { itineraryId, reviewType } }),
@@ -125,4 +136,6 @@ export { ApiError, API_URL }
 export default {
   itineraryAPI,
   reviewAPI,
+  hotelAPI,
+  carRentalAPI,
 }

@@ -3,8 +3,10 @@ require('dotenv').config();
 
 const Itinerary = require('./models/Itinerary');
 const Review = require('./models/Review');
+const Hotel = require('./models/Hotel');
 const popularTrips = require('./data/popularTrips');
 const daywiseTrips = require('./data/daywiseTrips');
+const hotels = require('./data/hotels');
 const { tripReviewsByTripIndex, daywiseReviewsByTripIndex } = require('./data/reviews');
 
 const seedItineraries = [
@@ -55,6 +57,7 @@ mongoose.connect(process.env.MONGO_URI)
     // Clear existing
     await Itinerary.deleteMany({});
     await Review.deleteMany({});
+    await Hotel.deleteMany({});
     console.log('Cleared existing itineraries.');
     
     // Insert new
@@ -87,7 +90,11 @@ mongoose.connect(process.env.MONGO_URI)
       await Review.insertMany(reviewDocs);
     }
 
-    console.log(`Successfully seeded ${createdItineraries.length} itineraries and ${reviewDocs.length} reviews!`);
+    if (hotels.length > 0) {
+      await Hotel.insertMany(hotels);
+    }
+
+    console.log(`Successfully seeded ${createdItineraries.length} itineraries, ${reviewDocs.length} reviews, and ${hotels.length} hotels!`);
     
     process.exit(0);
   })
