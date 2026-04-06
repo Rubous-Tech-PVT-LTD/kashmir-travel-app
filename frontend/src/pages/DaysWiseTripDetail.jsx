@@ -117,10 +117,10 @@ export default function DaysWiseTripDetail() {
               ← All Kashmir Tours
             </button>
             <h1 style={tripDetailStyles.pageTitle}>
-              Kashmir Tour Travel
+              Haba Khatoon Travels
             </h1>
             <p style={tripDetailStyles.pageSubtitle}>
-              Explore enchanting valleys, pristine lakes, and snow-capped mountains with our curated Kashmir travel packages
+              Explore enchanting valleys, pristine lakes, and snow-capped mountains with our curated Haba Khatoon Travels packages
             </p>
           </div>
 

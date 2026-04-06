@@ -223,7 +223,7 @@ export default function GondolaRide() {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1603400521630-9f2de6d0ac4f?auto=format&fit=crop&w=1200&q=80"
+                src="https://picsum.photos/id/29/1200/800"
                 alt="Gondola above the mountains"
                 style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '16px', display: 'block', marginBottom: '16px' }}
               />
@@ -360,7 +360,7 @@ export default function GondolaRide() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1200&q=80"
+              src="https://picsum.photos/id/29/1200/800"
               alt="Mountain panorama"
               style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '16px', marginBottom: '18px', display: 'block' }}
             />

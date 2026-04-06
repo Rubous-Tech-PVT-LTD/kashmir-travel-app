@@ -233,7 +233,7 @@ export default function RiverRafting() {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1516998756512-21f8a8f1a22c?auto=format&fit=crop&w=1200&q=80"
+                src="https://picsum.photos/id/10/1200/800"
                 alt="River rafting in the mountains"
                 style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '16px', display: 'block', marginBottom: '16px' }}
               />
@@ -370,7 +370,7 @@ export default function RiverRafting() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
+              src="https://picsum.photos/id/10/1200/800"
               alt="Fast river in a valley"
               style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '16px', marginBottom: '18px', display: 'block' }}
             />

@@ -94,7 +94,7 @@ export default function WhyChooseUsWhite() {
                 color: "#3dba8f", fontSize: "11px", fontWeight: "700",
                 letterSpacing: "3px", textTransform: "uppercase",
               }}>
-                Why Kashmir Tour Travel?
+                Why Haba Khatoon Travels?
               </span>
             </div>
             <h2 style={{

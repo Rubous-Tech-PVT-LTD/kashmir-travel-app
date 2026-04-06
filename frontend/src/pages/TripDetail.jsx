@@ -148,7 +148,7 @@ export default function TripDetail() {
             <span style={{ background: "#eef2ff", color: "#1d4ed8", border: "1px solid #dbeafe", borderRadius: 4, fontSize: 12, fontWeight: 700, padding: "5px 10px" }}>
               {trip.tag}
             </span>
-            <span style={{ color: "#64748b", fontSize: 14 }}>By Kashmir Tour Travel</span>
+            <span style={{ color: "#64748b", fontSize: 14 }}>By Haba Khatoon Travels</span>
             <span style={{ color: "#94a3b8" }}>•</span>
             <span style={{ display: "flex", alignItems: "center", gap: 4, color: "#334155", fontSize: 14 }}>
               <Star /> <Star /> <Star /> <Star /> <Star />

@@ -206,7 +206,7 @@ export default function ShikaraRide() {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80"
+                src="https://picsum.photos/id/13/1200/800"
                 alt="Shikara on Dal Lake"
                 style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '16px', display: 'block', marginBottom: '16px' }}
               />
@@ -345,7 +345,7 @@ export default function ShikaraRide() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1559592413-7cec4d0cae1f?auto=format&fit=crop&w=1200&q=80"
+              src="https://picsum.photos/id/13/1200/800"
               alt="Kashmir lake view"
               style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '16px', marginBottom: '18px', display: 'block' }}
             />

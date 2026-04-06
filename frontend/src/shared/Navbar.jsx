@@ -181,7 +181,18 @@ export default function Navbar() {
       }}
     >
       {navLinks.map((link) => (
-        <div key={link} style={{ position: "relative" }}>
+        <div 
+          key={link} 
+          style={{ position: "relative" }}
+          onMouseEnter={() => {
+            if (dropdownLinks.has(link)) {
+              setOpenDropdown(link);
+            }
+          }}
+          onMouseLeave={() => {
+            setOpenDropdown(null);
+          }}
+        >
           <button
             onClick={() => handleNavClick(link)}
             style={{

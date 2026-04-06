@@ -232,7 +232,7 @@ export default function Skiing() {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80"
+                src="https://picsum.photos/id/29/1200/800"
                 alt="Skier carving down snowy slopes"
                 style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '16px', display: 'block', marginBottom: '16px' }}
               />
@@ -369,7 +369,7 @@ export default function Skiing() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1499747228426-f49b56d6da63?auto=format&fit=crop&w=1200&q=80"
+              src="https://picsum.photos/id/29/1200/800"
               alt="Snowy mountain slopes at sunrise"
               style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '16px', marginBottom: '18px', display: 'block' }}
             />

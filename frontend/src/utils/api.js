@@ -118,6 +118,9 @@ export const hotelAPI = {
 export const carRentalAPI = {
   getAll: async () => dataOr(await request('/car-rentals'), []),
   getById: async (id) => dataOr(await request(`/car-rentals/${id}`), null),
+export const inquiryAPI = {
+  create: async (inquiry) => dataOr(await request('/inquiries', { method: 'POST', body: inquiry }), null),
+  getAll: () => safe(async () => dataOr(await request('/inquiries'), []), [], 'Error fetching inquiries'),
 }
 
 export const adminAPI = {
@@ -129,6 +132,9 @@ export const adminAPI = {
   updateDay: (id, dayIndex, payload) => request(`/itineraries/${id}/days/${dayIndex}`, { method: 'PUT', body: payload }),
   deleteDay: (id, dayIndex) => request(`/itineraries/${id}/days/${dayIndex}`, { method: 'DELETE' }),
   deleteReview: (id) => request(`/reviews/${id}`, { method: 'DELETE' }),
+  deleteItinerary: (id) => request(`/itineraries/${id}`, { method: 'DELETE' }),
+  getSettings: () => request('/settings'),
+  updateSettings: (payload) => request('/settings', { method: 'PUT', body: payload }),
 }
 
 export { ApiError, API_URL }

@@ -26,7 +26,7 @@ export default function TermsOfService() {
           </p>
           <h1 style={{ fontSize: '44px', lineHeight: 1.05, color: '#0f172a', margin: '0 0 12px' }}>Terms of Service</h1>
           <p style={{ color: '#64748b', fontSize: '16px', maxWidth: '760px', lineHeight: 1.7, margin: 0 }}>
-            These terms describe the basic rules for using the Kashmir Tour Travel website and booking travel-related services through it.
+            These terms describe the basic rules for using the Haba Khatoon Travels website and booking travel-related services through it.
           </p>
         </div>
 
@@ -48,7 +48,7 @@ export default function TermsOfService() {
           <section>
             <h2 style={{ fontSize: '22px', color: '#0f172a', margin: '0 0 10px' }}>Intellectual property</h2>
             <p style={{ color: '#475569', lineHeight: 1.75, margin: 0 }}>
-              The text, layout, visuals, and code used on this website are owned by Kashmir Tour Travel unless otherwise stated. You may not copy or redistribute them without permission.
+              The text, layout, visuals, and code used on this website are owned by Haba Khatoon Travels unless otherwise stated. You may not copy or redistribute them without permission.
             </p>
           </section>
 
@@ -62,7 +62,7 @@ export default function TermsOfService() {
           <section>
             <h2 style={{ fontSize: '22px', color: '#0f172a', margin: '0 0 10px' }}>Contact</h2>
             <p style={{ color: '#475569', lineHeight: 1.75, margin: '0 0 8px' }}>
-              Questions about these terms can be sent to <a href="mailto:info@kashmirtourtravel.com" style={{ color: '#3dba8f', textDecoration: 'none' }}>info@kashmirtourtravel.com</a>.
+              Questions about these terms can be sent to <a href="mailto:info@habakhatoontravels.com" style={{ color: '#3dba8f', textDecoration: 'none' }}>info@habakhatoontravels.com</a>.
             </p>
             <p style={{ color: '#475569', lineHeight: 1.75, margin: 0 }}>
               +91-7006259761

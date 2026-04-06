@@ -10,39 +10,39 @@ const WhatsAppIcon = () => (
 
 export default function ServiceSection() {
   const navigate = useNavigate()
-  const adminWhatsAppNumber = '919876543210'
+  const adminWhatsAppNumber = '919149680276'
 
   const services = [
     {
-      image: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=900&q=80',
+      image: 'https://picsum.photos/id/10/1200/800',
       tagline: 'FAMILY & FUN',
       title: 'Family Tour',
       desc: 'Comfortable, kid-friendly itineraries with scenic spots, relaxed pacing, and experiences everyone in the family can enjoy.',
       path: '/services/family-tour'
     },
     {
-      image: 'https://images.unsplash.com/photo-1516589091380-5d8e87df6999?auto=format&fit=crop&w=900&q=80',
+      image: 'https://picsum.photos/id/10/1200/800',
       tagline: 'ROMANCE & ESCAPE',
       title: 'Couple Tour',
       desc: 'Romantic getaways with cozy stays, private sightseeing, and curated moments designed for couples.',
       path: '/services/couple-tour'
     },
     {
-      image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80',
+      image: 'https://picsum.photos/id/10/1200/800',
       tagline: 'TOGETHER & BOND',
       title: 'Group Tour',
       desc: 'Perfect for friends, families, and teams. Our guided plans make group travel smooth, social, and memorable.',
       path: '/services/group-tour'
     },
     {
-      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80',
+      image: 'https://picsum.photos/id/10/1200/800',
       tagline: 'STAY & RELAX',
       title: 'Hotel Booking',
       desc: 'From boutique escapes to five-star resorts, we handpick stays that match your taste and budget.',
       path: '/services/hotel-booking'
     },
     {
-      image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=900&q=80',
+      image: 'https://picsum.photos/id/10/1200/800',
       tagline: 'DRIVE & EXPLORE',
       title: 'Car Rentals',
       desc: 'Choose from sedans, SUVs, or convertibles — with or without a driver. GPS included, unlimited...',
@@ -121,7 +121,7 @@ export default function ServiceSection() {
                   backgroundSize: 'cover',
                   height: '160px',
                   display: 'flex',
-                  alignItems: 'flex-end',
+                  alignItems: 'flex-start',
                   justifyContent: 'flex-start',
                   padding: '10px 12px'
                 }}
