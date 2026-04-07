@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
+import { activityAPI } from '../utils/api'
 import {
   backButtonStyle,
   createPageShellStyle,
@@ -10,83 +11,46 @@ import {
   transparentCtaButtonStyle
 } from '../ui/servicePageStyles'
 
-const gondolaHighlights = [
-  {
-    title: 'High-Altitude Views',
-    detail: 'Soar above pine forests and snowfields with open vistas across Gulmarg valley.'
-  },
-  {
-    title: 'Two-Phase Adventure',
-    detail: 'Enjoy the Gulmarg to Kongdoori and Kongdoori to Apharwat sections for a complete mountain ride.'
-  },
-  {
-    title: 'Seasonal Magic',
-    detail: 'Fresh meadows in summer, bright skies in autumn, and deep snow scenes in winter.'
-  }
-]
-
-const rideTiers = [
-  {
-    name: 'Phase 1 Ticket',
-    duration: 'Gulmarg to Kongdoori',
-    price: 'INR 899',
-    note: 'Best for scenic views, beginners, and families'
-  },
-  {
-    name: 'Phase 2 Ticket',
-    duration: 'Kongdoori to Apharwat',
-    price: 'INR 1,499',
-    note: 'For higher altitude, snow cover, and sharper panoramas'
-  },
-  {
-    name: 'Full Mountain Pass',
-    duration: 'Complete return ride',
-    price: 'INR 2,199',
-    note: 'Ideal for a full experience with flexible stops'
-  }
-]
-
-const gondolaMoments = [
-  {
-    label: 'Best Season',
-    value: 'December to March for snow, April to October for greenery'
-  },
-  {
-    label: 'Starting Point',
-    value: 'Gulmarg base station'
-  },
-  {
-    label: 'Travel Style',
-    value: 'Family, couple, adventure, or photo-focused'
-  }
-]
-
-const activityFlow = [
-  {
-    step: '01',
-    title: 'Reach Gulmarg',
-    desc: 'Travel to the base station, collect tickets, and prepare for a smooth boarding sequence.'
-  },
-  {
-    step: '02',
-    title: 'Ride Upward',
-    desc: 'Take in valley views, tree lines, and changing terrain as the cabin climbs toward the ridge.'
-  },
-  {
-    step: '03',
-    title: 'Explore the Peaks',
-    desc: 'Pause for photos, snow play, or a short walk before returning to Gulmarg.'
-  }
-]
-
-const seasonalNotes = [
-  'Snow gear is recommended in peak winter months',
-  'Early booking helps on busy weekends and holiday periods',
-  'Cloud cover can change the view, so keep some schedule flexibility'
-]
-
 export default function GondolaRide() {
   const navigate = useNavigate()
+  const [activityData, setActivityData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+
+    const loadActivity = async () => {
+      setIsLoading(true)
+      const data = await activityAPI.getBySlug('gondola-ride')
+
+      if (!mounted) {
+        return
+      }
+
+      setActivityData(data)
+      setIsLoading(false)
+    }
+
+    loadActivity()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  const gondolaHighlights = activityData?.gondolaHighlights || []
+  const rideTiers = activityData?.rideTiers || []
+  const gondolaMoments = activityData?.gondolaMoments || []
+  const activityFlow = activityData?.activityFlow || []
+  const seasonalNotes = activityData?.seasonalNotes || []
+
+  if (isLoading) {
+    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Loading activity...</div>
+  }
+
+  if (!activityData) {
+    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Unable to load gondola ride details.</div>
+  }
 
   return (
     <div style={createPageShellStyle('#f8fbff')}>

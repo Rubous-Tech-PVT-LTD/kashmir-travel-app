@@ -4,6 +4,18 @@ import { logoutAdmin } from '../utils/adminAuth'
 import { Plus, Edit2, Trash2, X, Loader } from 'lucide-react'
 import { adminAPI } from '../utils/api'
 
+const tripCategoryOptions = [
+  { label: 'Popular', value: 'popular' },
+  { label: 'Day-wise', value: 'daywise' },
+  { label: 'Romantic Tour', value: 'romantic-tour' },
+  { label: 'Couple Tour', value: 'couple-tour' },
+  { label: 'Group Tour', value: 'group-tour' },
+  { label: 'Family Tour', value: 'family-tour' },
+  { label: 'Honeymoon Packages', value: 'honeymoon-packages' },
+  { label: 'Adventure Trek', value: 'adventure-trek' },
+  { label: 'Couple Special', value: 'couple-special' }
+]
+
 export default function AdminPanel() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
@@ -19,6 +31,7 @@ export default function AdminPanel() {
     duration: '', 
     price: '', 
     coverImage: '',
+    category: 'popular',
     isComingSoon: false
   })
   const [submitting, setSubmitting] = useState(false)
@@ -29,6 +42,7 @@ export default function AdminPanel() {
     duration: '', 
     price: '', 
     coverImage: '',
+    category: 'popular',
     isComingSoon: false 
   })
   const [updatingTrip, setUpdatingTrip] = useState(false)
@@ -171,7 +185,7 @@ export default function AdminPanel() {
         price: Number(newItineraryForm.price),
         coverImage: newItineraryForm.coverImage,
         isComingSoon: newItineraryForm.isComingSoon,
-        category: 'popular'
+        category: newItineraryForm.category
       })
 
       if (data.success) {
@@ -182,6 +196,7 @@ export default function AdminPanel() {
           duration: '', 
           price: '', 
           coverImage: '',
+          category: 'popular',
           isComingSoon: false 
         })
         setShowNewItineraryForm(false)
@@ -225,6 +240,7 @@ export default function AdminPanel() {
       duration: selectedItinerary.duration,
       price: selectedItinerary.price,
       coverImage: selectedItinerary.coverImage,
+      category: selectedItinerary.category || 'popular',
       isComingSoon: selectedItinerary.isComingSoon || false
     })
     setIsEditingTrip(true)
@@ -480,6 +496,17 @@ export default function AdminPanel() {
                     onChange={(e) => setNewItineraryForm({...newItineraryForm, coverImage: e.target.value})}
                     className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
                   />
+                  <select
+                    value={newItineraryForm.category}
+                    onChange={(e) => setNewItineraryForm({...newItineraryForm, category: e.target.value})}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white focus:outline-none focus:border-blue-500 cursor-pointer"
+                  >
+                    {tripCategoryOptions.map((option) => (
+                      <option key={option.value} value={option.value} className="bg-gray-800">
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
                   <div className="flex items-center gap-3 bg-white/5 p-4 rounded-lg border border-white/10">
                     <input
                       id="isComingSoon"
@@ -599,6 +626,21 @@ export default function AdminPanel() {
                           className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-500"
                         />
                       </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold text-blue-200">Trip Category</label>
+                      <select
+                        value={editTripForm.category}
+                        onChange={(e) => setEditTripForm({...editTripForm, category: e.target.value})}
+                        className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-500 cursor-pointer"
+                      >
+                        {tripCategoryOptions.map((option) => (
+                          <option key={option.value} value={option.value} className="bg-gray-800">
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
                     <div className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10">

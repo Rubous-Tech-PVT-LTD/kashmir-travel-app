@@ -62,27 +62,24 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
 
   const kashmirPackageRoutes = {
-    "Adventure Tour Package": "/all-daywise-trips?theme=adventure",
+    "Adventure Tour Package": "/alltrips?category=adventure-trek",
     "3 Days Tour": "/all-daywise-trips?days=3",
     "4 Days Tour": "/all-daywise-trips?days=4",
     "7 Days Tour": "/all-daywise-trips?days=7",
-    "Family Tour Package": "/all-daywise-trips?theme=family",
+    "Family Tour Package": "/alltrips?category=family-tour",
     "All Kashmir Trips": "/all-daywise-trips",
   };
 
   const honeymoonRoutes = {
-    "Romantic Tour": "/all-daywise-trips?theme=honeymoon",
-    "Couple Special": "/all-daywise-trips?theme=honeymoon",
+    "Romantic Tour": "/alltrips?category=romantic-tour",
+    "Couple Special": "/alltrips?category=couple-special",
     "3 Days Honeymoon": "/all-daywise-trips?days=3&theme=honeymoon",
     "4 Days Honeymoon": "/all-daywise-trips?days=4&theme=honeymoon",
     "6 Days Honeymoon": "/all-daywise-trips?days=6&theme=honeymoon",
-    "View All Honeymoon": "/all-daywise-trips?theme=honeymoon",
+    "View All Honeymoon": "/alltrips?category=honeymoon-packages",
   };
 
-  const hotelRoutes = {
-    "All Hotels": "/all-hotels",
-    "Hotel Booking": "/services/hotel-booking",
-  };
+
 
   const spiritualRoutes = {
     "Vaishno Devi Temple": "/all-daywise-trips?theme=spiritual&temple=vaishno-devi",

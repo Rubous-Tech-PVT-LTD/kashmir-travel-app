@@ -136,10 +136,10 @@ export default function GroupTour() {
               <div className="group-reveal delay-3" style={heroActionRowStyle}>
                 <button
                   type="button"
-                  onClick={() => navigate('/alltrips')}
+                  onClick={() => navigate('/alltrips?category=group-tour')}
                   style={createPrimaryButtonStyle('#ddd6fe', '#2f236f')}
                 >
-                  Explore Group Packages
+                  Browse Group Tour
                 </button>
 
                 <button

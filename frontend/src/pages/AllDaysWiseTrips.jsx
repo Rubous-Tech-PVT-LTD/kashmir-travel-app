@@ -9,6 +9,27 @@ import ui from '../ui/tripSection.module.css'
 
 const filters = ['2-4 Days', '5-7 Days', 'Family Trips']
 
+const categoryFilters = [
+  { label: 'Day-wise', value: 'daywise' },
+  { label: 'Romantic Tour', value: 'romantic-tour' },
+  { label: 'Couple Tour', value: 'couple-tour' },
+  { label: 'Group Tour', value: 'group-tour' },
+  { label: 'Family Tour', value: 'family-tour' },
+  { label: 'Honeymoon Packages', value: 'honeymoon-packages' },
+  { label: 'Adventure Trek', value: 'adventure-trek' },
+  { label: 'Couple Special', value: 'couple-special' },
+]
+
+const categoryLabelMap = categoryFilters.reduce((accumulator, item) => {
+  accumulator[item.value] = item.label
+  return accumulator
+}, {})
+
+const formatCategoryTitle = (category) => {
+  const label = categoryLabelMap[category] || category
+  return label.replace(/\s+Tour$/i, '')
+}
+
 const ArrowRight = () => (
   <ArrowRightIcon width={16} height={16} strokeWidth={2} />
 )
@@ -23,7 +44,7 @@ export default function AllDaysWiseTrips() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   // Fetch trips from backend
   useEffect(() => {
@@ -31,7 +52,8 @@ export default function AllDaysWiseTrips() {
       try {
         setLoading(true)
         setError('')
-        const trips = await itineraryAPI.getByCategory('daywise')
+        const selectedCategory = searchParams.get('category') || 'daywise'
+        const trips = await itineraryAPI.getByCategory(selectedCategory)
         
         // Transform MongoDB data to match expected format
         const transformedTrips = trips.map((trip, index) => ({
@@ -58,7 +80,10 @@ export default function AllDaysWiseTrips() {
     }
 
     fetchTrips()
-  }, [])
+  }, [searchParams])
+
+  const selectedCategory = searchParams.get('category') || 'daywise'
+  const isDaywiseCategory = selectedCategory === 'daywise'
 
   const daysParam = Number(searchParams.get('days'))
   const themeParam = searchParams.get('theme')
@@ -80,11 +105,26 @@ export default function AllDaysWiseTrips() {
 
   const selectedTemple = templeParam ? spiritualTempleMap[templeParam] : null
 
+  const handleCategoryChange = (category) => {
+    const nextParams = new URLSearchParams(searchParams)
+    if (category === 'daywise') {
+      nextParams.delete('category')
+    } else {
+      nextParams.set('category', category)
+    }
+    setSearchParams(nextParams)
+    setActiveFilter('2-4 Days')
+  }
+
   const handleViewTrip = (trip) => {
     navigate(`/daywise-trip/${trip.id}`, { state: { trip } })
   }
 
   const filteredTrips = managedTrips.filter((trip) => {
+    if (!isDaywiseCategory) {
+      return true
+    }
+
     if (trip.category !== 'daywise') {
       return false
     }
@@ -128,6 +168,8 @@ export default function AllDaysWiseTrips() {
 
   const pageTitle = hasDaysFilter
     ? `${daysParam} Days Kashmir Tours`
+    : selectedCategory !== 'daywise'
+      ? `${formatCategoryTitle(selectedCategory)} Tours`
     : themeParam === 'family'
       ? 'Family Kashmir Tours'
       : themeParam === 'adventure'
@@ -142,6 +184,8 @@ export default function AllDaysWiseTrips() {
 
   const pageSubtitle = hasDaysFilter
     ? `Handpicked ${daysParam}-day itineraries with complete planning and transparent pricing.`
+    : selectedCategory !== 'daywise'
+      ? `Browse ${categoryLabelMap[selectedCategory] || selectedCategory} itineraries directly.`
     : themeParam === 'family'
       ? 'Comfort-focused Kashmir trips designed for families with smooth transfers and relaxed pacing.'
       : themeParam === 'adventure'
@@ -203,26 +247,54 @@ export default function AllDaysWiseTrips() {
             </p>
           </div>
 
-          {/* Filters */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '40px' }}>
-            {filters.map((f, i) => (
-              <span key={f} style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '18px' }}>
+            {categoryFilters.map((category) => {
+              const isActive = selectedCategory === category.value
+
+              return (
                 <button
-                  onClick={() => setActiveFilter(f)}
-                  className={ui.filterButton}
+                  key={category.value}
+                  type="button"
+                  onClick={() => handleCategoryChange(category.value)}
                   style={{
-                    ...sectionStyles.filterButtonBase,
-                    ...(activeFilter === f ? sectionStyles.filterButtonActive : null),
+                    border: '1px solid ' + (isActive ? '#2563eb' : '#cbd5e1'),
+                    background: isActive ? '#2563eb' : '#fff',
+                    color: isActive ? '#fff' : '#334155',
+                    padding: '10px 14px',
+                    borderRadius: '999px',
+                    cursor: 'pointer',
+                    fontSize: '13px',
+                    fontWeight: 600,
                   }}
                 >
-                  {f}
+                  {category.label}
                 </button>
-                {i < filters.length - 1 && (
-                  <span style={{ ...sectionStyles.filterSeparator, margin: '0 24px' }}>|</span>
-                )}
-              </span>
-            ))}
+              )
+            })}
           </div>
+
+          {/* Filters */}
+          {isDaywiseCategory && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '40px' }}>
+              {filters.map((f, i) => (
+                <span key={f} style={{ display: 'flex', alignItems: 'center' }}>
+                  <button
+                    onClick={() => setActiveFilter(f)}
+                    className={ui.filterButton}
+                    style={{
+                      ...sectionStyles.filterButtonBase,
+                      ...(activeFilter === f ? sectionStyles.filterButtonActive : null),
+                    }}
+                  >
+                    {f}
+                  </button>
+                  {i < filters.length - 1 && (
+                    <span style={{ ...sectionStyles.filterSeparator, margin: '0 24px' }}>|</span>
+                  )}
+                </span>
+              ))}
+            </div>
+          )}
 
           {/* Loading State */}
           {loading && (

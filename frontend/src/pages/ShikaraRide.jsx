@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
+import { activityAPI } from '../utils/api'
 import {
   backButtonStyle,
   createPageShellStyle,
@@ -10,66 +11,46 @@ import {
   transparentCtaButtonStyle
 } from '../ui/servicePageStyles'
 
-const rideHighlights = [
-  {
-    title: 'Golden Hour Cruising',
-    detail: 'Private Dal Lake and Nigeen Lake rides timed for sunset light, calm water, and better photography.'
-  },
-  {
-    title: 'Local Host Service',
-    detail: 'Experienced rowers, cultural storytellers, and route guidance for a smooth lake experience.'
-  },
-  {
-    title: 'Add-On Experiences',
-    detail: 'Kahwa tasting, floating market stops, flower garlands, and houseboat pickup on request.'
-  }
-]
-
-const ridePackages = [
-  {
-    name: 'Sunset Ride',
-    duration: '45-60 mins',
-    price: 'INR 1,499',
-    note: 'Best for first-time visitors and photo sessions'
-  },
-  {
-    name: 'Private Couple Cruise',
-    duration: '75 mins',
-    price: 'INR 2,499',
-    note: 'Flowers, kahwa, and a quiet premium route'
-  },
-  {
-    name: 'Family Lake Experience',
-    duration: '90 mins',
-    price: 'INR 3,499',
-    note: 'Spacious ride with flexible stops for all ages'
-  }
-]
-
-const rideMoments = [
-  {
-    label: 'Best Time',
-    value: '6:00 AM to 7:30 PM'
-  },
-  {
-    label: 'Pickup',
-    value: 'Houseboat, hotel, or lakefront jetty'
-  },
-  {
-    label: 'Add-ons',
-    value: 'Kahwa, flowers, musicians, and photography'
-  }
-]
-
-const scenicStops = [
-  'Dal Lake boulevard',
-  'Nigeen Lake quieter routes',
-  'Floating vegetable market area',
-  'Royal houseboat lanes'
-]
-
 export default function ShikaraRide() {
   const navigate = useNavigate()
+  const [activityData, setActivityData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+
+    const loadActivity = async () => {
+      setIsLoading(true)
+      const data = await activityAPI.getBySlug('shikara-ride')
+
+      if (!mounted) {
+        return
+      }
+
+      setActivityData(data)
+      setIsLoading(false)
+    }
+
+    loadActivity()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  const rideHighlights = activityData?.rideHighlights || []
+  const ridePackages = activityData?.ridePackages || []
+  const rideMoments = activityData?.rideMoments || []
+  const scenicStops = activityData?.scenicStops || []
+  const shikaraPlanIdeas = activityData?.shikaraPlanIdeas || []
+
+  if (isLoading) {
+    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Loading activity...</div>
+  }
+
+  if (!activityData) {
+    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Unable to load shikara ride details.</div>
+  }
 
   return (
     <div style={createPageShellStyle('#f8fbff')}>
@@ -327,7 +308,7 @@ export default function ShikaraRide() {
             </p>
 
             <div style={{ display: 'grid', gap: '12px' }}>
-              {['Morning lake cruise and city sightseeing', 'Sunset shikara followed by dinner', 'Private couple package with houseboat stay'].map((item) => (
+              {shikaraPlanIdeas.map((item) => (
                 <div key={item} style={{ background: '#fff', borderRadius: '14px', border: '1px solid #d9e6ef', padding: '14px 16px', color: '#31485d' }}>
                   {item}
                 </div>

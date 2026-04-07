@@ -3,7 +3,7 @@ const router = express.Router()
 const hotelController = require('../controllers/hotelController')
 
 router.get('/', hotelController.getAllHotels)
+router.get('/houseboats', hotelController.getHouseboatHotels)
 router.get('/:id', hotelController.getHotelById)
-router.post('/:id/reviews', hotelController.addHotelReview)
 
 module.exports = router

@@ -41,6 +41,7 @@ const reviewRoutes = require('./routes/reviewRoutes');
 const carRentalRoutes = require('./routes/carRentalRoutes');
 const inquiryRoutes = require('./routes/inquiryRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
+const activityRoutes = require('./routes/activityRoutes');
 
 // Routes
 app.use('/api/v1/itineraries', itineraryRoutes);
@@ -49,6 +50,7 @@ app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/car-rentals', carRentalRoutes);
 app.use('/api/v1/inquiries', inquiryRoutes);
 app.use('/api/v1/settings', settingsRoutes);
+app.use('/api/v1/activities', activityRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

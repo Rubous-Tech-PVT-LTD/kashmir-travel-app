@@ -44,7 +44,7 @@ const itinerarySchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['popular', 'daywise'],
+    enum: ['popular', 'daywise', 'romantic-tour', 'couple-tour', 'group-tour', 'family-tour', 'honeymoon-packages', 'adventure-trek', 'couple-special'],
     default: 'daywise'
   },
   gallery: {

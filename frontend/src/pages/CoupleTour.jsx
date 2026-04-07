@@ -136,10 +136,10 @@ export default function CoupleTour() {
               <div className="couple-reveal delay-3" style={heroActionRowStyle}>
                 <button
                   type="button"
-                  onClick={() => navigate('/alltrips')}
+                  onClick={() => navigate('/alltrips?category=couple-tour')}
                   style={createPrimaryButtonStyle('#ffe4ef', '#6b0f3a')}
                 >
-                  Explore Couple Packages
+                  Browse Couple Tour
                 </button>
 
                 <button

@@ -111,6 +111,7 @@ export const reviewAPI = {
 
 export const hotelAPI = {
   getAll: () => safe(async () => dataOr(await request('/hotels'), []), [], 'Error fetching hotels'),
+  getHouseboats: () => safe(async () => dataOr(await request('/hotels/houseboats'), []), [], 'Error fetching houseboat stays'),
   getById: (id) => safe(async () => dataOr(await request(`/hotels/${id}`), null), null, 'Error fetching hotel'),
   addReview: async (id, review) => dataOr(await request(`/hotels/${id}/reviews`, { method: 'POST', body: review }), null),
 }
@@ -118,9 +119,16 @@ export const hotelAPI = {
 export const carRentalAPI = {
   getAll: async () => dataOr(await request('/car-rentals'), []),
   getById: async (id) => dataOr(await request(`/car-rentals/${id}`), null),
+}
+
 export const inquiryAPI = {
   create: async (inquiry) => dataOr(await request('/inquiries', { method: 'POST', body: inquiry }), null),
   getAll: () => safe(async () => dataOr(await request('/inquiries'), []), [], 'Error fetching inquiries'),
+}
+
+export const activityAPI = {
+  getAll: () => safe(async () => dataOr(await request('/activities'), []), [], 'Error fetching activities'),
+  getBySlug: (slug) => safe(async () => dataOr(await request(`/activities/${slug}`), null), null, 'Error fetching activity'),
 }
 
 export const adminAPI = {
@@ -144,4 +152,5 @@ export default {
   reviewAPI,
   hotelAPI,
   carRentalAPI,
+  activityAPI,
 }

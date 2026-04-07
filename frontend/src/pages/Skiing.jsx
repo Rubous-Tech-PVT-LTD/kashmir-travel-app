@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
+import Navbar from '../shared/Navbar'
+import { activityAPI } from '../utils/api'
 import {
   backButtonStyle,
   createPageShellStyle,
@@ -10,92 +12,46 @@ import {
   transparentCtaButtonStyle
 } from '../ui/servicePageStyles'
 
-const skiHighlights = [
-  {
-    title: 'Pristine Alpine Slopes',
-    detail: 'Powder-filled runs from beginner greens to expert black diamonds, all in Kashmir\'s Himalayan setting.'
-  },
-  {
-    title: 'Certified Instruction',
-    detail: 'Professional ski guides adapt to your level—whether you\'re learning or seeking backcountry challenges.'
-  },
-  {
-    title: 'Winter Magic Landscape',
-    detail: 'Snow-draped peaks, peaceful valleys, and world-class views that make every run feel like a postcard.'
-  }
-]
-
-const skiPackages = [
-  {
-    name: 'Beginner Slopes',
-    terrain: 'Green & Blue Runs',
-    price: 'INR 2,199',
-    note: 'Perfect for first-time skiers with equipment rental, lessons, and all-day lift passes.'
-  },
-  {
-    name: 'Intermediate Carving',
-    terrain: 'Blue & Red Runs',
-    price: 'INR 3,899',
-    note: 'Progress your technique across scenic varied terrain with moderate challenge and stunning views.'
-  },
-  {
-    name: 'Expert Backcountry',
-    terrain: 'Black Diamonds & Off-Piste',
-    price: 'INR 6,499',
-    note: 'Advanced terrain, backcountry access, avalanche training, and certified mountain guides included.'
-  }
-]
-
-const seasonalMoments = [
-  {
-    label: 'Best Season',
-    value: 'December to March'
-  },
-  {
-    label: 'Snow Type',
-    value: 'Powder and packed runs'
-  },
-  {
-    label: 'Altitude Range',
-    value: '2000–4000m'
-  }
-]
-
-const skiIncluded = [
-  'Full ski equipment rental (skis, boots, poles)',
-  'Professional certified instructor',
-  'Lift pass and slope access ',
-  'Safety briefing and avalanche beacon',
-  'Warm lodge and hot beverages',
-  'Photo stops at scenic viewpoints'
-]
-
-const skiPhases = [
-  {
-    step: '01',
-    title: 'Fit and Learn',
-    desc: 'Equipment fitting, stance and balance instruction, safety briefing, and slopes introduction.'
-  },
-  {
-    step: '02',
-    title: 'Carve and Conquer',
-    desc: 'Progress through easier slopes, build speed and control, try steeper runs as confidence grows.'
-  },
-  {
-    step: '03',
-    title: 'Warm Up & Celebrate',
-    desc: 'Hot beverages and warm meals at the lodge, share stories, and plan your next run.'
-  }
-]
-
-const prepNotes = [
-  'Layer up with thermal underwear and waterproof outer shell—high altitude gets very cold',
-  'Bring sunscreen, goggles, and lip balm—snow reflection intensifies sun exposure',
-  'Leave valuables in lodge; take only essentials (ID, small wallet) in your jacket pocket'
-]
-
 export default function Skiing() {
   const navigate = useNavigate()
+  const [activityData, setActivityData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+
+    const loadActivity = async () => {
+      setIsLoading(true)
+      const data = await activityAPI.getBySlug('skiing')
+
+      if (!mounted) {
+        return
+      }
+
+      setActivityData(data)
+      setIsLoading(false)
+    }
+
+    loadActivity()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  const skiHighlights = activityData?.skiHighlights || []
+  const skiPackages = activityData?.skiPackages || []
+  const seasonalMoments = activityData?.seasonalMoments || []
+  const skiIncluded = activityData?.skiIncluded || []
+  const skiPhases = activityData?.skiPhases || []
+
+  if (isLoading) {
+    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Loading activity...</div>
+  }
+
+  if (!activityData) {
+    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Unable to load skiing details.</div>
+  }
 
   return (
     <div style={createPageShellStyle('#f8fbff')}>
