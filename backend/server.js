@@ -27,6 +27,7 @@ const corsOptions = {
   },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 };
 
 // Middleware
@@ -42,6 +43,7 @@ const carRentalRoutes = require('./routes/carRentalRoutes');
 const inquiryRoutes = require('./routes/inquiryRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const activityRoutes = require('./routes/activityRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 // Routes
 app.use('/api/v1/itineraries', itineraryRoutes);
@@ -51,6 +53,7 @@ app.use('/api/v1/car-rentals', carRentalRoutes);
 app.use('/api/v1/inquiries', inquiryRoutes);
 app.use('/api/v1/settings', settingsRoutes);
 app.use('/api/v1/activities', activityRoutes);
+app.use('/api/v1/admin', adminRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

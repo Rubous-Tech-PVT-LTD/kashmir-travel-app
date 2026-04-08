@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { loginAdmin, adminAllowedUser } from '../utils/adminAuth'
+import { loginAdmin } from '../utils/adminAuth'
 import { Lock, Mail, AlertCircle } from 'lucide-react'
 
 export default function AdminLogin() {
@@ -10,20 +10,20 @@ export default function AdminLogin() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     setError('')
     setIsLoading(true)
 
-    setTimeout(() => {
-      const isLoggedIn = loginAdmin(username.trim(), password)
-      if (!isLoggedIn) {
-        setError('Invalid credentials. Please check your username and password.')
-      } else {
-        navigate('/admin', { replace: true })
-      }
+    const result = await loginAdmin(username.trim(), password)
+    if (!result.success) {
+      setError(result.message || 'Invalid credentials. Please check your username and password.')
       setIsLoading(false)
-    }, 500)
+      return
+    }
+
+    navigate('/admin', { replace: true })
+    setIsLoading(false)
   }
 
   return (
@@ -107,24 +107,6 @@ export default function AdminLogin() {
               {isLoading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
-
-          {/* Divider */}
-          <div className="my-6 flex items-center gap-3">
-            <div className="h-px flex-1 bg-white/20"></div>
-            <span className="text-xs text-gray-400">Demo Credentials</span>
-            <div className="h-px flex-1 bg-white/20"></div>
-          </div>
-
-          {/* Demo Info */}
-          <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 space-y-2">
-            <p className="text-xs font-semibold text-blue-300">👤 Username:</p>
-            <p className="text-sm font-mono text-white bg-black/30 px-3 py-2 rounded border border-white/10">
-              {adminAllowedUser.username}
-            </p>
-            <p className="text-xs text-gray-400 text-center mt-3">
-              Use the credentials to access the admin dashboard
-            </p>
-          </div>
 
           {/* Footer */}
           <p className="text-center text-xs text-gray-400 mt-6">

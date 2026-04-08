@@ -73,21 +73,21 @@ export default function Navbar() {
   const honeymoonRoutes = {
     "Romantic Tour": "/alltrips?category=romantic-tour",
     "Couple Special": "/alltrips?category=couple-special",
-    "3 Days Honeymoon": "/all-daywise-trips?days=3&theme=honeymoon",
-    "4 Days Honeymoon": "/all-daywise-trips?days=4&theme=honeymoon",
-    "6 Days Honeymoon": "/all-daywise-trips?days=6&theme=honeymoon",
+    "3 Days Honeymoon": "/all-daywise-trips?days=3",
+    "4 Days Honeymoon": "/all-daywise-trips?days=4",
+    "6 Days Honeymoon": "/all-daywise-trips?days=6",
     "View All Honeymoon": "/alltrips?category=honeymoon-packages",
   };
 
 
 
   const spiritualRoutes = {
-    "Vaishno Devi Temple": "/all-daywise-trips?theme=spiritual&temple=vaishno-devi",
-    "Mata Kheer Bhawani Temple": "/all-daywise-trips?theme=spiritual&temple=kheer-bhawani",
-    "Shankaracharya Temple": "/all-daywise-trips?theme=spiritual&temple=shankaracharya",
-    "Amar Nath Cave": "/all-daywise-trips?theme=spiritual&temple=amarnath",
+    "Vaishno Devi Temple": "/all-daywise-trips?category=spiritual-tour&temple=vaishno-devi",
+    "Mata Kheer Bhawani Temple": "/all-daywise-trips?category=spiritual-tour&temple=kheer-bhawani",
+    "Shankaracharya Temple": "/all-daywise-trips?category=spiritual-tour&temple=shankaracharya",
+    "Amar Nath Cave": "/all-daywise-trips?category=spiritual-tour&temple=amarnath",
    
-    "View All Temples": "/all-daywise-trips?theme=spiritual",
+    "View All Temples": "/all-daywise-trips?category=spiritual-tour",
   };
 
   const servicesRoutes = {
@@ -135,7 +135,7 @@ export default function Navbar() {
   };
 
   const handleHoneymoonClick = (item) => {
-    const targetRoute = honeymoonRoutes[item] || "/all-daywise-trips?theme=honeymoon";
+    const targetRoute = honeymoonRoutes[item] || "/alltrips?category=honeymoon-packages";
     setActiveLink("Honeymoon");
     setOpenDropdown(null);
     navigate(targetRoute);
@@ -156,7 +156,7 @@ export default function Navbar() {
   };
 
   const handleSpiritualTourClick = (item) => {
-    const targetRoute = spiritualRoutes[item] || "/all-daywise-trips?theme=spiritual";
+    const targetRoute = spiritualRoutes[item] || "/all-daywise-trips?category=spiritual-tour";
     setActiveLink("Spiritual tour");
     setOpenDropdown(null);
     navigate(targetRoute);

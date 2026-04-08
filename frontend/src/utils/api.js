@@ -23,6 +23,7 @@ const REQUEST_TIMEOUT_MS = Number(import.meta.env.VITE_API_TIMEOUT_MS) || DEFAUL
 const http = axios.create({
   baseURL: API_URL,
   timeout: REQUEST_TIMEOUT_MS,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -132,17 +133,21 @@ export const activityAPI = {
 }
 
 export const adminAPI = {
-  getItineraries: () => request('/itineraries'),
-  getReviews: (itineraryId, reviewType) => request('/reviews', { query: { itineraryId, reviewType } }),
-  createItinerary: (payload) => request('/itineraries', { method: 'POST', body: payload }),
-  updateItinerary: (id, payload) => request(`/itineraries/${id}`, { method: 'PUT', body: payload }),
-  addDay: (id, payload) => request(`/itineraries/${id}/days`, { method: 'POST', body: payload }),
-  updateDay: (id, dayIndex, payload) => request(`/itineraries/${id}/days/${dayIndex}`, { method: 'PUT', body: payload }),
-  deleteDay: (id, dayIndex) => request(`/itineraries/${id}/days/${dayIndex}`, { method: 'DELETE' }),
-  deleteReview: (id) => request(`/reviews/${id}`, { method: 'DELETE' }),
-  deleteItinerary: (id) => request(`/itineraries/${id}`, { method: 'DELETE' }),
-  getSettings: () => request('/settings'),
-  updateSettings: (payload) => request('/settings', { method: 'PUT', body: payload }),
+  login: (username, password) => request('/admin/login', { method: 'POST', body: { username, password } }),
+  logout: () => request('/admin/logout', { method: 'POST' }),
+  me: () => request('/admin/me'),
+
+  getItineraries: () => request('/admin/itineraries'),
+  getReviews: (itineraryId, reviewType) => request('/admin/reviews', { query: { itineraryId, reviewType } }),
+  createItinerary: (payload) => request('/admin/itineraries', { method: 'POST', body: payload }),
+  updateItinerary: (id, payload) => request(`/admin/itineraries/${id}`, { method: 'PUT', body: payload }),
+  addDay: (id, payload) => request(`/admin/itineraries/${id}/days`, { method: 'POST', body: payload }),
+  updateDay: (id, dayIndex, payload) => request(`/admin/itineraries/${id}/days/${dayIndex}`, { method: 'PUT', body: payload }),
+  deleteDay: (id, dayIndex) => request(`/admin/itineraries/${id}/days/${dayIndex}`, { method: 'DELETE' }),
+  deleteReview: (id) => request(`/admin/reviews/${id}`, { method: 'DELETE' }),
+  deleteItinerary: (id) => request(`/admin/itineraries/${id}`, { method: 'DELETE' }),
+  getSettings: () => request('/admin/settings'),
+  updateSettings: (payload) => request('/admin/settings', { method: 'PUT', body: payload }),
 }
 
 export { ApiError, API_URL }

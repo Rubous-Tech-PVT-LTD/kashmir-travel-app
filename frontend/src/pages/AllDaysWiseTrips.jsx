@@ -17,6 +17,7 @@ const categoryFilters = [
   { label: 'Family Tour', value: 'family-tour' },
   { label: 'Honeymoon Packages', value: 'honeymoon-packages' },
   { label: 'Adventure Trek', value: 'adventure-trek' },
+  { label: 'Spiritual Tour', value: 'spiritual-tour' },
   { label: 'Couple Special', value: 'couple-special' },
 ]
 
@@ -86,14 +87,8 @@ export default function AllDaysWiseTrips() {
   const isDaywiseCategory = selectedCategory === 'daywise'
 
   const daysParam = Number(searchParams.get('days'))
-  const themeParam = searchParams.get('theme')
   const templeParam = searchParams.get('temple')
   const hasDaysFilter = Number.isFinite(daysParam) && daysParam > 0
-  const hasThemeFilter =
-    themeParam === 'family' ||
-    themeParam === 'adventure' ||
-    themeParam === 'honeymoon' ||
-    themeParam === 'spiritual'
 
   const spiritualTempleMap = {
     'vaishno-devi': { name: 'Vaishno Devi Temple', tripIds: [3, 6] },
@@ -131,32 +126,15 @@ export default function AllDaysWiseTrips() {
 
     const days = parseInt(trip.duration.split(' ')[0], 10)
 
-    if (hasDaysFilter || hasThemeFilter) {
-      if (hasDaysFilter && days !== daysParam) {
-        return false
-      }
+    if (hasDaysFilter && days !== daysParam) {
+      return false
+    }
 
-      if (themeParam === 'family') {
-        return trip.tag === 'Family Pick'
-      }
+    if (selectedTemple && !selectedTemple.tripIds.includes(trip.id)) {
+      return false
+    }
 
-      if (themeParam === 'adventure') {
-        const adventureText = `${trip.title} ${trip.description}`
-        return /adventure|gulmarg|sonamarg|gondola|glacier|trek/i.test(adventureText)
-      }
-
-      if (themeParam === 'honeymoon') {
-        return days >= 3 && days <= 6 && trip.tag !== 'Family Pick'
-      }
-
-      if (themeParam === 'spiritual') {
-        if (selectedTemple) {
-          return selectedTemple.tripIds.includes(trip.id)
-        }
-
-        return days >= 3 && days <= 7
-      }
-
+    if (hasDaysFilter || selectedTemple) {
       return true
     }
 
@@ -170,32 +148,16 @@ export default function AllDaysWiseTrips() {
     ? `${daysParam} Days Kashmir Tours`
     : selectedCategory !== 'daywise'
       ? `${formatCategoryTitle(selectedCategory)} Tours`
-    : themeParam === 'family'
-      ? 'Family Kashmir Tours'
-      : themeParam === 'adventure'
-        ? 'Adventure Kashmir Tours'
-        : themeParam === 'honeymoon'
-          ? 'Honeymoon Kashmir Tours'
-          : themeParam === 'spiritual' && selectedTemple
-            ? `${selectedTemple.name} Tours`
-            : themeParam === 'spiritual'
-              ? 'Spiritual Kashmir Tours'
+      : selectedTemple
+        ? `${selectedTemple.name} Tours`
         : 'All Kashmir Tours'
 
   const pageSubtitle = hasDaysFilter
     ? `Handpicked ${daysParam}-day itineraries with complete planning and transparent pricing.`
     : selectedCategory !== 'daywise'
       ? `Browse ${categoryLabelMap[selectedCategory] || selectedCategory} itineraries directly.`
-    : themeParam === 'family'
-      ? 'Comfort-focused Kashmir trips designed for families with smooth transfers and relaxed pacing.'
-      : themeParam === 'adventure'
-        ? 'Thrill-packed Kashmir itineraries featuring gondola rides, mountain trails, and alpine valleys.'
-        : themeParam === 'honeymoon'
-          ? 'Romantic Kashmir tours curated for couples with scenic stays, calm pacing, and cozy experiences.'
-          : themeParam === 'spiritual' && selectedTemple
-            ? `Pilgrimage-friendly Kashmir itineraries that include ${selectedTemple.name} with guided transport and comfortable stays.`
-            : themeParam === 'spiritual'
-              ? 'Temple and shrine focused Kashmir journeys with smooth logistics, relaxed pacing, and culturally rich experiences.'
+      : selectedTemple
+        ? `Pilgrimage-friendly Kashmir itineraries that include ${selectedTemple.name} with guided transport and comfortable stays.`
         : 'Choose your perfect trip duration from 2 to 7 days with transparent pricing and curated day-by-day plans.'
 
   return (
