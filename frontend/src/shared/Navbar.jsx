@@ -3,8 +3,8 @@ import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TopHeader from "./TopHeader";
 
-const navLinks = ["Kashmir Packages", "Honeymoon", "Services", "Spiritual tour", "Activities"];
-const dropdownLinks = new Set(["Kashmir Packages", "Honeymoon", "Services", "Spiritual tour", "Activities"]);
+const navLinks = ["Kashmir Packages", "Honeymoon",  "Services", "Spiritual tour", "Activities"];
+const dropdownLinks = new Set(["Kashmir Packages", "Honeymoon",  "Services", "Spiritual tour", "Activities"]);
 
 const kashimirPackagesDropdown = [
   "Adventure Tour Package",
@@ -23,6 +23,8 @@ const honeymoonDropdown = [
   "6 Days Honeymoon",
   "View All Honeymoon",
 ];
+
+
 
 const activitiesDropdown = [
   "Shikara Ride",
@@ -60,30 +62,32 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
 
   const kashmirPackageRoutes = {
-    "Adventure Tour Package": "/all-daywise-trips?theme=adventure",
+    "Adventure Tour Package": "/alltrips?category=adventure-trek",
     "3 Days Tour": "/all-daywise-trips?days=3",
     "4 Days Tour": "/all-daywise-trips?days=4",
     "7 Days Tour": "/all-daywise-trips?days=7",
-    "Family Tour Package": "/all-daywise-trips?theme=family",
+    "Family Tour Package": "/alltrips?category=family-tour",
     "All Kashmir Trips": "/all-daywise-trips",
   };
 
   const honeymoonRoutes = {
-    "Romantic Tour": "/all-daywise-trips?theme=honeymoon",
-    "Couple Special": "/all-daywise-trips?theme=honeymoon",
-    "3 Days Honeymoon": "/all-daywise-trips?days=3&theme=honeymoon",
-    "4 Days Honeymoon": "/all-daywise-trips?days=4&theme=honeymoon",
-    "6 Days Honeymoon": "/all-daywise-trips?days=6&theme=honeymoon",
-    "View All Honeymoon": "/all-daywise-trips?theme=honeymoon",
+    "Romantic Tour": "/alltrips?category=romantic-tour",
+    "Couple Special": "/alltrips?category=couple-special",
+    "3 Days Honeymoon": "/all-daywise-trips?days=3",
+    "4 Days Honeymoon": "/all-daywise-trips?days=4",
+    "6 Days Honeymoon": "/all-daywise-trips?days=6",
+    "View All Honeymoon": "/alltrips?category=honeymoon-packages",
   };
 
+
+
   const spiritualRoutes = {
-    "Vaishno Devi Temple": "/all-daywise-trips?theme=spiritual&temple=vaishno-devi",
-    "Mata Kheer Bhawani Temple": "/all-daywise-trips?theme=spiritual&temple=kheer-bhawani",
-    "Shankaracharya Temple": "/all-daywise-trips?theme=spiritual&temple=shankaracharya",
-    "Amar Nath Cave": "/all-daywise-trips?theme=spiritual&temple=amarnath",
+    "Vaishno Devi Temple": "/all-daywise-trips?category=spiritual-tour&temple=vaishno-devi",
+    "Mata Kheer Bhawani Temple": "/all-daywise-trips?category=spiritual-tour&temple=kheer-bhawani",
+    "Shankaracharya Temple": "/all-daywise-trips?category=spiritual-tour&temple=shankaracharya",
+    "Amar Nath Cave": "/all-daywise-trips?category=spiritual-tour&temple=amarnath",
    
-    "View All Temples": "/all-daywise-trips?theme=spiritual",
+    "View All Temples": "/all-daywise-trips?category=spiritual-tour",
   };
 
   const servicesRoutes = {
@@ -131,8 +135,15 @@ export default function Navbar() {
   };
 
   const handleHoneymoonClick = (item) => {
-    const targetRoute = honeymoonRoutes[item] || "/all-daywise-trips?theme=honeymoon";
+    const targetRoute = honeymoonRoutes[item] || "/alltrips?category=honeymoon-packages";
     setActiveLink("Honeymoon");
+    setOpenDropdown(null);
+    navigate(targetRoute);
+  };
+
+  const handleHotelsClick = (item) => {
+    const targetRoute = hotelRoutes[item] || "/all-hotels";
+    setActiveLink("Hotels");
     setOpenDropdown(null);
     navigate(targetRoute);
   };
@@ -145,7 +156,7 @@ export default function Navbar() {
   };
 
   const handleSpiritualTourClick = (item) => {
-    const targetRoute = spiritualRoutes[item] || "/all-daywise-trips?theme=spiritual";
+    const targetRoute = spiritualRoutes[item] || "/all-daywise-trips?category=spiritual-tour";
     setActiveLink("Spiritual tour");
     setOpenDropdown(null);
     navigate(targetRoute);
@@ -304,6 +315,8 @@ export default function Navbar() {
               ))}
             </div>
           )}
+
+         
 
           {/* Activities Dropdown Menu */}
           {link === "Activities" && openDropdown === "Activities" && (

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
+import { hotelAPI } from '../utils/api'
 import {
   backButtonStyle,
   cardBodyStyle,
@@ -15,64 +16,7 @@ import {
   sidePanelAlignStyle,
   standardSectionStyle,
   transparentCtaButtonStyle
-} from '../shared/servicePageStyles'
-
-const kashmirHotels = [
-  {
-    id: 1,
-    name: 'The Khyber Himalayan Resort',
-    location: 'Gulmarg',
-    nights: '2N/3D Stay',
-    rating: 5,
-    price: '24,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 2,
-    name: 'Kareem Houseboat Retreat',
-    location: 'Dal Lake, Srinagar',
-    nights: '1N/2D Stay',
-    rating: 4,
-    price: '9,499',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 3,
-    name: 'Welcomhotel Pine N Peak',
-    location: 'Pahalgam',
-    nights: '2N/3D Stay',
-    rating: 5,
-    price: '18,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 4,
-    name: 'Lidder Spring Boutique Stay',
-    location: 'Aru Valley',
-    nights: '3N/4D Stay',
-    rating: 4,
-    price: '12,499',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 5,
-    name: 'Vivanta Dal View Srinagar',
-    location: 'Kralsangri',
-    nights: '2N/3D Stay',
-    rating: 5,
-    price: '21,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 6,
-    name: 'Snow Crest Gulmarg Lodge',
-    location: 'Gulmarg Bowl',
-    nights: '2N/3D Stay',
-    rating: 4,
-    price: '14,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  }
-]
+} from '../ui/servicePageStyles'
 
 const bookingHighlights = [
   'Verified stays with transparent rates',
@@ -83,6 +27,28 @@ const bookingHighlights = [
 
 export default function HotelBooking() {
   const navigate = useNavigate()
+  const [hotels, setHotels] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        setLoading(true)
+        setError('')
+        const data = await hotelAPI.getAll()
+        setHotels(data.slice(0, 6))
+      } catch (err) {
+        console.error('Error fetching featured hotels:', err)
+        setError('Failed to load featured hotels')
+        setHotels([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchHotels()
+  }, [])
 
   return (
     <div style={createPageShellStyle('#f5f8fb')}>
@@ -253,7 +219,15 @@ export default function HotelBooking() {
         </div>
 
         <div className="hotel-grid">
-          {kashmirHotels.map((hotel) => (
+          {loading ? (
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 20px' }}>
+              <p style={{ margin: 0, color: '#f6f8fa' }}>Loading hotels...</p>
+            </div>
+          ) : error ? (
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 20px' }}>
+              <p style={{ margin: 0, color: '#ffd28f' }}>{error}</p>
+            </div>
+          ) : hotels.map((hotel) => (
             <div key={hotel.id} className="hotel-card">
               <img src={hotel.image} alt={hotel.name} className="hotel-card-image" />
 
@@ -277,7 +251,7 @@ export default function HotelBooking() {
 
                 <button
                   type="button"
-                  onClick={() => navigate('/alltrips')}
+                  onClick={() => navigate(`/hotel/${hotel.id}`)}
                   style={{
                     width: '100%',
                     border: 'none',
@@ -289,7 +263,7 @@ export default function HotelBooking() {
                     cursor: 'pointer'
                   }}
                 >
-                  Book This Stay
+                  View Details
                 </button>
               </div>
             </div>

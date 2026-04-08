@@ -9,6 +9,28 @@ import ui from '../ui/tripSection.module.css'
 
 const filters = ['2-4 Days', '5-7 Days', 'Family Trips']
 
+const categoryFilters = [
+  { label: 'Day-wise', value: 'daywise' },
+  { label: 'Romantic Tour', value: 'romantic-tour' },
+  { label: 'Couple Tour', value: 'couple-tour' },
+  { label: 'Group Tour', value: 'group-tour' },
+  { label: 'Family Tour', value: 'family-tour' },
+  { label: 'Honeymoon Packages', value: 'honeymoon-packages' },
+  { label: 'Adventure Trek', value: 'adventure-trek' },
+  { label: 'Spiritual Tour', value: 'spiritual-tour' },
+  { label: 'Couple Special', value: 'couple-special' },
+]
+
+const categoryLabelMap = categoryFilters.reduce((accumulator, item) => {
+  accumulator[item.value] = item.label
+  return accumulator
+}, {})
+
+const formatCategoryTitle = (category) => {
+  const label = categoryLabelMap[category] || category
+  return label.replace(/\s+Tour$/i, '')
+}
+
 const ArrowRight = () => (
   <ArrowRightIcon width={16} height={16} strokeWidth={2} />
 )
@@ -23,7 +45,7 @@ export default function AllDaysWiseTrips() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   // Fetch trips from backend
   useEffect(() => {
@@ -31,7 +53,8 @@ export default function AllDaysWiseTrips() {
       try {
         setLoading(true)
         setError('')
-        const trips = await itineraryAPI.getByCategory('daywise')
+        const selectedCategory = searchParams.get('category') || 'daywise'
+        const trips = await itineraryAPI.getByCategory(selectedCategory)
         
         // Transform MongoDB data to match expected format
         const transformedTrips = trips.map((trip, index) => ({
@@ -58,17 +81,14 @@ export default function AllDaysWiseTrips() {
     }
 
     fetchTrips()
-  }, [])
+  }, [searchParams])
+
+  const selectedCategory = searchParams.get('category') || 'daywise'
+  const isDaywiseCategory = selectedCategory === 'daywise'
 
   const daysParam = Number(searchParams.get('days'))
-  const themeParam = searchParams.get('theme')
   const templeParam = searchParams.get('temple')
   const hasDaysFilter = Number.isFinite(daysParam) && daysParam > 0
-  const hasThemeFilter =
-    themeParam === 'family' ||
-    themeParam === 'adventure' ||
-    themeParam === 'honeymoon' ||
-    themeParam === 'spiritual'
 
   const spiritualTempleMap = {
     'vaishno-devi': { name: 'Vaishno Devi Temple', tripIds: [3, 6] },
@@ -80,43 +100,41 @@ export default function AllDaysWiseTrips() {
 
   const selectedTemple = templeParam ? spiritualTempleMap[templeParam] : null
 
+  const handleCategoryChange = (category) => {
+    const nextParams = new URLSearchParams(searchParams)
+    if (category === 'daywise') {
+      nextParams.delete('category')
+    } else {
+      nextParams.set('category', category)
+    }
+    setSearchParams(nextParams)
+    setActiveFilter('2-4 Days')
+  }
+
   const handleViewTrip = (trip) => {
     navigate(`/daywise-trip/${trip.id}`, { state: { trip } })
   }
 
   const filteredTrips = managedTrips.filter((trip) => {
+    if (!isDaywiseCategory) {
+      return true
+    }
+
     if (trip.category !== 'daywise') {
       return false
     }
 
     const days = parseInt(trip.duration.split(' ')[0], 10)
 
-    if (hasDaysFilter || hasThemeFilter) {
-      if (hasDaysFilter && days !== daysParam) {
-        return false
-      }
+    if (hasDaysFilter && days !== daysParam) {
+      return false
+    }
 
-      if (themeParam === 'family') {
-        return trip.tag === 'Family Pick'
-      }
+    if (selectedTemple && !selectedTemple.tripIds.includes(trip.id)) {
+      return false
+    }
 
-      if (themeParam === 'adventure') {
-        const adventureText = `${trip.title} ${trip.description}`
-        return /adventure|gulmarg|sonamarg|gondola|glacier|trek/i.test(adventureText)
-      }
-
-      if (themeParam === 'honeymoon') {
-        return days >= 3 && days <= 6 && trip.tag !== 'Family Pick'
-      }
-
-      if (themeParam === 'spiritual') {
-        if (selectedTemple) {
-          return selectedTemple.tripIds.includes(trip.id)
-        }
-
-        return days >= 3 && days <= 7
-      }
-
+    if (hasDaysFilter || selectedTemple) {
       return true
     }
 
@@ -128,30 +146,18 @@ export default function AllDaysWiseTrips() {
 
   const pageTitle = hasDaysFilter
     ? `${daysParam} Days Kashmir Tours`
-    : themeParam === 'family'
-      ? 'Family Kashmir Tours'
-      : themeParam === 'adventure'
-        ? 'Adventure Kashmir Tours'
-        : themeParam === 'honeymoon'
-          ? 'Honeymoon Kashmir Tours'
-          : themeParam === 'spiritual' && selectedTemple
-            ? `${selectedTemple.name} Tours`
-            : themeParam === 'spiritual'
-              ? 'Spiritual Kashmir Tours'
+    : selectedCategory !== 'daywise'
+      ? `${formatCategoryTitle(selectedCategory)} Tours`
+      : selectedTemple
+        ? `${selectedTemple.name} Tours`
         : 'All Kashmir Tours'
 
   const pageSubtitle = hasDaysFilter
     ? `Handpicked ${daysParam}-day itineraries with complete planning and transparent pricing.`
-    : themeParam === 'family'
-      ? 'Comfort-focused Kashmir trips designed for families with smooth transfers and relaxed pacing.'
-      : themeParam === 'adventure'
-        ? 'Thrill-packed Kashmir itineraries featuring gondola rides, mountain trails, and alpine valleys.'
-        : themeParam === 'honeymoon'
-          ? 'Romantic Kashmir tours curated for couples with scenic stays, calm pacing, and cozy experiences.'
-          : themeParam === 'spiritual' && selectedTemple
-            ? `Pilgrimage-friendly Kashmir itineraries that include ${selectedTemple.name} with guided transport and comfortable stays.`
-            : themeParam === 'spiritual'
-              ? 'Temple and shrine focused Kashmir journeys with smooth logistics, relaxed pacing, and culturally rich experiences.'
+    : selectedCategory !== 'daywise'
+      ? `Browse ${categoryLabelMap[selectedCategory] || selectedCategory} itineraries directly.`
+      : selectedTemple
+        ? `Pilgrimage-friendly Kashmir itineraries that include ${selectedTemple.name} with guided transport and comfortable stays.`
         : 'Choose your perfect trip duration from 2 to 7 days with transparent pricing and curated day-by-day plans.'
 
   return (
@@ -203,26 +209,54 @@ export default function AllDaysWiseTrips() {
             </p>
           </div>
 
-          {/* Filters */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '40px' }}>
-            {filters.map((f, i) => (
-              <span key={f} style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '18px' }}>
+            {categoryFilters.map((category) => {
+              const isActive = selectedCategory === category.value
+
+              return (
                 <button
-                  onClick={() => setActiveFilter(f)}
-                  className={ui.filterButton}
+                  key={category.value}
+                  type="button"
+                  onClick={() => handleCategoryChange(category.value)}
                   style={{
-                    ...sectionStyles.filterButtonBase,
-                    ...(activeFilter === f ? sectionStyles.filterButtonActive : null),
+                    border: '1px solid ' + (isActive ? '#2563eb' : '#cbd5e1'),
+                    background: isActive ? '#2563eb' : '#fff',
+                    color: isActive ? '#fff' : '#334155',
+                    padding: '10px 14px',
+                    borderRadius: '999px',
+                    cursor: 'pointer',
+                    fontSize: '13px',
+                    fontWeight: 600,
                   }}
                 >
-                  {f}
+                  {category.label}
                 </button>
-                {i < filters.length - 1 && (
-                  <span style={{ ...sectionStyles.filterSeparator, margin: '0 24px' }}>|</span>
-                )}
-              </span>
-            ))}
+              )
+            })}
           </div>
+
+          {/* Filters */}
+          {isDaywiseCategory && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '40px' }}>
+              {filters.map((f, i) => (
+                <span key={f} style={{ display: 'flex', alignItems: 'center' }}>
+                  <button
+                    onClick={() => setActiveFilter(f)}
+                    className={ui.filterButton}
+                    style={{
+                      ...sectionStyles.filterButtonBase,
+                      ...(activeFilter === f ? sectionStyles.filterButtonActive : null),
+                    }}
+                  >
+                    {f}
+                  </button>
+                  {i < filters.length - 1 && (
+                    <span style={{ ...sectionStyles.filterSeparator, margin: '0 24px' }}>|</span>
+                  )}
+                </span>
+              ))}
+            </div>
+          )}
 
           {/* Loading State */}
           {loading && (

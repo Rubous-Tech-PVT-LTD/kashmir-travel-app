@@ -4,9 +4,9 @@ const websiteUrl = 'https://www.habakhatoontravels.com'
 
 const quickLinks = [
   { label: 'About Us', to: '/' },
-  { label: 'Operator Services in Kashmir', to: '/services/group-tour' },
-  { label: 'Kashmir Trips & Itineraries', to: '/all-daywise-trips' },
-  { label: 'Kashmir Honeymoon', to: '/all-daywise-trips?theme=honeymoon' },
+  { label: 'Operator Services in Kashmir', to: '/operator-services-kashmir' },
+  { label: 'Kashmir Trips & Itineraries', to: '/alltrips' },
+  { label: 'Kashmir Honeymoon', to: '/alltrips?category=honeymoon-packages' },
   { label: 'Hotels', to: '/services/hotel-booking' },
   { label: 'Car Rental', to: '/services/car-rentals' },
   { label: 'Travel Blog', to: '/alltrips' },
@@ -15,11 +15,11 @@ const quickLinks = [
 
 const popularPackages = [
   { label: '3 Days Kashmir Tour', to: '/all-daywise-trips?days=3' },
-  { label: '5 Days Family Tour', to: '/all-daywise-trips?days=5&theme=family' },
+  { label: '5 Days Family Tour', to: '/all-daywise-trips?days=5' },
   { label: '7 Days Complete Tour', to: '/all-daywise-trips?days=7' },
-  { label: '6 Days Honeymoon', to: '/all-daywise-trips?days=6&theme=honeymoon' },
-  { label: 'Adventure Tour', to: '/all-daywise-trips?theme=adventure' },
-  { label: 'Srinagar-Gulmarg-Pahalgam', to: '/trips/3' },
+  { label: '6 Days Honeymoon', to: '/all-daywise-trips?days=6' },
+  { label: 'Adventure Tour', to: '/alltrips?category=adventure-trek' },
+
 ]
 
 const legalLinks = [

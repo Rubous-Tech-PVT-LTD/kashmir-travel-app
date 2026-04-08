@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
+import { activityAPI } from '../utils/api'
 import {
   backButtonStyle,
   createPageShellStyle,
@@ -8,94 +9,48 @@ import {
   heroActionRowStyle,
   maxWidthContainerStyle,
   transparentCtaButtonStyle
-} from '../shared/servicePageStyles'
-
-const paraglideHighlights = [
-  {
-    title: 'Soar over Alpine Peaks',
-    detail: 'Float above Kashmir\'s most dramatic mountain landscapes with professional pilots and thermal expertise.'
-  },
-  {
-    title: 'Safe, Instructed Flights',
-    detail: 'Tandem flights with certified instructors mean you experience the thrill while they handle the technique.'
-  },
-  {
-    title: 'Aerial Photo Moments',
-    detail: 'Capture your flight from angles no ground camera can match—with optional video packages included.'
-  }
-]
-
-const flightPackages = [
-  {
-    name: 'Scenic Flight',
-    duration: '15–20 min',
-    price: 'INR 2,999',
-    note: 'Perfect introduction to paragliding with beautiful low-altitude valley and peak views.'
-  },
-  {
-    name: 'Mountain Flight',
-    duration: '25–30 min',
-    price: 'INR 4,999',
-    note: 'Extended flight covering higher peaks, thermals, and wider mountain panoramas.'
-  },
-  {
-    name: 'Premium Adventure',
-    duration: '40–50 min',
-    price: 'INR 7,499',
-    note: 'Full experience with acrobatics, maximum altitude, and cinematic aerial footage.'
-  }
-]
-
-const flightMoments = [
-  {
-    label: 'Best Season',
-    value: 'April to October'
-  },
-  {
-    label: 'Flight Type',
-    value: 'Tandem with certified pilots'
-  },
-  {
-    label: 'Weather Dependent',
-    value: 'Clear skies required'
-  }
-]
-
-const flightGear = [
-  'Tandem paraglider with backup parachute',
-  'Full body harness and helmet',
-  'Safety briefing and certification',
-  'Thermal awareness training',
-  'Emergency landing gear checks',
-  'Professional video/photo package'
-]
-
-const flightPhases = [
-  {
-    step: '01',
-    title: 'Launch Preparation',
-    desc: 'Suit up at the launch point, receive final briefing, check wind direction and thermal conditions.'
-  },
-  {
-    step: '02',
-    title: 'Lift and Soar',
-    desc: 'Gentle tow or running start, then catch thermals to climb higher and float longer over the landscape.'
-  },
-  {
-    step: '03',
-    title: 'Smooth Landing',
-    desc: 'Pilot guides you down with perfect landing technique, then walk back to base for debrief and footage.'
-  }
-]
-
-const prepNotes = [
-  'Wear layers—temperature drops significantly at altitude',
-  'Secure all loose items; bring only essentials in flight harness',
-  'Follow pilot instructions exactly and embrace the weightless freedom'
-]
+} from '../ui/servicePageStyles'
 
 export default function ParaGliding() {
   const navigate = useNavigate()
+  const [activityData, setActivityData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+
+    const loadActivity = async () => {
+      setIsLoading(true)
+      const data = await activityAPI.getBySlug('paragliding')
+
+      if (!mounted) {
+        return
+      }
+
+      setActivityData(data)
+      setIsLoading(false)
+    }
+
+    loadActivity()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  const paraglideHighlights = activityData?.paraglideHighlights || []
+  const flightPackages = activityData?.flightPackages || []
+  const flightMoments = activityData?.flightMoments || []
+  const flightGear = activityData?.flightGear || []
+  const flightPhases = activityData?.flightPhases || []
+
+  if (isLoading) {
+    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Loading activity...</div>
+  }
+
+  if (!activityData) {
+    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Unable to load paragliding details.</div>
+  }
 
   return (
     <div style={createPageShellStyle('#f8fbff')}>

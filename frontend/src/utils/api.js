@@ -23,6 +23,7 @@ const REQUEST_TIMEOUT_MS = Number(import.meta.env.VITE_API_TIMEOUT_MS) || DEFAUL
 const http = axios.create({
   baseURL: API_URL,
   timeout: REQUEST_TIMEOUT_MS,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -109,23 +110,44 @@ export const reviewAPI = {
   delete: async (id) => dataOr(await request(`/reviews/${id}`, { method: 'DELETE' }), null),
 }
 
+export const hotelAPI = {
+  getAll: () => safe(async () => dataOr(await request('/hotels'), []), [], 'Error fetching hotels'),
+  getHouseboats: () => safe(async () => dataOr(await request('/hotels/houseboats'), []), [], 'Error fetching houseboat stays'),
+  getById: (id) => safe(async () => dataOr(await request(`/hotels/${id}`), null), null, 'Error fetching hotel'),
+  addReview: async (id, review) => dataOr(await request(`/hotels/${id}/reviews`, { method: 'POST', body: review }), null),
+}
+
+export const carRentalAPI = {
+  getAll: async () => dataOr(await request('/car-rentals'), []),
+  getById: async (id) => dataOr(await request(`/car-rentals/${id}`), null),
+}
+
 export const inquiryAPI = {
   create: async (inquiry) => dataOr(await request('/inquiries', { method: 'POST', body: inquiry }), null),
   getAll: () => safe(async () => dataOr(await request('/inquiries'), []), [], 'Error fetching inquiries'),
 }
 
+export const activityAPI = {
+  getAll: () => safe(async () => dataOr(await request('/activities'), []), [], 'Error fetching activities'),
+  getBySlug: (slug) => safe(async () => dataOr(await request(`/activities/${slug}`), null), null, 'Error fetching activity'),
+}
+
 export const adminAPI = {
-  getItineraries: () => request('/itineraries'),
-  getReviews: (itineraryId, reviewType) => request('/reviews', { query: { itineraryId, reviewType } }),
-  createItinerary: (payload) => request('/itineraries', { method: 'POST', body: payload }),
-  updateItinerary: (id, payload) => request(`/itineraries/${id}`, { method: 'PUT', body: payload }),
-  addDay: (id, payload) => request(`/itineraries/${id}/days`, { method: 'POST', body: payload }),
-  updateDay: (id, dayIndex, payload) => request(`/itineraries/${id}/days/${dayIndex}`, { method: 'PUT', body: payload }),
-  deleteDay: (id, dayIndex) => request(`/itineraries/${id}/days/${dayIndex}`, { method: 'DELETE' }),
-  deleteReview: (id) => request(`/reviews/${id}`, { method: 'DELETE' }),
-  deleteItinerary: (id) => request(`/itineraries/${id}`, { method: 'DELETE' }),
-  getSettings: () => request('/settings'),
-  updateSettings: (payload) => request('/settings', { method: 'PUT', body: payload }),
+  login: (username, password) => request('/admin/login', { method: 'POST', body: { username, password } }),
+  logout: () => request('/admin/logout', { method: 'POST' }),
+  me: () => request('/admin/me'),
+
+  getItineraries: () => request('/admin/itineraries'),
+  getReviews: (itineraryId, reviewType) => request('/admin/reviews', { query: { itineraryId, reviewType } }),
+  createItinerary: (payload) => request('/admin/itineraries', { method: 'POST', body: payload }),
+  updateItinerary: (id, payload) => request(`/admin/itineraries/${id}`, { method: 'PUT', body: payload }),
+  addDay: (id, payload) => request(`/admin/itineraries/${id}/days`, { method: 'POST', body: payload }),
+  updateDay: (id, dayIndex, payload) => request(`/admin/itineraries/${id}/days/${dayIndex}`, { method: 'PUT', body: payload }),
+  deleteDay: (id, dayIndex) => request(`/admin/itineraries/${id}/days/${dayIndex}`, { method: 'DELETE' }),
+  deleteReview: (id) => request(`/admin/reviews/${id}`, { method: 'DELETE' }),
+  deleteItinerary: (id) => request(`/admin/itineraries/${id}`, { method: 'DELETE' }),
+  getSettings: () => request('/admin/settings'),
+  updateSettings: (payload) => request('/admin/settings', { method: 'PUT', body: payload }),
 }
 
 export { ApiError, API_URL }
@@ -133,4 +155,7 @@ export { ApiError, API_URL }
 export default {
   itineraryAPI,
   reviewAPI,
+  hotelAPI,
+  carRentalAPI,
+  activityAPI,
 }

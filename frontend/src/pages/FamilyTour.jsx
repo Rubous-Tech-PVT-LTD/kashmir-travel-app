@@ -8,7 +8,7 @@ import {
   heroActionRowStyle,
   maxWidthContainerStyle,
   transparentCtaButtonStyle
-} from '../shared/servicePageStyles'
+} from '../ui/servicePageStyles'
 
 const highlights = [
   {
@@ -121,10 +121,10 @@ export default function FamilyTour() {
               <div className="family-fade-up delay-3" style={heroActionRowStyle}>
                 <button
                   type="button"
-                  onClick={() => navigate('/alltrips')}
+                  onClick={() => navigate('/alltrips?category=family-tour')}
                   style={createPrimaryButtonStyle('#ffe29f', '#1d3557')}
                 >
-                  View Tour Packages
+                  Browse Family Tour
                 </button>
                 <button
                   type="button"

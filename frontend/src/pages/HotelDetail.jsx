@@ -1,567 +1,53 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Grid2x2, Phone, Star, MapPin, Wifi, UtensilsCrossed, Users, Clock, ArrowLeft, ChevronLeft, ChevronRight, UserCircle2 } from 'lucide-react'
+import {  Star, MapPin, Wifi, UtensilsCrossed, Users, Clock, ArrowLeft, ChevronLeft, ChevronRight, UserCircle2 } from 'lucide-react'
 import Navbar from '../shared/Navbar'
 import Footer from '../shared/Footer'
-
-const NavDots = () => (
-  <Grid2x2 width={22} height={22} color="#38b2a3" strokeWidth={2} />
-)
-
-const PhoneIcon = () => (
-  <Phone width={18} height={18} color="#38b2a3" strokeWidth={2} />
-)
-
-const hotelDetailsData = {
-  1: {
-    name: 'The Khyber Himalayan Resort',
-    location: 'Gulmarg',
-    nights: '2N/3D Stay',
-    rating: 5,
-    price: '24,999',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'Experience luxury in the heart of Gulmarg with world-class amenities and breathtaking mountain views.',
-    amenities: ['Free WiFi', 'Swimming Pool', 'Spa & Wellness Center', 'Fine Dining Restaurant', '24/7 Room Service', 'Parking'],
-    facilities: ['Conference Hall', 'Gym', 'Concierge', 'Airport Transfer', 'Multilingual Staff'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Priya Sharma',
-        rating: 5,
-        date: '2 weeks ago',
-        comment: 'Absolutely amazing stay! The views are breathtaking and the service was impeccable. Highly recommend!'
-      },
-      {
-        id: 2,
-        name: 'Rajesh Kumar',
-        rating: 5,
-        date: '1 month ago',
-        comment: 'Best resort in Gulmarg! The food, rooms, and hospitality were all excellent. Will definitely come back.'
-      },
-      {
-        id: 3,
-        name: 'Sarah Johnson',
-        rating: 4,
-        date: '1 month ago',
-        comment: 'Great stay overall. Beautiful location and good facilities. The spa treatments were very relaxing.'
-      }
-    ],
-    reviewCount: 248,
-    checkInTime: '2:00 PM',
-    checkOutTime: '11:00 AM',
-    capacity: '2-4 Guests'
-  },
-  2: {
-    name: 'Kareem Houseboat Retreat',
-    location: 'Dal Lake, Srinagar',
-    nights: '1N/2D Stay',
-    rating: 4,
-    price: '9,499',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'Get a unique experience staying on a traditional Kashmiri houseboat with stunning dal lake views.',
-    amenities: ['Free WiFi', 'House Boat Dinners', 'Water Sports', 'Local Guide Service', 'Traditional Decor', 'Private Deck'],
-    facilities: ['Shikara Service', 'Fishing', 'Floating Garden Tours', 'Traditional Cuisine', 'Photography Tours'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Anjali Verma',
-        rating: 5,
-        date: '3 weeks ago',
-        comment: 'Unforgettable experience! Sleeping on a houseboat was magical. The sunset views are incredible.'
-      },
-      {
-        id: 2,
-        name: 'Mohammed Ali',
-        rating: 4,
-        date: '2 months ago',
-        comment: 'Very authentic Kashmiri experience. Great hospitality and delicious traditional food.'
-      },
-      {
-        id: 3,
-        name: 'Sophie Martin',
-        rating: 4,
-        date: '2 months ago',
-        comment: 'Beautiful houseboat with charming staff. The boat tour in the morning was fantastic.'
-      }
-    ],
-    reviewCount: 192,
-    checkInTime: '3:00 PM',
-    checkOutTime: '10:00 AM',
-    capacity: '2-3 Guests'
-  },
-  3: {
-    name: 'Welcomhotel Pine N Peak',
-    location: 'Pahalgam',
-    nights: '2N/3D Stay',
-    rating: 5,
-    price: '18,999',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'A serene mountain retreat offering nature trails, adventure activities, and comfort in Pahalgam valley.',
-    amenities: ['Free WiFi', 'Adventure Sports', 'Hiking Trails', 'Restaurant', 'Bonfire', 'Mountain Views'],
-    facilities: ['Guide Service', 'Horse Riding', 'Fishing', 'Photography Tours', 'Nature Walks'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Vikram Singh',
-        rating: 5,
-        date: '1 month ago',
-        comment: 'Perfect for adventure seekers! Great guides and excellent facilities for trekking.'
-      },
-      {
-        id: 2,
-        name: 'Neha Patel',
-        rating: 5,
-        date: '6 weeks ago',
-        comment: 'Amazing valley views and wonderful staff. The horse riding experience was incredible!'
-      },
-      {
-        id: 3,
-        name: 'James Wilson',
-        rating: 4,
-        date: '2 months ago',
-        comment: 'Beautiful location with great adventure activities. Highly recommended for nature lovers.'
-      }
-    ],
-    reviewCount: 187,
-    checkInTime: '2:00 PM',
-    checkOutTime: '11:00 AM',
-    capacity: '2-4 Guests'
-  },
-  4: {
-    name: 'Lidder Spring Boutique Stay',
-    location: 'Aru Valley',
-    nights: '3N/4D Stay',
-    rating: 4,
-    price: '12,499',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'Intimate boutique hotel nestled in the serene Aru Valley with personalized service and local experiences.',
-    amenities: ['Free WiFi', 'Restaurant', 'Hiking', 'Spa Services', 'Bonfire', 'Valley Views'],
-    facilities: ['Guide Service', 'Horse Riding', 'Photography Tours', 'Traditional Meals', 'Library'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Devika Sharma',
-        rating: 4,
-        date: '3 weeks ago',
-        comment: 'Cozy and intimate retreat. The personalized service was great. Loved the traditional meals!'
-      },
-      {
-        id: 2,
-        name: 'Arjun Nair',
-        rating: 4,
-        date: '1 month ago',
-        comment: 'Beautiful valley setting with excellent hospitality. Great base for trekking activities.'
-      },
-      {
-        id: 3,
-        name: 'Lisa Chen',
-        rating: 4,
-        date: '2 months ago',
-        comment: 'Peaceful location away from crowds. Staff was very helpful and accommodating.'
-      }
-    ],
-    reviewCount: 156,
-    checkInTime: '2:00 PM',
-    checkOutTime: '11:00 AM',
-    capacity: '1-3 Guests'
-  },
-  5: {
-    name: 'Vivanta Dal View Srinagar',
-    location: 'Kralsangri',
-    nights: '2N/3D Stay',
-    rating: 5,
-    price: '21,999',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'Luxury hotel with pristine views of Dal Lake, offering world-class hospitality and dining experiences.',
-    amenities: ['Free WiFi', 'Swimming Pool', 'Fine Dining', 'Spa', 'Gym', 'Lake View Rooms'],
-    facilities: ['Conference Hall', 'Business Center', 'Concierge', 'Airport Transfer', 'Shikara Service'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Meera Gupta',
-        rating: 5,
-        date: '2 weeks ago',
-        comment: 'Stunning dal lake views from the room! The restaurant serves amazing food. Luxury at its best!'
-      },
-      {
-        id: 2,
-        name: 'Akshay Reddy',
-        rating: 5,
-        date: '1 month ago',
-        comment: 'Excellent 5-star service. The spa was relaxing and the dining experience was unforgettable.'
-      },
-      {
-        id: 3,
-        name: 'Emma Brown',
-        rating: 5,
-        date: '1 month ago',
-        comment: 'Best hotel in Srinagar! Exceptional service, beautiful rooms, and fantastic food.'
-      }
-    ],
-    reviewCount: 315,
-    checkInTime: '2:00 PM',
-    checkOutTime: '11:00 AM',
-    capacity: '2-4 Guests'
-  },
-  6: {
-    name: 'Snow Crest Gulmarg Lodge',
-    location: 'Gulmarg Bowl',
-    nights: '2N/3D Stay',
-    rating: 4,
-    price: '14,999',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'Premier mountain lodge at Gulmarg Bowl with skiing facilities and panoramic views of the Himalayas.',
-    amenities: ['Free WiFi', 'Ski Rentals', 'Restaurant', 'Bar', 'Mountain Views', 'Warm Fireplaces'],
-    facilities: ['Ski School', 'Equipment Rental', 'Mountain Guide', 'Bonfire', 'Hot Tub'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Ravi Malhotra',
-        rating: 4,
-        date: '1 month ago',
-        comment: 'Amazing ski resort with excellent facilities. Great instructors and comfortable lodging.'
-      },
-      {
-        id: 2,
-        name: 'Sophie Blanc',
-        rating: 4,
-        date: '2 months ago',
-        comment: 'Beautiful mountain views and great skiing opportunities. Cozy fireplace evenings!'
-      },
-      {
-        id: 3,
-        name: 'Amit Singh',
-        rating: 4,
-        date: '2 months ago',
-        comment: 'Perfect winter destination. Well-maintained slopes and friendly staff.'
-      }
-    ],
-    reviewCount: 203,
-    checkInTime: '2:00 PM',
-    checkOutTime: '11:00 AM',
-    capacity: '2-4 Guests'
-  },
-  7: {
-    name: 'Radisson Srinagar',
-    location: 'Boulevard Road',
-    nights: '2N/3D Stay',
-    rating: 4,
-    price: '16,999',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'Contemporary hotel on Boulevard Road offering modern amenities with traditional Kashmiri hospitality.',
-    amenities: ['Free WiFi', 'Swimming Pool', 'Fitness Center', 'Restaurant & Cafe', 'Business Center', 'Room Service'],
-    facilities: ['Conference Halls', 'Meeting Rooms', 'Spa Services', 'Valet Parking', 'In-house Doctor'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Harsh Patel',
-        rating: 4,
-        date: '2 weeks ago',
-        comment: 'Great modern hotel with excellent facilities. Good location on Boulevard Road.'
-      },
-      {
-        id: 2,
-        name: 'Navya Sharma',
-        rating: 4,
-        date: '1 month ago',
-        comment: 'Clean rooms, good food, and helpful staff. Great value for money.'
-      },
-      {
-        id: 3,
-        name: 'Robert Taylor',
-        rating: 4,
-        date: '2 months ago',
-        comment: 'Professional service and modern amenities. Perfect for business travelers.'
-      }
-    ],
-    reviewCount: 234,
-    checkInTime: '2:00 PM',
-    checkOutTime: '11:00 AM',
-    capacity: '2-3 Guests'
-  },
-  8: {
-    name: 'The Chinar Resort',
-    location: 'Pahalgam',
-    nights: '2N/3D Stay',
-    rating: 4,
-    price: '13,999',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'Riverside resort in Pahalgam with access to nature trails, adventure activities, and traditional cuisine.',
-    amenities: ['Free WiFi', 'Restaurant', 'Riverside Views', 'Adventure Sports', 'Bonfire', 'Game Area'],
-    facilities: ['Guide Service', 'Horse Riding', 'Fishing', 'Photography Service', 'Traditional Meals'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Kavya Desai',
-        rating: 4,
-        date: '3 weeks ago',
-        comment: 'Lovely riverside location with great adventure activities. Perfect for family.'
-      },
-      {
-        id: 2,
-        name: 'Sanjay Kumar',
-        rating: 4,
-        date: '1 month ago',
-        comment: 'Beautiful surroundings and excellent trekking guides. Traditional meals were delicious!'
-      },
-      {
-        id: 3,
-        name: 'Maria Garcia',
-        rating: 4,
-        date: '2 months ago',
-        comment: 'Charming resort with nature trails all around. Great place to relax in nature.'
-      }
-    ],
-    reviewCount: 167,
-    checkInTime: '2:00 PM',
-    checkOutTime: '11:00 AM',
-    capacity: '2-4 Guests'
-  },
-  9: {
-    name: 'Hotel Himalaya',
-    location: 'Srinagar City',
-    nights: '1N/2D Stay',
-    rating: 3,
-    price: '7,999',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'Budget-friendly hotel in Srinagar City with comfortable rooms and convenient city access.',
-    amenities: ['Free WiFi', 'Restaurant', 'City Views', 'Room Service', 'Parking'],
-    facilities: ['Business Center', 'Laundry Service', 'Travel Desk', 'Medical Assistance'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Deepak Verma',
-        rating: 3,
-        date: '1 month ago',
-        comment: 'Good budget hotel with decent facilities. Central location is convenient.'
-      },
-      {
-        id: 2,
-        name: 'Pooja Singh',
-        rating: 3,
-        date: '2 months ago',
-        comment: 'Affordable and clean rooms. Good location for exploring the city.'
-      },
-      {
-        id: 3,
-        name: 'David Lee',
-        rating: 3,
-        date: '2 months ago',
-        comment: 'Value for money. Basic amenities but helpful staff.'
-      }
-    ],
-    reviewCount: 89,
-    checkInTime: '2:00 PM',
-    checkOutTime: '11:00 AM',
-    capacity: '1-2 Guests'
-  },
-  10: {
-    name: 'Fern Hill Resort',
-    location: 'Gulmarg',
-    nights: '2N/3D Stay',
-    rating: 5,
-    price: '19,999',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'Upscale resort in Gulmarg offering luxury accommodations with world-class amenities and scenic beauty.',
-    amenities: ['Free WiFi', 'Swimming Pool', 'Spa Center', 'Fine Dining', 'Gym', 'Mountain Views'],
-    facilities: ['Conference Hall', 'Kids Club', 'Concierge', 'Ski Rentals', 'Mountain Guide'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Shalini Verma',
-        rating: 5,
-        date: '2 weeks ago',
-        comment: 'Luxury resort with stunning mountain views. Staff is professional and attentive.'
-      },
-      {
-        id: 2,
-        name: 'Nikhil Sharma',
-        rating: 5,
-        date: '1 month ago',
-        comment: 'Amazing spa services and excellent fine dining. Perfect for a romantic getaway!'
-      },
-      {
-        id: 3,
-        name: 'Jennifer White',
-        rating: 5,
-        date: '2 months ago',
-        comment: 'Wonderful experience! Everything is world-class. Would love to visit again!'
-      }
-    ],
-    reviewCount: 267,
-    checkInTime: '2:00 PM',
-    checkOutTime: '11:00 AM',
-    capacity: '2-4 Guests'
-  },
-  11: {
-    name: 'Grand Heritage Houseboat',
-    location: 'Dal Lake, Srinagar',
-    nights: '1N/2D Stay',
-    rating: 5,
-    price: '11,499',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'Premium houseboat experience combining luxury with authentic Kashmiri tradition and culture.',
-    amenities: ['Free WiFi', 'Houseboat Dinner', 'Water Sports', 'Spa', 'Traditional Decor', 'Private Deck'],
-    facilities: ['Shikara Service', 'Fishing', 'Floating Garden Tours', 'Photography Tours', 'Cultural Show'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Nisha Kapoor',
-        rating: 5,
-        date: '2 weeks ago',
-        comment: 'Dream come true! Sleeping on a luxury houseboat is unforgettable. Highly recommended!'
-      },
-      {
-        id: 2,
-        name: 'Sameer Khan',
-        rating: 5,
-        date: '1 month ago',
-        comment: 'Premium experience with authentic Kashmiri culture. Dinner on the boat was magical!'
-      },
-      {
-        id: 3,
-        name: 'Charlotte Moore',
-        rating: 5,
-        date: '2 months ago',
-        comment: 'Absolutely stunning. Best houseboat experience in Kashmir. Worth every penny!'
-      }
-    ],
-    reviewCount: 289,
-    checkInTime: '3:00 PM',
-    checkOutTime: '10:00 AM',
-    capacity: '2-4 Guests'
-  },
-  12: {
-    name: 'Pine View Retreat',
-    location: 'Aru Valley',
-    nights: '3N/4D Stay',
-    rating: 4,
-    price: '15,499',
-    image: 'https://picsum.photos/id/16/1200/800',
-    images: [
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800',
-      'https://picsum.photos/id/16/1200/800'
-    ],
-    description: 'Charming retreat in Aru Valley surrounded by pine forests with easy access to trekking and hiking routes.',
-    amenities: ['Free WiFi', 'Restaurant', 'Trekking Guide', 'Bonfire', 'Forest Views', 'Garden'],
-    facilities: ['Horse Riding', 'Photography Tours', 'Nature Walks', 'Traditional Meals', 'Yoga Sessions'],
-    reviews: [
-      {
-        id: 1,
-        name: 'Aditya Joshi',
-        rating: 4,
-        date: '1 month ago',
-        comment: 'Perfect retreat in nature. Great trekking guides and peaceful environment.'
-      },
-      {
-        id: 2,
-        name: 'Swati Sharma',
-        rating: 4,
-        date: '2 months ago',
-        comment: 'Beautiful pine forests and excellent yoga sessions. Very rejuvenating stay!'
-      },
-      {
-        id: 3,
-        name: 'Lucas Rodriguez',
-        rating: 4,
-        date: '2 months ago',
-        comment: 'Tranquil location away from city chaos. Great for nature lovers and trekkers.'
-      }
-    ],
-    reviewCount: 145,
-    checkInTime: '2:00 PM',
-    checkOutTime: '11:00 AM',
-    capacity: '2-3 Guests'
-  }
-}
+import { hotelAPI } from '../utils/api'
 
 export default function HotelDetail() {
   const { hotelId } = useParams()
   const navigate = useNavigate()
-  const hotel = hotelDetailsData[hotelId]
+  const [hotel, setHotel] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState('')
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [allReviews, setAllReviews] = useState([])
   const [formData, setFormData] = useState({ name: '', rating: 5, comment: '' })
   const [submitError, setSubmitError] = useState('')
   const [submitSuccess, setSubmitSuccess] = useState(false)
+  const whatsappNumber =  '917006259761'
 
   useEffect(() => {
-    if (hotel) {
-      // Load user reviews from localStorage
-      const savedReviews = localStorage.getItem(`hotel-reviews-${hotelId}`)
-      const userReviews = savedReviews ? JSON.parse(savedReviews) : []
-      // Combine seed reviews with user reviews
-      setAllReviews([...hotel.reviews, ...userReviews])
+    const fetchHotel = async () => {
+      setLoading(true)
+      setLoadError('')
+
+      try {
+        const data = await hotelAPI.getById(hotelId)
+
+        if (!data) {
+          setHotel(null)
+          setAllReviews([])
+          setLoadError('Hotel not found')
+          return
+        }
+
+        setHotel(data)
+        setAllReviews(Array.isArray(data.reviews) ? data.reviews : [])
+        setCurrentImageIndex(0)
+      } catch (error) {
+        console.error('Error fetching hotel details:', error)
+        setHotel(null)
+        setAllReviews([])
+        setLoadError('Failed to load hotel details from server')
+      } finally {
+        setLoading(false)
+      }
     }
-  }, [hotelId, hotel])
+
+    fetchHotel()
+  }, [hotelId])
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % (hotel?.images?.length || 1))
@@ -595,25 +81,36 @@ export default function HotelDetail() {
       comment: formData.comment.trim()
     }
 
-    // Save to localStorage
-    const savedReviews = localStorage.getItem(`hotel-reviews-${hotelId}`)
-    const userReviews = savedReviews ? JSON.parse(savedReviews) : []
-    const updatedReviews = [newReview, ...userReviews]
-    localStorage.setItem(`hotel-reviews-${hotelId}`, JSON.stringify(updatedReviews))
+    const saveReview = async () => {
+      try {
+        const createdReview = await hotelAPI.addReview(hotelId, newReview)
 
-    // Update state
-    setAllReviews([newReview, ...allReviews])
-    setFormData({ name: '', rating: 5, comment: '' })
-    setSubmitSuccess(true)
+        setAllReviews((currentReviews) => [createdReview || newReview, ...currentReviews])
+        setFormData({ name: '', rating: 5, comment: '' })
+        setSubmitSuccess(true)
 
-    // Hide success message after 3 seconds
-    setTimeout(() => setSubmitSuccess(false), 3000)
+        setTimeout(() => setSubmitSuccess(false), 3000)
+      } catch (error) {
+        console.error('Error saving hotel review:', error)
+        setSubmitError(error.message || 'Failed to save review')
+      }
+    }
+
+    saveReview()
+  }
+
+  const handleBookNow = () => {
+    const message = encodeURIComponent(
+      `Hi, I want to book ${hotel.name} in ${hotel.location}. Price shown is ₹${hotel.price}. Please share availability.`
+    )
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
   }
 
   if (!hotel) {
     return (
       <div style={{ padding: '60px 20px', textAlign: 'center' }}>
-        <h2>Hotel not found</h2>
+        <h2>{loading ? 'Loading hotel details...' : (loadError || 'Hotel not found')}</h2>
         <button
           onClick={() => navigate('/all-hotels')}
           style={{
@@ -632,62 +129,13 @@ export default function HotelDetail() {
     )
   }
 
+  const hotelImages = Array.isArray(hotel.images) && hotel.images.length > 0 ? hotel.images : [hotel.image]
+  const hotelAmenities = Array.isArray(hotel.amenities) ? hotel.amenities : []
+  const hotelFacilities = Array.isArray(hotel.facilities) ? hotel.facilities : []
+
   return (
     <div style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", margin: 0, width: '100%', padding: 0 }}>
-      {/* Top Bar */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '10px 32px',
-          borderBottom: '1px solid #e8e8e8',
-          backgroundColor: '#fff',
-          width: '100%',
-          boxSizing: 'border-box',
-          margin: 0,
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <NavDots />
-          <span
-            style={{
-              fontSize: '22px',
-              fontWeight: '700',
-              color: '#1a2b4a',
-              letterSpacing: '-0.3px',
-            }}
-          >
-            Haba Khatoon Travels
-          </span>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555', fontSize: '14px' }}>
-            <PhoneIcon />
-            <span>+91-9149680276</span>
-          </div>
-        </div>
-
-        <button
-          style={{
-            backgroundColor: '#3dba8f',
-            color: '#fff',
-            border: 'none',
-            padding: '11px 24px',
-            borderRadius: '4px',
-            fontSize: '14px',
-            fontWeight: '600',
-            cursor: 'pointer',
-            letterSpacing: '0.3px',
-            transition: 'background 0.2s',
-          }}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = '#2ea87e')}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = '#3dba8f')}
-        >
-          Get a Free Quote
-        </button>
-      </div>
+     
 
       <Navbar />
 
@@ -718,7 +166,7 @@ export default function HotelDetail() {
           <div style={{ marginBottom: '30px', position: 'relative' }}>
             <div style={{ position: 'relative', borderRadius: '12px', overflow: 'hidden' }}>
               <img
-                src={hotel.images && hotel.images[currentImageIndex] ? hotel.images[currentImageIndex] : hotel.image}
+                src={hotelImages[currentImageIndex] || hotel.image}
                 alt={`${hotel.name} - Photo ${currentImageIndex + 1}`}
                 style={{
                   width: '100%',
@@ -792,7 +240,7 @@ export default function HotelDetail() {
             {/* Image Thumbnails */}
             {hotel.images && hotel.images.length > 1 && (
               <div style={{ display: 'flex', gap: '12px', marginTop: '16px', overflowX: 'auto', paddingBottom: '8px' }}>
-                {hotel.images.map((img, idx) => (
+                {hotelImages.map((img, idx) => (
                   <img
                     key={idx}
                     src={img}
@@ -873,7 +321,7 @@ export default function HotelDetail() {
           <div style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '12px', marginBottom: '30px' }}>
             <h2 style={{ fontSize: '26px', margin: '0 0 24px', color: '#0f2946' }}>Amenities</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-              {hotel.amenities.map((amenity, idx) => (
+              {hotelAmenities.map((amenity, idx) => (
                 <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <div
                     style={{
@@ -893,7 +341,7 @@ export default function HotelDetail() {
           <div style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '12px', marginBottom: '30px' }}>
             <h2 style={{ fontSize: '26px', margin: '0 0 24px', color: '#0f2946' }}>Facilities</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-              {hotel.facilities.map((facility, idx) => (
+              {hotelFacilities.map((facility, idx) => (
                 <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <div
                     style={{
@@ -1140,7 +588,7 @@ export default function HotelDetail() {
               Reserve your stay and experience the best of Kashmir hospitality
             </p>
             <button
-              onClick={() => navigate('/alltrips')}
+              onClick={handleBookNow}
               style={{
                 backgroundColor: '#3dba8f',
                 color: '#fff',

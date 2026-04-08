@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
+
+import { activityAPI } from '../utils/api'
 import {
   backButtonStyle,
   createPageShellStyle,
@@ -8,98 +10,52 @@ import {
   heroActionRowStyle,
   maxWidthContainerStyle,
   transparentCtaButtonStyle
-} from '../shared/servicePageStyles'
-
-const raftingHighlights = [
-  {
-    title: 'Adrenaline on the River',
-    detail: 'Fast-moving water, guide-led rapids, and the right balance of thrill and control.'
-  },
-  {
-    title: 'Beginner to Advanced',
-    detail: 'Routes can be matched to first-timers, families, or stronger adventure seekers.'
-  },
-  {
-    title: 'Scenic Valley Setting',
-    detail: 'Mountain banks, forest stretches, and dramatic river curves make the ride visual as well as exciting.'
-  }
-]
-
-const raftingPackages = [
-  {
-    name: 'Beginner Run',
-    duration: '4-6 km',
-    price: 'INR 1,299',
-    note: 'Shorter stretch with manageable rapids and guide support'
-  },
-  {
-    name: 'Adventure Run',
-    duration: '8-10 km',
-    price: 'INR 2,199',
-    note: 'The most balanced mix of thrill, scenery, and pacing'
-  },
-  {
-    name: 'Full Expedition',
-    duration: '12+ km',
-    price: 'INR 3,499',
-    note: 'Longer route for experienced groups and adventure travelers'
-  }
-]
-
-const safetyGear = [
-  'Certified life jacket and helmet',
-  'Professional river guide',
-  'Pre-ride safety briefing',
-  'Emergency support and route checks',
-  'Photo stop and rest points where available',
-  'Transport can be arranged from Srinagar on request'
-]
-
-const raftingMoments = [
-  {
-    label: 'Best Season',
-    value: 'April to September'
-  },
-  {
-    label: 'River Style',
-    value: 'Fast, scenic, and guide-led'
-  },
-  {
-    label: 'Ideal For',
-    value: 'Friends, couples, and adventure groups'
-  }
-]
-
-const tripPhases = [
-  {
-    step: '01',
-    title: 'Arrive and Gear Up',
-    desc: 'Meet your guide, fit safety equipment, and learn the basic commands before launch.'
-  },
-  {
-    step: '02',
-    title: 'Hit the Rapids',
-    desc: 'Paddle through fast sections with clear instructions and short bursts of teamwork.'
-  },
-  {
-    step: '03',
-    title: 'Cool Down on Shore',
-    desc: 'Wrap up with riverbank views, photos, and time to relax before the return transfer.'
-  }
-]
-
-const prepNotes = [
-  'Wear quick-dry clothing and secure footwear',
-  'Keep phones and valuables in a dry pouch',
-  'Follow guide instructions closely during rapids'
-]
+} from '../ui/servicePageStyles'
 
 export default function RiverRafting() {
   const navigate = useNavigate()
+  const [activityData, setActivityData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+
+    const loadActivity = async () => {
+      setIsLoading(true)
+      const data = await activityAPI.getBySlug('river-rafting')
+
+      if (!mounted) {
+        return
+      }
+
+      setActivityData(data)
+      setIsLoading(false)
+    }
+
+    loadActivity()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  const raftingHighlights = activityData?.raftingHighlights || []
+  const raftingPackages = activityData?.raftingPackages || []
+  const safetyGear = activityData?.safetyGear || []
+  const raftingMoments = activityData?.raftingMoments || []
+  const tripPhases = activityData?.tripPhases || []
+
+  if (isLoading) {
+    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Loading activity...</div>
+  }
+
+  if (!activityData) {
+    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Unable to load river rafting details.</div>
+  }
 
   return (
     <div style={createPageShellStyle('#f8fbff')}>
-      <Navbar />
+    
       <style>{`
         .rafting-glow {
           animation: raftingFloat 6s ease-in-out infinite;

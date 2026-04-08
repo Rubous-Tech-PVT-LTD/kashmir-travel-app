@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import Navbar from '../shared/Navbar'
 import Footer from '../shared/Footer'
+import { hotelAPI } from '../utils/api'
 import {
   backButtonStyle,
   cardBodyStyle,
@@ -12,124 +13,35 @@ import {
   createPrimaryButtonStyle,
   maxWidthContainerStyle,
   standardSectionStyle
-} from '../shared/servicePageStyles'
-
-const kashmirHotels = [
-  {
-    id: 1,
-    name: 'The Khyber Himalayan Resort',
-    location: 'Gulmarg',
-    nights: '2N/3D Stay',
-    rating: 5,
-    price: '24,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 2,
-    name: 'Kareem Houseboat Retreat',
-    location: 'Dal Lake, Srinagar',
-    nights: '1N/2D Stay',
-    rating: 4,
-    price: '9,499',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 3,
-    name: 'Welcomhotel Pine N Peak',
-    location: 'Pahalgam',
-    nights: '2N/3D Stay',
-    rating: 5,
-    price: '18,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 4,
-    name: 'Lidder Spring Boutique Stay',
-    location: 'Aru Valley',
-    nights: '3N/4D Stay',
-    rating: 4,
-    price: '12,499',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 5,
-    name: 'Vivanta Dal View Srinagar',
-    location: 'Kralsangri',
-    nights: '2N/3D Stay',
-    rating: 5,
-    price: '21,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 6,
-    name: 'Snow Crest Gulmarg Lodge',
-    location: 'Gulmarg Bowl',
-    nights: '2N/3D Stay',
-    rating: 4,
-    price: '14,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 7,
-    name: 'Radisson Srinagar',
-    location: 'Boulevard Road',
-    nights: '2N/3D Stay',
-    rating: 4,
-    price: '16,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 8,
-    name: 'The Chinar Resort',
-    location: 'Pahalgam',
-    nights: '2N/3D Stay',
-    rating: 4,
-    price: '13,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 9,
-    name: 'Hotel Himalaya',
-    location: 'Srinagar City',
-    nights: '1N/2D Stay',
-    rating: 3,
-    price: '7,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 10,
-    name: 'Fern Hill Resort',
-    location: 'Gulmarg',
-    nights: '2N/3D Stay',
-    rating: 5,
-    price: '19,999',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 11,
-    name: 'Grand Heritage Houseboat',
-    location: 'Dal Lake, Srinagar',
-    nights: '1N/2D Stay',
-    rating: 5,
-    price: '11,499',
-    image: 'https://picsum.photos/id/16/1200/800'
-  },
-  {
-    id: 12,
-    name: 'Pine View Retreat',
-    location: 'Aru Valley',
-    nights: '3N/4D Stay',
-    rating: 4,
-    price: '15,499',
-    image: 'https://picsum.photos/id/16/1200/800'
-  }
-]
+} from '../ui/servicePageStyles'
 
 export default function AllHotels() {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
+  const [hotels, setHotels] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
-  const filteredHotels = kashmirHotels.filter((hotel) =>
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        setLoading(true)
+        setError('')
+        const data = await hotelAPI.getAll()
+        setHotels(data)
+      } catch (err) {
+        console.error('Error fetching hotels:', err)
+        setError('Failed to load hotels from server')
+        setHotels([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchHotels()
+  }, [])
+
+  const filteredHotels = hotels.filter((hotel) =>
     hotel.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     hotel.location.toLowerCase().includes(searchQuery.toLowerCase())
   )
@@ -232,7 +144,15 @@ export default function AllHotels() {
           </div>
 
           <div className="hotel-grid" style={{ marginTop: '40px', maxWidth: '1200px', margin: '40px auto 0' }}>
-            {filteredHotels.length > 0 ? (
+            {loading ? (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 20px' }}>
+                <p style={{ fontSize: '18px', color: '#3f5f89', margin: 0 }}>Loading hotels...</p>
+              </div>
+            ) : error ? (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 20px' }}>
+                <p style={{ fontSize: '18px', color: '#b42318', margin: 0 }}>{error}</p>
+              </div>
+            ) : filteredHotels.length > 0 ? (
               filteredHotels.map((hotel) => (
               <div key={hotel.id} className="hotel-card">
                 <img src={hotel.image} alt={hotel.name} className="hotel-card-image" />

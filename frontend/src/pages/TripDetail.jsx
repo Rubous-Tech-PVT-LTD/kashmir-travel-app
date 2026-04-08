@@ -35,6 +35,7 @@ const CheckIcon = () => (
 export default function TripDetail() {
   const { tripId } = useParams();
   const navigate = useNavigate();
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '917006259761';
   const [wishlisted, setWishlisted] = useState(false);
   const [trip, setTrip] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -70,6 +71,18 @@ export default function TripDetail() {
       mounted = false;
     };
   }, [tripId]);
+
+  const handleTripInquiry = () => {
+    if (!trip) {
+      return;
+    }
+
+    const message = encodeURIComponent(
+      `Hi, I want to check availability for ${trip.title}. Please share dates and best pricing.`
+    );
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  };
 
   if (loading) {
     return (
@@ -287,6 +300,7 @@ export default function TripDetail() {
               </button>
 
               <button
+                onClick={handleTripInquiry}
                 style={{
                   width: "100%",
                   border: "none",
@@ -300,7 +314,7 @@ export default function TripDetail() {
                   marginBottom: 14,
                 }}
               >
-                Check availability
+                Check Availability
               </button>
 
               <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 12, color: "#475569", fontSize: 13, lineHeight: 1.6 }}>

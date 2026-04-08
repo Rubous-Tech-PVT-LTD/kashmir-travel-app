@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
+import { carRentalAPI } from '../utils/api'
 import {
   backButtonStyle,
   cardBodyStyle,
@@ -15,64 +16,7 @@ import {
   sidePanelAlignStyle,
   standardSectionStyle,
   transparentCtaButtonStyle
-} from '../shared/servicePageStyles'
-
-const rentalFleet = [
-  {
-    id: 1,
-    name: 'Swift Dzire Sedan',
-    type: 'Comfort Sedan',
-    route: 'Srinagar City + Airport',
-    seats: '4 Seats',
-    price: '2,499/day',
-    image: 'https://picsum.photos/id/10/1200/800'
-  },
-  {
-    id: 2,
-    name: 'Innova Crysta',
-    type: 'Family MPV',
-    route: 'Gulmarg + Sonamarg',
-    seats: '6-7 Seats',
-    price: '4,999/day',
-    image: 'https://picsum.photos/id/10/1200/800'
-  },
-  {
-    id: 3,
-    name: 'Mahindra Scorpio N',
-    type: 'Mountain SUV',
-    route: 'Pahalgam + Aru Valley',
-    seats: '6 Seats',
-    price: '5,499/day',
-    image: 'https://picsum.photos/id/10/1200/800'
-  },
-  {
-    id: 4,
-    name: 'Tempo Traveller',
-    type: 'Group Van',
-    route: '8-12 Pax Group Transfer',
-    seats: '12 Seats',
-    price: '7,999/day',
-    image: 'https://picsum.photos/id/10/1200/800'
-  },
-  {
-    id: 5,
-    name: 'Kia Seltos',
-    type: 'Premium SUV',
-    route: 'Kashmir Valley Circuit',
-    seats: '5 Seats',
-    price: '5,999/day',
-    image: 'https://picsum.photos/id/10/1200/800'
-  },
-  {
-    id: 6,
-    name: 'Toyota Fortuner',
-    type: 'Luxury 4x4',
-    route: 'Snow and Offbeat Routes',
-    seats: '7 Seats',
-    price: '8,999/day',
-    image: 'https://picsum.photos/id/10/1200/800'
-  }
-]
+} from '../ui/servicePageStyles'
 
 const rentalHighlights = [
   'With-driver and self-drive options',
@@ -83,6 +27,35 @@ const rentalHighlights = [
 
 export default function CarRentals() {
   const navigate = useNavigate()
+  const [rentalFleet, setRentalFleet] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  const handleWhatsAppEnquiry = (car) => {
+    const phoneNumber = '919999999999'
+    const message = `Hi, I want to enquire about ${car.name} (${car.type}) for ${car.route}. Please share availability and final price.`
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
+  }
+
+  useEffect(() => {
+    const fetchCarRentals = async () => {
+      try {
+        setLoading(true)
+        setError('')
+        const data = await carRentalAPI.getAll()
+        setRentalFleet(data)
+      } catch (err) {
+        console.error('Error fetching car rentals:', err)
+        setError('Failed to load car rentals from server')
+        setRentalFleet([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCarRentals()
+  }, [])
 
   return (
     <div style={createPageShellStyle('#f5f8fb')}>
@@ -254,47 +227,61 @@ export default function CarRentals() {
         </div>
 
         <div className="rental-grid">
-          {rentalFleet.map((car) => (
-            <div key={car.id} className="rental-card">
-              <img src={car.image} alt={car.name} className="rental-card-image" />
-
-              <div style={cardBodyStyle}>
-                <p style={{ margin: '0 0 6px', fontSize: '12px', fontWeight: 700, color: '#3f5f89', letterSpacing: '0.6px' }}>
-                  {car.type} • {car.route}
-                </p>
-
-                <h3 style={{ margin: '0 0 10px', fontSize: '20px', color: '#12263e', lineHeight: 1.25 }}>
-                  {car.name}
-                </h3>
-
-                <div style={cardMetaRowStyle}>
-                  <p style={{ margin: 0, color: '#456c94', fontWeight: 700, fontSize: '14px' }}>
-                    {car.seats}
-                  </p>
-                  <p style={{ margin: 0, color: '#0f2946', fontWeight: 700, fontSize: '18px' }}>
-                    INR {car.price}
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => navigate('/alltrips')}
-                  style={{
-                    width: '100%',
-                    border: 'none',
-                    borderRadius: '10px',
-                    padding: '11px 14px',
-                    background: 'linear-gradient(90deg, #0b3d66 0%, #1e5c91 100%)',
-                    color: '#fff',
-                    fontWeight: 700,
-                    cursor: 'pointer'
-                  }}
-                >
-                  View details
-                </button>
-              </div>
+          {loading ? (
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 20px' }}>
+              <p style={{ fontSize: '18px', color: '#3f5f89', margin: 0 }}>Loading car rentals...</p>
             </div>
-          ))}
+          ) : error ? (
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 20px' }}>
+              <p style={{ fontSize: '18px', color: '#b42318', margin: 0 }}>{error}</p>
+            </div>
+          ) : rentalFleet.length > 0 ? (
+            rentalFleet.map((car) => (
+              <div key={car.id} className="rental-card">
+                <img src={car.image} alt={car.name} className="rental-card-image" />
+
+                <div style={cardBodyStyle}>
+                  <p style={{ margin: '0 0 6px', fontSize: '12px', fontWeight: 700, color: '#3f5f89', letterSpacing: '0.6px' }}>
+                    {car.type} • {car.route}
+                  </p>
+
+                  <h3 style={{ margin: '0 0 10px', fontSize: '20px', color: '#12263e', lineHeight: 1.25 }}>
+                    {car.name}
+                  </h3>
+
+                  <div style={cardMetaRowStyle}>
+                    <p style={{ margin: 0, color: '#456c94', fontWeight: 700, fontSize: '14px' }}>
+                      {car.seats}
+                    </p>
+                    <p style={{ margin: 0, color: '#0f2946', fontWeight: 700, fontSize: '18px' }}>
+                      INR {car.price}
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handleWhatsAppEnquiry(car)}
+                    style={{
+                      width: '100%',
+                      border: 'none',
+                      borderRadius: '10px',
+                      padding: '11px 14px',
+                      background: 'linear-gradient(90deg, #0b3d66 0%, #1e5c91 100%)',
+                      color: '#fff',
+                      fontWeight: 700,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Get WhatsApp Enquiry
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 20px' }}>
+              <p style={{ fontSize: '18px', color: '#3f5f89', margin: 0 }}>No car rentals available right now</p>
+            </div>
+          )}
         </div>
       </section>
 

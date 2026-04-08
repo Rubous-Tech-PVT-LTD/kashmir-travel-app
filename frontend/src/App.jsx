@@ -20,10 +20,11 @@ import ParaGliding from './pages/ParaGliding'
 import Skiing from './pages/Skiing'
 import AdminLogin from './pages/AdminLogin'
 import AdminPanel from './pages/AdminPanel'
+import AdminRoute from './components/AdminRoute'
+import OperatorServicesKashmir from './pages/OperatorServicesKashmir'
 import PrivacyPolicy from './shared/PrivacyPolicy'
 import TermsOfService from './shared/TermsOfService'
 import Sitemap from './shared/Sitemap'
-import AdminRoute from './components/AdminRoute'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -68,6 +69,7 @@ function App() {
               </AdminRoute>
             )}
           />
+          <Route path="/operator-services-kashmir" element={<OperatorServicesKashmir />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/sitemap" element={<Sitemap />} />

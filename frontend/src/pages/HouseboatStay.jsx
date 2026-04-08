@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
+import { hotelAPI } from '../utils/api'
 import {
   backButtonStyle,
   createPageShellStyle,
@@ -8,7 +9,7 @@ import {
   heroActionRowStyle,
   maxWidthContainerStyle,
   transparentCtaButtonStyle
-} from '../shared/servicePageStyles'
+} from '../ui/servicePageStyles'
 
 const houseboatHighlights = [
   {
@@ -22,27 +23,6 @@ const houseboatHighlights = [
   {
     title: 'Cultural Atmosphere',
     detail: 'Carved wood details, Kashmiri decor, sunset tea service, and an authentic on-the-water experience.'
-  }
-]
-
-const roomTypes = [
-  {
-    name: 'Classic Houseboat Cabin',
-    beds: 'Double / Twin',
-    price: 'INR 4,499/night',
-    note: 'Best for short scenic stays with essential comfort'
-  },
-  {
-    name: 'Premium Lake Suite',
-    beds: 'King Bed',
-    price: 'INR 7,499/night',
-    note: 'Larger windows, upgraded interiors, and deck access'
-  },
-  {
-    name: 'Family Houseboat Deck Room',
-    beds: 'Family Setup',
-    price: 'INR 8,999/night',
-    note: 'More space, flexible bedding, and shared lounge time'
   }
 ]
 
@@ -90,6 +70,35 @@ const experienceSteps = [
 
 export default function HouseboatStay() {
   const navigate = useNavigate()
+  const [houseboatStays, setHouseboatStays] = useState([])
+  const [isHouseboatsLoading, setIsHouseboatsLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+
+    const fetchHouseboats = async () => {
+      setIsHouseboatsLoading(true)
+      const data = await hotelAPI.getHouseboats()
+
+      if (!mounted) {
+        return
+      }
+
+      setHouseboatStays(data)
+      setIsHouseboatsLoading(false)
+    }
+
+    fetchHouseboats()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  const displayedHouseboats = useMemo(
+    () => houseboatStays.filter((item) => !(item.name || '').toLowerCase().includes('kareem')),
+    [houseboatStays]
+  )
 
   return (
     <div style={createPageShellStyle('#f8fbff')}>
@@ -303,23 +312,28 @@ export default function HouseboatStay() {
         <div style={{ maxWidth: '1150px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '28px' }}>
             <p style={{ color: '#2a6f92', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              ROOM TYPES
+              HOUSEBOAT STAYS
             </p>
-            <h2 style={{ margin: 0, fontSize: '34px', color: '#10263b' }}>Choose the level of comfort you want on the lake</h2>
+            <h2 style={{ margin: 0, fontSize: '34px', color: '#10263b' }}>Choose the level of comfort you want on the Dal Lake</h2>
           </div>
 
           <div className="houseboat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
-            {roomTypes.map((item) => (
+            {displayedHouseboats.map((item) => (
               <div
-                key={item.name}
+                key={item.id}
                 className="houseboat-card"
                 style={{ background: '#fff', borderRadius: '18px', border: '1px solid #d8e6ef', boxShadow: '0 12px 28px rgba(10, 35, 58, 0.07)', padding: '20px' }}
               >
-                <p style={{ margin: '0 0 10px', color: '#2a6f92', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{item.beds}</p>
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  style={{ width: '100%', height: '170px', objectFit: 'cover', borderRadius: '12px', marginBottom: '12px' }}
+                />
+                <p style={{ margin: '0 0 10px', color: '#2a6f92', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{item.location}</p>
                 <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#10263b' }}>{item.name}</h3>
-                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{item.note}</p>
+                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{item.nights}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{item.price}</span>
+                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>INR {item.price}</span>
                   <button
                     type="button"
                     onClick={() => navigate('/services/hotel-booking')}
@@ -331,6 +345,10 @@ export default function HouseboatStay() {
               </div>
             ))}
           </div>
+
+          {!isHouseboatsLoading && displayedHouseboats.length === 0 ? (
+            <p style={{ textAlign: 'center', marginTop: '16px', color: '#486074' }}>No houseboat stays found.</p>
+          ) : null}
         </div>
       </section>
 
