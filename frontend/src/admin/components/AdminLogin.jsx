@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { loginAdmin } from '../utils/adminAuth'
+import { loginAdmin } from '../../utils/adminAuth'
 import { Lock, Mail, AlertCircle } from 'lucide-react'
 
 export default function AdminLogin() {

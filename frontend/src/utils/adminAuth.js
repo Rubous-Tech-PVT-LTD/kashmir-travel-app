@@ -1,9 +1,5 @@
 import { adminAPI } from './api'
 
-export const isAdminAuthenticated = () => {
-  return validateAdminSession()
-}
-
 export const loginAdmin = async (username, password) => {
   if (typeof window === 'undefined') {
     return { success: false, message: 'Admin login is only available in browser context' }

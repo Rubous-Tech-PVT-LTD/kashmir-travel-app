@@ -1,7 +1,8 @@
+const bcrypt = require('bcrypt');
 const { createAdminToken, ADMIN_COOKIE_NAME } = require('../middleware/adminAuth');
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
 
 const cookieMaxAgeMs = Number(process.env.ADMIN_TOKEN_TTL_MS || 8 * 60 * 60 * 1000);
 
@@ -16,7 +17,7 @@ const getCookieOptions = () => ({
 
 exports.login = async (req, res) => {
   try {
-    if (!ADMIN_USERNAME || !ADMIN_PASSWORD || !process.env.ADMIN_TOKEN_SECRET) {
+    if (!ADMIN_USERNAME || !ADMIN_PASSWORD_HASH || !process.env.ADMIN_TOKEN_SECRET) {
       return res.status(500).json({
         success: false,
         message: 'Admin auth is not configured on server',
@@ -32,7 +33,9 @@ exports.login = async (req, res) => {
       });
     }
 
-    const isValid = username === ADMIN_USERNAME && password === ADMIN_PASSWORD;
+    const isUsernameValid = username === ADMIN_USERNAME;
+    const isPasswordValid = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
+    const isValid = isUsernameValid && isPasswordValid;
     if (!isValid) {
       return res.status(401).json({
         success: false,
@@ -61,7 +64,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.logout = async (req, res) => {
+exports.logout = (req, res) => {
   res.clearCookie(ADMIN_COOKIE_NAME, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -76,7 +79,7 @@ exports.logout = async (req, res) => {
   });
 };
 
-exports.getProfile = async (req, res) => {
+exports.getProfile = (req, res) => {
   return res.json({
     success: true,
     data: {
