@@ -35,6 +35,7 @@ const CheckIcon = () => (
 export default function TripDetail() {
   const { tripId } = useParams();
   const navigate = useNavigate();
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '917006259761';
   const [wishlisted, setWishlisted] = useState(false);
   const [trip, setTrip] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -71,6 +72,18 @@ export default function TripDetail() {
     };
   }, [tripId]);
 
+  const handleTripInquiry = () => {
+    if (!trip) {
+      return;
+    }
+
+    const message = encodeURIComponent(
+      `Hi, I want to check availability for ${trip.title}. Please share dates and best pricing.`
+    );
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  };
+
   if (loading) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: "#1a2b4a", fontWeight: 600 }}>
@@ -81,14 +94,32 @@ export default function TripDetail() {
 
   if (error || !trip) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 12 }}>
-        <h2 style={{ margin: 0, color: "#1a2b4a" }}>{error || 'Trip not found'}</h2>
-        <button
-          onClick={() => navigate("/")}
-          style={{ border: "none", background: "#3dba8f", color: "#fff", padding: "10px 16px", borderRadius: 6, cursor: "pointer", fontWeight: 600 }}
-        >
-          Go to Home
-        </button>
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16, backgroundColor: "#f8fafc", padding: "20px" }}>
+        <div style={{ fontSize: "64px" }}>🏔️</div>
+        <h2 style={{ margin: 0, color: "#1e293b", fontSize: "24px", textAlign: "center" }}>
+          {error === 'Trip not found' ? "Oops! This trip doesn't exist yet." : (error || 'Trip not found')}
+        </h2>
+        <p style={{ color: "#64748b", textAlign: "center", maxWidth: "400px", margin: "0 0 8px" }}>
+          The trip you're looking for might have been moved or is currently unavailable. Try exploring our popular packages instead.
+        </p>
+        <div style={{ display: "flex", gap: 12 }}>
+          <button
+            onClick={() => navigate("/alltrips")}
+            style={{ border: "none", background: "#2563eb", color: "#fff", padding: "12px 24px", borderRadius: 8, cursor: "pointer", fontWeight: 700, transition: "all 0.2s" }}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#1d4ed8")}
+            onMouseLeave={(e) => (e.target.style.backgroundColor = "#2563eb")}
+          >
+            Browse All Trips
+          </button>
+          <button
+            onClick={() => navigate("/")}
+            style={{ border: "1px solid #e2e8f0", background: "#fff", color: "#64748b", padding: "12px 24px", borderRadius: 8, cursor: "pointer", fontWeight: 700, transition: "all 0.2s" }}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#f8fafc")}
+            onMouseLeave={(e) => (e.target.style.backgroundColor = "#fff")}
+          >
+            Go to Home
+          </button>
+        </div>
       </div>
     );
   }
@@ -269,6 +300,7 @@ export default function TripDetail() {
               </button>
 
               <button
+                onClick={handleTripInquiry}
                 style={{
                   width: "100%",
                   border: "none",
@@ -282,7 +314,7 @@ export default function TripDetail() {
                   marginBottom: 14,
                 }}
               >
-                Check availability
+                Check Availability
               </button>
 
               <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 12, color: "#475569", fontSize: 13, lineHeight: 1.6 }}>

@@ -18,12 +18,13 @@ import GondolaRide from './pages/GondolaRide'
 import RiverRafting from './pages/RiverRafting'
 import ParaGliding from './pages/ParaGliding'
 import Skiing from './pages/Skiing'
-import AdminLogin from './pages/AdminLogin'
-import AdminPanel from './pages/AdminPanel'
+import AdminLogin from './admin/components/AdminLogin'
+import AdminPanel from './admin/components/AdminPanel'
+import AdminRoute from './admin/components/AdminRoute'
+import OperatorServicesKashmir from './pages/OperatorServicesKashmir'
 import PrivacyPolicy from './shared/PrivacyPolicy'
 import TermsOfService from './shared/TermsOfService'
 import Sitemap from './shared/Sitemap'
-import AdminRoute from './components/AdminRoute'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -68,6 +69,7 @@ function App() {
               </AdminRoute>
             )}
           />
+          <Route path="/operator-services-kashmir" element={<OperatorServicesKashmir />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/sitemap" element={<Sitemap />} />

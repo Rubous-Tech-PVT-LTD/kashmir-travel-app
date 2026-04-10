@@ -15,6 +15,7 @@ const tripCategories = [
   { label: 'Family Tour', value: 'family-tour' },
   { label: 'Honeymoon Packages', value: 'honeymoon-packages' },
   { label: 'Adventure Trek', value: 'adventure-trek' },
+  { label: 'Spiritual Tour', value: 'spiritual-tour' },
   { label: 'Couple Special', value: 'couple-special' },
 ]
 
@@ -318,9 +319,8 @@ export default function Alltrip() {
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '10px' }}>
                       {Array.from({ length: 5 }).map((_, i) => (
-                        <Star key={i} filled={i < 4} />
+                        <Star key={i} filled={i < 5} />
                       ))}
-                      <span style={{ fontSize: '12px', color: '#6b7280', marginLeft: '4px' }}>(backend trip)</span>
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', fontSize: '13px', color: '#6b7280' }}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
-import Navbar from '../shared/Navbar'
+
 import { activityAPI } from '../utils/api'
 import {
   backButtonStyle,
@@ -55,7 +55,7 @@ export default function Skiing() {
 
   return (
     <div style={createPageShellStyle('#f8fbff')}>
-      <Navbar />
+      
       <style>{`
         .ski-glow {
           animation: skiFloat 6s ease-in-out infinite;

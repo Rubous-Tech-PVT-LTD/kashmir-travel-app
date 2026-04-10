@@ -4,6 +4,7 @@ const hotelController = require('../controllers/hotelController')
 
 router.get('/', hotelController.getAllHotels)
 router.get('/houseboats', hotelController.getHouseboatHotels)
+router.post('/:id/reviews', hotelController.addReview)
 router.get('/:id', hotelController.getHotelById)
 
 module.exports = router

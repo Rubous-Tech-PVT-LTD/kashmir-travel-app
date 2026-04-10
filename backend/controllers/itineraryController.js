@@ -14,7 +14,8 @@ exports.getAllItineraries = async (req, res) => {
       'family-tour',
       'honeymoon-packages',
       'adventure-trek',
-      'couple-special'
+      'couple-special',
+      'spiritual-tour'
     ]);
 
     if (category && allowedCategories.has(category)) {

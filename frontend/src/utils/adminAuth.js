@@ -1,37 +1,36 @@
-const ADMIN_USERNAME = 'admin'
-const ADMIN_PASSWORD = 'ktt@admin2026'
-const ADMIN_SESSION_KEY = 'ktt-admin-session'
+import { adminAPI } from './api'
 
-export const isAdminAuthenticated = () => {
+export const loginAdmin = async (username, password) => {
   if (typeof window === 'undefined') {
-    return false
+    return { success: false, message: 'Admin login is only available in browser context' }
   }
 
-  return window.localStorage.getItem(ADMIN_SESSION_KEY) === 'active'
+  try {
+    const response = await adminAPI.login(username, password)
+
+    if (!response?.success) {
+      return { success: false, message: response?.message || 'Invalid credentials' }
+    }
+
+    return { success: true, message: response.message || 'Admin login successful' }
+  } catch (error) {
+    return { success: false, message: error.message || 'Unable to login admin' }
+  }
 }
 
-export const loginAdmin = (username, password) => {
-  if (typeof window === 'undefined') {
+export const validateAdminSession = async () => {
+  try {
+    const response = await adminAPI.me()
+    return Boolean(response?.success)
+  } catch (error) {
     return false
   }
-
-  const isValidUser = username === ADMIN_USERNAME && password === ADMIN_PASSWORD
-  if (!isValidUser) {
-    return false
-  }
-
-  window.localStorage.setItem(ADMIN_SESSION_KEY, 'active')
-  return true
 }
 
-export const logoutAdmin = () => {
-  if (typeof window === 'undefined') {
-    return
+export const logoutAdmin = async () => {
+  try {
+    await adminAPI.logout()
+  } catch (error) {
+    // Ignore logout failures so UI can still redirect to login.
   }
-
-  window.localStorage.removeItem(ADMIN_SESSION_KEY)
-}
-
-export const adminAllowedUser = {
-  username: ADMIN_USERNAME,
 }

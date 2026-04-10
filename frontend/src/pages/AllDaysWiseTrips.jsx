@@ -15,6 +15,7 @@ const categoryFilters = [
   { label: 'Family Tour', value: 'family-tour' },
   { label: 'Honeymoon Packages', value: 'honeymoon-packages' },
   { label: 'Adventure Trek', value: 'adventure-trek' },
+  { label: 'Spiritual Tour', value: 'spiritual-tour' },
   { label: 'Couple Special', value: 'couple-special' },
 ]
 
@@ -84,14 +85,8 @@ export default function AllDaysWiseTrips() {
   const isDaywiseCategory = selectedCategory === 'daywise'
 
   const daysParam = Number(searchParams.get('days'))
-  const themeParam = searchParams.get('theme')
   const templeParam = searchParams.get('temple')
   const hasDaysFilter = Number.isFinite(daysParam) && daysParam > 0
-  const hasThemeFilter =
-    themeParam === 'family' ||
-    themeParam === 'adventure' ||
-    themeParam === 'honeymoon' ||
-    themeParam === 'spiritual'
 
   const spiritualTempleMap = {
     'vaishno-devi': { name: 'Vaishno Devi Temple', tripIds: [3, 6] },
@@ -129,32 +124,15 @@ export default function AllDaysWiseTrips() {
 
     const days = parseInt(trip.duration.split(' ')[0], 10)
 
-    if (hasDaysFilter || hasThemeFilter) {
-      if (hasDaysFilter && days !== daysParam) {
-        return false
-      }
+    if (hasDaysFilter && days !== daysParam) {
+      return false
+    }
 
-      if (themeParam === 'family') {
-        return trip.tag === 'Family Pick'
-      }
+    if (selectedTemple && !selectedTemple.tripIds.includes(trip.id)) {
+      return false
+    }
 
-      if (themeParam === 'adventure') {
-        const adventureText = `${trip.title} ${trip.description}`
-        return /adventure|gulmarg|sonamarg|gondola|glacier|trek/i.test(adventureText)
-      }
-
-      if (themeParam === 'honeymoon') {
-        return days >= 3 && days <= 6 && trip.tag !== 'Family Pick'
-      }
-
-      if (themeParam === 'spiritual') {
-        if (selectedTemple) {
-          return selectedTemple.tripIds.includes(trip.id)
-        }
-
-        return days >= 3 && days <= 7
-      }
-
+    if (hasDaysFilter || selectedTemple) {
       return true
     }
 

@@ -16,6 +16,7 @@ export default function HotelDetail() {
   const [formData, setFormData] = useState({ name: '', rating: 5, comment: '' })
   const [submitError, setSubmitError] = useState('')
   const [submitSuccess, setSubmitSuccess] = useState(false)
+  const whatsappNumber =  '917006259761'
 
   useEffect(() => {
     const fetchHotel = async () => {
@@ -96,6 +97,14 @@ export default function HotelDetail() {
     }
 
     saveReview()
+  }
+
+  const handleBookNow = () => {
+    const message = encodeURIComponent(
+      `Hi, I want to book ${hotel.name} in ${hotel.location}. Price shown is ₹${hotel.price}. Please share availability.`
+    )
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
   }
 
   if (!hotel) {
@@ -579,7 +588,7 @@ export default function HotelDetail() {
               Reserve your stay and experience the best of Kashmir hospitality
             </p>
             <button
-              onClick={() => navigate('/alltrips')}
+              onClick={handleBookNow}
               style={{
                 backgroundColor: '#3dba8f',
                 color: '#fff',

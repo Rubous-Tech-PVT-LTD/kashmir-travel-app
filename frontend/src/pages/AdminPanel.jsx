@@ -495,10 +495,6 @@ export default function AdminPanel() {
           <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 text-white text-sm font-black">
             K
           </div>
-          <div>
-            <h1 className="text-lg font-bold text-slate-900">Kashmir Tour Travel</h1>
-            <p className="text-xs text-slate-500">Admin Dashboard</p>
-          </div>
         </div>
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}

@@ -172,7 +172,11 @@ export default function Navbar() {
 
           {/* Mobile Toggle */}
           <div className="lg:hidden flex justify-end py-4">
-            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-white"
+              aria-label="Toggle navigation menu"
+            >
               {isMobileMenuOpen ? <X /> : <Menu />}
             </button>
           </div>
@@ -189,6 +193,15 @@ export default function Navbar() {
         {/* Mobile Menu */}
         <div className={`fixed right-0 top-0 h-full w-80 bg-slate-800 z-50 transform transition ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
           <div className="p-6">
+            <div className="flex justify-end mb-2">
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-white"
+                aria-label="Close navigation menu"
+              >
+                <X />
+              </button>
+            </div>
             {navLinks.map((link) => (
               <div key={link}>
                 <button
