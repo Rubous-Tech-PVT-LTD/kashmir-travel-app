@@ -64,36 +64,17 @@ export default function ServiceSection() {
   }
 
   return (
-    <section style={{ padding: '40px 24px', backgroundColor: '#f3f4f6', width: '100%' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <h2 style={{
-          fontSize: '36px',
-          fontWeight: '700',
-          color: '#1a2b4a',
-          textAlign: 'center',
-          marginBottom: '40px',
-          letterSpacing: '-0.5px'
-        }}>
+    <section className="w-full bg-gray-100 px-6 py-10">
+      <div className="mx-auto max-w-[1200px]">
+        <h2 className="mb-10 text-center text-4xl font-bold tracking-[-0.5px] text-[#1a2b4a]">
           Explore Our Services
         </h2>
-        
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-          gap: '24px',
-          width: '100%'
-        }}>
+
+        <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {services.map((service) => (
             <div
               key={service.title}
-              style={{
-                backgroundColor: '#fff',
-                borderRadius: '12px',
-                overflow: 'hidden',
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.07)',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer',
-              }}
+              className="cursor-pointer overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
               role="button"
               tabIndex={0}
               aria-label={`Open ${service.title}`}
@@ -104,126 +85,45 @@ export default function ServiceSection() {
                   handleServiceClick(service.path)
                 }
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.15)'
-                e.currentTarget.style.transform = 'translateY(-4px)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.07)'
-                e.currentTarget.style.transform = 'translateY(0)'
-              }}
             >
-              {/* Image Banner */}
               <div
-                style={{
-                  backgroundImage: `linear-gradient(180deg, rgba(10, 26, 52, 0.08) 0%, rgba(10, 26, 52, 0.42) 100%), url(${service.image})`,
-                  backgroundPosition: 'center',
-                  backgroundSize: 'cover',
-                  height: '160px',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  justifyContent: 'flex-start',
-                  padding: '10px 12px'
-                }}
+                className="flex h-40 items-start justify-start bg-cover bg-center p-3"
+                style={{ backgroundImage: `linear-gradient(180deg, rgba(10, 26, 52, 0.08) 0%, rgba(10, 26, 52, 0.42) 100%), url(${service.image})` }}
               >
-                <span
-                  style={{
-                    fontSize: '10px',
-                    fontWeight: '700',
-                    letterSpacing: '1.3px',
-                    color: '#ffffff',
-                    backgroundColor: 'rgba(10, 26, 52, 0.55)',
-                    border: '1px solid rgba(255, 255, 255, 0.35)',
-                    padding: '6px 10px',
-                    borderRadius: '999px',
-                    textTransform: 'uppercase'
-                  }}
-                >
+                <span className="rounded-full border border-white/35 bg-[#0a1a348c] px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-[1.3px] text-white">
                   Kashmir Signature
                 </span>
               </div>
 
-              {/* Content */}
-              <div style={{ padding: '20px 16px' }}>
-                <p style={{
-                  fontSize: '11px',
-                  fontWeight: '600',
-                  letterSpacing: '1.5px',
-                  color: '#56AB91',
-                  textTransform: 'uppercase',
-                  marginBottom: '8px'
-                }}>
+              <div className="p-4">
+                <p className="mb-2 text-[11px] font-semibold uppercase tracking-[1.5px] text-[#56AB91]">
                   {service.tagline}
                 </p>
 
-                <h3 style={{
-                  fontSize: '20px',
-                  fontWeight: '700',
-                  color: '#1a2b4a',
-                  margin: '0 0 12px 0',
-                  lineHeight: '1.2'
-                }}>
+                <h3 className="mb-3 text-xl font-bold leading-tight text-[#1a2b4a]">
                   {service.title}
                 </h3>
 
-                <p style={{
-                  fontSize: '12px',
-                  color: '#9CA3AF',
-                  lineHeight: '1.5',
-                  marginBottom: '16px',
-                  minHeight: '45px'
-                }}>
+                <p className="mb-4 min-h-[45px] text-xs leading-relaxed text-gray-400">
                   {service.desc}
                 </p>
 
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' }}>
+                <div className="flex flex-wrap items-center justify-between gap-2.5">
                   <button
                     type="button"
-                    style={{
-                      fontSize: '12px',
-                      fontWeight: '600',
-                      color: '#FF9A76',
-                      textDecoration: 'none',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      transition: 'all 0.2s ease',
-                      background: 'transparent',
-                      border: 'none',
-                      padding: 0,
-                      cursor: service.path ? 'pointer' : 'default'
-                    }}
+                    className="group inline-flex items-center gap-1.5 bg-transparent p-0 text-xs font-semibold text-[#FF9A76] transition-all duration-200 hover:gap-2.5"
                     onClick={(e) => {
                       e.stopPropagation()
                       handleServiceClick(service.path)
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.gap = '10px'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.gap = '6px'
-                    }}
                   >
                     Explore
-                    <span style={{ fontSize: '16px' }}>→</span>
+                    <span className="text-base">→</span>
                   </button>
 
                   <button
                     type="button"
-                    style={{
-                      fontSize: '12px',
-                      fontWeight: '700',
-                      color: '#fff',
-                      background: '#25D366',
-                      border: 'none',
-                      borderRadius: '999px',
-                      padding: '8px 12px',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      marginLeft: 'auto'
-                    }}
+                    className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-3 py-2 text-xs font-bold text-white"
                     onClick={(e) => {
                       e.stopPropagation()
                       handleWhatsAppClick(service.title)

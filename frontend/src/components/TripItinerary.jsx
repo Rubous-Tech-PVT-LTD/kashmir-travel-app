@@ -25,89 +25,53 @@ export default function TripItinerary({ tripData }) {
   };
 
   return (
-    <div style={{ marginTop: '40px' }}>
-      <h3 style={{ fontSize: '24px', fontWeight: '700', color: '#1a2b4a', marginBottom: '20px' }}>
+    <div className="mt-10">
+      <h3 className="mb-5 text-2xl font-bold text-[#1a2b4a]">
         Day-by-Day Itinerary
       </h3>
 
-      <div style={{ border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden' }}>
+      <div className="overflow-hidden rounded-xl border border-slate-200">
         {tripData.itinerary.map((day, index) => (
-          <div key={index} style={{ borderBottom: index < tripData.itinerary.length - 1 ? '1px solid #e2e8f0' : 'none' }}>
+          <div key={index} className={index < tripData.itinerary.length - 1 ? 'border-b border-slate-200' : ''}>
             {/* Day Header */}
             <div
               onClick={() => toggleDay(index)}
-              style={{
-                padding: '18px 20px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                backgroundColor: expandedDay === index ? '#f8fafc' : '#fff',
-                transition: 'background-color 0.2s',
-              }}
+              className={`flex cursor-pointer items-center justify-between px-5 py-[18px] transition-colors ${expandedDay === index ? 'bg-slate-50' : 'bg-white'}`}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flex: 1 }}>
-                <div
-                  style={{
-                    width: '44px',
-                    height: '44px',
-                    borderRadius: '8px',
-                    backgroundColor: '#d1fae5',
-                    color: '#047857',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: '700',
-                    fontSize: '16px',
-                  }}
-                >
+              <div className="flex flex-1 items-center gap-3.5">
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-emerald-100 text-base font-bold text-emerald-700">
                   {day.day}
                 </div>
                 <div>
-                  <h4 style={{ margin: '0 0 4px', fontSize: '16px', fontWeight: '700', color: '#1a2b4a' }}>
+                  <h4 className="mb-1 text-base font-bold text-[#1a2b4a]">
                     {day.title}
                   </h4>
-                  <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>
+                  <p className="text-[13px] text-slate-500">
                     {day.activities ? day.activities.length + ' Activities' : 'No activities'}
                   </p>
                 </div>
               </div>
-              <div
-                style={{
-                  transform: expandedDay === index ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.3s',
-                  color: '#94a3b8',
-                }}
-              >
+              <div className={`text-slate-400 transition-transform duration-300 ${expandedDay === index ? 'rotate-180' : 'rotate-0'}`}>
                 <ChevronDown />
               </div>
             </div>
 
             {/* Day Details */}
             {expandedDay === index && (
-              <div style={{ padding: '18px 20px', backgroundColor: '#fff', borderTop: '1px solid #e2e8f0' }}>
+              <div className="border-t border-slate-200 bg-white px-5 py-[18px]">
                 {/* Activities */}
                 {day.activities && day.activities.length > 0 && (
-                  <div style={{ marginBottom: '20px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                  <div className="mb-5">
+                    <div className="mb-3 flex items-center gap-2">
                       <LocationIcon />
-                      <h5 style={{ margin: 0, fontSize: '13px', fontWeight: '700', color: '#475569', textTransform: 'uppercase' }}>
+                      <h5 className="text-[13px] font-bold uppercase text-slate-600">
                         Activities
                       </h5>
                     </div>
-                    <ul style={{ margin: 0, paddingLeft: '20px', listStyle: 'none' }}>
+                    <ul className="space-y-2 pl-5">
                       {day.activities.map((activity, idx) => (
-                        <li
-                          key={idx}
-                          style={{
-                            fontSize: '14px',
-                            color: '#334155',
-                            marginBottom: '8px',
-                            paddingLeft: '0',
-                            position: 'relative',
-                          }}
-                        >
-                          <span style={{ color: '#3dba8f', fontWeight: '700', marginRight: '8px' }}>•</span>
+                        <li key={idx} className="text-sm text-slate-700">
+                          <span className="mr-2 font-bold text-emerald-500">•</span>
                           {activity}
                         </li>
                       ))}
@@ -117,14 +81,14 @@ export default function TripItinerary({ tripData }) {
 
                 {/* Accommodation */}
                 {day.accommodation && (
-                  <div style={{ marginBottom: '20px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                  <div className="mb-5">
+                    <div className="mb-3 flex items-center gap-2">
                       <HotelIcon />
-                      <h5 style={{ margin: 0, fontSize: '13px', fontWeight: '700', color: '#475569', textTransform: 'uppercase' }}>
+                      <h5 className="text-[13px] font-bold uppercase text-slate-600">
                         Accommodation
                       </h5>
                     </div>
-                    <p style={{ margin: 0, fontSize: '14px', color: '#334155', paddingLeft: '24px' }}>
+                    <p className="pl-6 text-sm text-slate-700">
                       {day.accommodation}
                     </p>
                   </div>
@@ -132,11 +96,11 @@ export default function TripItinerary({ tripData }) {
 
                 {/* Meals */}
                 {day.meals && (
-                  <div style={{ marginBottom: '20px' }}>
-                    <h5 style={{ margin: '0 0 12px', fontSize: '13px', fontWeight: '700', color: '#475569', textTransform: 'uppercase' }}>
+                  <div className="mb-5">
+                    <h5 className="mb-3 text-[13px] font-bold uppercase text-slate-600">
                       Meals
                     </h5>
-                    <p style={{ margin: 0, fontSize: '14px', color: '#334155', paddingLeft: '24px' }}>
+                    <p className="pl-6 text-sm text-slate-700">
                       {day.meals}
                     </p>
                   </div>
@@ -144,8 +108,8 @@ export default function TripItinerary({ tripData }) {
 
                 {/* Notes */}
                 {day.notes && (
-                  <div style={{ marginTop: '16px', padding: '12px', backgroundColor: '#eff6ff', borderLeft: '3px solid #3dba8f', borderRadius: '4px' }}>
-                    <p style={{ margin: 0, fontSize: '13px', color: '#334155' }}>
+                  <div className="mt-4 rounded bg-blue-50 p-3">
+                    <p className="border-l-3 border-emerald-500 pl-3 text-[13px] text-slate-700">
                       <strong>Note: </strong>{day.notes}
                     </p>
                   </div>

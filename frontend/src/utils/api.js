@@ -145,12 +145,3 @@ export const adminAPI = {
   updateSettings: (payload) => request('/settings', { method: 'PUT', body: payload }),
 }
 
-export { ApiError, API_URL }
-
-export default {
-  itineraryAPI,
-  reviewAPI,
-  hotelAPI,
-  carRentalAPI,
-  activityAPI,
-}

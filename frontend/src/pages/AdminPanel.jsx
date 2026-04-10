@@ -1,8 +1,12 @@
+// @ts-nocheck
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { logoutAdmin } from '../utils/adminAuth'
-import { Plus, Edit2, Trash2, X, Loader } from 'lucide-react'
+import { Plus, Edit2, Trash2, X, Loader, Home, MapPin, Star, CalendarDays, Users, Settings, Menu, ChevronLeft } from 'lucide-react'
 import { adminAPI } from '../utils/api'
+import ItinerariesTab from '../components/ItinerariesTab'
+import ReviewsTab from '../components/ReviewsTab'
+import SettingsTab from '../components/SettingsTab'
 
 const tripCategoryOptions = [
   { label: 'Popular', value: 'popular' },
@@ -21,31 +25,44 @@ export default function AdminPanel() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [activeTab, setActiveTab] = useState('itineraries')
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+  const adminMenu = [
+    { key: 'itineraries', label: 'Itineraries', icon: MapPin },
+    { key: 'reviews', label: 'Reviews', icon: Star },
+    { key: 'settings', label: 'Settings', icon: Settings }
+  ]
+
+  const activeTabLabel = adminMenu.find(item => item.key === activeTab)?.label || 'Itineraries'
 
   // Itinerary state
   const [itineraries, setItineraries] = useState([])
   const [selectedItineraryId, setSelectedItineraryId] = useState(null)
   const [showNewItineraryForm, setShowNewItineraryForm] = useState(false)
-  const [newItineraryForm, setNewItineraryForm] = useState({ 
-    title: '', 
-    duration: '', 
-    price: '', 
+  const [isEditingItinerary, setIsEditingItinerary] = useState(false)
+  const [newItineraryForm, setNewItineraryForm] = useState({
+    title: '',
+    duration: '',
+    price: '',
     coverImage: '',
     category: 'popular',
+    description: '',
     isComingSoon: false
   })
   const [submitting, setSubmitting] = useState(false)
   const [deletingItinerary, setDeletingItinerary] = useState(false)
   const [isEditingTrip, setIsEditingTrip] = useState(false)
-  const [editTripForm, setEditTripForm] = useState({ 
-    title: '', 
-    duration: '', 
-    price: '', 
+  const [editTripForm, setEditTripForm] = useState({
+    title: '',
+    duration: '',
+    price: '',
     coverImage: '',
     category: 'popular',
-    isComingSoon: false 
+    isComingSoon: false
   })
   const [updatingTrip, setUpdatingTrip] = useState(false)
+  const [settings, setSettings] = useState({ heroImages: [] })
+  const [settingsSubmitting, setSettingsSubmitting] = useState(false)
 
   // Day management state
   const [editingDayIndex, setEditingDayIndex] = useState(null)
@@ -57,10 +74,10 @@ export default function AdminPanel() {
   const [reviewType, setReviewType] = useState('trip')
   const [deletingReviewId, setDeletingReviewId] = useState(null)
   const [deletingReview, setDeletingReview] = useState(false)
-  
-  // Settings state
-  const [settings, setSettings] = useState({ heroImages: [] })
-  const [settingsSubmitting, setSettingsSubmitting] = useState(false)
+  const [reviewStatus, setReviewStatus] = useState('all')
+  const [sortBy, setSortBy] = useState('newest')
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 4
 
   // Load itineraries on mount
   useEffect(() => {
@@ -72,19 +89,34 @@ export default function AdminPanel() {
   useEffect(() => {
     if (selectedItineraryId) {
       fetchReviews()
+    } else {
+      setReviews([])
     }
   }, [selectedItineraryId, reviewType])
+
+  // Keep settings fresh whenever Settings tab is opened
+  useEffect(() => {
+    if (activeTab === 'settings') {
+      fetchSettings()
+    }
+  }, [activeTab])
 
   const fetchItineraries = async () => {
     try {
       setLoading(true)
       setError('')
       const data = await adminAPI.getItineraries()
-      
+
       if (data.success) {
-        setItineraries(data.data)
-        if (data.data.length > 0 && !selectedItineraryId) {
-          setSelectedItineraryId(data.data[0]._id)
+        const fetchedItineraries = data.data || []
+        setItineraries(fetchedItineraries)
+        if (fetchedItineraries.length > 0) {
+          if (!selectedItineraryId || !fetchedItineraries.some(it => it._id === selectedItineraryId)) {
+            setSelectedItineraryId(fetchedItineraries[0]._id)
+          }
+        } else {
+          setSelectedItineraryId(null)
+          setReviews([])
         }
       } else {
         setError(data.message || 'Failed to load itineraries')
@@ -100,12 +132,17 @@ export default function AdminPanel() {
   const fetchReviews = async () => {
     try {
       const data = await adminAPI.getReviews(selectedItineraryId, reviewType)
-      
+
       if (data.success) {
-        setReviews(data.data)
+        setReviews(data.data || [])
+      } else {
+        setReviews([])
+        setError(data.message || 'Failed to load reviews')
       }
     } catch (err) {
       console.error('Error fetching reviews:', err)
+      setReviews([])
+      setError('Error fetching reviews: ' + err.message)
     }
   }
 
@@ -114,9 +151,12 @@ export default function AdminPanel() {
       const data = await adminAPI.getSettings()
       if (data.success) {
         setSettings({ heroImages: data.data.heroImages || [] })
+      } else {
+        setError(data.message || 'Failed to load settings')
       }
     } catch (err) {
       console.error('Error fetching settings:', err)
+      setError('Error fetching settings: ' + err.message)
     }
   }
 
@@ -140,7 +180,7 @@ export default function AdminPanel() {
       setError('')
       const data = await adminAPI.updateSettings(settings)
       if (data.success) {
-        setSettings({ heroImages: data.data.heroImages || [] })
+        await fetchSettings()
         alert('Settings updated successfully!')
       } else {
         setError(data.message || 'Failed to update settings')
@@ -171,38 +211,73 @@ export default function AdminPanel() {
   const selectedItinerary = itineraries.find(it => it._id === selectedItineraryId)
 
   const handleCreateItinerary = async () => {
-    if (!newItineraryForm.title || !newItineraryForm.duration || !newItineraryForm.price || !newItineraryForm.coverImage) {
-      setError('All fields are required')
+    // Validate all required fields
+    const title = newItineraryForm.title?.trim()
+    const duration = newItineraryForm.duration?.trim()
+    const price = newItineraryForm.price
+    const coverImage = newItineraryForm.coverImage
+    const category = newItineraryForm.category
+
+    if (!title || !duration || !price || !coverImage || !category) {
+      setError('All fields are required (Title, Duration, Price, Category, and Cover Image)')
       return
     }
 
     try {
       setSubmitting(true)
       setError('')
-      const data = await adminAPI.createItinerary({
-        title: newItineraryForm.title,
-        duration: newItineraryForm.duration,
-        price: Number(newItineraryForm.price),
-        coverImage: newItineraryForm.coverImage,
-        isComingSoon: newItineraryForm.isComingSoon,
-        category: newItineraryForm.category
-      })
 
-      if (data.success) {
-        setItineraries([...itineraries, data.data])
-        setSelectedItineraryId(data.data._id)
-        setNewItineraryForm({ 
-          title: '', 
-          duration: '', 
-          price: '', 
-          coverImage: '',
-          category: 'popular',
-          isComingSoon: false 
+      if (isEditingItinerary) {
+        const data = await adminAPI.updateItinerary(selectedItineraryId, {
+          title: title,
+          duration: duration,
+          price: Number(price),
+          coverImage: coverImage,
+          description: newItineraryForm.description || '',
+          isComingSoon: newItineraryForm.isComingSoon || false,
+          category: category
         })
-        setShowNewItineraryForm(false)
+
+        if (data.success && data.data) {
+          setItineraries(prev =>
+            prev.map(it => it._id === selectedItineraryId ? data.data : it)
+          )
+        } else {
+          setError(data.message || 'Failed to update itinerary')
+          return
+        }
       } else {
-        setError(data.message || 'Failed to create itinerary')
+        const data = await adminAPI.createItinerary({
+          title: title,
+          duration: duration,
+          price: Number(price),
+          coverImage: coverImage,
+          description: newItineraryForm.description || '',
+          isComingSoon: newItineraryForm.isComingSoon || false,
+          category: category
+        })
+
+        if (data.success && data.data) {
+          setItineraries(prev => [...prev, data.data])
+          setSelectedItineraryId(data.data._id)
+        } else {
+          setError(data.message || 'Failed to create itinerary')
+          return
+        }
       }
+
+      // Reset form
+      setNewItineraryForm({
+        title: '',
+        duration: '',
+        price: '',
+        coverImage: '',
+        category: 'popular',
+        description: '',
+        isComingSoon: false
+      })
+      setShowNewItineraryForm(false)
+      setIsEditingItinerary(false)
     } catch (err) {
       setError('Error: ' + err.message)
     } finally {
@@ -223,6 +298,29 @@ export default function AdminPanel() {
         const remaining = itineraries.filter(it => it._id !== selectedItineraryId)
         setItineraries(remaining)
         setSelectedItineraryId(remaining.length > 0 ? remaining[0]._id : null)
+      } else {
+        setError(data.message || 'Failed to delete itinerary')
+      }
+    } catch (err) {
+      setError('Error: ' + err.message)
+    } finally {
+      setDeletingItinerary(false)
+    }
+  }
+
+  const handleDeleteItineraryById = async (itineraryId) => {
+    if (!itineraryId) return
+
+    try {
+      setDeletingItinerary(true)
+      setError('')
+      const data = await adminAPI.deleteItinerary(itineraryId)
+      if (data.success) {
+        const remaining = itineraries.filter(it => it._id !== itineraryId)
+        setItineraries(remaining)
+        if (selectedItineraryId === itineraryId) {
+          setSelectedItineraryId(remaining.length > 0 ? remaining[0]._id : null)
+        }
       } else {
         setError(data.message || 'Failed to delete itinerary')
       }
@@ -290,12 +388,12 @@ export default function AdminPanel() {
       setSubmittingDay(true)
       setError('')
       const payload = {
-          day: dayForm.day,
-          title: dayForm.title,
-          activities,
-          accommodation: dayForm.accommodation || 'N/A',
-          meals: dayForm.meals || 'N/A',
-          notes: dayForm.notes
+        day: dayForm.day,
+        title: dayForm.title,
+        activities,
+        accommodation: dayForm.accommodation || 'N/A',
+        meals: dayForm.meals || 'N/A',
+        notes: dayForm.notes
       }
 
       const data = editingDayIndex !== null
@@ -356,7 +454,7 @@ export default function AdminPanel() {
       const data = await adminAPI.deleteReview(reviewId)
 
       if (data.success) {
-        setReviews(reviews.filter(r => r._id !== reviewId))
+        await fetchReviews()
       } else {
         setError(data.message || 'Failed to delete review')
       }
@@ -380,9 +478,9 @@ export default function AdminPanel() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <Loader className="w-12 h-12 animate-spin text-blue-400 mx-auto mb-4" />
+          <Loader className="w-12 h-12 animate-spin text-cyan-400 mx-auto mb-4" />
           <p className="text-white text-lg">Loading admin panel...</p>
         </div>
       </div>
@@ -390,595 +488,262 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-teal-500 text-white shadow-2xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-4xl font-bold">🏔️ Admin Dashboard</h1>
-              <p className="text-blue-100 mt-2">Manage your Haba Khatoon Travels itineraries & reviews</p>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition transform hover:scale-105"
-            >
-              Logout
-            </button>
+    <div className="min-h-screen bg-slate-100">
+      {/* Mobile Header with Hamburger Menu */}
+      <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 text-white text-sm font-black">
+            K
+          </div>
+          <div>
+            <h1 className="text-lg font-bold text-slate-900">Kashmir Tour Travel</h1>
+            <p className="text-xs text-slate-500">Admin Dashboard</p>
           </div>
         </div>
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="p-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors duration-200"
+        >
+          {isSidebarOpen ? <ChevronLeft className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
       </div>
 
-      {/* Error Message */}
-      {error && (
-        <div className="bg-red-500/20 border-t-4 border-red-500 text-red-300 px-4 py-3 max-w-7xl mx-auto mt-4 rounded">
-          <p>⚠️ {error}</p>
-        </div>
+      {/* Backdrop for mobile sidebar */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Tab Navigation */}
-        <div className="flex gap-3 mb-8 bg-white/10 p-1 rounded-lg backdrop-blur-sm">
-          <button
-            onClick={() => setActiveTab('itineraries')}
-            className={`px-6 py-3 rounded-lg font-semibold transition ${
-              activeTab === 'itineraries'
-                ? 'bg-blue-600 text-white shadow-lg'
-                : 'text-gray-300 hover:text-white'
-            }`}
-          >
-            📍 Itineraries
-          </button>
-          <button
-            onClick={() => setActiveTab('reviews')}
-            className={`px-6 py-3 rounded-lg font-semibold transition ${
-              activeTab === 'reviews'
-                ? 'bg-blue-600 text-white shadow-lg'
-                : 'text-gray-300 hover:text-white'
-            }`}
-          >
-            ⭐ Reviews
-          </button>
-          <button
-            onClick={() => setActiveTab('settings')}
-            className={`px-6 py-3 rounded-lg font-semibold transition ${
-              activeTab === 'settings'
-                ? 'bg-blue-600 text-white shadow-lg'
-                : 'text-gray-300 hover:text-white'
-            }`}
-          >
-            ⚙️ Settings
-          </button>
-        </div>
+      <div className="min-h-screen lg:min-h-0 flex lg:flex-row flex-col">
+        {/* Sidebar */}
+        <aside className={`
+          fixed top-0 left-0 h-screen w-80 bg-slate-950 text-slate-100 border-r border-slate-800 z-50 transform transition-transform duration-300 ease-in-out
+          lg:fixed lg:translate-x-0 lg:z-auto
+          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        `}>
+          <div className="px-6 py-8 h-full overflow-y-auto">
+            {/* Close button for mobile */}
+            <div className="lg:hidden flex justify-end mb-4">
+              <button
+                onClick={() => setIsSidebarOpen(false)}
+                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors duration-200"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
 
-        {/* Itineraries Tab */}
-        {activeTab === 'itineraries' && (
-          <div className="space-y-6">
-            {/* Create New Itinerary */}
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-white shadow-xl">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">➕ Create New Itinerary</h2>
-                <button
-                  onClick={() => setShowNewItineraryForm(!showNewItineraryForm)}
-                  className="text-2xl text-blue-400 hover:text-blue-300"
-                >
-                  {showNewItineraryForm ? '−' : '+'}
-                </button>
+            <div className="mb-10">
+              <div className="flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 text-white text-lg font-black">
+                  K
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold">Kashmir Tour Travel</h1>
+                  <p className="text-sm text-slate-400">Admin Dashboard</p>
+                </div>
               </div>
+            </div>
 
-              {showNewItineraryForm && (
-                <div className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder="Trip Title"
-                    value={newItineraryForm.title}
-                    onChange={(e) => setNewItineraryForm({...newItineraryForm, title: e.target.value})}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Duration (e.g., 7 Days)"
-                    value={newItineraryForm.duration}
-                    onChange={(e) => setNewItineraryForm({...newItineraryForm, duration: e.target.value})}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Price"
-                    value={newItineraryForm.price}
-                    onChange={(e) => setNewItineraryForm({...newItineraryForm, price: e.target.value})}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Cover Image URL"
-                    value={newItineraryForm.coverImage}
-                    onChange={(e) => setNewItineraryForm({...newItineraryForm, coverImage: e.target.value})}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-                  />
-                  <select
-                    value={newItineraryForm.category}
-                    onChange={(e) => setNewItineraryForm({...newItineraryForm, category: e.target.value})}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white focus:outline-none focus:border-blue-500 cursor-pointer"
+            <nav className="space-y-2">
+              {adminMenu.map((item) => {
+                const Icon = item.icon
+                const isActive = activeTab === item.key
+                return (
+                  <button
+                    key={item.key}
+                    onClick={() => {
+                      setActiveTab(item.key)
+                      setIsSidebarOpen(false) // Close sidebar on mobile after selection
+                    }}
+                    className={`flex w-full items-center gap-3 rounded-3xl px-4 py-4 text-left transition ${isActive ? 'bg-white text-slate-900 shadow-lg shadow-slate-900/10' : 'text-slate-300 hover:text-white hover:bg-slate-800'}`}
                   >
-                    {tripCategoryOptions.map((option) => (
-                      <option key={option.value} value={option.value} className="bg-gray-800">
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="flex items-center gap-3 bg-white/5 p-4 rounded-lg border border-white/10">
-                    <input
-                      id="isComingSoon"
-                      type="checkbox"
-                      checked={newItineraryForm.isComingSoon}
-                      onChange={(e) => setNewItineraryForm({...newItineraryForm, isComingSoon: e.target.checked})}
-                      className="w-5 h-5 accent-blue-500 cursor-pointer"
-                    />
-                    <label htmlFor="isComingSoon" className="text-sm font-medium text-blue-100 cursor-pointer select-none">
-                      Mark as "Coming Soon" (Trip will show badge but limit booking)
-                    </label>
+                    <span className={`grid h-11 w-11 place-items-center rounded-2xl ${isActive ? 'bg-slate-950 text-white' : 'bg-slate-800 text-slate-400'}`}>
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span className="font-semibold tracking-wide">{item.label}</span>
+                  </button>
+                )
+              })}
+            </nav>
+
+            <div className="mt-10 pt-8 border-t border-slate-800">
+              <button
+                onClick={handleLogout}
+                className="w-full rounded-3xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-600/20 hover:bg-emerald-600 transition"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <main className="flex-1 bg-slate-100 overflow-y-auto min-h-0 lg:ml-80">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 text-red-700 px-4 py-4 rounded-3xl mb-6">
+                <p>⚠️ {error}</p>
+              </div>
+            )}
+
+            <div className="mb-8">
+              <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Admin workspace</p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-900">{activeTabLabel}</h2>
+              <p className="mt-2 max-w-2xl text-slate-600">Manage itineraries, reviews, bookings and user activity from one central dashboard.</p>
+            </div>
+
+            <div className="space-y-6">
+              {activeTab === 'dashboard' && (
+                <div className="space-y-6">
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Itineraries</p>
+                          <h3 className="mt-4 text-3xl font-bold text-slate-900">{itineraries.length}</h3>
+                          <p className="mt-2 text-sm text-slate-500">Active itineraries ready to manage.</p>
+                        </div>
+                        <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-slate-900 text-white shadow-lg shadow-slate-900/10">
+                          <MapPin className="h-6 w-6" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Reviews</p>
+                          <h3 className="mt-4 text-3xl font-bold text-slate-900">{reviews.length}</h3>
+                          <p className="mt-2 text-sm text-slate-500">Recent feedback across all trips.</p>
+                        </div>
+                        <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-slate-900 text-white shadow-lg shadow-slate-900/10">
+                          <Star className="h-6 w-6" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={handleCreateItinerary}
-                      disabled={submitting}
-                      className="px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 rounded-lg font-semibold transition disabled:opacity-50"
-                    >
-                      {submitting ? 'Creating...' : 'Create Itinerary'}
-                    </button>
-                    <button
-                      onClick={() => setShowNewItineraryForm(false)}
-                      className="px-6 py-3 bg-gray-600 hover:bg-gray-700 rounded-lg font-semibold"
-                    >
-                      Cancel
-                    </button>
+
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+                      <div className="flex items-center justify-between gap-4">
+                        <div>
+                          <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Recent Itineraries</p>
+                          <h3 className="mt-4 text-xl font-semibold text-slate-900">Latest trips added</h3>
+                        </div>
+                        <span className="rounded-3xl bg-slate-950/5 px-3 py-2 text-xs font-semibold uppercase text-slate-700">Live</span>
+                      </div>
+                      <div className="mt-6 space-y-3">
+                        {itineraries.slice(0, 3).map((it) => (
+                          <div key={it._id} className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3">
+                            <div className="flex items-center justify-between gap-4">
+                              <div>
+                                <p className="text-sm font-semibold text-slate-900">{it.title}</p>
+                                <p className="text-xs text-slate-500">{it.duration}</p>
+                              </div>
+                              <span className="text-sm font-semibold text-slate-700">₹{it.price.toLocaleString()}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+                      <div className="flex items-center justify-between gap-4">
+                        <div>
+                          <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Review Health</p>
+                          <h3 className="mt-4 text-xl font-semibold text-slate-900">Current status</h3>
+                        </div>
+                        <div className="inline-flex rounded-3xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white">Insights</div>
+                      </div>
+                      <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                        <div className="rounded-3xl bg-slate-50 p-4 text-center">
+                          <p className="text-sm text-slate-500">Approved</p>
+                          <p className="mt-2 text-2xl font-bold text-slate-900">{reviews.filter(r => r.status === 'approved').length}</p>
+                        </div>
+                        <div className="rounded-3xl bg-slate-50 p-4 text-center">
+                          <p className="text-sm text-slate-500">Pending</p>
+                          <p className="mt-2 text-2xl font-bold text-amber-600">{reviews.filter(r => r.status === 'pending').length}</p>
+                        </div>
+                        <div className="rounded-3xl bg-slate-50 p-4 text-center">
+                          <p className="text-sm text-slate-500">Flagged</p>
+                          <p className="mt-2 text-2xl font-bold text-red-600">{reviews.filter(r => r.status === 'flagged').length}</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
-            </div>
 
-            {/* Itinerary Management */}
-            {itineraries.length > 0 && (
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-white shadow-xl">
-                <h2 className="text-2xl font-bold mb-4">Manage Itinerary</h2>
-
-                <div className="mb-6">
-                  <div className="flex justify-between items-end mb-2">
-                    <label className="block text-sm font-semibold">Select Itinerary</label>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={handleEditTrip}
-                        disabled={!selectedItineraryId || isEditingTrip}
-                        className="px-4 py-2 bg-blue-600/80 hover:bg-blue-700 text-xs text-white rounded-lg transition flex items-center gap-1 disabled:opacity-50"
-                      >
-                        <Edit2 size={14} /> Edit Details
-                      </button>
-                      <button
-                        onClick={handleDeleteItinerary}
-                        disabled={deletingItinerary || !selectedItineraryId}
-                        className="px-4 py-2 bg-red-600/80 hover:bg-red-700 text-xs text-white rounded-lg transition flex items-center gap-1 disabled:opacity-50"
-                      >
-                        <Trash2 size={14} /> {deletingItinerary ? 'Deleting...' : 'Delete Itinerary'}
-                      </button>
-                    </div>
-                  </div>
-                  <select
-                    value={selectedItineraryId || ''}
-                    onChange={(e) => setSelectedItineraryId(e.target.value)}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white focus:outline-none focus:border-blue-500 cursor-pointer"
-                  >
-                    {itineraries.map((it) => (
-                      <option key={it._id} value={it._id} className="bg-gray-800">
-                        {it.title}
-                      </option>
-                    ))}
-                  </select>
+              {activeTab === 'itineraries' && (
+                <div className="min-h-[400px]">
+                  <ItinerariesTab
+                    itineraries={itineraries}
+                    showNewItineraryForm={showNewItineraryForm}
+                    setShowNewItineraryForm={setShowNewItineraryForm}
+                    isEditingItinerary={isEditingItinerary}
+                    setIsEditingItinerary={setIsEditingItinerary}
+                    newItineraryForm={newItineraryForm}
+                    setNewItineraryForm={setNewItineraryForm}
+                    handleCreateItinerary={handleCreateItinerary}
+                    submitting={submitting}
+                    tripCategoryOptions={tripCategoryOptions}
+                    error={error}
+                    setError={setError}
+                    selectedItineraryId={selectedItineraryId}
+                    setSelectedItineraryId={setSelectedItineraryId}
+                    handleDeleteItinerary={handleDeleteItinerary}
+                    handleDeleteItineraryById={handleDeleteItineraryById}
+                    deletingItinerary={deletingItinerary}
+                  />
                 </div>
+              )}
 
-                {/* Edit Trip Details Form */}
-                {isEditingTrip && selectedItinerary && (
-                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6 mb-8 space-y-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <h3 className="text-xl font-bold text-blue-300">✏️ Edit Trip: {selectedItinerary.title}</h3>
-                      <button onClick={() => setIsEditingTrip(false)} className="text-gray-400 hover:text-white">
-                        <X size={20} />
-                      </button>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="text-xs font-semibold text-blue-200">Trip Name</label>
-                        <input
-                          type="text"
-                          value={editTripForm.title}
-                          onChange={(e) => setEditTripForm({...editTripForm, title: e.target.value})}
-                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="text-xs font-semibold text-blue-200">Price (₹)</label>
-                        <input
-                          type="number"
-                          value={editTripForm.price}
-                          onChange={(e) => setEditTripForm({...editTripForm, price: e.target.value})}
-                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-500 font-mono"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="text-xs font-semibold text-blue-200">Duration</label>
-                        <input
-                          type="text"
-                          value={editTripForm.duration}
-                          onChange={(e) => setEditTripForm({...editTripForm, duration: e.target.value})}
-                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="text-xs font-semibold text-blue-200">Cover Image URL</label>
-                        <input
-                          type="text"
-                          value={editTripForm.coverImage}
-                          onChange={(e) => setEditTripForm({...editTripForm, coverImage: e.target.value})}
-                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-blue-200">Trip Category</label>
-                      <select
-                        value={editTripForm.category}
-                        onChange={(e) => setEditTripForm({...editTripForm, category: e.target.value})}
-                        className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-blue-500 cursor-pointer"
-                      >
-                        {tripCategoryOptions.map((option) => (
-                          <option key={option.value} value={option.value} className="bg-gray-800">
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10">
-                      <input
-                        id="editIsComingSoon"
-                        type="checkbox"
-                        checked={editTripForm.isComingSoon}
-                        onChange={(e) => setEditTripForm({...editTripForm, isComingSoon: e.target.checked})}
-                        className="w-5 h-5 accent-blue-500 cursor-pointer"
-                      />
-                      <label htmlFor="editIsComingSoon" className="text-sm font-medium text-blue-100 cursor-pointer select-none">
-                        Show "Coming Soon" badge
-                      </label>
-                    </div>
-
-                    <div className="flex gap-3 pt-2">
-                      <button
-                        onClick={handleUpdateTrip}
-                        disabled={updatingTrip}
-                        className="px-6 py-2.5 bg-green-600 hover:bg-green-700 rounded-lg font-semibold transition disabled:opacity-50 flex items-center gap-2"
-                      >
-                        {updatingTrip ? 'Saving...' : 'Save Changes'}
-                      </button>
-                      <button
-                        onClick={() => setIsEditingTrip(false)}
-                        className="px-6 py-2.5 bg-gray-600 hover:bg-gray-700 rounded-lg font-semibold transition"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {selectedItinerary && (
-                  <>
-                    {/* Add/Edit Day Form */}
-                    <div className="bg-white/5 rounded-lg p-4 mb-6 space-y-4 border border-white/10">
-                      <h3 className="font-semibold text-lg">
-                        {editingDayIndex !== null ? '✏️ Edit' : '➕ Add'} Day
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input
-                          placeholder="Day (e.g., Day 1)"
-                          value={dayForm.day}
-                          onChange={(e) => setDayForm({...dayForm, day: e.target.value})}
-                          className="px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-                        />
-                        <input
-                          placeholder="Title"
-                          value={dayForm.title}
-                          onChange={(e) => setDayForm({...dayForm, title: e.target.value})}
-                          className="px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-                        />
-                      </div>
-
-                      <input
-                        placeholder="Activities (comma separated)"
-                        value={dayForm.activitiesText}
-                        onChange={(e) => setDayForm({...dayForm, activitiesText: e.target.value})}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-                      />
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input
-                          placeholder="Accommodation"
-                          value={dayForm.accommodation}
-                          onChange={(e) => setDayForm({...dayForm, accommodation: e.target.value})}
-                          className="px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-                        />
-                        <input
-                          placeholder="Meals"
-                          value={dayForm.meals}
-                          onChange={(e) => setDayForm({...dayForm, meals: e.target.value})}
-                          className="px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-                        />
-                      </div>
-
-                      <textarea
-                        placeholder="Notes (optional)"
-                        rows="3"
-                        value={dayForm.notes}
-                        onChange={(e) => setDayForm({...dayForm, notes: e.target.value})}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-                      />
-
-                      <div className="flex gap-3 pt-2">
-                        <button
-                          onClick={handleAddDay}
-                          disabled={submittingDay}
-                          className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 rounded-lg font-semibold transition disabled:opacity-50"
-                        >
-                          {submittingDay ? 'Saving...' : (editingDayIndex !== null ? '✓ Update' : '✓ Add')}
-                        </button>
-                        {editingDayIndex !== null && (
-                          <button
-                            onClick={resetDayForm}
-                            className="px-6 py-3 bg-gray-600 hover:bg-gray-700 rounded-lg font-semibold"
-                          >
-                            Cancel
-                          </button>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Days List */}
-                    <div className="space-y-3">
-                      <h3 className="font-semibold text-lg">📋 Days ({selectedItinerary.itinerary?.length || 0})</h3>
-                      {selectedItinerary.itinerary?.length === 0 ? (
-                        <p className="text-gray-400 text-center py-8">No days added yet</p>
-                      ) : (
-                        selectedItinerary.itinerary.map((day, index) => (
-                          <div key={index} className="bg-white/10 border border-white/20 rounded-lg p-4 hover:bg-white/15 transition">
-                            <div className="flex justify-between items-start mb-3">
-                              <div>
-                                <h4 className="text-xl font-bold text-blue-300">{day.day}</h4>
-                                <p className="text-lg font-semibold mt-1">{day.title}</p>
-                              </div>
-                              <div className="flex gap-2">
-                                <button
-                                  onClick={() => handleEditDay(index)}
-                                  className="p-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition"
-                                >
-                                  <Edit2 size={18} />
-                                </button>
-                                <button
-                                  onClick={() => handleDeleteDay(index)}
-                                  className="p-2 bg-red-600 hover:bg-red-700 rounded-lg transition"
-                                >
-                                  <Trash2 size={18} />
-                                </button>
-                              </div>
-                            </div>
-                            <div className="space-y-2 text-sm text-gray-200">
-                              <p><strong>🎯 Activities:</strong> {day.activities?.join(', ')}</p>
-                              <p><strong>🏠 Accommodation:</strong> {day.accommodation}</p>
-                              <p><strong>🍽️ Meals:</strong> {day.meals}</p>
-                              {day.notes && <p><strong>📝 Notes:</strong> {day.notes}</p>}
-                            </div>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Reviews Tab */}
-        {activeTab === 'reviews' && (
-          <div className="space-y-6">
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-white shadow-xl">
-              <h2 className="text-2xl font-bold mb-6">⭐ Review Management</h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div>
-                  <label className="block text-sm font-semibold mb-2">Review Type</label>
-                  <select
-                    value={reviewType}
-                    onChange={(e) => setReviewType(e.target.value)}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white focus:outline-none focus:border-blue-500 cursor-pointer"
-                  >
-                    <option value="trip" className="bg-gray-800">Trip Reviews</option>
-                    <option value="daywise" className="bg-gray-800">Day-wise Reviews</option>
-                  </select>
+              {activeTab === 'reviews' && (
+                <div className="min-h-[400px]">
+                  <ReviewsTab
+                    reviews={reviews}
+                    itineraries={itineraries}
+                    reviewType={reviewType}
+                    setReviewType={setReviewType}
+                    selectedItineraryId={selectedItineraryId}
+                    setSelectedItineraryId={setSelectedItineraryId}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    itemsPerPage={itemsPerPage}
+                    handleDeleteReview={handleDeleteReview}
+                    deletingReview={deletingReview}
+                    reviewStatus={reviewStatus}
+                    setReviewStatus={setReviewStatus}
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
+                  />
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-2">Select Itinerary</label>
-                  <select
-                    value={selectedItineraryId || ''}
-                    onChange={(e) => setSelectedItineraryId(e.target.value)}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white focus:outline-none focus:border-blue-500 cursor-pointer"
-                  >
-                    {itineraries.map((it) => (
-                      <option key={it._id} value={it._id} className="bg-gray-800">
-                        {it.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+              )}
 
-              {/* Reviews List */}
-              <div className="space-y-3">
-                <h3 className="font-semibold text-lg">Reviews ({reviews.length})</h3>
-                {reviews.length === 0 ? (
-                  <p className="text-gray-400 text-center py-8">No reviews for this itinerary</p>
-                ) : (
-                  reviews.map((review) => (
-                    <div key={review._id} className="bg-white/10 border border-white/20 rounded-lg p-4 hover:bg-white/15 transition">
-                      <div className="flex justify-between items-start mb-3">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <h4 className="text-lg font-bold">{review.name}</h4>
-                            <div className="flex gap-1">
-                              {[...Array(5)].map((_, i) => (
-                                <span key={i} className={i < review.rating ? 'text-yellow-400' : 'text-gray-500'}>★</span>
-                              ))}
-                            </div>
-                          </div>
-                          <p className="text-gray-300">{review.comment}</p>
-                          <p className="text-xs text-gray-400 mt-2">
-                            {new Date(review.createdAt).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <button
-                          onClick={() => handleDeleteReview(review._id)}
-                          disabled={deletingReview}
-                          className="p-2 bg-red-600 hover:bg-red-700 rounded-lg transition disabled:opacity-50 ml-4"
-                        >
-                          <Trash2 size={18} />
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
+              {activeTab === 'settings' && (
+                <div className="min-h-[400px]">
+                  <SettingsTab
+                    settings={settings}
+                    addHeroImageUrl={addHeroImageUrl}
+                    updateHeroImageUrl={updateHeroImageUrl}
+                    removeHeroImageUrl={removeHeroImageUrl}
+                    handleUpdateSettings={handleUpdateSettings}
+                    settingsSubmitting={settingsSubmitting}
+                  />
+                </div>
+              )}
+
+              {/* Fallback content for debugging */}
+              {!['dashboard', 'itineraries', 'reviews', 'settings'].includes(activeTab) && (
+                <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                  <h3 className="text-2xl font-bold text-slate-900">Tab: {activeTab}</h3>
+                  <p className="mt-3 text-slate-600">This tab content is not yet implemented.</p>
+                </div>
+              )}
             </div>
           </div>
-        )}
-
-        {/* Settings Tab */}
-        {activeTab === 'settings' && (
-          <div className="space-y-6">
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-8 text-white shadow-xl">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-blue-600 rounded-lg">
-                  <Plus className="w-6 h-6" /> {/* Using Plus as a placeholder icon if Settings isn't imported */}
-                </div>
-                <h2 className="text-3xl font-bold">Global Settings</h2>
-              </div>
-
-              <div className="space-y-8">
-                {/* Hero Banner Section */}
-                <div className="space-y-6">
-                  <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10">
-                    <div>
-                      <h3 className="text-xl font-bold text-blue-300 flex items-center gap-2">
-                        🏠 Home Page Banners
-                      </h3>
-                      <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest font-bold">Manage your hero image rotation strategy</p>
-                    </div>
-                    <button 
-                      onClick={addHeroImageUrl}
-                      className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-bold flex items-center gap-2 transition transform hover:scale-105 active:scale-95 shadow-lg shadow-blue-900/20"
-                    >
-                      <Plus size={18} /> Add New Banner
-                    </button>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {settings.heroImages.map((url, index) => (
-                      <div key={index} className="flex flex-col bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden shadow-2xl transition hover:border-blue-500/50 group">
-                        {/* URL Management Header */}
-                        <div className="p-4 bg-white/5 border-b border-white/10 flex items-center gap-3">
-                          <span className="flex items-center justify-center w-6 h-6 bg-blue-600 rounded-full text-[10px] font-black">{index + 1}</span>
-                          <div className="flex-1 min-w-0">
-                            <input
-                              type="text"
-                              value={url}
-                              onChange={(e) => updateHeroImageUrl(index, e.target.value)}
-                              placeholder="Image URL (Unsplash or direct link)"
-                              className="w-full bg-transparent border-none text-sm text-white focus:ring-0 placeholder-gray-500 truncate"
-                            />
-                          </div>
-                          {settings.heroImages.length > 1 && (
-                            <button 
-                              onClick={() => removeHeroImageUrl(index)}
-                              className="p-1.5 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white rounded-lg transition"
-                              title="Delete Banner"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          )}
-                        </div>
-
-                        {/* Image Preview Window */}
-                        <div className="relative h-48 bg-black/40 overflow-hidden group-hover:brightness-110 transition">
-                          {url ? (
-                            <img 
-                              src={url} 
-                              alt={`Banner ${index + 1}`} 
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                e.target.style.display = 'none';
-                                const errDiv = document.createElement('div');
-                                errDiv.className = "flex items-center justify-center h-full text-red-500 text-sm font-bold bg-gray-900";
-                                errDiv.innerText = "⚠️ Invalid URL";
-                                e.target.parentNode.appendChild(errDiv);
-                              }}
-                            />
-                          ) : (
-                            <div className="flex items-center justify-center h-full text-gray-500 text-sm font-bold bg-gray-900/50 italic border-2 border-dashed border-white/5 m-4 rounded-xl">
-                              Waiting for URL...
-                            </div>
-                          )}
-                          
-                          {/* Hover Overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
-                            <span className="text-[10px] font-bold text-white/50 uppercase tracking-tighter">Live Banner Preview</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {settings.heroImages.length === 0 && (
-                    <div className="text-center py-20 bg-white/5 rounded-2xl border-2 border-dashed border-white/10">
-                      <div className="p-6 bg-blue-600/20 rounded-full w-fit mx-auto mb-4 border border-blue-500/30">
-                        <Plus className="w-10 h-10 text-blue-400" />
-                      </div>
-                      <p className="text-gray-300 font-bold text-xl mb-2">No Banners Found</p>
-                      <p className="text-gray-500 text-sm mb-6 max-w-xs mx-auto">Upload at least one beautiful image to start your home page rotation.</p>
-                      <button 
-                        onClick={addHeroImageUrl}
-                        className="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold transition shadow-xl shadow-blue-600/20"
-                      >
-                        Add First Image
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                <div className="pt-8 border-t border-white/10 flex justify-end">
-                  <button
-                    onClick={handleUpdateSettings}
-                    disabled={settingsSubmitting}
-                    className="px-10 py-4 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 rounded-xl font-black text-lg shadow-2xl transition transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 uppercase tracking-widest"
-                  >
-                    {settingsSubmitting ? '⌛ Saving Strategy...' : '🚀 Save Global Settings'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        </main>
       </div>
     </div>
   )
-}
+};
+

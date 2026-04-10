@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 import { ArrowRight as ArrowRightIcon, Clock3, Loader } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { itineraryAPI } from '../utils/api'
-import { sectionStyles } from '../ui/tripSectionStyles'
-import ui from '../ui/tripSection.module.css'
 
 const filters = ['2-4 Days', '5-7 Days', 'Family Trips']
 
@@ -32,8 +30,8 @@ export default function DaysWiseTrips() {
           title: trip.title,
           description: trip.description || '',
           image: trip.coverImage,
-          duration: trip.itinerary ? 
-            `${trip.itinerary.length} Days / ${Math.max(0, trip.itinerary.length - 1)} Nights` : 
+          duration: trip.itinerary ?
+            `${trip.itinerary.length} Days / ${Math.max(0, trip.itinerary.length - 1)} Nights` :
             'N/A',
           price: trip.price,
           tag: trip.tag || 'Kashmir Tour',
@@ -73,148 +71,147 @@ export default function DaysWiseTrips() {
     })
 
   return (
-    <div style={sectionStyles.page}>
-      <div style={sectionStyles.container}>
+    <div className="py-16 px-4 bg-gray-50">
+      <div className="max-w-7xl mx-auto">
         {loading ? (
-          <div style={sectionStyles.loadingWrap}>
-            <Loader size={40} className={ui.spin} />
+          <div className="flex justify-center items-center py-20">
+            <Loader size={40} className="animate-spin text-blue-600" />
           </div>
         ) : (
           <>
-        <div style={sectionStyles.headerRow}>
-          <div>
-            <h2 style={sectionStyles.title}>
-              Days-Wise Kashmir Trips
-            </h2>
-            <div style={sectionStyles.titleUnderline} />
-          </div>
-          <p style={{ ...sectionStyles.subtitle, maxWidth: '520px' }}>
-            Choose your perfect trip duration from 2 to 7 days with transparent pricing and curated day-by-day plans.
-          </p>
-        </div>
-
-        <div style={sectionStyles.sectionRow}>
-          <button
-            onClick={() => navigate('/all-daywise-trips')}
-            className={ui.linkButton}
-            style={sectionStyles.linkButton}
-          >
-            See all days-wise trips →
-          </button>
-
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {filters.map((f, i) => (
-              <span key={f} style={{ display: 'flex', alignItems: 'center' }}>
-                <button
-                  onClick={() => setActiveFilter(f)}
-                  className={ui.filterButton}
-                  style={{
-                    ...sectionStyles.filterButtonBase,
-                    ...(activeFilter === f ? sectionStyles.filterButtonActive : null),
-                  }}
-                >
-                  {f}
-                </button>
-                {i < filters.length - 1 && (
-                  <span style={sectionStyles.filterSeparator}>|</span>
-                )}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div style={sectionStyles.cardsGrid}>
-          {visibleTrips.length > 0 ? (
-            visibleTrips.map((trip) => (
-            <div
-              key={trip.id}
-              className={ui.card}
-              style={sectionStyles.card}
-            >
-              <div style={sectionStyles.imageWrap}>
-                <img
-                  className={ui.image}
-                  src={trip.image}
-                  alt={trip.title}
-                  style={sectionStyles.image}
-                />
-                <div style={{ ...sectionStyles.badge, backgroundColor: trip.tagColor }}>
-                  {trip.tag}
-                </div>
-                {/* Coming Soon Badge */}
-                {trip.isComingSoon && (
-                  <div style={{
-                    position: "absolute",
-                    top: "12px",
-                    right: "12px",
-                    background: "#f59e0b",
-                    color: "#000",
-                    fontSize: "10px",
-                    fontWeight: "800",
-                    padding: "4px 10px",
-                    borderRadius: "4px",
-                    textTransform: "uppercase",
-                    boxShadow: "0 4px 12px rgba(245, 158, 11, 0.4)",
-                    zIndex: 10
-                  }}>
-                    Coming Soon
-                  </div>
-                )}
+            {/* Header Row */}
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12 gap-6">
+              <div>
+                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3 font-['DM_Sans']">
+                  Days-Wise Kashmir Trips
+                </h2>
+                <div className="w-16 h-1 bg-blue-600 rounded-full" />
               </div>
+              <p className="text-gray-600 text-lg leading-relaxed max-w-[520px] font-['DM_Sans']">
+                Choose your perfect trip duration from 2 to 7 days with transparent pricing and curated day-by-day plans.
+              </p>
+            </div>
 
-              <div style={sectionStyles.cardBody}>
-                <div style={sectionStyles.duration}>
-                  <ClockIcon />
-                  {trip.duration}
-                </div>
+            {/* See all link + Filters */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10 gap-4">
+              <button
+                onClick={() => navigate('/all-daywise-trips')}
+                className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors duration-200 font-['DM_Sans'] tracking-wide"
+              >
+                See all days-wise trips →
+              </button>
 
-                <h3 style={sectionStyles.cardTitle}>
-                  {trip.title}
-                </h3>
+              {/* Filter Pills */}
+              <div className="flex items-center gap-0">
+                {filters.map((f, i) => (
+                  <span key={f} className="flex items-center">
+                    <button
+                      onClick={() => setActiveFilter(f)}
+                      className={`
+                        px-4 py-2 text-sm font-medium transition-colors duration-200 font-['DM_Sans']
+                        ${activeFilter === f
+                          ? 'text-blue-600 bg-blue-50'
+                          : 'text-gray-600 hover:text-gray-900'
+                        }
+                      `}
+                    >
+                      {f}
+                    </button>
+                    {i < filters.length - 1 && (
+                      <span className="text-gray-300 mx-2">|</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-                <p style={sectionStyles.cardDescription}>
-                  {trip.description}
-                </p>
-
-                <div style={sectionStyles.priceRow}>
-                  <div>
-                    <span style={sectionStyles.priceMeta}>
-                      Starting from
-                    </span>
-                    <span style={sectionStyles.priceValue}>
-                      {trip.isComingSoon ? 'TBA' : trip.price}
-                    </span>
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      if (trip.isComingSoon) {
-                        const msg = encodeURIComponent(`Hi! I'm interested in the upcoming trip: ${trip.title}`);
-                        window.open(`https://wa.me/919149680276?text=${msg}`, '_blank');
-                      } else {
-                        handleViewTrip(trip)
-                      }
-                    }}
-                    className={ui.readMore}
-                    style={{
-                      ...sectionStyles.ctaButton,
-                      background: trip.isComingSoon ? '#f59e0b22' : 'none',
-                      color: trip.isComingSoon ? '#f59e0b' : 'inherit',
-                      fontWeight: trip.isComingSoon ? 'bold' : 'normal',
-                    }}
+            {/* Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {visibleTrips.length > 0 ? (
+                visibleTrips.map((trip) => (
+                  <div
+                    key={trip.id}
+                    className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden border border-gray-100 hover:border-gray-200"
                   >
-                    {trip.isComingSoon ? 'Enquire' : 'View Trip'} <ArrowRight />
-                  </button>
+                    {/* Image */}
+                    <div className="relative overflow-hidden">
+                      <img
+                        src={trip.image}
+                        alt={trip.title}
+                        className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                      />
+                      {/* Tag badge */}
+                      <div
+                        className="absolute top-3 left-3 px-3 py-1 text-white text-xs font-semibold rounded-full shadow-lg"
+                        style={{ backgroundColor: trip.tagColor }}
+                      >
+                        {trip.tag}
+                      </div>
+                      {/* Coming Soon Badge */}
+                      {trip.isComingSoon && (
+                        <div className="absolute top-3 right-3 bg-amber-500 text-black text-xs font-extrabold px-2.5 py-1 rounded uppercase shadow-lg z-10">
+                          Coming Soon
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Body */}
+                    <div className="p-6">
+                      {/* Duration */}
+                      <div className="flex items-center gap-2 text-gray-500 text-sm mb-3 font-['DM_Sans']">
+                        <ClockIcon />
+                        {trip.duration}
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 font-['DM_Sans']">
+                        {trip.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3 font-['DM_Sans']">
+                        {trip.description}
+                      </p>
+
+                      {/* Price + CTA row */}
+                      <div className="flex items-end justify-between">
+                        <div>
+                          <span className="text-gray-500 text-xs block font-['DM_Sans']">
+                            Starting from
+                          </span>
+                          <span className="text-2xl font-bold text-gray-900 font-['DM_Sans']">
+                            {trip.isComingSoon ? 'TBA' : trip.price}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => {
+                            if (trip.isComingSoon) {
+                              const msg = encodeURIComponent(`Hi! I'm interested in the upcoming trip: ${trip.title}`);
+                              window.open(`https://wa.me/919149680276?text=${msg}`, '_blank');
+                            } else {
+                              handleViewTrip(trip)
+                            }
+                          }}
+                          className={`
+                            flex items-center gap-1 text-sm font-medium transition-colors duration-200 font-['DM_Sans']
+                            ${trip.isComingSoon
+                              ? 'bg-amber-50 text-amber-600 px-3 py-1.5 rounded-md font-bold hover:bg-amber-100'
+                              : 'text-blue-600 hover:text-blue-700'
+                            }
+                          `}
+                        >
+                          {trip.isComingSoon ? 'Enquire' : 'View Trip'} <ArrowRight />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-full flex justify-center py-20">
+                  <p className="text-gray-500 text-lg font-['DM_Sans']">No trips available. Please check back soon.</p>
                 </div>
-              </div>
+              )}
             </div>
-            ))
-          ) : (
-            <div style={sectionStyles.emptyStateWrap}>
-              <p style={sectionStyles.emptyStateText}>No trips available. Please check back soon.</p>
-            </div>
-          )}
-        </div>
           </>
         )}
       </div>
