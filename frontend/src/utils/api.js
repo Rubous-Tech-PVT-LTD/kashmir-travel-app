@@ -132,6 +132,10 @@ export const activityAPI = {
   getBySlug: (slug) => safe(async () => dataOr(await request(`/activities/${slug}`), null), null, 'Error fetching activity'),
 }
 
+export const settingsAPI = {
+  getSettings: () => request('/settings'),
+}
+
 export const adminAPI = {
   login: (username, password) => request('/admin/login', { method: 'POST', body: { username, password } }),
   logout: () => request('/admin/logout', { method: 'POST' }),
@@ -141,6 +145,7 @@ export const adminAPI = {
   getHotels: () => request('/admin/hotels'),
   getCarRentals: () => request('/admin/car-rentals'),
   getActivities: () => request('/admin/activities'),
+  getInquiries: () => request('/admin/inquiries'),
   getReviews: (itineraryId, reviewType) => request('/admin/reviews', { query: { itineraryId, reviewType } }),
   createItinerary: (payload) => request('/admin/itineraries', { method: 'POST', body: payload }),
   createHotel: (payload) => request('/admin/hotels', { method: 'POST', body: payload }),

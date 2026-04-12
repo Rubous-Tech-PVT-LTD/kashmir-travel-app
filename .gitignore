@@ -3,3 +3,14 @@ node_modules/
 dist/
 build/
 .DS_Store
+
+# Binary assets – use cloud storage (e.g. Cloudinary) instead
+backend/assets/*.jpeg
+backend/assets/*.jpg
+backend/assets/*.png
+backend/assets/*.gif
+backend/assets/*.webp
+
+# Debug / one-off utility scripts – should not be version-controlled
+backend/check-*.js
+backend/verify-*.js

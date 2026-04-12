@@ -179,19 +179,33 @@ export default function Skiing() {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-5">
-            {skiPackages.map((item) => (
-              <div key={item.name} className="bg-white p-5 rounded-xl border shadow hover:-translate-y-1 transition">
-                
-                <p className="text-xs font-bold text-[#1a3f5d]">
-                  {item.terrain}
-                </p>
+          <div className="ski-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
+            {skiPackages.map((item, index) => {
+              const pickText = (...values) => {
+                for (const value of values) {
+                  if (typeof value === 'number') return String(value)
+                  if (typeof value !== 'string') continue
+                  const text = value.replace(/[\u200B-\u200D\uFEFF]/g, '').trim()
+                  if (text) return text
+                }
+                return ''
+              }
 
-                <h3 className="text-xl font-semibold">{item.name}</h3>
-                <p className="text-sm text-gray-600 mb-4">{item.note}</p>
+              const levelText = pickText(item.level, item.terrain, item.type, 'All Levels')
+              const titleText = pickText(item.title, item.name, item.duration, 'Ski Package')
+              const descriptionText = pickText(item.description, item.note, item.includes, item.detail, 'Package details available')
 
-                <div className="flex justify-between items-center">
-                  <span className="font-bold">{item.price}</span>
+              return (
+              <div
+                key={`${item.level || item.terrain || item.title || item.name || 'ski-package'}-${index}`}
+                className="ski-card"
+                style={{ background: '#fff', borderRadius: '18px', border: '1px solid #d8e6ef', boxShadow: '0 12px 28px rgba(10, 35, 58, 0.07)', padding: '20px' }}
+              >
+                <p style={{ margin: '0 0 10px', color: '#1a3f5d', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{levelText}</p>
+                <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#10263b' }}>{titleText}</h3>
+                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{descriptionText}</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{pickText(item.price, 'On Request')}</span>
                   <button
                     onClick={() => navigate('/services/hotel-booking')}
                     className="bg-[#1a3f5d] text-white px-4 py-2 rounded-lg"
@@ -201,7 +215,8 @@ export default function Skiing() {
                 </div>
 
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>

@@ -11,9 +11,24 @@ module.exports = [
         { title: 'Guided Ticket Support', detail: 'Queue handling and smart timing from local team.' },
       ],
       rideTiers: [
-        { tier: 'Standard', altitude: '8,500 ft', duration: '20 mins' },
-        { tier: 'Premium', altitude: '10,500 ft', duration: '35 mins' },
-        { tier: 'Adventure', altitude: '12,300 ft', duration: '50 mins' },
+        {
+          route: 'Gulmarg Base to Kongdoori',
+          title: 'Phase 1 Scenic Ride',
+          description: 'Smooth valley ascent with meadow views, pine stretches, and easy access for families.',
+          price: 'INR 1200',
+        },
+        {
+          route: 'Kongdoori to Apharwat',
+          title: 'Phase 2 Snow Peak Ride',
+          description: 'Higher altitude route with wide Himalayan views and snowline landscapes in peak season.',
+          price: 'INR 1800',
+        },
+        {
+          route: 'Combined Phase 1 + 2',
+          title: 'Full Gondola Experience',
+          description: 'Complete mountain cable-car journey ideal for day visitors wanting the full Gulmarg experience.',
+          price: 'INR 2800',
+        },
       ],
       gondolaMoments: [
         { label: 'Best Window', value: '8:30 AM - 10:30 AM' },
@@ -43,9 +58,9 @@ module.exports = [
         { title: 'Sunset Lens Spots', detail: 'Golden hour points for portraits and reels.' },
       ],
       ridePackages: [
-        { route: 'Classic Dal', time: '45 mins', price: 'INR 900' },
-        { route: 'Market + Garden', time: '75 mins', price: 'INR 1400' },
-        { route: 'Sunset Special', time: '90 mins', price: 'INR 1700' },
+        { title: 'Classic Dal Ride', description: 'A relaxed lake circuit with calm water views and simple boarding points.', time: '45 mins', price: 'INR 900' },
+        { title: 'Market + Garden Ride', description: 'A longer ride covering floating market views and nearby garden surroundings.', time: '75 mins', price: 'INR 1400' },
+        { title: 'Sunset Special Ride', description: 'An evening cruise for warm light, scenic photos, and a quieter lake route.', time: '90 mins', price: 'INR 1700' },
       ],
       rideMoments: [
         { label: 'Boarding Point', value: 'Boulevard Ghat' },
@@ -69,9 +84,27 @@ module.exports = [
     coverImage: 'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=1200&q=80',
     content: {
       houseboatStays: [
-        { name: 'Royal Cedar Houseboat', nights: '1N/2D', price: 'INR 4500' },
-        { name: 'Dal View Premium', nights: '2N/3D', price: 'INR 8200' },
-        { name: 'Heritage Walnut Suite', nights: '2N/3D', price: 'INR 9800' },
+        {
+          title: 'Royal Cedar Houseboat',
+          duration: '1N/2D',
+          location: 'Dal Lake, Srinagar',
+          image: 'https://picsum.photos/id/54/1200/800',
+          price: 'INR 4500',
+        },
+        {
+          title: 'Dal View Premium',
+          duration: '2N/3D',
+          location: 'Nigeen Lake, Srinagar',
+          image: 'https://picsum.photos/id/78/1200/800',
+          price: 'INR 8200',
+        },
+        {
+          title: 'Heritage Walnut Suite',
+          duration: '2N/3D',
+          location: 'Boulevard Side, Dal Lake',
+          image: 'https://picsum.photos/id/164/1200/800',
+          price: 'INR 9800',
+        },
       ],
       houseboatHighlights: [
         { title: 'Lakefront Private Deck', detail: 'Morning tea with mountain reflections.' },
@@ -92,9 +125,24 @@ module.exports = [
         { title: 'Action Photos', detail: 'Photo/video captures at key rapids.' },
       ],
       raftingPackages: [
-        { level: 'Beginner', grade: 'I-II', river: 'Lidder', price: 'INR 1800' },
-        { level: 'Intermediate', grade: 'II-III', river: 'Sindh', price: 'INR 2600' },
-        { level: 'Advanced', grade: 'III-IV', river: 'Upper Lidder', price: 'INR 3900' },
+        {
+          distance: '5 km Riverside Run',
+          title: 'Beginner Valley Splash',
+          description: 'A calm and fun route for first-time rafters with guide-led practice sections.',
+          price: 'INR 1800',
+        },
+        {
+          distance: '9 km Rapid Mix Route',
+          title: 'Intermediate Whitewater',
+          description: 'Balanced rapids and scenic stretches designed for returning adventure travelers.',
+          price: 'INR 2600',
+        },
+        {
+          distance: '14 km Extended Rapids',
+          title: 'Advanced Rapids Challenge',
+          description: 'Longer high-energy run with stronger waves and premium guide supervision.',
+          price: 'INR 3900',
+        },
       ],
       safetyGear: [
         { item: 'Helmet', included: 'Yes' },
@@ -124,9 +172,24 @@ module.exports = [
         { title: 'GoPro Add-on', detail: 'Optional in-flight footage.' },
       ],
       flightPackages: [
-        { type: 'Classic', duration: '8-10 mins', height: '1200 ft', price: 'INR 2200' },
-        { type: 'Explorer', duration: '12-15 mins', height: '1800 ft', price: 'INR 3200' },
-        { type: 'Pro Glide', duration: '18-22 mins', height: '2500 ft', price: 'INR 4300' },
+        {
+          time: '8-10 mins',
+          title: 'Classic Tandem Flight',
+          description: 'Entry-level glide with smooth takeoff and sweeping valley views for first-time flyers.',
+          price: 'INR 2200',
+        },
+        {
+          time: '12-15 mins',
+          title: 'Explorer Ridge Flight',
+          description: 'Longer airtime with wider mountain coverage and gentle thermal turns.',
+          price: 'INR 3200',
+        },
+        {
+          time: '18-22 mins',
+          title: 'Pro Glide Experience',
+          description: 'Extended high-view route with premium pilot control for maximum aerial exposure.',
+          price: 'INR 4300',
+        },
       ],
       flightMoments: [
         { label: 'Takeoff Zone', value: 'Aru Ridge' },
@@ -154,9 +217,24 @@ module.exports = [
         { title: 'Lift Access', detail: 'Optimized run planning with guide.' },
       ],
       skiPackages: [
-        { level: 'Starter', duration: '2 hours', includes: 'Coach + gear', price: 'INR 2500' },
-        { level: 'Day Pass', duration: '4 hours', includes: 'Coach + gear + lift', price: 'INR 4300' },
-        { level: 'Full Pro', duration: '6 hours', includes: 'Guide + premium gear + lift', price: 'INR 6200' },
+        {
+          level: 'Starter',
+          title: 'Beginner Slope Session',
+          description: 'Guided basics with balance practice and full starter gear support.',
+          price: 'INR 2500',
+        },
+        {
+          level: 'Day Pass',
+          title: 'Intermediate Mountain Run',
+          description: 'Longer slope access with coaching and lift-assisted practice windows.',
+          price: 'INR 4300',
+        },
+        {
+          level: 'Full Pro',
+          title: 'Advanced Alpine Ski Plan',
+          description: 'Extended guided runs with premium gear and focused technical progression.',
+          price: 'INR 6200',
+        },
       ],
       seasonalMoments: [
         { label: 'Peak Snow', value: 'Jan-Feb' },

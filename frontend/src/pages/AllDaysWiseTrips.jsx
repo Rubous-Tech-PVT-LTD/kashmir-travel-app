@@ -44,6 +44,8 @@ export default function AllDaysWiseTrips() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
+  const selectedCategoryParam = searchParams.get('category') || 'daywise'
+  const selectedCategory = selectedCategoryParam === 'spiritual' ? 'spiritual-tour' : selectedCategoryParam
 
   // Fetch trips from backend
   useEffect(() => {
@@ -51,7 +53,6 @@ export default function AllDaysWiseTrips() {
       try {
         setLoading(true)
         setError('')
-        const selectedCategory = searchParams.get('category') || 'daywise'
         const trips = await itineraryAPI.getByCategory(selectedCategory)
 
         // Transform MongoDB data to match expected format
@@ -79,9 +80,8 @@ export default function AllDaysWiseTrips() {
     }
 
     fetchTrips()
-  }, [searchParams])
+  }, [searchParams, selectedCategory])
 
-  const selectedCategory = searchParams.get('category') || 'daywise'
   const isDaywiseCategory = selectedCategory === 'daywise'
 
   const daysParam = Number(searchParams.get('days'))
@@ -89,6 +89,8 @@ export default function AllDaysWiseTrips() {
   const hasDaysFilter = Number.isFinite(daysParam) && daysParam > 0
 
   const spiritualTempleMap = {
+    vaish: { name: 'Vaishno Devi Temple', tripIds: [3, 6] },
+    kheer: { name: 'Mata Kheer Bhawani Temple', tripIds: [2, 4] },
     'vaishno-devi': { name: 'Vaishno Devi Temple', tripIds: [3, 6] },
     'kheer-bhawani': { name: 'Mata Kheer Bhawani Temple', tripIds: [2, 4] },
     shankaracharya: { name: 'Shankaracharya Temple', tripIds: [1, 2, 3] },

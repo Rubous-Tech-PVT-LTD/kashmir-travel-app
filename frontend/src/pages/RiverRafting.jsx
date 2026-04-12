@@ -22,10 +22,7 @@ export default function RiverRafting() {
     };
 
     loadActivity();
-
-    return () => {
-      mounted = false;
-    };
+    return () => (mounted = false);
   }, []);
 
   const raftingHighlights = activityData?.raftingHighlights || [];
@@ -52,11 +49,13 @@ export default function RiverRafting() {
 
   return (
     <div className="min-h-screen bg-[#f8fbff]">
+
       {/* HERO */}
       <section className="relative overflow-hidden text-white bg-linear-to-br from-[#07111d] via-[#12355a] to-[#1a78a6] px-6 py-20">
-        {/* Glow Effects */}
-        <div className="absolute -top-20 -right-24 w-70 h-70 rounded-full bg-[radial-gradient(circle,rgba(136,225,255,0.4)_0%,transparent_70%)] animate-pulse" />
-        <div className="absolute -bottom-24 -left-24 w-75 h-75 rounded-full bg-[radial-gradient(circle,rgba(255,202,126,0.3)_0%,transparent_70%)]" />
+
+        {/* Glow */}
+        <div className="absolute -top-20 -right-24 w-72 h-72 rounded-full bg-[radial-gradient(circle,rgba(136,225,255,0.4)_0%,transparent_70%)] animate-pulse" />
+        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(255,202,126,0.3)_0%,transparent_70%)]" />
 
         <div className="max-w-6xl mx-auto">
           <button
@@ -73,14 +72,12 @@ export default function RiverRafting() {
               </p>
 
               <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
-                River Rafting Built for Real Adventure, Clear Guidance, and Big
-                Valley Energy
+                River Rafting Built for Real Adventure
               </h1>
 
-              <p className="text-blue-100 mb-6 leading-relaxed">
-                This page turns river rafting into a dedicated adventure
-                destination with package tiers, safety guidance, and clear
-                booking steps.
+              <p className="text-blue-100 mb-6">
+                Experience thrilling rapids with guided safety, clear packages,
+                and unforgettable valley views.
               </p>
 
               <div className="flex gap-4 flex-wrap">
@@ -90,6 +87,7 @@ export default function RiverRafting() {
                 >
                   View Kashmir Trips
                 </button>
+
                 <button
                   onClick={() => navigate("/services/group-tour")}
                   className="border border-white/40 px-5 py-2 rounded-lg"
@@ -99,18 +97,17 @@ export default function RiverRafting() {
               </div>
             </div>
 
+            {/* Image */}
             <div className="bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/20 shadow-lg">
               <img
                 src="https://picsum.photos/id/10/1200/800"
                 className="w-full h-64 object-cover rounded-xl mb-4"
+                alt=""
               />
 
               <div className="grid grid-cols-3 gap-3">
                 {raftingMoments.map((item) => (
-                  <div
-                    key={item.label}
-                    className="bg-white/10 rounded-lg p-2"
-                  >
+                  <div key={item.label} className="bg-white/10 p-2 rounded-lg">
                     <p className="text-[10px] text-cyan-200 font-bold">
                       {item.label}
                     </p>
@@ -126,11 +123,12 @@ export default function RiverRafting() {
       {/* HIGHLIGHTS */}
       <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-6">
         <div>
-          <p className="text-xs text-[#0d6b95] font-bold tracking-widest mb-2">
+          <p className="text-xs text-[#0d6b95] font-bold mb-2">
             WHY THIS RUN STANDS OUT
           </p>
+
           <h2 className="text-3xl font-bold text-[#10263b] mb-6">
-            A clear, energetic page for one of Kashmir’s strongest adventures
+            One of Kashmir’s best adventure experiences
           </h2>
 
           <div className="grid md:grid-cols-3 gap-4">
@@ -140,28 +138,23 @@ export default function RiverRafting() {
                 className="bg-white border rounded-xl p-4 shadow hover:shadow-lg transition"
               >
                 <div className="w-10 h-10 rounded-lg bg-linear-to-r from-[#0d6b95] to-[#28a7d6] mb-3" />
-                <h3 className="font-semibold text-[#12304c] mb-1">
-                  {item.title}
-                </h3>
+                <h3 className="font-semibold">{item.title}</h3>
                 <p className="text-sm text-gray-600">{item.detail}</p>
               </div>
             ))}
           </div>
         </div>
 
+        {/* Safety */}
         <div className="bg-white rounded-2xl p-6 border shadow">
-          <p className="text-xs text-[#0d6b95] font-bold mb-2">
-            SAFETY GEAR
-          </p>
-          <h3 className="text-xl font-semibold text-[#10263b] mb-4">
-            Built around guide-led control and prep
+          <h3 className="text-xl font-semibold mb-4">
+            Safety Gear Included
           </h3>
 
           {safetyGear.map((item) => (
-            <div key={item} className="flex gap-2 mb-2">
-              <span>-</span>
-              <p className="text-sm text-gray-600">{item}</p>
-            </div>
+            <p key={item} className="text-sm text-gray-600 mb-2">
+              • {item}
+            </p>
           ))}
         </div>
       </section>
@@ -169,26 +162,34 @@ export default function RiverRafting() {
       {/* PACKAGES */}
       <section className="bg-[#eef7fc] py-14 px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-center text-3xl font-bold text-[#10263b] mb-8">
-            Choose the level of thrill you want
+
+          <h2 className="text-center text-3xl font-bold mb-8">
+            Choose Your Package
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-5">
-            {raftingPackages.map((item) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {raftingPackages.map((item, index) => (
               <div
-                key={item.name}
-                className="bg-white rounded-xl p-5 border shadow hover:shadow-lg"
+                key={index}
+                className="bg-white rounded-xl border shadow p-5"
               >
-                <p className="text-xs text-[#0d6b95] font-bold">
-                  {item.duration}
+                <p className="text-xs text-[#0d6b95] font-bold mb-2">
+                  {item.distance || "Route info"}
                 </p>
-                <h3 className="text-xl font-semibold text-[#10263b] mb-2">
-                  {item.name}
+
+                <h3 className="text-lg font-semibold mb-1">
+                  {item.title || "Rafting Package"}
                 </h3>
-                <p className="text-sm text-gray-600 mb-4">{item.note}</p>
+
+                <p className="text-sm text-gray-600 mb-4">
+                  {item.description || "Package details"}
+                </p>
 
                 <div className="flex justify-between items-center">
-                  <span className="font-bold">{item.price}</span>
+                  <span className="font-bold">
+                    {item.price || "On Request"}
+                  </span>
+
                   <button
                     onClick={() => navigate("/services/hotel-booking")}
                     className="bg-[#0d6b95] text-white px-4 py-2 rounded-lg"
@@ -199,46 +200,51 @@ export default function RiverRafting() {
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
       {/* FLOW */}
       <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-6">
         <div>
-          <h2 className="text-2xl font-bold mb-6 text-[#10263b]">
-            From briefing to rapids in three steps
+          <h2 className="text-2xl font-bold mb-6">
+            Trip Flow
           </h2>
 
           {tripPhases.map((item) => (
             <div key={item.step} className="bg-white p-4 rounded-xl border mb-3">
-              <p className="text-xs text-[#0d6b95] font-bold">{item.step}</p>
+              <p className="text-xs text-[#0d6b95] font-bold">
+                {item.step}
+              </p>
               <h3 className="font-semibold">{item.title}</h3>
               <p className="text-sm text-gray-600">{item.desc}</p>
             </div>
           ))}
         </div>
 
-        <div className="bg-linear-to-br from-[#10263b] via-[#15506e] to-[#0d6b95] text-white p-6 rounded-2xl shadow">
+        <div className="bg-linear-to-br from-[#10263b] via-[#15506e] to-[#0d6b95] text-white p-6 rounded-2xl">
           <img
             src="https://picsum.photos/id/10/1200/800"
             className="w-full h-60 object-cover rounded-xl mb-4"
+            alt=""
           />
 
           <h3 className="text-xl font-semibold mb-3">
-            River Rafting with a full Kashmir adventure plan
+            Ready for Adventure?
           </h3>
 
-          <p className="text-sm text-blue-100 mb-4">
-            Tell us your preferred route length, group size, and season.
+          <p className="text-sm mb-4">
+            Plan your rafting experience with a complete Kashmir trip.
           </p>
 
           <div className="flex gap-4">
             <button
               onClick={() => navigate("/alltrips")}
-              className="bg-[#ffd79d] text-[#13263b] px-4 py-2 rounded-lg font-semibold"
+              className="bg-[#ffd79d] text-[#13263b] px-4 py-2 rounded-lg"
             >
               Explore Trips
             </button>
+
             <button
               onClick={() => navigate("/services/group-tour")}
               className="border border-white px-4 py-2 rounded-lg"

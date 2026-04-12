@@ -1,34 +1,51 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
-import { hotelAPI } from '../utils/api'
+import { activityAPI } from '../utils/api'
 
 export default function HouseboatStay() {
   const navigate = useNavigate()
-  const [houseboatStays, setHouseboatStays] = useState([])
-  const [isHouseboatsLoading, setIsHouseboatsLoading] = useState(true)
+  const [activityData, setActivityData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     let mounted = true
 
-    const fetchHouseboats = async () => {
-      setIsHouseboatsLoading(true)
-      const data = await hotelAPI.getHouseboats()
+    const loadActivity = async () => {
+      setIsLoading(true)
+      const data = await activityAPI.getBySlug('houseboat-stay')
 
       if (!mounted) return
 
-      setHouseboatStays(data)
-      setIsHouseboatsLoading(false)
+      setActivityData(data)
+      setIsLoading(false)
     }
 
-    fetchHouseboats()
-    return () => (mounted = false)
+    loadActivity()
+
+    return () => {
+      mounted = false
+    }
   }, [])
 
-  const displayedHouseboats = useMemo(
-    () => houseboatStays.filter((item) => !(item.name || '').toLowerCase().includes('kareem')),
-    [houseboatStays]
-  )
+  const houseboatStays = activityData?.houseboatStays || []
+  const displayedHouseboats = useMemo(() => houseboatStays, [houseboatStays])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-[60vh] grid place-items-center text-[#10263b] font-semibold">
+        Loading activity...
+      </div>
+    )
+  }
+
+  if (!activityData) {
+    return (
+      <div className="min-h-[60vh] grid place-items-center text-[#10263b] font-semibold">
+        Unable to load houseboat stay details.
+      </div>
+    )
+  }
 
   return (
     <div className="bg-[#f8fbff]">
@@ -36,9 +53,8 @@ export default function HouseboatStay() {
       {/* HERO */}
       <section className="relative overflow-hidden bg-linear-to-br from-[#081525] via-[#163a56] to-[#3b6c8f] text-white py-20 px-6">
         
-        {/* Glow */}
-        <div className="absolute -right-24 -top-24 w-70 h-70 rounded-full bg-[radial-gradient(circle,rgba(143,209,255,0.4)_0%,transparent_70%)] animate-pulse" />
-        <div className="absolute -left-24 -bottom-24 w-75 h-75 rounded-full bg-[radial-gradient(circle,rgba(255,211,159,0.34)_0%,transparent_70%)]" />
+        <div className="absolute -right-24 -top-24 w-72 h-72 rounded-full bg-[radial-gradient(circle,rgba(143,209,255,0.4)_0%,transparent_70%)] animate-pulse" />
+        <div className="absolute -left-24 -bottom-24 w-72 h-72 rounded-full bg-[radial-gradient(circle,rgba(255,211,159,0.34)_0%,transparent_70%)]" />
 
         <div className="max-w-6xl mx-auto">
           
@@ -75,7 +91,7 @@ export default function HouseboatStay() {
 
                 <button
                   onClick={() => navigate('/activities/shikara-ride')}
-                  className="border border-white px-5 py-2 rounded-lg hover:bg-white hover:text-black"
+                  className="border border-white px-5 py-2 rounded-lg hover:bg-white hover:text-black transition"
                 >
                   Add Shikara Ride
                 </button>
@@ -86,7 +102,7 @@ export default function HouseboatStay() {
             <div className="bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/20 shadow-xl">
               <img
                 src="https://picsum.photos/id/54/1200/800"
-                className="w-full h-70 object-cover rounded-xl mb-4"
+                className="w-full h-72 object-cover rounded-xl mb-4"
                 alt=""
               />
 
@@ -133,7 +149,6 @@ export default function HouseboatStay() {
           </div>
         </div>
 
-        {/* Inclusion Panel */}
         <div className="bg-linear-to-b from-white to-blue-50 p-6 rounded-xl border shadow">
           <h3 className="text-xl font-semibold mb-4">Stay Inclusions</h3>
 
@@ -163,37 +178,49 @@ export default function HouseboatStay() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {displayedHouseboats.map((item) => (
-              <div key={item.id} className="bg-white rounded-xl shadow hover:shadow-lg transition">
-                
+              <div
+                key={item.title || item.name || item.duration}
+                className="bg-white rounded-2xl border border-blue-100 shadow-md p-5 hover:shadow-lg transition"
+              >
                 <img
-                  src={item.image}
-                  className="w-full h-44 object-cover rounded-t-xl"
-                  alt=""
+                  src={item.image || 'https://picsum.photos/id/54/1200/800'}
+                  alt="houseboat"
+                  className="w-full h-44 object-cover rounded-xl mb-3"
                 />
 
-                <div className="p-4">
-                  <p className="text-xs text-blue-600 font-semibold">{item.location}</p>
+                <p className="text-xs text-blue-600 font-bold mb-1">
+                  {item.location || 'Dal Lake, Srinagar'}
+                </p>
 
-                  <h3 className="text-lg font-bold">{item.name}</h3>
+                <h3 className="text-lg font-semibold mb-1">
+                  {item.title || item.name || 'Houseboat Stay'}
+                </h3>
 
-                  <p className="text-sm text-gray-500 mb-3">{item.nights}</p>
+                <p className="text-sm text-gray-600 mb-4">
+                  {item.duration || item.nights || 'Flexible stay'}
+                </p>
 
-                  <div className="flex justify-between items-center">
-                    <span className="font-bold">₹{item.price}</span>
+                <div className="flex justify-between items-center">
+                  <span className="font-bold text-lg text-[#10263b]">
+                    {item.price || 'Contact for price'}
+                  </span>
 
-                    <button
-                      onClick={() => navigate('/services/hotel-booking')}
-                      className="bg-blue-700 text-white px-3 py-1 rounded-md text-sm"
-                    >
-                      Reserve
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => navigate('/services/hotel-booking')}
+                    className="bg-[#2a6f92] text-white px-4 py-2 rounded-md hover:bg-[#1f5672]"
+                  >
+                    Reserve
+                  </button>
                 </div>
-
               </div>
             ))}
           </div>
 
+          {!isLoading && displayedHouseboats.length === 0 && (
+            <p className="text-center mt-4 text-gray-500">
+              No houseboat stays found.
+            </p>
+          )}
         </div>
       </section>
 
@@ -242,7 +269,7 @@ export default function HouseboatStay() {
 
             <button
               onClick={() => navigate('/activities/shikara-ride')}
-              className="border px-4 py-2 rounded-lg"
+              className="border border-white px-4 py-2 rounded-lg"
             >
               Add Ride
             </button>

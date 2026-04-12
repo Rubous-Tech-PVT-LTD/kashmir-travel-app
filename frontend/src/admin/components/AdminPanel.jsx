@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { X, AlertCircle, MapPin, Star, Settings, Building2, Car, Compass } from 'lucide-react'
+import { X, AlertCircle, MapPin, Star, Settings, Building2, Car, Compass, Inbox } from 'lucide-react'
 import { logoutAdmin } from '../../utils/adminAuth'
 import { adminAPI } from '../../utils/api'
 import { Btn } from './AdminPanelUI'
@@ -10,6 +10,7 @@ import CarRentalsTab from '../tabs/CarRentalsTab'
 import ActivitiesTab from '../tabs/ActivitiesTab'
 import ReviewsTab from '../tabs/ReviewsTab'
 import SettingsTab from '../tabs/SettingsTab'
+import InquiriesTab from '../tabs/InquiriesTab'
 
 const INITIAL_ITINERARY_FORM = { title: '', duration: '', price: '', coverImage: '', category: 'popular', isComingSoon: false }
 const INITIAL_DAY_FORM = { day: '', title: '', activitiesText: '', accommodation: '', meals: '', notes: '' }
@@ -47,6 +48,7 @@ const ADMIN_TABS = [
   { id: 'hotels', label: 'Hotels', icon: Building2 },
   { id: 'car-rentals', label: 'Car Rentals', icon: Car },
   { id: 'activities', label: 'Activities', icon: Compass },
+  { id: 'inquiries', label: 'Inquiries', icon: Inbox },
   { id: 'reviews', label: 'Reviews', icon: Star },
   { id: 'settings', label: 'Settings', icon: Settings },
 ]
@@ -75,6 +77,10 @@ export default function AdminPanel() {
   const [reviewType, setReviewType] = useState('trip')
   const [deletingReview, setDeletingReview] = useState(false)
 
+  const [inquiries, setInquiries] = useState([])
+  const [selectedInquiryId, setSelectedInquiryId] = useState('')
+  const [loadingInquiries, setLoadingInquiries] = useState(false)
+
   const [settings, setSettings] = useState({ heroImages: [] })
   const [settingsSubmitting, setSettingsSubmitting] = useState(false)
 
@@ -100,7 +106,7 @@ export default function AdminPanel() {
   const [submittingActivity, setSubmittingActivity] = useState(false)
   const [activityForm, setActivityForm] = useState(INITIAL_ACTIVITY_FORM)
 
-  useEffect(() => { fetchItineraries(); fetchHotels(); fetchCarRentals(); fetchActivities(); fetchSettings() }, [])
+  useEffect(() => { fetchItineraries(); fetchHotels(); fetchCarRentals(); fetchActivities(); fetchSettings(); fetchInquiries() }, [])
   useEffect(() => { if (selectedItineraryId) fetchReviews() }, [selectedItineraryId, reviewType])
 
   const fetchItineraries = async () => {
@@ -178,12 +184,29 @@ export default function AdminPanel() {
     }
   }
 
+  const fetchInquiries = async () => {
+    try {
+      setLoadingInquiries(true)
+      const data = await adminAPI.getInquiries()
+      if (data.success) {
+        const next = Array.isArray(data.data) ? data.data : []
+        setInquiries(next)
+        if (next.length > 0 && !selectedInquiryId) setSelectedInquiryId(next[0]._id)
+      }
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoadingInquiries(false)
+    }
+  }
+
   const selectedItinerary = itineraries.find((it) => it._id === selectedItineraryId)
   const selectedHotel = hotels.find((hotel) => hotel.id === Number(selectedHotelId))
   const selectedCarRental = carRentals.find((rental) => rental.id === Number(selectedCarRentalId))
   const selectedActivity = activities.find(
     (activity) => selectedActivitySlug && activity.slug === selectedActivitySlug
   )
+  const selectedInquiry = inquiries.find((inquiry) => inquiry._id === selectedInquiryId)
 
   const resetHotelForm = () => {
     setHotelForm(INITIAL_HOTEL_FORM)
@@ -804,6 +827,16 @@ export default function AdminPanel() {
             reviews={reviews}
             handleDeleteReview={handleDeleteReview}
             deletingReview={deletingReview}
+          />
+        )}
+
+        {activeTab === 'inquiries' && (
+          <InquiriesTab
+            inquiries={inquiries}
+            loading={loadingInquiries}
+            selectedInquiryId={selectedInquiryId}
+            setSelectedInquiryId={setSelectedInquiryId}
+            selectedInquiry={selectedInquiry}
           />
         )}
 

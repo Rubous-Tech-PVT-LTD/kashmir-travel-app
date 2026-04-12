@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { createAdminToken, ADMIN_COOKIE_NAME } = require('../middleware/adminAuth');
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME;

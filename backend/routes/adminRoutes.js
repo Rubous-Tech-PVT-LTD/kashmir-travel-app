@@ -1,4 +1,5 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const router = express.Router();
 
 const adminController = require('../controllers/adminController');
@@ -11,47 +12,66 @@ const settingsController = require('../controllers/settingsController');
 const activityController = require('../controllers/activityController');
 const { requireAdminAuth } = require('../middleware/adminAuth');
 
+// Strict rate limit for login to prevent brute-force attacks
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many login attempts. Please try again later.' },
+});
+
+// General rate limit for authenticated admin endpoints
+const adminLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many requests. Please slow down.' },
+});
+
 // Auth
-router.post('/login', adminController.login);
-router.post('/logout', requireAdminAuth, adminController.logout);
-router.get('/me', requireAdminAuth, adminController.getProfile);
+router.post('/login', loginLimiter, adminController.login);
+router.post('/logout', requireAdminAuth, adminLimiter, adminController.logout);
+router.get('/me', requireAdminAuth, adminLimiter, adminController.getProfile);
 
 // Admin itinerary management
-router.get('/itineraries', requireAdminAuth, itineraryController.getAllItineraries);
-router.get('/itineraries/:id', requireAdminAuth, itineraryController.getItinerary);
-router.post('/itineraries', requireAdminAuth, itineraryController.createItinerary);
-router.put('/itineraries/:id', requireAdminAuth, itineraryController.updateItinerary);
-router.delete('/itineraries/:id', requireAdminAuth, itineraryController.deleteItinerary);
-router.post('/itineraries/:id/days', requireAdminAuth, itineraryController.addDay);
-router.put('/itineraries/:id/days/:dayIndex', requireAdminAuth, itineraryController.updateDay);
-router.delete('/itineraries/:id/days/:dayIndex', requireAdminAuth, itineraryController.deleteDay);
+router.get('/itineraries', requireAdminAuth, adminLimiter, itineraryController.getAllItineraries);
+router.get('/itineraries/:id', requireAdminAuth, adminLimiter, itineraryController.getItinerary);
+router.post('/itineraries', requireAdminAuth, adminLimiter, itineraryController.createItinerary);
+router.put('/itineraries/:id', requireAdminAuth, adminLimiter, itineraryController.updateItinerary);
+router.delete('/itineraries/:id', requireAdminAuth, adminLimiter, itineraryController.deleteItinerary);
+router.post('/itineraries/:id/days', requireAdminAuth, adminLimiter, itineraryController.addDay);
+router.put('/itineraries/:id/days/:dayIndex', requireAdminAuth, adminLimiter, itineraryController.updateDay);
+router.delete('/itineraries/:id/days/:dayIndex', requireAdminAuth, adminLimiter, itineraryController.deleteDay);
 
 // Admin hotel management
-router.get('/hotels', requireAdminAuth, hotelController.getAllHotels);
-router.post('/hotels', requireAdminAuth, hotelController.createHotel);
-router.put('/hotels/:id', requireAdminAuth, hotelController.updateHotel);
-router.delete('/hotels/:id', requireAdminAuth, hotelController.deleteHotel);
+router.get('/hotels', requireAdminAuth, adminLimiter, hotelController.getAllHotels);
+router.post('/hotels', requireAdminAuth, adminLimiter, hotelController.createHotel);
+router.put('/hotels/:id', requireAdminAuth, adminLimiter, hotelController.updateHotel);
+router.delete('/hotels/:id', requireAdminAuth, adminLimiter, hotelController.deleteHotel);
 
 // Admin car rental management
-router.get('/car-rentals', requireAdminAuth, carRentalController.getAllCarRentals);
-router.post('/car-rentals', requireAdminAuth, carRentalController.createCarRental);
-router.put('/car-rentals/:id', requireAdminAuth, carRentalController.updateCarRental);
-router.delete('/car-rentals/:id', requireAdminAuth, carRentalController.deleteCarRental);
+router.get('/car-rentals', requireAdminAuth, adminLimiter, carRentalController.getAllCarRentals);
+router.post('/car-rentals', requireAdminAuth, adminLimiter, carRentalController.createCarRental);
+router.put('/car-rentals/:id', requireAdminAuth, adminLimiter, carRentalController.updateCarRental);
+router.delete('/car-rentals/:id', requireAdminAuth, adminLimiter, carRentalController.deleteCarRental);
 
 // Admin review moderation
-router.get('/reviews', requireAdminAuth, reviewController.getReviews);
-router.delete('/reviews/:id', requireAdminAuth, reviewController.deleteReview);
+router.get('/reviews', requireAdminAuth, adminLimiter, reviewController.getReviews);
+router.delete('/reviews/:id', requireAdminAuth, adminLimiter, reviewController.deleteReview);
 
 // Admin inquiries
-router.get('/inquiries', requireAdminAuth, inquiryController.getAllInquiries);
+router.get('/inquiries', requireAdminAuth, adminLimiter, inquiryController.getAllInquiries);
 
 // Admin settings
-router.get('/settings', requireAdminAuth, settingsController.getSettings);
-router.put('/settings', requireAdminAuth, settingsController.updateSettings);
+router.get('/settings', requireAdminAuth, adminLimiter, settingsController.getSettings);
+router.put('/settings', requireAdminAuth, adminLimiter, settingsController.updateSettings);
 
 // Admin activities management
-router.get('/activities', requireAdminAuth, activityController.getAllActivities);
-// Slug-based updates (controller still supports numeric ids for backward compatibility)
-router.put('/activities/:slug', requireAdminAuth, activityController.updateActivity);
+router.get('/activities', requireAdminAuth, adminLimiter, activityController.getAllActivities);
+router.post('/activities', requireAdminAuth, adminLimiter, activityController.createActivity);
+router.put('/activities/:slug', requireAdminAuth, adminLimiter, activityController.updateActivity);
+router.delete('/activities/:slug', requireAdminAuth, adminLimiter, activityController.deleteActivity);
 
 module.exports = router;
