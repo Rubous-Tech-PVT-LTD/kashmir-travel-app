@@ -25,12 +25,48 @@ import OperatorServicesKashmir from './pages/OperatorServicesKashmir'
 import PrivacyPolicy from './shared/PrivacyPolicy'
 import TermsOfService from './shared/TermsOfService'
 import Sitemap from './shared/Sitemap'
+import Feedback from './pages/Feedback'
+
+const routeTitleMap = {
+  '/': 'Haba Khatoon Travels | Kashmir Tour Packages',
+  '/alltrips': 'All Kashmir Trips | Haba Khatoon Travels',
+  '/all-daywise-trips': 'All Day-wise Trips | Haba Khatoon Travels',
+  '/services/family-tour': 'Family Tour Package | Haba Khatoon Travels',
+  '/services/couple-tour': 'Couple Tour Package | Haba Khatoon Travels',
+  '/services/group-tour': 'Group Tour Package | Haba Khatoon Travels',
+  '/services/hotel-booking': 'Hotel Booking in Kashmir | Haba Khatoon Travels',
+  '/services/car-rentals': 'Car Rentals in Kashmir | Haba Khatoon Travels',
+  '/operator-services-kashmir': 'Operator Services in Kashmir | Haba Khatoon Travels',
+  '/privacy-policy': 'Privacy Policy | Haba Khatoon Travels',
+  '/terms-of-service': 'Terms of Service | Haba Khatoon Travels',
+  '/sitemap': 'Sitemap | Haba Khatoon Travels',
+  '/admin/login': 'Admin Login | Haba Khatoon Travels',
+}
 
 function ScrollToTop() {
   const { pathname } = useLocation()
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [pathname])
+
+  useEffect(() => {
+    document.title = routeTitleMap[pathname] || 'Haba Khatoon Travels'
+
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'page_view', {
+        page_path: pathname,
+        page_title: document.title,
+      })
+    }
+
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
+        event: 'page_view',
+        page_path: pathname,
+        page_title: document.title,
+      })
+    }
   }, [pathname])
 
   return null
@@ -73,6 +109,7 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/sitemap" element={<Sitemap />} />
+          <Route path="/feedback" element={<Feedback />} />
         </Routes>
       </div>
     </BrowserRouter>

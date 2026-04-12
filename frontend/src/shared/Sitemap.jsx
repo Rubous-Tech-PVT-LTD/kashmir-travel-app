@@ -46,6 +46,7 @@ const routeGroups = [
     items: [
       { label: 'Privacy Policy', to: '/privacy-policy' },
       { label: 'Terms of Service', to: '/terms-of-service' },
+      { label: 'Feedback', to: '/feedback' },
     ],
   },
 ]

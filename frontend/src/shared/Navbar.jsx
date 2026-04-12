@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import TopHeader from "./TopHeader";
 
 const navLinks = ["Kashmir Packages", "Honeymoon", "Services", "Spiritual tour", "Activities"];
-const dropdownLinks = new Set(navLinks);
+
 
 const kashimirPackagesDropdown = [
   "Adventure Tour Package",
@@ -103,11 +103,11 @@ export default function Navbar() {
     "Spiritual tour": {
       data: spiritualTourDropdown,
       routes: {
-        "Vaishno Devi Temple": "/all-daywise-trips?theme=spiritual&temple=vaishno-devi",
-        "Mata Kheer Bhawani Temple": "/all-daywise-trips?theme=spiritual&temple=kheer-bhawani",
-        "Shankaracharya Temple": "/all-daywise-trips?theme=spiritual&temple=shankaracharya",
-        "Amar Nath Cave": "/all-daywise-trips?theme=spiritual&temple=amarnath",
-        "View All Temples": "/all-daywise-trips?theme=spiritual",
+        "Vaishno Devi Temple": "/all-daywise-trips?category=spiritual&temple=vaish",
+        "Mata Kheer Bhawani Temple": "/all-daywise-trips?category=spiritual&temple=kheer",
+        "Shankaracharya Temple": "/all-daywise-trips?category=spiritual&temple=shankaracharya",
+        "Amar Nath Cave": "/all-daywise-trips?category=spiritual&temple=amarnath",
+        "View All Temples": "/all-daywise-trips?category=spiritual",
       },
     },
   };

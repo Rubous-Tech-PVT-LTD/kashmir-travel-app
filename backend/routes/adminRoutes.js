@@ -32,8 +32,8 @@ const adminLimiter = rateLimit({
 
 // Auth
 router.post('/login', loginLimiter, adminController.login);
-router.post('/logout', requireAdminAuth, adminController.logout);
-router.get('/me', requireAdminAuth, adminController.getProfile);
+router.post('/logout', requireAdminAuth, adminLimiter, adminController.logout);
+router.get('/me', requireAdminAuth, adminLimiter, adminController.getProfile);
 
 // Admin itinerary management
 router.get('/itineraries', requireAdminAuth, adminLimiter, itineraryController.getAllItineraries);

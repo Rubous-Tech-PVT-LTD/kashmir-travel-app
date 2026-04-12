@@ -272,15 +272,15 @@ export default function ShikaraRide() {
           <div className="shikara-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
             {ridePackages.map((item) => (
               <div
-                key={item.name}
+                key={item.title || item.route || item.time}
                 className="shikara-card"
                 style={{ background: '#fff', borderRadius: '18px', border: '1px solid #d8e6ef', boxShadow: '0 12px 28px rgba(10, 35, 58, 0.07)', padding: '20px' }}
               >
-                <p style={{ margin: '0 0 10px', color: '#0a6b84', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{item.duration}</p>
-                <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#10263b' }}>{item.name}</h3>
-                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{item.note}</p>
+                <p style={{ margin: '0 0 10px', color: '#0a6b84', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{item.time || item.duration || 'Flexible timing'}</p>
+                <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#10263b' }}>{item.title || item.route || 'Shikara Package'}</h3>
+                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{item.description || item.note || 'Scenic Shikara experience on Dal Lake.'}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{item.price}</span>
+                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{item.price || 'Contact for price'}</span>
                   <button
                     type="button"
                     onClick={() => navigate('/services/hotel-booking')}

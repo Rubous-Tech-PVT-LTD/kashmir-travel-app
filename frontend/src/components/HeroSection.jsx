@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Navbar from "../shared/Navbar";
-import { adminAPI } from "../utils/api";
+import { settingsAPI } from "../utils/api";
 
 const defaultHeroImage =
   "https://camo.githubusercontent.com/1b18608c396cc46626637014a8bf370ee07b60dd7602cd58f55bf1a64c6aa23d/68747470733a2f2f696d616765732e756e73706c6173682e636f6d2f70686f746f2d313539353831353737313631342d6164653964363532613635643f69786c69623d72622d342e302e33266175746f3d666f726d6174266669743d63726f7026773d3132303026713d3830";
@@ -12,7 +12,7 @@ export default function HeroSection() {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const data = await adminAPI.getSettings();
+        const data = await settingsAPI.getSettings();
         if (data.success && data.data.heroImages && data.data.heroImages.length > 0) {
           setHeroImages(data.data.heroImages);
         }

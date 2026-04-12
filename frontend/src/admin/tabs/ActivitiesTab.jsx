@@ -14,11 +14,12 @@ const SECTION_CONFIG = {
     },
     {
       key: 'rideTiers',
-      label: 'Tiers',
+      label: 'Gondola Packages',
       fields: [
-        { key: 'tier', label: 'Tier' },
-        { key: 'altitude', label: 'Altitude' },
-        { key: 'duration', label: 'Duration' },
+        { key: 'route', label: 'Route' },
+        { key: 'title', label: 'Title' },
+        { key: 'description', label: 'Description' },
+        { key: 'price', label: 'Price' },
       ],
     },
     {
@@ -57,7 +58,8 @@ const SECTION_CONFIG = {
       key: 'ridePackages',
       label: 'Ride Packages',
       fields: [
-        { key: 'route', label: 'Route' },
+        { key: 'title', label: 'Title' },
+        { key: 'description', label: 'Description' },
         { key: 'time', label: 'Time' },
         { key: 'price', label: 'Price' },
       ],
@@ -104,9 +106,9 @@ const SECTION_CONFIG = {
       key: 'raftingPackages',
       label: 'Rafting Packages',
       fields: [
-        { key: 'level', label: 'Level' },
-        { key: 'grade', label: 'Grade' },
-        { key: 'river', label: 'River' },
+        { key: 'distance', label: 'Distance' },
+        { key: 'title', label: 'Title' },
+        { key: 'description', label: 'Description' },
         { key: 'price', label: 'Price' },
       ],
     },
@@ -155,9 +157,9 @@ const SECTION_CONFIG = {
       key: 'flightPackages',
       label: 'Flight Packages',
       fields: [
-        { key: 'type', label: 'Package' },
-        { key: 'duration', label: 'Duration' },
-        { key: 'height', label: 'Height' },
+        { key: 'time', label: 'Time' },
+        { key: 'title', label: 'Title' },
+        { key: 'description', label: 'Description' },
         { key: 'price', label: 'Price' },
       ],
     },
@@ -207,8 +209,8 @@ const SECTION_CONFIG = {
       label: 'Skiing Packages',
       fields: [
         { key: 'level', label: 'Level' },
-        { key: 'duration', label: 'Duration' },
-        { key: 'includes', label: 'Includes' },
+        { key: 'title', label: 'Title' },
+        { key: 'description', label: 'Description' },
         { key: 'price', label: 'Price' },
       ],
     },
@@ -255,8 +257,10 @@ const SECTION_CONFIG = {
       key: 'houseboatStays',
       label: 'Houseboat Stays',
       fields: [
-        { key: 'name', label: 'Stay name' },
-        { key: 'nights', label: 'Nights' },
+        { key: 'title', label: 'Title' },
+        { key: 'duration', label: 'Duration' },
+        { key: 'location', label: 'Location' },
+        { key: 'image', label: 'Image URL' },
         { key: 'price', label: 'Price' },
       ],
     },
@@ -287,6 +291,38 @@ const parseJson = (value) => {
   } catch {
     return {}
   }
+}
+
+const getSectionFieldValue = (sectionKey, fieldKey, item = {}) => {
+  if (sectionKey === 'rideTiers') {
+    if (fieldKey === 'route') return item.route || item.altitude || item.duration || item.tier || ''
+    if (fieldKey === 'title') return item.title || item.name || item.tier || ''
+    if (fieldKey === 'description') return item.description || item.note || item.detail || item.duration || item.altitude || ''
+    if (fieldKey === 'price') return item.price || ''
+  }
+
+  if (sectionKey === 'raftingPackages') {
+    if (fieldKey === 'distance') return item.distance || item.river || item.level || item.grade || ''
+    if (fieldKey === 'title') return item.title || item.name || item.level || ''
+    if (fieldKey === 'description') return item.description || item.note || item.detail || item.grade || item.river || ''
+    if (fieldKey === 'price') return item.price || ''
+  }
+
+  if (sectionKey === 'flightPackages') {
+    if (fieldKey === 'time') return item.time || item.duration || item.height || item.type || ''
+    if (fieldKey === 'title') return item.title || item.name || item.type || ''
+    if (fieldKey === 'description') return item.description || item.note || item.detail || item.height || item.duration || ''
+    if (fieldKey === 'price') return item.price || ''
+  }
+
+  if (sectionKey === 'skiPackages') {
+    if (fieldKey === 'level') return item.level || item.terrain || item.type || ''
+    if (fieldKey === 'title') return item.title || item.name || item.duration || ''
+    if (fieldKey === 'description') return item.description || item.note || item.includes || item.detail || ''
+    if (fieldKey === 'price') return item.price || ''
+  }
+
+  return item?.[fieldKey] || ''
 }
 
 export default function ActivitiesTab({
@@ -360,7 +396,7 @@ export default function ActivitiesTab({
     }
 
     const nextDraft = selectedSection.fields.reduce((acc, field) => {
-      acc[field.key] = item?.[field.key] || ''
+      acc[field.key] = getSectionFieldValue(selectedSection.key, field.key, item)
       return acc
     }, {})
 

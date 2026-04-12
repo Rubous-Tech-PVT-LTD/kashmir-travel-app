@@ -269,17 +269,57 @@ export default function ParaGliding() {
           </div>
 
           <div className="paraglide-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
-            {flightPackages.map((item) => (
+            {flightPackages.map((item, index) => {
+              const pickText = (...values) => {
+                for (const value of values) {
+                  if (typeof value === 'number') return String(value)
+                  if (typeof value !== 'string') continue
+                  const text = value.replace(/[\u200B-\u200D\uFEFF]/g, '').trim()
+                  if (text) return text
+                }
+                return ''
+              }
+
+              const timeText = pickText(
+                item.time,
+                item.duration,
+                item.height,
+                item.type,
+                item.level,
+                item.distance,
+                item.route,
+                'Time details available on request'
+              )
+              const titleText = pickText(
+                item.title,
+                item.name,
+                item.type,
+                item.level,
+                item.package,
+                'Flight Package'
+              )
+              const descriptionText = pickText(
+                item.description,
+                item.note,
+                item.detail,
+                item.height,
+                item.duration,
+                item.grade,
+                item.route,
+                'Package details available'
+              )
+
+              return (
               <div
-                key={item.name}
+                key={`${item.title || item.name || item.time || item.type || 'flight-package'}-${index}`}
                 className="paraglide-card"
                 style={{ background: '#fff', borderRadius: '18px', border: '1px solid #d8e6ef', boxShadow: '0 12px 28px rgba(10, 35, 58, 0.07)', padding: '20px' }}
               >
-                <p style={{ margin: '0 0 10px', color: '#1e5a8e', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{item.duration}</p>
-                <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#10263b' }}>{item.name}</h3>
-                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{item.note}</p>
+                <p style={{ margin: '0 0 10px', color: '#1e5a8e', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{timeText}</p>
+                <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#10263b' }}>{titleText}</h3>
+                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{descriptionText}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{item.price}</span>
+                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{item.price || 'On Request'}</span>
                   <button
                     type="button"
                     onClick={() => navigate('/services/hotel-booking')}
@@ -289,7 +329,8 @@ export default function ParaGliding() {
                   </button>
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
