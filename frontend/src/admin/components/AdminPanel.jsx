@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { X, AlertCircle, MapPin, Star, Settings, Building2, Car, Compass, Inbox } from 'lucide-react'
+import { X, Menu, AlertCircle, MapPin, Star, Settings, Building2, Car, Compass, Inbox } from 'lucide-react'
 import { logoutAdmin } from '../../utils/adminAuth'
 import { adminAPI } from '../../utils/api'
 import { Btn } from './AdminPanelUI'
@@ -58,6 +58,7 @@ export default function AdminPanel() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [activeTab, setActiveTab] = useState('itineraries')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const [itineraries, setItineraries] = useState([])
   const [selectedItineraryId, setSelectedItineraryId] = useState(null)
@@ -673,26 +674,27 @@ export default function AdminPanel() {
       <div className="pointer-events-none absolute -top-32 -left-28 w-72 h-72 rounded-full bg-[#1e5c91]/10 blur-3xl" />
       <div className="pointer-events-none absolute top-24 -right-20 w-72 h-72 rounded-full bg-[#3dba8f]/10 blur-3xl" />
 
-      <header className="sticky top-0 z-30 border-b border-slate-700/20 shadow-lg shadow-[#0b3d66]/20" style={{ background: 'linear-gradient(90deg, #0b3d66 0%, #1e5c91 62%, #2b7ab7 100%)' }}>
-        <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+      <header className="sticky top-0 z-40 border-b border-slate-700/20 shadow-lg shadow-[#0b3d66]/20" style={{ background: 'linear-gradient(90deg, #0b3d66 0%, #1e5c91 62%, #2b7ab7 100%)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-white/95 border border-white/30 flex items-center justify-center shrink-0">
-              <img src="/logo.png" alt="Kashmir Tour Travel" className="w-6 h-6 object-contain" />
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/95 border border-white/30 flex items-center justify-center shrink-0">
+              <img src="/logo.png" alt="Kashmir Tour Travel" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
             </div>
             <div>
-              <span className="text-sm font-bold text-white leading-none">Kashmir Tour Travel</span>
-              <span className="text-xs text-sky-100/90 block leading-none">Admin Dashboard</span>
+              <span className="text-sm font-bold text-white leading-none whitespace-nowrap">Kashmir Tour Travel</span>
+              <span className="text-[10px] sm:text-xs text-sky-100/90 block leading-none">Admin Dashboard</span>
             </div>
           </div>
 
-          <nav className="flex items-center gap-1">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-1">
             {ADMIN_TABS.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setActiveTab(t.id)}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                   activeTab === t.id
-                    ? 'bg-whieen-te text-[#0b3d66] shadow-sm'
+                    ? 'bg-white text-[#0b3d66] shadow-sm'
                     : 'text-sky-100 hover:text-white hover:bg-white/15'
                 }`}
               >
@@ -702,16 +704,89 @@ export default function AdminPanel() {
             ))}
           </nav>
 
-          <Btn
-            variant="danger"
-            size="sm"
-            onClick={async () => { await logoutAdmin(); navigate('/admin/login', { replace: true }) }}
-            className="bg-white! border! border-white/60! text-[#0b3d66]! hover:bg-slate-100!"
-          >
-            Sign out
-          </Btn>
+          <div className="flex items-center gap-2">
+            <Btn
+              variant="danger"
+              size="sm"
+              onClick={async () => { await logoutAdmin(); navigate('/admin/login', { replace: true }) }}
+              className="hidden lg:flex bg-white! border! border-white/60! text-[#0b3d66]! hover:bg-slate-100! text-xs py-1.5"
+            >
+              Sign out
+            </Btn>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden p-2 text-sky-100 hover:text-white hover:bg-white/15 rounded-lg transition-colors"
+              aria-label="Open menu"
+            >
+              <Menu size={20} />
+            </button>
+          </div>
         </div>
       </header>
+
+      {/* Mobile Menu Drawer */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-[#0b3d66]/60 backdrop-blur-sm transition-opacity"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          
+          {/* Drawer */}
+          <div className="absolute top-0 right-0 bottom-0 w-[280px] bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+            <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-[#0b3d66] flex items-center justify-center">
+                  <img src="/logo.png" alt="" className="w-5 h-5 object-contain brightness-0 invert" />
+                </div>
+                <span className="font-bold text-slate-800 text-sm">Dashboard</span>
+              </div>
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+              {ADMIN_TABS.map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => {
+                    setActiveTab(t.id)
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                    activeTab === t.id
+                      ? 'bg-sky-50 text-[#0b3d66] shadow-sm ring-1 ring-[#0b3d66]/10'
+                      : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
+                  }`}
+                >
+                  <t.icon size={18} className={activeTab === t.id ? 'text-[#0b3d66]' : 'text-slate-400'} />
+                  {t.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="p-4 border-t border-slate-100">
+              <button
+                onClick={async () => { 
+                  setIsMobileMenuOpen(false)
+                  await logoutAdmin()
+                  navigate('/admin/login', { replace: true }) 
+                }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold text-red-600 bg-red-50 hover:bg-red-100 transition-colors"
+              >
+                Sign out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {error && (
         <div className="max-w-7xl mx-auto px-6 mt-4">

@@ -181,8 +181,8 @@ export default function Footer() {
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
               </svg>
               <span className="text-slate-400 text-sm leading-relaxed font-normal">
-                Humham Near Masjid Muhammadi, Budgam Road,<br />
-                Srinagar, J&K, India - 190021
+                Apple Valley Anantnag,<br />
+                Jammu and Kashmir - 192401
               </span>
             </div>
 
@@ -192,7 +192,7 @@ export default function Footer() {
                 <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.22 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z" />
               </svg>
               <span className="text-slate-400 text-sm leading-relaxed font-normal">
-                <a href="tel:+917006259761" className="text-slate-400 no-underline transition-colors duration-200 hover:text-emerald-400">+91-7006259761</a>
+                <a href="tel:+919149680276" className="text-slate-400 no-underline transition-colors duration-200 hover:text-emerald-400">+91-9149680276</a>
               </span>
             </div>
 

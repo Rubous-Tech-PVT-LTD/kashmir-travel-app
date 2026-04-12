@@ -332,11 +332,13 @@ export default function AllDaysWiseTrips() {
             </div>
           )}
 
-          {/* Empty State */}
           {filteredTrips.length === 0 && !loading && (
-            <div className="text-center py-15 px-5">
-              <p className="text-gray-600 text-base font-['DM_Sans']">
-                No trips found for the selected filter.
+            <div className="px-5 py-20 text-center">
+              <div className="mb-4 text-4xl">⛰️</div>
+              <h3 className="text-xl font-bold text-slate-800 mb-2 font-['DM_Sans']">Coming Soon!</h3>
+              <p className="text-gray-500 max-w-md mx-auto font-['DM_Sans'] text-base leading-relaxed">
+                We're currently hand-picking the best itineraries for this category. 
+                Stay tuned or contact us to build your own custom Kashmir experience!
               </p>
             </div>
           )}

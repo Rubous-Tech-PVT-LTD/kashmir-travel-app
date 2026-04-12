@@ -264,8 +264,13 @@ export default function Alltrip() {
           )}
 
           {!loading && visibleTrips.length === 0 && (
-            <div className="px-5 py-14 text-center text-gray-500">
-              No trips found for the selected category.
+            <div className="px-5 py-20 text-center">
+              <div className="mb-4 text-4xl">⛰️</div>
+              <h3 className="text-xl font-bold text-slate-800 mb-2 font-['DM_Sans']">Coming Soon!</h3>
+              <p className="text-gray-500 max-w-md mx-auto font-['DM_Sans']">
+                Exciting new Kashmir itineraries are being curated for this category. 
+                Stay tuned or contact us to build your own custom tour!
+              </p>
             </div>
           )}
         </div>
