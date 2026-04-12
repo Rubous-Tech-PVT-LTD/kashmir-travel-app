@@ -213,7 +213,7 @@ exports.updateHotel = async (req, res) => {
     const updatedHotel = await Hotel.findOneAndUpdate(
       { id: hotelId },
       { $set: normalizeHotelPayload(req.body) },
-      { new: true }
+      { returnDocument: 'after' }
     ).select(HOTEL_SELECT_FIELDS).lean()
 
     if (!updatedHotel) {

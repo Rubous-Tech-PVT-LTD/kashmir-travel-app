@@ -248,7 +248,7 @@ exports.updateActivity = async (req, res) => {
     const updatedActivity = await Activity.findOneAndUpdate(
       { slug },
       { $set: normalizeActivityPayload(req.body) },
-      { new: true }
+      { returnDocument: 'after' }
     ).select(ACTIVITY_SELECT_FIELDS).lean()
 
     if (!updatedActivity) {

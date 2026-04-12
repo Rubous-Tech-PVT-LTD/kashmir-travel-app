@@ -116,7 +116,7 @@ exports.updateCarRental = async (req, res) => {
     const updatedCarRental = await CarRental.findOneAndUpdate(
       { id: Number(req.params.id) },
       { $set: normalizeCarRentalPayload(req.body) },
-      { new: true }
+      { returnDocument: 'after' }
     ).select(CAR_RENTAL_SELECT_FIELDS).lean()
 
     if (!updatedCarRental) {
