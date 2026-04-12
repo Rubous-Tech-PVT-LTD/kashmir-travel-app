@@ -492,7 +492,7 @@ export default function AdminPanel() {
       {/* Mobile Header with Hamburger Menu */}
       <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 text-white text-sm font-black">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 text-white text-sm font-black">
             K
           </div>
         </div>
@@ -532,7 +532,7 @@ export default function AdminPanel() {
 
             <div className="mb-10">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 text-white text-lg font-black">
+                <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-linear-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 text-white text-lg font-black">
                   K
                 </div>
                 <div>
@@ -670,7 +670,7 @@ export default function AdminPanel() {
               )}
 
               {activeTab === 'itineraries' && (
-                <div className="min-h-[400px]">
+                <div className="min-h-100">
                   <ItinerariesTab
                     itineraries={itineraries}
                     showNewItineraryForm={showNewItineraryForm}
@@ -694,7 +694,7 @@ export default function AdminPanel() {
               )}
 
               {activeTab === 'reviews' && (
-                <div className="min-h-[400px]">
+                <div className="min-h-100">
                   <ReviewsTab
                     reviews={reviews}
                     itineraries={itineraries}
@@ -716,7 +716,7 @@ export default function AdminPanel() {
               )}
 
               {activeTab === 'settings' && (
-                <div className="min-h-[400px]">
+                <div className="min-h-100">
                   <SettingsTab
                     settings={settings}
                     addHeroImageUrl={addHeroImageUrl}

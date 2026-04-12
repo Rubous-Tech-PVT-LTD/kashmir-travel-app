@@ -27,7 +27,7 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-blue-900 to-gray-900 flex items-center justify-center px-4">
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
@@ -39,7 +39,7 @@ export default function AdminLogin() {
         <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-2xl">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-block bg-gradient-to-r from-blue-600 to-teal-500 p-3 rounded-lg mb-4">
+            <div className="inline-block bg-linear-to-r from-blue-600 to-teal-500 p-3 rounded-lg mb-4">
               <span className="text-4xl">🏔️</span>
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">Kashmir Admin</h1>
@@ -89,7 +89,7 @@ export default function AdminLogin() {
             {/* Error Message */}
             {error && (
               <div className="p-3 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center gap-2">
-                <AlertCircle size={16} className="text-red-300 flex-shrink-0" />
+                <AlertCircle size={16} className="text-red-300 shrink-0" />
                 <p className="text-red-300 text-sm font-medium">{error}</p>
               </div>
             )}
@@ -101,7 +101,7 @@ export default function AdminLogin() {
               className={`w-full py-3 px-4 rounded-lg font-semibold transition transform ${
                 isLoading
                   ? 'bg-gray-600 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 hover:scale-105 active:scale-95'
+                  : 'bg-linear-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 hover:scale-105 active:scale-95'
               } text-white shadow-lg`}
             >
               {isLoading ? 'Signing in...' : 'Sign In'}

@@ -631,7 +631,7 @@ export default function AdminPanel() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#f4f8fb] via-[#eef5fa] to-[#e7f1f8] flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-[#f4f8fb] via-[#eef5fa] to-[#e7f1f8] flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center mx-auto animate-pulse shadow-md shadow-slate-300/40">
             <img src="/logo.png" alt="Kashmir Tour Travel" className="w-11 h-11 object-contain" />
@@ -646,14 +646,14 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f4f8fb] via-[#edf4fa] to-[#e7f0f8] font-sans relative overflow-x-hidden">
+    <div className="min-h-screen bg-linear-to-br from-[#f4f8fb] via-[#edf4fa] to-[#e7f0f8] font-sans relative overflow-x-hidden">
       <div className="pointer-events-none absolute -top-32 -left-28 w-72 h-72 rounded-full bg-[#1e5c91]/10 blur-3xl" />
       <div className="pointer-events-none absolute top-24 -right-20 w-72 h-72 rounded-full bg-[#3dba8f]/10 blur-3xl" />
 
       <header className="sticky top-0 z-30 border-b border-slate-700/20 shadow-lg shadow-[#0b3d66]/20" style={{ background: 'linear-gradient(90deg, #0b3d66 0%, #1e5c91 62%, #2b7ab7 100%)' }}>
-        <div className="max-w-screen-xl mx-auto px-6 h-14 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-white/95 border border-white/30 flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-white/95 border border-white/30 flex items-center justify-center shrink-0">
               <img src="/logo.png" alt="Kashmir Tour Travel" className="w-6 h-6 object-contain" />
             </div>
             <div>
@@ -669,7 +669,7 @@ export default function AdminPanel() {
                 onClick={() => setActiveTab(t.id)}
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   activeTab === t.id
-                    ? 'bg-white text-[#0b3d66] shadow-sm'
+                    ? 'bg-whieen-te text-[#0b3d66] shadow-sm'
                     : 'text-sky-100 hover:text-white hover:bg-white/15'
                 }`}
               >
@@ -683,7 +683,7 @@ export default function AdminPanel() {
             variant="danger"
             size="sm"
             onClick={async () => { await logoutAdmin(); navigate('/admin/login', { replace: true }) }}
-            className="!bg-white !border !border-white/60 !text-[#0b3d66] hover:!bg-slate-100"
+            className="bg-white! border! border-white/60! text-[#0b3d66]! hover:bg-slate-100!"
           >
             Sign out
           </Btn>
@@ -691,16 +691,16 @@ export default function AdminPanel() {
       </header>
 
       {error && (
-        <div className="max-w-screen-xl mx-auto px-6 mt-4">
+        <div className="max-w-7xl mx-auto px-6 mt-4">
           <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
-            <AlertCircle size={15} className="flex-shrink-0" />
+            <AlertCircle size={15} className="shrink-0" />
             <span className="flex-1">{error}</span>
             <button onClick={() => setError('')} className="text-red-400 hover:text-red-600"><X size={14} /></button>
           </div>
         </div>
       )}
 
-      <div className="max-w-screen-xl mx-auto px-6 py-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 py-6 relative z-10">
         {activeTab === 'itineraries' && (
           <ItinerariesTab
             showNewItineraryForm={showNewItineraryForm}

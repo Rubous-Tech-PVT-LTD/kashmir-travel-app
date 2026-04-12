@@ -105,7 +105,7 @@ export function Card({ className = '', children }) {
 
 export function SectionHeader({ title, action }) {
   return (
-    <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100/90 bg-gradient-to-r from-slate-50 to-white rounded-t-2xl">
+    <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100/90 bg-linear-to-r from-slate-50 to-white rounded-t-2xl">
       <h2 className="text-sm font-bold text-slate-800 tracking-wide">{title}</h2>
       {action}
     </div>
@@ -115,7 +115,7 @@ export function SectionHeader({ title, action }) {
 export function DayRow({ day, index, onEdit, onDelete }) {
   return (
     <div className="group flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
-      <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 font-bold text-xs">
+      <div className="shrink-0 w-10 h-10 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 font-bold text-xs">
         D{index + 1}
       </div>
       <div className="flex-1 min-w-0">
@@ -130,7 +130,7 @@ export function DayRow({ day, index, onEdit, onDelete }) {
           )}
         </div>
       </div>
-      <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+      <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
         <Btn variant="ghost" size="sm" onClick={() => onEdit(index)}><Edit2 size={13} /></Btn>
         <Btn variant="danger" size="sm" onClick={() => onDelete(index)}><Trash2 size={13} /></Btn>
       </div>
@@ -141,7 +141,7 @@ export function DayRow({ day, index, onEdit, onDelete }) {
 export function ReviewCard({ review, onDelete, deleting }) {
   return (
     <div className="group flex items-start gap-4 p-4 rounded-xl border border-slate-100 hover:border-slate-200 bg-white transition">
-      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-sky-400 to-indigo-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+      <div className="w-9 h-9 rounded-full bg-linear-to-br from-sky-400 to-indigo-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
         {review.name?.[0]?.toUpperCase() || '?'}
       </div>
       <div className="flex-1 min-w-0">
@@ -156,7 +156,7 @@ export function ReviewCard({ review, onDelete, deleting }) {
         <p className="text-sm text-slate-500 mt-1 leading-relaxed">{review.comment}</p>
         <p className="text-[11px] text-slate-300 mt-2">{new Date(review.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
       </div>
-      <Btn variant="danger" size="sm" onClick={() => onDelete(review._id)} disabled={deleting} className="opacity-0 group-hover:opacity-100 flex-shrink-0">
+      <Btn variant="danger" size="sm" onClick={() => onDelete(review._id)} disabled={deleting} className="opacity-0 group-hover:opacity-100 shrink-0">
         <Trash2 size={13} />
       </Btn>
     </div>

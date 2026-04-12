@@ -1,92 +1,69 @@
 import { useEffect, useState } from "react";
-import { Calendar, Check, Grid2x2, Heart as HeartIcon, Share2, Star as StarIcon, User } from "lucide-react";
+import {
+  Calendar,
+  Check,
+  Heart as HeartIcon,
+  Share2,
+  Star as StarIcon,
+  User
+} from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../shared/Navbar";
 import Footer from "../shared/Footer";
 import { itineraryAPI } from "../utils/api";
 import TripReviews from "../components/TripReviews";
 
-
-
 const Heart = ({ filled }) => (
-  <HeartIcon width={18} height={18} fill={filled ? "#ef4444" : "none"} color={filled ? "#ef4444" : "#334155"} strokeWidth={2} />
-);
-
-const ShareIcon = () => (
-  <Share2 width={16} height={16} strokeWidth={2} />
+  <HeartIcon
+    className={`w-4 h-4 ${filled ? "text-red-500 fill-red-500" : "text-slate-600"}`}
+  />
 );
 
 const Star = () => (
-  <StarIcon width={14} height={14} fill="#f4c430" color="#f4c430" strokeWidth={1.5} />
+  <StarIcon className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
 );
 
-const UserIcon = () => (
-  <User width={16} height={16} color="#64748b" strokeWidth={2} />
-);
-
-const CalendarIcon = () => (
-  <Calendar width={16} height={16} color="#64748b" strokeWidth={2} />
-);
-
-const CheckIcon = () => (
-  <Check width={16} height={16} color="#16a34a" strokeWidth={2.5} />
-);
+const UserIcon = () => <User className="w-4 h-4 text-slate-500" />;
+const CalendarIcon = () => <Calendar className="w-4 h-4 text-slate-500" />;
+const CheckIcon = () => <Check className="w-4 h-4 text-green-600" />;
 
 export default function TripDetail() {
   const { tripId } = useParams();
   const navigate = useNavigate();
-  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '917006259761';
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "917006259761";
+
   const [wishlisted, setWishlisted] = useState(false);
   const [trip, setTrip] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    let mounted = true;
-
     const fetchTrip = async () => {
       setLoading(true);
-      setError('');
-
       const data = await itineraryAPI.getById(tripId);
 
-      if (!mounted) {
-        return;
-      }
-
       if (!data) {
+        setError("Trip not found");
         setTrip(null);
-        setError('Trip not found');
-        setLoading(false);
-        return;
+      } else {
+        setTrip(data);
       }
-
-      setTrip(data);
       setLoading(false);
     };
 
     fetchTrip();
-
-    return () => {
-      mounted = false;
-    };
   }, [tripId]);
 
   const handleTripInquiry = () => {
-    if (!trip) {
-      return;
-    }
-
     const message = encodeURIComponent(
       `Hi, I want to check availability for ${trip.title}. Please share dates and best pricing.`
     );
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
   };
 
   if (loading) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: "#1a2b4a", fontWeight: 600 }}>
+      <div className="min-h-screen flex items-center justify-center font-semibold text-slate-800">
         Loading trip details...
       </div>
     );
@@ -94,232 +71,184 @@ export default function TripDetail() {
 
   if (error || !trip) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16, backgroundColor: "#f8fafc", padding: "20px" }}>
-        <div style={{ fontSize: "64px" }}>🏔️</div>
-        <h2 style={{ margin: 0, color: "#1e293b", fontSize: "24px", textAlign: "center" }}>
-          {error === 'Trip not found' ? "Oops! This trip doesn't exist yet." : (error || 'Trip not found')}
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-slate-50 p-5 text-center">
+        <div className="text-6xl">🏔️</div>
+        <h2 className="text-xl font-semibold text-slate-800">
+          {error || "Trip not found"}
         </h2>
-        <p style={{ color: "#64748b", textAlign: "center", maxWidth: "400px", margin: "0 0 8px" }}>
-          The trip you're looking for might have been moved or is currently unavailable. Try exploring our popular packages instead.
+        <p className="text-slate-500 max-w-md">
+          The trip you're looking for might be unavailable.
         </p>
-        <div style={{ display: "flex", gap: 12 }}>
+        <div className="flex gap-3">
           <button
             onClick={() => navigate("/alltrips")}
-            style={{ border: "none", background: "#2563eb", color: "#fff", padding: "12px 24px", borderRadius: 8, cursor: "pointer", fontWeight: 700, transition: "all 0.2s" }}
-            onMouseEnter={(e) => (e.target.style.backgroundColor = "#1d4ed8")}
-            onMouseLeave={(e) => (e.target.style.backgroundColor = "#2563eb")}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold"
           >
-            Browse All Trips
+            Browse Trips
           </button>
           <button
             onClick={() => navigate("/")}
-            style={{ border: "1px solid #e2e8f0", background: "#fff", color: "#64748b", padding: "12px 24px", borderRadius: 8, cursor: "pointer", fontWeight: 700, transition: "all 0.2s" }}
-            onMouseEnter={(e) => (e.target.style.backgroundColor = "#f8fafc")}
-            onMouseLeave={(e) => (e.target.style.backgroundColor = "#fff")}
+            className="border px-6 py-3 rounded-lg font-bold text-slate-500 hover:bg-slate-100"
           >
-            Go to Home
+            Home
           </button>
         </div>
       </div>
     );
   }
 
-  const galleryImages = trip.gallery?.length ? trip.gallery : [trip.coverImage].filter(Boolean);
+  const galleryImages = trip.gallery?.length
+    ? trip.gallery
+    : [trip.coverImage].filter(Boolean);
+
   const [heroImage, ...smallImages] = galleryImages;
 
   return (
-    <div style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", background: "#fff", color: "#1f2937", minHeight: "100vh" }}>
-      <style>{`
-        .trip-detail-layout {
-          display: grid;
-          grid-template-columns: 1fr 340px;
-          gap: 24px;
-          align-items: start;
-        }
-        .trip-detail-gallery {
-          display: grid;
-          grid-template-columns: 1.3fr 1fr;
-          gap: 10px;
-          min-height: 440px;
-        }
-        .trip-detail-gallery-small {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 10px;
-        }
-        @media (max-width: 980px) {
-          .trip-detail-layout {
-            grid-template-columns: 1fr;
-          }
-          .trip-detail-gallery {
-            grid-template-columns: 1fr;
-            min-height: 360px;
-          }
-          .trip-detail-gallery-small {
-            grid-template-columns: 1fr 1fr;
-          }
-        }
-      `}</style>
-
-     
+    <div className="bg-white text-slate-800 min-h-screen">
       <Navbar />
 
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "26px 24px 40px" }}>
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        {/* Back */}
         <button
           onClick={() => navigate(-1)}
-          style={{ background: "none", border: "none", color: "#3dba8f", cursor: "pointer", fontWeight: 700, padding: 0, marginBottom: 10 }}
+          className="text-emerald-500 font-bold mb-2"
         >
           ← Back to trips
         </button>
 
-        <h1 style={{ margin: "0 0 10px", color: "#1a2b4a", fontSize: "clamp(28px, 3.2vw, 42px)", lineHeight: 1.2 }}>{trip.title}</h1>
+        {/* Title */}
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">
+          {trip.title}
+        </h1>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            <span style={{ background: "#eef2ff", color: "#1d4ed8", border: "1px solid #dbeafe", borderRadius: 4, fontSize: 12, fontWeight: 700, padding: "5px 10px" }}>
+        {/* Top Row */}
+        <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 flex-wrap">
+            <span className="bg-indigo-50 text-blue-700 border px-3 py-1 text-xs font-bold rounded">
               {trip.tag}
             </span>
-            <span style={{ color: "#64748b", fontSize: 14 }}>By Haba Khatoon Travels</span>
-            <span style={{ color: "#94a3b8" }}>•</span>
-            <span style={{ display: "flex", alignItems: "center", gap: 4, color: "#334155", fontSize: 14 }}>
-              <Star /> <Star /> <Star /> <Star /> <Star />
-              <span style={{ color: "#64748b" }}>(4.9)</span>
+
+            <span className="text-sm text-slate-500">
+              By Haba Khatoon Travels
             </span>
+
+            <span className="text-slate-400">•</span>
+
+            <div className="flex items-center gap-1 text-sm">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} />
+              ))}
+              <span className="text-slate-500">(4.9)</span>
+            </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          <div className="flex gap-5">
             <button
-              onClick={() => setWishlisted((prev) => !prev)}
-              style={{ background: "none", border: "none", color: "#334155", cursor: "pointer", display: "flex", alignItems: "center", gap: 6, fontWeight: 600 }}
+              onClick={() => setWishlisted(!wishlisted)}
+              className="flex items-center gap-2 font-semibold text-slate-600"
             >
               <Heart filled={wishlisted} /> Wishlist
             </button>
-            <button style={{ background: "none", border: "none", color: "#334155", cursor: "pointer", display: "flex", alignItems: "center", gap: 6, fontWeight: 600 }}>
-              <ShareIcon /> Share
+
+            <button className="flex items-center gap-2 font-semibold text-slate-600">
+              <Share2 className="w-4 h-4" /> Share
             </button>
           </div>
         </div>
 
-        <div className="trip-detail-layout">
+        {/* Layout */}
+        <div className="grid lg:grid-cols-[1fr_340px] gap-6">
+          {/* Left */}
           <div>
-            <div className="trip-detail-gallery" style={{ marginBottom: 20 }}>
+            {/* Gallery */}
+            <div className="grid lg:grid-cols-[1.3fr_1fr] gap-2 mb-5">
               <img
                 src={heroImage}
-                alt={trip.title}
-                style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 12, boxShadow: "0 4px 14px rgba(0,0,0,0.08)" }}
+                alt=""
+                className="w-full h-full object-cover rounded-xl shadow"
               />
 
-              <div className="trip-detail-gallery-small">
-                {smallImages.slice(0, 4).map((image, index) => (
+              <div className="grid grid-cols-2 gap-2">
+                {smallImages.slice(0, 4).map((img, i) => (
                   <img
-                    key={`${trip.id}-gallery-${index}`}
-                    src={image}
-                    alt={`${trip.title} ${index + 1}`}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 12, boxShadow: "0 4px 14px rgba(0,0,0,0.08)" }}
+                    key={i}
+                    src={img}
+                    alt=""
+                    className="w-full h-full object-cover rounded-xl shadow"
                   />
                 ))}
               </div>
             </div>
 
-            <div style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: "20px 18px", marginBottom: 18 }}>
-              <h3 style={{ margin: "0 0 10px", color: "#1a2b4a", fontSize: 20 }}>Trip Overview</h3>
-              <p style={{ margin: 0, color: "#475569", lineHeight: 1.7, fontSize: 14 }}>{trip.description}</p>
+            {/* Overview */}
+            <div className="border rounded-xl p-5 mb-4">
+              <h3 className="text-lg font-semibold mb-2">Trip Overview</h3>
+              <p className="text-sm text-slate-600 leading-7">
+                {trip.description}
+              </p>
             </div>
 
-            <div style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: "20px 18px" }}>
-              <h3 style={{ margin: "0 0 14px", color: "#1a2b4a", fontSize: 20 }}>What you get</h3>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#334155", fontSize: 14 }}>
+            {/* Includes */}
+            <div className="border rounded-xl p-5">
+              <h3 className="text-lg font-semibold mb-3">What you get</h3>
+
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="flex items-center gap-2">
                   <CheckIcon /> {trip.duration}
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#334155", fontSize: 14 }}>
-                  <CheckIcon /> Private transport options
+                <div className="flex items-center gap-2">
+                  <CheckIcon /> Private transport
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#334155", fontSize: 14 }}>
-                  <CheckIcon /> Local guide support
+                <div className="flex items-center gap-2">
+                  <CheckIcon /> Local guide
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#334155", fontSize: 14 }}>
-                  <CheckIcon /> Free cancellation available
+                <div className="flex items-center gap-2">
+                  <CheckIcon /> Free cancellation
                 </div>
               </div>
             </div>
 
-            <TripReviews tripId={trip._id || trip.id} tripTitle={trip.title} />
+            <TripReviews
+              tripId={trip._id || trip.id}
+              tripTitle={trip.title}
+            />
           </div>
 
-          <aside style={{ position: "sticky", top: 84 }}>
-            <div style={{ border: "1px solid #dbe2ea", borderRadius: 14, padding: "20px 18px", boxShadow: "0 8px 18px rgba(26,43,74,0.08)" }}>
-              <div style={{ marginBottom: 16 }}>
-                <div style={{ color: "#64748b", fontSize: 13 }}>From</div>
-                <div style={{ color: "#1a2b4a", fontSize: 32, fontWeight: 800, lineHeight: 1.2 }}>{trip.price}</div>
-                <div style={{ color: "#64748b", fontSize: 13 }}>per person</div>
+          {/* Sidebar */}
+          <aside className="sticky top-20">
+            <div className="border rounded-xl p-5 shadow-md">
+              <div className="mb-4">
+                <p className="text-sm text-slate-500">From</p>
+                <p className="text-3xl font-bold">{trip.price}</p>
+                <p className="text-sm text-slate-500">per person</p>
               </div>
 
-              <button
-                style={{
-                  width: "100%",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 10,
-                  background: "#f8fafc",
-                  padding: "11px 12px",
-                  marginBottom: 10,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  color: "#334155",
-                  cursor: "pointer",
-                  fontWeight: 600,
-                }}
-              >
-                <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <button className="w-full flex justify-between items-center border rounded-lg px-3 py-2 mb-2 bg-slate-50">
+                <span className="flex items-center gap-2">
                   <UserIcon /> Adult x 1
                 </span>
-                <span>⌄</span>
+                ⌄
               </button>
 
-              <button
-                style={{
-                  width: "100%",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 10,
-                  background: "#f8fafc",
-                  padding: "11px 12px",
-                  marginBottom: 14,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  color: "#334155",
-                  cursor: "pointer",
-                  fontWeight: 600,
-                }}
-              >
-                <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <button className="w-full flex justify-between items-center border rounded-lg px-3 py-2 mb-3 bg-slate-50">
+                <span className="flex items-center gap-2">
                   <CalendarIcon /> Select date
                 </span>
-                <span>⌄</span>
+                ⌄
               </button>
 
               <button
                 onClick={handleTripInquiry}
-                style={{
-                  width: "100%",
-                  border: "none",
-                  borderRadius: 10,
-                  background: "#3dba8f",
-                  color: "#fff",
-                  padding: "12px 14px",
-                  fontWeight: 700,
-                  fontSize: 15,
-                  cursor: "pointer",
-                  marginBottom: 14,
-                }}
+                className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg mb-3"
               >
                 Check Availability
               </button>
 
-              <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 12, color: "#475569", fontSize: 13, lineHeight: 1.6 }}>
-                <p style={{ margin: "0 0 6px", color: "#16a34a", fontWeight: 700 }}>Free cancellation</p>
-                <p style={{ margin: 0 }}>Cancel up to 24 hours in advance for a full refund.</p>
+              <div className="border-t pt-3 text-sm text-slate-600">
+                <p className="text-green-600 font-bold">
+                  Free cancellation
+                </p>
+                <p>Cancel up to 24 hours in advance.</p>
               </div>
             </div>
           </aside>

@@ -30,15 +30,19 @@ const formatCategoryTitle = (category) => {
 }
 
 const Heart = ({ filled }) => (
-  <HeartIcon width={20} height={20} fill={filled ? '#ff4757' : 'none'} color={filled ? '#ff4757' : '#333'} strokeWidth={2} />
+  <HeartIcon
+    className={`h-5 w-5 stroke-2 ${filled ? 'fill-[#ff4757] text-[#ff4757]' : 'fill-none text-neutral-700'}`}
+  />
 )
 
 const Star = ({ filled }) => (
-  <StarIcon width={14} height={14} fill={filled ? '#f4c430' : '#ddd'} color={filled ? '#f4c430' : '#ddd'} strokeWidth={1.5} />
+  <StarIcon
+    className={`h-3.5 w-3.5 stroke-[1.5] ${filled ? 'fill-[#f4c430] text-[#f4c430]' : 'fill-gray-300 text-gray-300'}`}
+  />
 )
 
-const SearchIcon = () => <Search width={18} height={18} color="white" strokeWidth={2.5} />
-const ClockIcon = () => <Clock3 width={14} height={14} strokeWidth={2} />
+const SearchIcon = () => <Search className="h-4.5 w-4.5 stroke-[2.5] text-white" />
+const ClockIcon = () => <Clock3 className="h-3.5 w-3.5 stroke-2" />
 
 export default function Alltrip() {
   const [wishlist, setWishlist] = useState({})
@@ -126,56 +130,41 @@ export default function Alltrip() {
   const toggleWishlist = (id) => setWishlist((prev) => ({ ...prev, [id]: !prev[id] }))
 
   return (
-    <div style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: '#f9fafb', minHeight: '100vh', color: '#111', display: 'flex', flexDirection: 'column' }}>
+    <div className="flex min-h-screen flex-col bg-gray-50 font-[system-ui,'Segoe_UI',sans-serif] text-neutral-900">
       <Navbar />
 
-      <div style={{ flex: 1 }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '40px 20px' }}>
-          <div style={{ marginBottom: '28px' }}>
+      <div className="flex-1">
+        <div className="mx-auto max-w-350 px-5 py-10">
+          <div className="mb-7">
             <button
+              type="button"
               onClick={() => navigate('/')}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                color: '#2563eb',
-                fontSize: '14px',
-                fontWeight: '600',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '0',
-                marginBottom: '16px',
-              }}
+              className="mb-4 inline-flex cursor-pointer items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-semibold text-blue-600"
             >
               ← Back to Home
             </button>
-            <h1 style={{ fontSize: '42px', fontWeight: '700', color: '#0f1923', margin: '0 0 12px', lineHeight: '1.2' }}>
+            <h1 className="mb-3 text-[42px] font-bold leading-tight text-[#0f1923]">
               {pageTitle}
             </h1>
-            <p style={{ fontSize: '16px', color: '#6b7280', margin: '0', maxWidth: '760px' }}>
+            <p className="m-0 max-w-190 text-base text-gray-500">
               {pageSubtitle}
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '28px' }}>
+          <div className="mb-7 flex flex-wrap gap-2.5">
             {tripCategories.map((category) => {
               const isActive = activeCategory === category.value || (activeCategory === 'all' && category.value === 'all')
 
               return (
                 <button
                   key={category.value}
+                  type="button"
                   onClick={() => handleCategoryChange(category.value)}
-                  style={{
-                    border: '1px solid ' + (isActive ? '#2563eb' : '#d1d5db'),
-                    background: isActive ? '#2563eb' : '#fff',
-                    color: isActive ? '#fff' : '#374151',
-                    padding: '10px 14px',
-                    borderRadius: '999px',
-                    fontSize: '13px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
+                  className={`cursor-pointer rounded-full border px-3.5 py-2.5 text-[13px] font-semibold transition-colors ${
+                    isActive
+                      ? 'border-blue-600 bg-blue-600 text-white'
+                      : 'border-gray-300 bg-white text-gray-700'
+                  }`}
                 >
                   {category.label}
                 </button>
@@ -183,149 +172,90 @@ export default function Alltrip() {
             })}
           </div>
 
-          <div style={{ marginBottom: '28px', display: 'flex', alignItems: 'center', gap: 0, maxWidth: 520 }}>
+          <div className="mb-7 flex max-w-130 items-center gap-0">
             <input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search Kashmir trips"
-              style={{
-                flex: 1,
-                border: '1.5px solid #d1d5db',
-                borderRight: 'none',
-                borderRadius: '8px 0 0 8px',
-                padding: '12px 16px',
-                fontSize: '14px',
-                outline: 'none',
-                color: '#333',
-                fontFamily: "'DM Sans', sans-serif",
-              }}
+              className="font-dm flex-1 rounded-l-lg border-[1.5px] border-r-0 border-gray-300 px-4 py-3 text-sm text-neutral-800 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
             />
             <button
               type="button"
-              style={{
-                background: '#2563eb',
-                border: '1.5px solid #2563eb',
-                borderRadius: '0 8px 8px 0',
-                padding: '12px 16px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '44px',
-              }}
+              className="flex h-11 cursor-pointer items-center justify-center rounded-r-lg border-[1.5px] border-blue-600 bg-blue-600 px-4 py-3"
             >
               <SearchIcon />
             </button>
           </div>
 
           {loading && (
-            <div style={{ minHeight: '240px', display: 'grid', placeItems: 'center' }}>
-              <div style={{ textAlign: 'center' }}>
-                <Loader style={{ width: '48px', height: '48px', margin: '0 auto 16px' }} />
-                <p style={{ fontSize: '16px', color: '#6b7280' }}>Loading trips...</p>
+            <div className="grid min-h-60 place-items-center">
+              <div className="text-center">
+                <Loader className="mx-auto mb-4 h-12 w-12 animate-spin text-blue-600" />
+                <p className="text-base text-gray-500">Loading trips...</p>
               </div>
             </div>
           )}
 
           {error && !loading && (
-            <div style={{ backgroundColor: '#fee2e2', border: '1px solid #fecaca', borderRadius: '8px', padding: '16px', marginBottom: '24px', color: '#991b1b' }}>
-              <p style={{ margin: '0', fontWeight: '600' }}>⚠️ {error}</p>
-              <p style={{ margin: '8px 0 0', fontSize: '14px' }}>
+            <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">
+              <p className="m-0 font-semibold">⚠️ {error}</p>
+              <p className="mt-2 text-sm">
                 Make sure the backend server is running on http://localhost:5000
               </p>
             </div>
           )}
 
           {!loading && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {visibleTrips.map((trip) => (
                 <div
                   key={trip.id}
                   onClick={() => navigate(`/trips/${trip.id}`)}
-                  style={{
-                    borderRadius: '10px',
-                    overflow: 'hidden',
-                    background: '#fff',
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    border: '1px solid #e5e7eb',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)'
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.06)'
-                  }}
+                  className="cursor-pointer overflow-hidden rounded-[10px] border border-gray-200 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
                 >
-                  <div style={{ position: 'relative', height: '210px', overflow: 'hidden' }}>
+                  <div className="relative h-52.5 overflow-hidden">
                     <img
                       src={trip.image}
                       alt={trip.title}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      className="block h-full w-full object-cover"
                     />
                     <div
-                      style={{
-                        position: 'absolute',
-                        top: '14px',
-                        left: '14px',
-                        background: trip.tagColor,
-                        color: '#fff',
-                        fontSize: '10px',
-                        fontWeight: '600',
-                        padding: '4px 10px',
-                        borderRadius: '4px',
-                        textTransform: 'uppercase',
-                      }}
+                      className="absolute left-3.5 top-3.5 rounded px-2.5 py-1 text-[10px] font-semibold uppercase text-white"
+                      style={{ backgroundColor: trip.tagColor }}
                     >
                       {trip.tag}
                     </div>
                     <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation()
                         toggleWishlist(trip.id)
                       }}
-                      style={{
-                        position: 'absolute',
-                        top: '12px',
-                        right: '12px',
-                        background: 'rgba(255,255,255,0.95)',
-                        border: 'none',
-                        borderRadius: '50%',
-                        width: '36px',
-                        height: '36px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
-                      }}
+                      className="absolute right-3 top-3 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-0 bg-white/95 shadow-md"
                     >
                       <Heart filled={wishlist[trip.id]} />
                     </button>
                   </div>
 
-                  <div style={{ padding: '18px 16px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#9ca3af', fontSize: '12px', marginBottom: '8px' }}>
+                  <div className="px-4 py-4.5">
+                    <div className="mb-2 flex items-center gap-1.5 text-xs text-gray-400">
                       <ClockIcon />
                       {trip.duration}
                     </div>
 
-                    <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#0f1923', margin: '0 0 10px', lineHeight: '1.4', minHeight: '40px' }}>
+                    <h3 className="mb-2.5 min-h-10 text-[15px] font-bold leading-snug text-[#0f1923]">
                       {trip.title}
                     </h3>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '10px' }}>
+                    <div className="mb-2.5 flex items-center gap-1">
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star key={i} filled={i < 5} />
                       ))}
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', fontSize: '13px', color: '#6b7280' }}>
+                    <div className="flex items-baseline gap-1.5 text-[13px] text-gray-500">
                       From{' '}
-                      <span style={{ fontSize: '16px', fontWeight: '700', color: '#0f1923' }}>{trip.price}</span>
+                      <span className="text-base font-bold text-[#0f1923]">{trip.price}</span>
                     </div>
                   </div>
                 </div>
@@ -334,7 +264,7 @@ export default function Alltrip() {
           )}
 
           {!loading && visibleTrips.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '60px 20px', color: '#6b7280' }}>
+            <div className="px-5 py-14 text-center text-gray-500">
               No trips found for the selected category.
             </div>
           )}

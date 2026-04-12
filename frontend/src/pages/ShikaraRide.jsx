@@ -2,14 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
 import { activityAPI } from '../utils/api'
-import {
-  backButtonStyle,
-  createPageShellStyle,
-  createPrimaryButtonStyle,
-  heroActionRowStyle,
-  maxWidthContainerStyle,
-  transparentCtaButtonStyle
-} from '../ui/servicePageStyles'
 
 export default function ShikaraRide() {
   const navigate = useNavigate()
@@ -23,9 +15,7 @@ export default function ShikaraRide() {
       setIsLoading(true)
       const data = await activityAPI.getBySlug('shikara-ride')
 
-      if (!mounted) {
-        return
-      }
+      if (!mounted) return
 
       setActivityData(data)
       setIsLoading(false)
@@ -45,157 +35,88 @@ export default function ShikaraRide() {
   const shikaraPlanIdeas = activityData?.shikaraPlanIdeas || []
 
   if (isLoading) {
-    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Loading activity...</div>
+    return (
+      <div className="min-h-[60vh] grid place-items-center text-[#10263b] font-semibold">
+        Loading activity...
+      </div>
+    )
   }
 
   if (!activityData) {
-    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Unable to load shikara ride details.</div>
+    return (
+      <div className="min-h-[60vh] grid place-items-center text-[#10263b] font-semibold">
+        Unable to load shikara ride details.
+      </div>
+    )
   }
 
   return (
-    <div style={createPageShellStyle('#f8fbff')}>
-      <style>{`
-        .shikara-sheen {
-          animation: shikaraFloat 6s ease-in-out infinite;
-        }
+    <div className="bg-[#f8fbff] min-h-screen">
 
-        .shikara-fade {
-          opacity: 0;
-          transform: translateY(16px);
-          animation: shikaraFade 650ms ease forwards;
-        }
+      {/* HERO */}
+      <section className="relative overflow-hidden bg-linear-to-br from-[#071b2c] via-[#0e3b57] to-[#1d7a8c] text-white px-6 py-20">
+        
+        {/* Glow circles */}
+        <div className="absolute -top-20 -right-20 w-65 h-65 rounded-full bg-[radial-gradient(circle,rgba(132,227,255,0.42),transparent_70%)] animate-pulse" />
+        <div className="absolute -bottom-24 -left-20 w-75 h-75 rounded-full bg-[radial-gradient(circle,rgba(255,212,157,0.34),transparent_70%)]" />
 
-        .shikara-fade.delay-1 { animation-delay: 100ms; }
-        .shikara-fade.delay-2 { animation-delay: 220ms; }
-        .shikara-fade.delay-3 { animation-delay: 340ms; }
-
-        .shikara-card {
-          transition: transform 220ms ease, box-shadow 220ms ease;
-        }
-
-        .shikara-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 18px 38px rgba(8, 45, 71, 0.12) !important;
-        }
-
-        @keyframes shikaraFloat {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-
-        @keyframes shikaraFade {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (max-width: 980px) {
-          .shikara-grid,
-          .shikara-hero-grid {
-            grid-template-columns: 1fr !important;
-          }
-
-          .shikara-title {
-            font-size: 38px !important;
-          }
-        }
-      `}</style>
-
-      <section
-        style={{
-          background: 'linear-gradient(135deg, #071b2c 0%, #0e3b57 55%, #1d7a8c 100%)',
-          color: '#fff',
-          padding: '74px 24px 82px',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <div
-          className="shikara-sheen"
-          style={{
-            position: 'absolute',
-            right: '-90px',
-            top: '-70px',
-            width: '260px',
-            height: '260px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(132, 227, 255, 0.42) 0%, rgba(132, 227, 255, 0) 72%)'
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            left: '-80px',
-            bottom: '-90px',
-            width: '300px',
-            height: '300px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(255, 212, 157, 0.34) 0%, rgba(255, 212, 157, 0) 72%)'
-          }}
-        />
-
-        <div style={maxWidthContainerStyle}>
+        <div className="max-w-287.5 mx-auto">
           <button
-            type="button"
             onClick={() => navigate('/')}
-            style={{ ...backButtonStyle, marginBottom: '26px' }}
+            className="mb-6 px-4 py-2 border border-white/30 rounded-lg text-sm font-semibold hover:bg-white/10 transition"
           >
             Back to Home
           </button>
 
-          <div className="shikara-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.18fr 0.82fr', gap: '28px', alignItems: 'center' }}>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            
+            {/* LEFT */}
             <div>
-              <p className="shikara-fade" style={{ letterSpacing: '1.8px', fontSize: '12px', marginBottom: '14px', color: '#a8e9ff' }}>
+              <p className="text-xs tracking-[2px] text-[#a8e9ff] mb-3">
                 DAL LAKE EXPERIENCE
               </p>
-              <h1 className="shikara-title shikara-fade delay-1" style={{ fontSize: '58px', lineHeight: 1.08, margin: '0 0 18px', maxWidth: '700px' }}>
+
+              <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 max-w-175">
                 Shikara Ride Designed for Calm Water, Sunset Views, and Kashmir's Slow Beauty
               </h1>
-              <p className="shikara-fade delay-2" style={{ fontSize: '17px', lineHeight: 1.7, color: '#d7f5ff', maxWidth: '650px', marginBottom: '28px' }}>
+
+              <p className="text-[#d7f5ff] leading-relaxed mb-6 max-w-162.5">
                 This page focuses on the iconic lake journey itself. Pick a private or family-friendly ride, add local touches,
                 and enjoy a softer, more scenic way to experience Srinagar.
               </p>
 
-              <div className="shikara-fade delay-3" style={heroActionRowStyle}>
+              <div className="flex flex-wrap gap-3">
                 <button
-                  type="button"
                   onClick={() => navigate('/alltrips')}
-                  style={createPrimaryButtonStyle('#ffd49d', '#10314b')}
+                  className="bg-[#ffd49d] text-[#10314b] px-5 py-2.5 rounded-lg font-semibold"
                 >
                   View Kashmir Trips
                 </button>
+
                 <button
-                  type="button"
                   onClick={() => navigate('/services/hotel-booking')}
-                  style={transparentCtaButtonStyle}
+                  className="border border-white/40 px-5 py-2.5 rounded-lg font-semibold hover:bg-white/10"
                 >
                   Pair With Stay
                 </button>
               </div>
             </div>
 
-            <div
-              className="shikara-fade delay-2"
-              style={{
-                borderRadius: '22px',
-                background: 'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
-                border: '1px solid rgba(255,255,255,0.22)',
-                padding: '20px',
-                backdropFilter: 'blur(4px)',
-                boxShadow: '0 18px 40px rgba(0, 0, 0, 0.14)'
-              }}
-            >
+            {/* RIGHT CARD */}
+            <div className="bg-white/10 border border-white/20 backdrop-blur rounded-2xl p-5 shadow-lg">
               <img
                 src="https://picsum.photos/id/13/1200/800"
-                alt="Shikara on Dal Lake"
-                style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '16px', display: 'block', marginBottom: '16px' }}
+                alt="Shikara"
+                className="w-full h-75 object-cover rounded-xl mb-4"
               />
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '10px' }}>
+
+              <div className="grid grid-cols-3 gap-3">
                 {rideMoments.map((item) => (
-                  <div key={item.label} style={{ background: 'rgba(255,255,255,0.08)', borderRadius: '14px', padding: '12px' }}>
-                    <p style={{ margin: '0 0 6px', color: '#a8e9ff', fontSize: '11px', letterSpacing: '1px', fontWeight: 700 }}>{item.label}</p>
-                    <p style={{ margin: 0, color: '#f7fcff', fontSize: '13px', lineHeight: 1.5 }}>{item.value}</p>
+                  <div key={item.label} className="bg-white/10 rounded-xl p-3">
+                    <p className="text-[11px] text-[#a8e9ff] font-bold">
+                      {item.label}
+                    </p>
+                    <p className="text-sm text-white">{item.value}</p>
                   </div>
                 ))}
               </div>
@@ -204,154 +125,108 @@ export default function ShikaraRide() {
         </div>
       </section>
 
-      <section style={{ maxWidth: '1150px', margin: '0 auto', padding: '54px 24px 72px' }}>
-        <div className="shikara-grid" style={{ display: 'grid', gridTemplateColumns: '1.02fr 0.98fr', gap: '22px', alignItems: 'start' }}>
-          <div>
-            <div style={{ marginBottom: '22px' }}>
-              <p style={{ color: '#0a6b84', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-                WHY THIS RIDE STANDS OUT
-              </p>
-              <h2 style={{ margin: 0, fontSize: '34px', color: '#10263b' }}>A page built around the lake, not just a dropdown item</h2>
-            </div>
+      {/* HIGHLIGHTS */}
+      <section className="max-w-287.5 mx-auto px-6 py-16 grid md:grid-cols-2 gap-6">
+        
+        <div>
+          <p className="text-xs font-bold text-[#0a6b84] mb-2 tracking-wider">
+            WHY THIS RIDE STANDS OUT
+          </p>
 
-            <div className="shikara-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '16px' }}>
-              {rideHighlights.map((item) => (
-                <article
-                  key={item.title}
-                  className="shikara-card"
-                  style={{ background: '#fff', borderRadius: '16px', border: '1px solid #dfeaf1', boxShadow: '0 14px 32px rgba(10, 35, 58, 0.08)', padding: '18px' }}
+          <h2 className="text-3xl font-bold text-[#10263b] mb-6">
+            A page built around the lake, not just a dropdown item
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {rideHighlights.map((item) => (
+              <div key={item.title} className="bg-white border rounded-xl p-4 shadow-sm hover:-translate-y-1 transition">
+                <div className="w-10 h-10 rounded-lg bg-linear-to-br from-[#0e6f8c] to-[#19b4d8] mb-3" />
+                <h3 className="font-semibold text-[#12304c]">{item.title}</h3>
+                <p className="text-sm text-[#51667a]">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* SIDE PANEL */}
+        <div className="bg-linear-to-b from-white to-[#f4fbff] border rounded-2xl p-5 shadow">
+          <p className="text-xs font-bold text-[#0a6b84] mb-2">WHAT TO EXPECT</p>
+          <h3 className="text-xl font-semibold text-[#10263b] mb-4">
+            Simple, scenic, and easy to book
+          </h3>
+
+          {scenicStops.map((stop) => (
+            <div key={stop} className="flex gap-2 mb-3">
+              <span className="text-[#0ea5c0]">•</span>
+              <p className="text-sm text-[#486074]">{stop}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* PACKAGES */}
+      <section className="bg-[#eef8fc] py-16 px-6">
+        <div className="max-w-287.5 mx-auto text-center mb-8">
+          <p className="text-xs font-bold text-[#0a6b84]">SHIKARA PACKAGES</p>
+          <h2 className="text-3xl font-bold text-[#10263b]">
+            Choose the ride length that fits your pace
+          </h2>
+        </div>
+
+        <div className="max-w-287.5 mx-auto grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+          {ridePackages.map((item) => (
+            <div key={item.name} className="bg-white border rounded-xl p-5 shadow hover:-translate-y-1 transition">
+              <p className="text-xs text-[#0a6b84] font-bold">{item.duration}</p>
+              <h3 className="text-xl font-semibold text-[#10263b]">{item.name}</h3>
+              <p className="text-sm text-[#4f667a] mb-4">{item.note}</p>
+
+              <div className="flex justify-between items-center">
+                <span className="font-bold text-lg">{item.price}</span>
+                <button
+                  onClick={() => navigate('/services/hotel-booking')}
+                  className="bg-[#0f6f8a] text-white px-4 py-2 rounded-lg text-sm"
                 >
-                  <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: 'linear-gradient(135deg, #0e6f8c, #19b4d8)', marginBottom: '14px' }} />
-                  <h3 style={{ margin: '0 0 8px', fontSize: '18px', color: '#12304c' }}>{item.title}</h3>
-                  <p style={{ margin: 0, color: '#51667a', fontSize: '14px', lineHeight: 1.7 }}>{item.detail}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <aside
-            style={{
-              background: 'linear-gradient(180deg, #ffffff 0%, #f4fbff 100%)',
-              borderRadius: '20px',
-              border: '1px solid #dce9f2',
-              boxShadow: '0 16px 36px rgba(10, 35, 58, 0.08)',
-              padding: '22px'
-            }}
-          >
-            <p style={{ color: '#0a6b84', letterSpacing: '1.2px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              WHAT TO EXPECT
-            </p>
-            <h3 style={{ margin: '0 0 18px', fontSize: '24px', color: '#10263b' }}>Simple, scenic, and easy to book</h3>
-
-            {scenicStops.map((stop) => (
-              <div key={stop} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '14px' }}>
-                <span style={{ color: '#0ea5c0', marginTop: '2px' }}>-</span>
-                <p style={{ margin: 0, color: '#486074', fontSize: '14px', lineHeight: 1.6 }}>{stop}</p>
+                  Reserve
+                </button>
               </div>
-            ))}
-
-            <div style={{ marginTop: '20px', paddingTop: '18px', borderTop: '1px solid #e4eef5' }}>
-              <p style={{ margin: '0 0 8px', fontSize: '13px', color: '#6b859b', fontWeight: 700 }}>Recommended booking style</p>
-              <p style={{ margin: 0, color: '#10263b', fontSize: '15px', lineHeight: 1.7 }}>
-                Pair the ride with a Srinagar hotel or houseboat stay so pickup and return stay seamless.
-              </p>
             </div>
-          </aside>
+          ))}
         </div>
       </section>
 
-      <section style={{ background: '#eef8fc', padding: '10px 24px 72px' }}>
-        <div style={{ maxWidth: '1150px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-            <p style={{ color: '#0a6b84', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              SHIKARA PACKAGES
-            </p>
-            <h2 style={{ margin: 0, fontSize: '34px', color: '#10263b' }}>Choose the ride length that fits your pace</h2>
-          </div>
+      {/* PLAN SECTION */}
+      <section className="max-w-287.5 mx-auto px-6 py-16 grid md:grid-cols-2 gap-6">
+        
+        <div>
+          <h2 className="text-3xl font-bold text-[#10263b] mb-4">
+            Add this ride to a wider Kashmir day plan
+          </h2>
 
-          <div className="shikara-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
-            {ridePackages.map((item) => (
-              <div
-                key={item.name}
-                className="shikara-card"
-                style={{ background: '#fff', borderRadius: '18px', border: '1px solid #d8e6ef', boxShadow: '0 12px 28px rgba(10, 35, 58, 0.07)', padding: '20px' }}
-              >
-                <p style={{ margin: '0 0 10px', color: '#0a6b84', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{item.duration}</p>
-                <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#10263b' }}>{item.name}</h3>
-                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{item.note}</p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{item.price}</span>
-                  <button
-                    type="button"
-                    onClick={() => navigate('/services/hotel-booking')}
-                    style={{ ...createPrimaryButtonStyle('#0f6f8a', '#fff'), padding: '10px 14px' }}
-                  >
-                    Reserve
-                  </button>
-                </div>
+          <div className="space-y-3">
+            {shikaraPlanIdeas.map((item) => (
+              <div key={item} className="bg-white border rounded-lg p-3">
+                {item}
               </div>
             ))}
           </div>
         </div>
-      </section>
 
-      <section style={{ maxWidth: '1150px', margin: '0 auto', padding: '56px 24px 72px' }}>
-        <div className="shikara-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', alignItems: 'center' }}>
-          <div>
-            <p style={{ color: '#0a6b84', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              MAP THE EXPERIENCE
-            </p>
-            <h2 style={{ margin: '0 0 14px', fontSize: '32px', color: '#10263b' }}>Add this ride to a wider Kashmir day plan</h2>
-            <p style={{ margin: '0 0 22px', color: '#4f667a', fontSize: '15px', lineHeight: 1.8 }}>
-              Use the shikara ride as a calm opening or closing activity for Srinagar, then continue into gardens,
-              markets, or a lakeside dinner.
-            </p>
+        <div className="bg-linear-to-br from-[#10263b] via-[#184d66] to-[#0f8db2] text-white rounded-2xl p-6 shadow-lg">
+          <img
+            src="https://picsum.photos/id/13/1200/800"
+            className="w-full h-62.5 object-cover rounded-xl mb-4"
+          />
 
-            <div style={{ display: 'grid', gap: '12px' }}>
-              {shikaraPlanIdeas.map((item) => (
-                <div key={item} style={{ background: '#fff', borderRadius: '14px', border: '1px solid #d9e6ef', padding: '14px 16px', color: '#31485d' }}>
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
+          <h3 className="text-xl font-semibold mb-3">
+            Shikara Ride with a curated Kashmir itinerary
+          </h3>
 
-          <div
-            style={{
-              background: 'linear-gradient(135deg, #10263b 0%, #184d66 55%, #0f8db2 100%)',
-              borderRadius: '22px',
-              padding: '24px',
-              color: '#fff',
-              boxShadow: '0 18px 40px rgba(8, 45, 71, 0.16)'
-            }}
+          <button
+            onClick={() => navigate('/alltrips')}
+            className="bg-[#ffd49d] text-[#10314b] px-5 py-2 rounded-lg font-semibold"
           >
-            <img
-              src="https://picsum.photos/id/13/1200/800"
-              alt="Kashmir lake view"
-              style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '16px', marginBottom: '18px', display: 'block' }}
-            />
-            <p style={{ margin: '0 0 8px', color: '#a8e9ff', letterSpacing: '1px', fontSize: '12px', fontWeight: 700 }}>READY TO BOOK</p>
-            <h3 style={{ margin: '0 0 12px', fontSize: '24px' }}>Shikara Ride with a curated Kashmir itinerary</h3>
-            <p style={{ margin: '0 0 18px', color: '#d8f4ff', fontSize: '14px', lineHeight: 1.8 }}>
-              Tell us your preferred time, number of guests, and whether you want a private, romantic, or family setup.
-            </p>
-            <div style={heroActionRowStyle}>
-              <button
-                type="button"
-                onClick={() => navigate('/alltrips')}
-                style={createPrimaryButtonStyle('#ffd49d', '#10314b')}
-              >
-                Explore More Trips
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/services/group-tour')}
-                style={transparentCtaButtonStyle}
-              >
-                Build Group Plan
-              </button>
-            </div>
-          </div>
+            Explore More Trips
+          </button>
         </div>
       </section>
 

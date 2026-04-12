@@ -1,203 +1,120 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '../shared/Footer'
-
-import { activityAPI } from '../utils/api'
-import {
-  backButtonStyle,
-  createPageShellStyle,
-  createPrimaryButtonStyle,
-  heroActionRowStyle,
-  maxWidthContainerStyle,
-  transparentCtaButtonStyle
-} from '../ui/servicePageStyles'
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../shared/Footer";
+import { activityAPI } from "../utils/api";
 
 export default function RiverRafting() {
-  const navigate = useNavigate()
-  const [activityData, setActivityData] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate();
+  const [activityData, setActivityData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let mounted = true
+    let mounted = true;
 
     const loadActivity = async () => {
-      setIsLoading(true)
-      const data = await activityAPI.getBySlug('river-rafting')
+      setIsLoading(true);
+      const data = await activityAPI.getBySlug("river-rafting");
 
-      if (!mounted) {
-        return
-      }
+      if (!mounted) return;
 
-      setActivityData(data)
-      setIsLoading(false)
-    }
+      setActivityData(data);
+      setIsLoading(false);
+    };
 
-    loadActivity()
+    loadActivity();
 
     return () => {
-      mounted = false
-    }
-  }, [])
+      mounted = false;
+    };
+  }, []);
 
-  const raftingHighlights = activityData?.raftingHighlights || []
-  const raftingPackages = activityData?.raftingPackages || []
-  const safetyGear = activityData?.safetyGear || []
-  const raftingMoments = activityData?.raftingMoments || []
-  const tripPhases = activityData?.tripPhases || []
+  const raftingHighlights = activityData?.raftingHighlights || [];
+  const raftingPackages = activityData?.raftingPackages || [];
+  const safetyGear = activityData?.safetyGear || [];
+  const raftingMoments = activityData?.raftingMoments || [];
+  const tripPhases = activityData?.tripPhases || [];
 
   if (isLoading) {
-    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Loading activity...</div>
+    return (
+      <div className="min-h-[60vh] grid place-items-center text-[#10263b] font-semibold">
+        Loading activity...
+      </div>
+    );
   }
 
   if (!activityData) {
-    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Unable to load river rafting details.</div>
+    return (
+      <div className="min-h-[60vh] grid place-items-center text-[#10263b] font-semibold">
+        Unable to load river rafting details.
+      </div>
+    );
   }
 
   return (
-    <div style={createPageShellStyle('#f8fbff')}>
-    
-      <style>{`
-        .rafting-glow {
-          animation: raftingFloat 6s ease-in-out infinite;
-        }
+    <div className="min-h-screen bg-[#f8fbff]">
+      {/* HERO */}
+      <section className="relative overflow-hidden text-white bg-linear-to-br from-[#07111d] via-[#12355a] to-[#1a78a6] px-6 py-20">
+        {/* Glow Effects */}
+        <div className="absolute -top-20 -right-24 w-70 h-70 rounded-full bg-[radial-gradient(circle,rgba(136,225,255,0.4)_0%,transparent_70%)] animate-pulse" />
+        <div className="absolute -bottom-24 -left-24 w-75 h-75 rounded-full bg-[radial-gradient(circle,rgba(255,202,126,0.3)_0%,transparent_70%)]" />
 
-        .rafting-fade {
-          opacity: 0;
-          transform: translateY(16px);
-          animation: raftingFade 650ms ease forwards;
-        }
-
-        .rafting-fade.delay-1 { animation-delay: 100ms; }
-        .rafting-fade.delay-2 { animation-delay: 220ms; }
-        .rafting-fade.delay-3 { animation-delay: 340ms; }
-
-        .rafting-card {
-          transition: transform 220ms ease, box-shadow 220ms ease;
-        }
-
-        .rafting-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 18px 38px rgba(12, 30, 55, 0.12) !important;
-        }
-
-        @keyframes raftingFloat {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-
-        @keyframes raftingFade {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (max-width: 980px) {
-          .rafting-grid,
-          .rafting-hero-grid {
-            grid-template-columns: 1fr !important;
-          }
-
-          .rafting-title {
-            font-size: 38px !important;
-          }
-        }
-      `}</style>
-
-      <section
-        style={{
-          background: 'linear-gradient(135deg, #07111d 0%, #12355a 52%, #1a78a6 100%)',
-          color: '#fff',
-          padding: '74px 24px 84px',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <div
-          className="rafting-glow"
-          style={{
-            position: 'absolute',
-            right: '-100px',
-            top: '-80px',
-            width: '280px',
-            height: '280px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(136, 225, 255, 0.44) 0%, rgba(136, 225, 255, 0) 72%)'
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            left: '-90px',
-            bottom: '-90px',
-            width: '300px',
-            height: '300px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(255, 202, 126, 0.34) 0%, rgba(255, 202, 126, 0) 72%)'
-          }}
-        />
-
-        <div style={maxWidthContainerStyle}>
+        <div className="max-w-6xl mx-auto">
           <button
-            type="button"
-            onClick={() => navigate('/')}
-            style={{ ...backButtonStyle, marginBottom: '26px' }}
+            onClick={() => navigate("/")}
+            className="mb-6 px-4 py-2 border border-white/30 rounded-lg hover:bg-white/10 transition"
           >
             Back to Home
           </button>
 
-          <div className="rafting-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.18fr 0.82fr', gap: '28px', alignItems: 'center' }}>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <p className="rafting-fade" style={{ letterSpacing: '1.8px', fontSize: '12px', marginBottom: '14px', color: '#a6e7ff' }}>
+              <p className="text-xs tracking-widest text-cyan-200 mb-3">
                 KASHMIR RIVER RAFTING
               </p>
-              <h1 className="rafting-title rafting-fade delay-1" style={{ fontSize: '58px', lineHeight: 1.08, margin: '0 0 18px', maxWidth: '720px' }}>
-                River Rafting Built for Real Adventure, Clear Guidance, and Big Valley Energy
+
+              <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
+                River Rafting Built for Real Adventure, Clear Guidance, and Big
+                Valley Energy
               </h1>
-              <p className="rafting-fade delay-2" style={{ fontSize: '17px', lineHeight: 1.75, color: '#d8edf8', maxWidth: '660px', marginBottom: '28px' }}>
-                This page turns river rafting into a dedicated adventure destination with package tiers, safety guidance, and clear
-                booking steps so the experience feels deliberate and easy to plan.
+
+              <p className="text-blue-100 mb-6 leading-relaxed">
+                This page turns river rafting into a dedicated adventure
+                destination with package tiers, safety guidance, and clear
+                booking steps.
               </p>
 
-              <div className="rafting-fade delay-3" style={heroActionRowStyle}>
+              <div className="flex gap-4 flex-wrap">
                 <button
-                  type="button"
-                  onClick={() => navigate('/alltrips')}
-                  style={createPrimaryButtonStyle('#ffd79d', '#13263b')}
+                  onClick={() => navigate("/alltrips")}
+                  className="bg-[#ffd79d] text-[#13263b] px-5 py-2 rounded-lg font-semibold"
                 >
                   View Kashmir Trips
                 </button>
                 <button
-                  type="button"
-                  onClick={() => navigate('/services/group-tour')}
-                  style={transparentCtaButtonStyle}
+                  onClick={() => navigate("/services/group-tour")}
+                  className="border border-white/40 px-5 py-2 rounded-lg"
                 >
                   Plan Group Adventure
                 </button>
               </div>
             </div>
 
-            <div
-              className="rafting-fade delay-2"
-              style={{
-                borderRadius: '22px',
-                background: 'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
-                border: '1px solid rgba(255,255,255,0.22)',
-                padding: '20px',
-                backdropFilter: 'blur(4px)',
-                boxShadow: '0 18px 40px rgba(0, 0, 0, 0.14)'
-              }}
-            >
+            <div className="bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/20 shadow-lg">
               <img
                 src="https://picsum.photos/id/10/1200/800"
-                alt="River rafting in the mountains"
-                style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '16px', display: 'block', marginBottom: '16px' }}
+                className="w-full h-64 object-cover rounded-xl mb-4"
               />
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '10px' }}>
+
+              <div className="grid grid-cols-3 gap-3">
                 {raftingMoments.map((item) => (
-                  <div key={item.label} style={{ background: 'rgba(255,255,255,0.08)', borderRadius: '14px', padding: '12px' }}>
-                    <p style={{ margin: '0 0 6px', color: '#a6e7ff', fontSize: '11px', letterSpacing: '1px', fontWeight: 700 }}>{item.label}</p>
-                    <p style={{ margin: 0, color: '#f7fcff', fontSize: '13px', lineHeight: 1.5 }}>{item.value}</p>
+                  <div
+                    key={item.label}
+                    className="bg-white/10 rounded-lg p-2"
+                  >
+                    <p className="text-[10px] text-cyan-200 font-bold">
+                      {item.label}
+                    </p>
+                    <p className="text-xs">{item.value}</p>
                   </div>
                 ))}
               </div>
@@ -206,87 +123,75 @@ export default function RiverRafting() {
         </div>
       </section>
 
-      <section style={{ maxWidth: '1150px', margin: '0 auto', padding: '54px 24px 72px' }}>
-        <div className="rafting-grid" style={{ display: 'grid', gridTemplateColumns: '1.02fr 0.98fr', gap: '22px', alignItems: 'start' }}>
-          <div>
-            <div style={{ marginBottom: '22px' }}>
-              <p style={{ color: '#0d6b95', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-                WHY THIS RUN STANDS OUT
-              </p>
-              <h2 style={{ margin: 0, fontSize: '34px', color: '#10263b' }}>A clear, energetic page for one of Kashmir’s strongest adventures</h2>
-            </div>
+      {/* HIGHLIGHTS */}
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-6">
+        <div>
+          <p className="text-xs text-[#0d6b95] font-bold tracking-widest mb-2">
+            WHY THIS RUN STANDS OUT
+          </p>
+          <h2 className="text-3xl font-bold text-[#10263b] mb-6">
+            A clear, energetic page for one of Kashmir’s strongest adventures
+          </h2>
 
-            <div className="rafting-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '16px' }}>
-              {raftingHighlights.map((item) => (
-                <article
-                  key={item.title}
-                  className="rafting-card"
-                  style={{ background: '#fff', borderRadius: '16px', border: '1px solid #dfeaf1', boxShadow: '0 14px 32px rgba(10, 35, 58, 0.08)', padding: '18px' }}
-                >
-                  <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: 'linear-gradient(135deg, #0d6b95, #28a7d6)', marginBottom: '14px' }} />
-                  <h3 style={{ margin: '0 0 8px', fontSize: '18px', color: '#12304c' }}>{item.title}</h3>
-                  <p style={{ margin: 0, color: '#51667a', fontSize: '14px', lineHeight: 1.7 }}>{item.detail}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <aside
-            style={{
-              background: 'linear-gradient(180deg, #ffffff 0%, #f4fbff 100%)',
-              borderRadius: '20px',
-              border: '1px solid #dce9f2',
-              boxShadow: '0 16px 36px rgba(10, 35, 58, 0.08)',
-              padding: '22px'
-            }}
-          >
-            <p style={{ color: '#0d6b95', letterSpacing: '1.2px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              SAFETY GEAR
-            </p>
-            <h3 style={{ margin: '0 0 18px', fontSize: '24px', color: '#10263b' }}>Built around guide-led control and prep</h3>
-
-            {safetyGear.map((item) => (
-              <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '14px' }}>
-                <span style={{ color: '#0d6b95', marginTop: '2px' }}>-</span>
-                <p style={{ margin: 0, color: '#486074', fontSize: '14px', lineHeight: 1.6 }}>{item}</p>
+          <div className="grid md:grid-cols-3 gap-4">
+            {raftingHighlights.map((item) => (
+              <div
+                key={item.title}
+                className="bg-white border rounded-xl p-4 shadow hover:shadow-lg transition"
+              >
+                <div className="w-10 h-10 rounded-lg bg-linear-to-r from-[#0d6b95] to-[#28a7d6] mb-3" />
+                <h3 className="font-semibold text-[#12304c] mb-1">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-gray-600">{item.detail}</p>
               </div>
             ))}
+          </div>
+        </div>
 
-            <div style={{ marginTop: '20px', paddingTop: '18px', borderTop: '1px solid #e4eef5' }}>
-              <p style={{ margin: '0 0 8px', fontSize: '13px', color: '#6b859b', fontWeight: 700 }}>Best paired with</p>
-              <p style={{ margin: 0, color: '#10263b', fontSize: '15px', lineHeight: 1.7 }}>
-                A Srinagar stay, Gulmarg day trip, or a broader adventure circuit with transport support.
-              </p>
+        <div className="bg-white rounded-2xl p-6 border shadow">
+          <p className="text-xs text-[#0d6b95] font-bold mb-2">
+            SAFETY GEAR
+          </p>
+          <h3 className="text-xl font-semibold text-[#10263b] mb-4">
+            Built around guide-led control and prep
+          </h3>
+
+          {safetyGear.map((item) => (
+            <div key={item} className="flex gap-2 mb-2">
+              <span>-</span>
+              <p className="text-sm text-gray-600">{item}</p>
             </div>
-          </aside>
+          ))}
         </div>
       </section>
 
-      <section style={{ background: '#eef7fc', padding: '10px 24px 72px' }}>
-        <div style={{ maxWidth: '1150px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-            <p style={{ color: '#0d6b95', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              RAFTING PACKAGES
-            </p>
-            <h2 style={{ margin: 0, fontSize: '34px', color: '#10263b' }}>Choose the level of thrill you want</h2>
-          </div>
+      {/* PACKAGES */}
+      <section className="bg-[#eef7fc] py-14 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-center text-3xl font-bold text-[#10263b] mb-8">
+            Choose the level of thrill you want
+          </h2>
 
-          <div className="rafting-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
+          <div className="grid md:grid-cols-3 gap-5">
             {raftingPackages.map((item) => (
               <div
                 key={item.name}
-                className="rafting-card"
-                style={{ background: '#fff', borderRadius: '18px', border: '1px solid #d8e6ef', boxShadow: '0 12px 28px rgba(10, 35, 58, 0.07)', padding: '20px' }}
+                className="bg-white rounded-xl p-5 border shadow hover:shadow-lg"
               >
-                <p style={{ margin: '0 0 10px', color: '#0d6b95', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{item.duration}</p>
-                <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#10263b' }}>{item.name}</h3>
-                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{item.note}</p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{item.price}</span>
+                <p className="text-xs text-[#0d6b95] font-bold">
+                  {item.duration}
+                </p>
+                <h3 className="text-xl font-semibold text-[#10263b] mb-2">
+                  {item.name}
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">{item.note}</p>
+
+                <div className="flex justify-between items-center">
+                  <span className="font-bold">{item.price}</span>
                   <button
-                    type="button"
-                    onClick={() => navigate('/services/hotel-booking')}
-                    style={{ ...createPrimaryButtonStyle('#0d6b95', '#fff'), padding: '10px 14px' }}
+                    onClick={() => navigate("/services/hotel-booking")}
+                    className="bg-[#0d6b95] text-white px-4 py-2 rounded-lg"
                   >
                     Reserve
                   </button>
@@ -297,65 +202,54 @@ export default function RiverRafting() {
         </div>
       </section>
 
-      <section style={{ maxWidth: '1150px', margin: '0 auto', padding: '56px 24px 72px' }}>
-        <div className="rafting-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', alignItems: 'start' }}>
-          <div>
-            <p style={{ color: '#0d6b95', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              TRIP FLOW
-            </p>
-            <h2 style={{ margin: '0 0 14px', fontSize: '32px', color: '#10263b' }}>From briefing to rapids in three steps</h2>
+      {/* FLOW */}
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-6">
+        <div>
+          <h2 className="text-2xl font-bold mb-6 text-[#10263b]">
+            From briefing to rapids in three steps
+          </h2>
 
-            <div style={{ display: 'grid', gap: '14px' }}>
-              {tripPhases.map((item) => (
-                <div key={item.step} style={{ background: '#fff', borderRadius: '16px', border: '1px solid #d9e6ef', padding: '16px' }}>
-                  <p style={{ margin: '0 0 6px', color: '#0d6b95', fontSize: '12px', fontWeight: 800, letterSpacing: '1px' }}>{item.step}</p>
-                  <h3 style={{ margin: '0 0 8px', fontSize: '20px', color: '#10263b' }}>{item.title}</h3>
-                  <p style={{ margin: 0, color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{item.desc}</p>
-                </div>
-              ))}
+          {tripPhases.map((item) => (
+            <div key={item.step} className="bg-white p-4 rounded-xl border mb-3">
+              <p className="text-xs text-[#0d6b95] font-bold">{item.step}</p>
+              <h3 className="font-semibold">{item.title}</h3>
+              <p className="text-sm text-gray-600">{item.desc}</p>
             </div>
-          </div>
+          ))}
+        </div>
 
-          <div
-            style={{
-              background: 'linear-gradient(135deg, #10263b 0%, #15506e 55%, #0d6b95 100%)',
-              borderRadius: '22px',
-              padding: '24px',
-              color: '#fff',
-              boxShadow: '0 18px 40px rgba(8, 45, 71, 0.16)'
-            }}
-          >
-            <img
-              src="https://picsum.photos/id/10/1200/800"
-              alt="Fast river in a valley"
-              style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '16px', marginBottom: '18px', display: 'block' }}
-            />
-            <p style={{ margin: '0 0 8px', color: '#a6e7ff', letterSpacing: '1px', fontSize: '12px', fontWeight: 700 }}>READY TO PLAN</p>
-            <h3 style={{ margin: '0 0 12px', fontSize: '24px' }}>River Rafting with a full Kashmir adventure plan</h3>
-            <p style={{ margin: '0 0 18px', color: '#d8edf8', fontSize: '14px', lineHeight: 1.8 }}>
-              Tell us your preferred route length, group size, and season. We can pair the raft with transport, stay, or a longer valley circuit.
-            </p>
-            <div style={heroActionRowStyle}>
-              <button
-                type="button"
-                onClick={() => navigate('/alltrips')}
-                style={createPrimaryButtonStyle('#ffd79d', '#13263b')}
-              >
-                Explore More Trips
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/services/group-tour')}
-                style={transparentCtaButtonStyle}
-              >
-                Build Group Plan
-              </button>
-            </div>
+        <div className="bg-linear-to-br from-[#10263b] via-[#15506e] to-[#0d6b95] text-white p-6 rounded-2xl shadow">
+          <img
+            src="https://picsum.photos/id/10/1200/800"
+            className="w-full h-60 object-cover rounded-xl mb-4"
+          />
+
+          <h3 className="text-xl font-semibold mb-3">
+            River Rafting with a full Kashmir adventure plan
+          </h3>
+
+          <p className="text-sm text-blue-100 mb-4">
+            Tell us your preferred route length, group size, and season.
+          </p>
+
+          <div className="flex gap-4">
+            <button
+              onClick={() => navigate("/alltrips")}
+              className="bg-[#ffd79d] text-[#13263b] px-4 py-2 rounded-lg font-semibold"
+            >
+              Explore Trips
+            </button>
+            <button
+              onClick={() => navigate("/services/group-tour")}
+              className="border border-white px-4 py-2 rounded-lg"
+            >
+              Group Plan
+            </button>
           </div>
         </div>
       </section>
 
       <Footer />
     </div>
-  )
+  );
 }

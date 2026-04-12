@@ -38,7 +38,7 @@ export default function HeroSection() {
       {/* Navbar with TopHeader */}
       <Navbar />
       {/* Hero Section */}
-      <div className="relative m-0 h-[420px] w-full overflow-hidden bg-[#1a2b4a] p-0">
+      <div className="relative m-0 h-105 w-full overflow-hidden bg-[#1a2b4a] p-0">
         {/* Transparent Images Wrapper for Transitions */}
         {heroImages.map((img, idx) => (
           <div
@@ -48,14 +48,14 @@ export default function HeroSection() {
               opacity: idx === currentIndex ? 1 : 0,
               zIndex: idx === currentIndex ? 1 : 0,
             }}
-            className="absolute inset-0 bg-cover bg-[center_40%] transition-opacity duration-[1500ms] ease-in-out"
+            className="absolute inset-0 bg-cover bg-position-[center_40%] transition-opacity duration-1500 ease-in-out"
           />
         ))}
         {/* Dark overlay on left - Softened for 'Modern & Open' feel */}
-        <div className="absolute inset-0 z-[2] bg-[linear-gradient(to_right,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0.15)_45%,transparent_100%)]" />
+        <div className="absolute inset-0 z-2 bg-[linear-gradient(to_right,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0.15)_45%,transparent_100%)]" />
 
         {/* Hero Content */}
-        <div className="relative z-[3] max-w-[500px] px-10 py-[60px]">
+        <div className="relative z-3 max-w-125 px-10 py-15">
           <p className="mb-2.5 text-xs font-bold uppercase tracking-[2px] text-[#3dba8f] [text-shadow:0_2px_4px_rgba(0,0,0,0.4)]">
             Explore Kashmir with Trusted Local Travel Experts
           </p>
