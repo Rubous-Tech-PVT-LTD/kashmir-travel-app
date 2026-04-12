@@ -10,6 +10,7 @@ const quickLinks = [
   { label: 'Hotels', to: '/services/hotel-booking' },
   { label: 'Car Rental', to: '/services/car-rentals' },
   { label: 'Travel Blog', to: '/alltrips' },
+  { label: 'Feedback', to: '/feedback' },
   { label: 'Contact Us', href: 'mailto:info@habakhatoontravels.com' },
 ]
 
@@ -83,170 +84,63 @@ export default function Footer() {
   const renderLink = (item) => {
     if (item.to) {
       return (
-        <Link key={item.label} to={item.to} className="footer-link">
+        <Link
+          key={item.label}
+          to={item.to}
+          className="block py-1.5 text-sm text-slate-400 no-underline transition-all duration-200 hover:text-emerald-400 hover:pl-1 focus-visible:text-emerald-400 focus-visible:outline-none font-['DM_Sans']"
+        >
           {item.label}
         </Link>
       )
     }
 
     return (
-      <a key={item.label} href={item.href} className="footer-link">
+      <a
+        key={item.label}
+        href={item.href}
+        className="block py-1.5 text-sm text-slate-400 no-underline transition-all duration-200 hover:text-emerald-400 hover:pl-1 focus-visible:text-emerald-400 focus-visible:outline-none font-['DM_Sans']"
+      >
         {item.label}
       </a>
     )
   }
- 
+
   return (
-    <footer
-      style={{
-        backgroundColor: "#0f1923",
-        color: "#cbd5e1",
-        fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
-        padding: "64px 0 0",
-      }}
-    >
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
- 
-        .footer-link {
-          color: #94a3b8;
-          text-decoration: none;
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 1.5;
-          transition: color 0.2s ease, padding-left 0.2s ease;
-          display: block;
-          padding: 5px 0;
-        }
-        .footer-link:hover,
-        .footer-link:focus-visible {
-          color: #3dba8f;
-          padding-left: 4px;
-          outline: none;
-        }
-        .social-btn {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.08);
-          border: 1px solid rgba(255,255,255,0.1);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #94a3b8;
-          cursor: pointer;
-          transition: all 0.25s ease;
-          text-decoration: none;
-        }
-        .social-btn:hover {
-          background: #3dba8f;
-          border-color: #3dba8f;
-          color: #fff;
-          transform: translateY(-3px);
-        }
-        .contact-row {
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
-          margin-bottom: 16px;
-        }
-        .contact-icon {
-          width: 18px;
-          height: 18px;
-          color: #3dba8f;
-          flex-shrink: 0;
-          margin-top: 2px;
-        }
-        .contact-text {
-          color: #94a3b8;
-          font-size: 14px;
-          line-height: 1.6;
-          font-weight: 400;
-        }
-        .contact-text a {
-          color: #94a3b8;
-          text-decoration: none;
-          transition: color 0.2s;
-        }
-        .contact-text a:hover { color: #3dba8f; }
-        .footer-heading {
-          font-size: 18px;
-          font-weight: 700;
-          color: #fff;
-          margin: 0 0 18px;
-          letter-spacing: 0.2px;
-        }
-        .green-bar {
-          width: 36px;
-          height: 3px;
-          background: #3dba8f;
-          border-radius: 2px;
-          margin-bottom: 24px;
-        }
-      `}</style>
- 
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 40px" }}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1.4fr 1fr 1fr 1.2fr",
-          gap: "48px",
-          paddingBottom: "56px",
-        }}>
- 
+    <footer className="bg-slate-900 text-slate-300 font-['DM_Sans'] pt-16">
+      <div className="max-w-6xl mx-auto px-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-14">
+
           {/* Column 1 — Brand */}
-          <div>
+          <div className="lg:col-span-1">
             {/* Logo area */}
-            <div style={{ marginBottom: "20px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
-                <span style={{
-                  fontSize: "20px",
-                  fontWeight: "700",
-                  color: "#fff",
-                  letterSpacing: "-0.2px",
-                }}>
+            <div className="mb-5">
+              <div className="flex items-center gap-1.5 mb-1">
+                <span className="text-xl font-bold text-white tracking-tight">
                   Kashmir{" "}
-                  <span style={{ color: "#3dba8f" }}>Tour</span>{" "}
-                  <span style={{ color: "#e2e8f0" }}>Travel</span>
+                  <span className="text-emerald-400">Tour</span>{" "}
+                  <span className="text-slate-200">Travel</span>
                 </span>
               </div>
-              <div style={{
-                fontSize: "11px",
-                color: "#64748b",
-                fontWeight: "400",
-                letterSpacing: "0.3px",
-                fontStyle: "italic",
-              }}>
+              <div className="text-xs text-slate-500 font-normal tracking-wide italic">
                 Unit of Himalaya Travels
               </div>
             </div>
- 
-            <h3 style={{
-              fontSize: "17px",
-              fontWeight: "700",
-              color: "#fff",
-              margin: "0 0 14px",
-            }}>
+
+            <h3 className="text-lg font-bold text-white mb-3.5">
               Haba Khatoon Travels
             </h3>
- 
-            <p style={{
-              color: "#94a3b8",
-              fontSize: "14px",
-              lineHeight: "1.75",
-              fontWeight: "300",
-              margin: "0 0 28px",
-              maxWidth: "280px",
-            }}>
+
+            <p className="text-slate-400 text-sm leading-7 font-light mb-7 max-w-xs">
               Your trusted travel partner for unforgettable Kashmir experiences. We specialize in customized tours, hotel bookings, and authentic local experiences.
             </p>
- 
+
             {/* Social Icons */}
-            <div style={{ display: "flex", gap: "10px" }}>
+            <div className="flex gap-2.5">
               {shareLinks.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
-                  className="social-btn"
+                  className="w-10 h-10 rounded-full bg-white/8 border border-white/10 flex items-center justify-center text-slate-400 cursor-pointer transition-all duration-300 hover:bg-emerald-400 hover:border-emerald-400 hover:text-white hover:-translate-y-1 no-underline"
                   target="_blank"
                   rel="noreferrer"
                   aria-label={item.label}
@@ -257,111 +151,92 @@ export default function Footer() {
               ))}
             </div>
           </div>
- 
+
           {/* Column 2 — Quick Links */}
           <div>
-            <h4 className="footer-heading">Quick Links</h4>
-            <div className="green-bar" />
+            <h4 className="text-lg font-bold text-white mb-4.5 tracking-wide">Quick Links</h4>
+            <div className="w-9 h-0.5 bg-emerald-400 rounded-sm mb-6" />
             <nav>
               {quickLinks.map(renderLink)}
             </nav>
           </div>
- 
+
           {/* Column 3 — Popular Packages */}
           <div>
-            <h4 className="footer-heading">Popular Packages</h4>
-            <div className="green-bar" />
+            <h4 className="text-lg font-bold text-white mb-4.5 tracking-wide">Popular Packages</h4>
+            <div className="w-9 h-0.5 bg-emerald-400 rounded-sm mb-6" />
             <nav>
               {popularPackages.map(renderLink)}
             </nav>
           </div>
- 
+
           {/* Column 4 — Contact Info */}
           <div>
-            <h4 className="footer-heading">Contact Info</h4>
-            <div className="green-bar" />
- 
+            <h4 className="text-lg font-bold text-white mb-4.5 tracking-wide">Contact Info</h4>
+            <div className="w-9 h-0.5 bg-emerald-400 rounded-sm mb-6" />
+
             {/* Address */}
-            <div className="contact-row">
-              <svg className="contact-icon" fill="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-start gap-3 mb-4">
+              <svg className="w-4.5 h-4.5 text-emerald-400 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
               </svg>
-              <span className="contact-text">
+              <span className="text-slate-400 text-sm leading-relaxed font-normal">
                 Humham Near Masjid Muhammadi, Budgam Road,<br />
                 Srinagar, J&K, India - 190021
               </span>
             </div>
- 
+
             {/* Phone */}
-            <div className="contact-row">
-              <svg className="contact-icon" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <div className="flex items-start gap-3 mb-4">
+              <svg className="w-4.5 h-4.5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.22 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z" />
               </svg>
-              <span className="contact-text">
-                <a href="tel:+917006259761">+91-7006259761</a>
+              <span className="text-slate-400 text-sm leading-relaxed font-normal">
+                <a href="tel:+917006259761" className="text-slate-400 no-underline transition-colors duration-200 hover:text-emerald-400">+91-7006259761</a>
               </span>
             </div>
- 
+
             {/* Email */}
-            <div className="contact-row">
-              <svg className="contact-icon" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <div className="flex items-start gap-3 mb-4">
+              <svg className="w-4.5 h-4.5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                 <polyline points="22,6 12,13 2,6" />
               </svg>
-              <span className="contact-text">
-                <a href="mailto:info@habakhatoontravels.com">info@habakhatoontravels.com</a>
+              <span className="text-slate-400 text-sm leading-relaxed font-normal">
+                <a href="mailto:info@habakhatoontravels.com" className="text-slate-400 no-underline transition-colors duration-200 hover:text-emerald-400">info@habakhatoontravels.com</a>
               </span>
             </div>
- 
+
             {/* Website */}
-            <div className="contact-row">
-              <svg className="contact-icon" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <div className="flex items-start gap-3 mb-4">
+              <svg className="w-4.5 h-4.5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="10" />
                 <line x1="2" y1="12" x2="22" y2="12" />
                 <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
               </svg>
-              <span className="contact-text">
-                <a href="https://www.habakhatoontravels.com" target="_blank" rel="noreferrer">
+              <span className="text-slate-400 text-sm leading-relaxed font-normal">
+                <a href="https://www.habakhatoontravels.com" target="_blank" rel="noreferrer" className="text-slate-400 no-underline transition-colors duration-200 hover:text-emerald-400">
                   www.habakhatoontravels.com
                 </a>
               </span>
             </div>
           </div>
- 
+
         </div>
       </div>
- 
+
       {/* Bottom Bar */}
-      <div style={{
-        borderTop: "1px solid rgba(255,255,255,0.07)",
-        backgroundColor: "#0a1118",
-      }}>
-        <div style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "18px 40px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "12px",
-        }}>
-          <p style={{ color: "#475569", fontSize: "13px", margin: 0, fontWeight: "400" }}>
+      <div className="border-t border-white/[0.07] bg-slate-950">
+        <div className="max-w-6xl mx-auto px-10 py-4.5 flex flex-wrap justify-between items-center gap-3">
+          <p className="text-slate-600 text-xs m-0 font-normal">
             © {new Date().getFullYear()} Haba Khatoon Travels. All rights reserved.
           </p>
-          <div style={{ display: "flex", gap: "24px" }}>
+          <div className="flex gap-6">
             {legalLinks.map((item) => (
               <Link
                 key={item.label}
                 to={item.to}
-                style={{
-                  color: "#475569",
-                  fontSize: "13px",
-                  textDecoration: "none",
-                  transition: "color 0.2s",
-                }}
-                onMouseEnter={e => e.currentTarget.style.color = "#3dba8f"}
-                onMouseLeave={e => e.currentTarget.style.color = "#475569"}
+                className="text-slate-600 text-xs no-underline transition-colors duration-200 hover:text-emerald-400"
               >
                 {item.label}
               </Link>

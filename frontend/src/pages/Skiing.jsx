@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
-import Navbar from '../shared/Navbar'
 import { activityAPI } from '../utils/api'
-import {
-  backButtonStyle,
-  createPageShellStyle,
-  createPrimaryButtonStyle,
-  heroActionRowStyle,
-  maxWidthContainerStyle,
-  transparentCtaButtonStyle
-} from '../ui/servicePageStyles'
 
 export default function Skiing() {
   const navigate = useNavigate()
@@ -24,9 +15,7 @@ export default function Skiing() {
       setIsLoading(true)
       const data = await activityAPI.getBySlug('skiing')
 
-      if (!mounted) {
-        return
-      }
+      if (!mounted) return
 
       setActivityData(data)
       setIsLoading(false)
@@ -46,312 +35,251 @@ export default function Skiing() {
   const skiPhases = activityData?.skiPhases || []
 
   if (isLoading) {
-    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Loading activity...</div>
+    return (
+      <div className="min-h-[60vh] grid place-items-center text-[#10263b] font-semibold">
+        Loading activity...
+      </div>
+    )
   }
 
   if (!activityData) {
-    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Unable to load skiing details.</div>
+    return (
+      <div className="min-h-[60vh] grid place-items-center text-[#10263b] font-semibold">
+        Unable to load skiing details.
+      </div>
+    )
   }
 
   return (
-    <div style={createPageShellStyle('#f8fbff')}>
-      <Navbar />
-      <style>{`
-        .ski-glow {
-          animation: skiFloat 6s ease-in-out infinite;
-        }
+    <div className="bg-[#f8fbff]">
 
-        .ski-fade {
-          opacity: 0;
-          transform: translateY(16px);
-          animation: skiFade 650ms ease forwards;
-        }
+      {/* HERO */}
+      <section className="relative overflow-hidden bg-linear-to-br from-[#0f1823] via-[#1a3f5d] to-[#2980b9] text-white px-6 py-20">
+        
+        {/* Glow Effects */}
+        <div className="absolute -right-24 -top-20 w-70 h-70 rounded-full bg-[radial-gradient(circle,rgba(120,210,250,0.44),transparent_70%)]"></div>
+        <div className="absolute -left-24 -bottom-24 w-75] h-75 rounded-full bg-[radial-gradient(circle,rgba(180,230,255,0.34),transparent_70%)]"></div>
 
-        .ski-fade.delay-1 { animation-delay: 100ms; }
-        .ski-fade.delay-2 { animation-delay: 220ms; }
-        .ski-fade.delay-3 { animation-delay: 340ms; }
-
-        .ski-card {
-          transition: transform 220ms ease, box-shadow 220ms ease;
-        }
-
-        .ski-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 18px 38px rgba(12, 30, 55, 0.12) !important;
-        }
-
-        @keyframes skiFloat {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-
-        @keyframes skiFade {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (max-width: 980px) {
-          .ski-grid,
-          .ski-hero-grid {
-            grid-template-columns: 1fr !important;
-          }
-
-          .ski-title {
-            font-size: 38px !important;
-          }
-        }
-      `}</style>
-
-      <section
-        style={{
-          background: 'linear-gradient(135deg, #0f1823 0%, #1a3f5d 52%, #2980b9 100%)',
-          color: '#fff',
-          padding: '74px 24px 84px',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <div
-          className="ski-glow"
-          style={{
-            position: 'absolute',
-            right: '-100px',
-            top: '-80px',
-            width: '280px',
-            height: '280px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(120, 210, 250, 0.44) 0%, rgba(120, 210, 250, 0) 72%)'
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            left: '-90px',
-            bottom: '-90px',
-            width: '300px',
-            height: '300px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(180, 230, 255, 0.34) 0%, rgba(180, 230, 255, 0) 72%)'
-          }}
-        />
-
-        <div style={maxWidthContainerStyle}>
+        <div className="max-w-287.5 mx-auto">
+          
           <button
-            type="button"
             onClick={() => navigate('/')}
-            style={{ ...backButtonStyle, marginBottom: '26px' }}
+            className="mb-6 px-4 py-2 border border-white/40 rounded-full text-sm hover:bg-white hover:text-black transition"
           >
             Back to Home
           </button>
 
-          <div className="ski-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.18fr 0.82fr', gap: '28px', alignItems: 'center' }}>
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+
+            {/* LEFT */}
             <div>
-              <p className="ski-fade" style={{ letterSpacing: '1.8px', fontSize: '12px', marginBottom: '14px', color: '#a0d8ff' }}>
+              <p className="text-xs tracking-[1.8px] text-[#a0d8ff] mb-3">
                 KASHMIR SKIING
               </p>
-              <h1 className="ski-title ski-fade delay-1" style={{ fontSize: '58px', lineHeight: 1.08, margin: '0 0 18px', maxWidth: '720px' }}>
+
+              <h1 className="text-4xl lg:text-6xl leading-tight mb-4 max-w-180">
                 Carve the Himalayan Slopes with Expert Guides and Pristine Powder Runs
               </h1>
-              <p className="ski-fade delay-2" style={{ fontSize: '17px', lineHeight: 1.75, color: '#d8edf8', maxWidth: '660px', marginBottom: '28px' }}>
-                Experience world-class winter skiing across Kashmir's best alpine terrain—from gentle beginner slopes to challenging off-piste adventures, all set in breathtaking mountain scenery.
+
+              <p className="text-base lg:text-lg text-[#d8edf8] leading-relaxed mb-6 max-w-165">
+                Experience world-class winter skiing across Kashmir's best alpine terrain—from gentle beginner slopes to challenging off-piste adventures.
               </p>
 
-              <div className="ski-fade delay-3" style={heroActionRowStyle}>
+              <div className="flex flex-wrap gap-4">
                 <button
-                  type="button"
                   onClick={() => navigate('/alltrips')}
-                  style={createPrimaryButtonStyle('#ffd79d', '#13263b')}
+                  className="bg-[#ffd79d] text-[#13263b] px-6 py-3 rounded-lg font-semibold"
                 >
                   View Kashmir Trips
                 </button>
+
                 <button
-                  type="button"
                   onClick={() => navigate('/services/group-tour')}
-                  style={transparentCtaButtonStyle}
+                  className="border border-white/40 px-6 py-3 rounded-lg"
                 >
                   Plan Group Adventure
                 </button>
               </div>
             </div>
 
-            <div
-              className="ski-fade delay-2"
-              style={{
-                borderRadius: '22px',
-                background: 'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
-                border: '1px solid rgba(255,255,255,0.22)',
-                padding: '20px',
-                backdropFilter: 'blur(4px)',
-                boxShadow: '0 18px 40px rgba(0, 0, 0, 0.14)'
-              }}
-            >
+            {/* RIGHT */}
+            <div className="bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/20 shadow-xl">
               <img
                 src="https://picsum.photos/id/29/1200/800"
-                alt="Skier carving down snowy slopes"
-                style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '16px', display: 'block', marginBottom: '16px' }}
+                className="w-full h-75 object-cover rounded-xl mb-4"
               />
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '10px' }}>
+
+              <div className="grid grid-cols-3 gap-2">
                 {seasonalMoments.map((item) => (
-                  <div key={item.label} style={{ background: 'rgba(255,255,255,0.08)', borderRadius: '14px', padding: '12px' }}>
-                    <p style={{ margin: '0 0 6px', color: '#a0d8ff', fontSize: '11px', letterSpacing: '1px', fontWeight: 700 }}>{item.label}</p>
-                    <p style={{ margin: 0, color: '#f7fcff', fontSize: '13px', lineHeight: 1.5 }}>{item.value}</p>
+                  <div key={item.label} className="bg-white/10 rounded-lg p-3">
+                    <p className="text-[11px] font-bold text-[#a0d8ff]">
+                      {item.label}
+                    </p>
+                    <p className="text-sm text-white">{item.value}</p>
                   </div>
                 ))}
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      <section style={{ maxWidth: '1150px', margin: '0 auto', padding: '54px 24px 72px' }}>
-        <div className="ski-grid" style={{ display: 'grid', gridTemplateColumns: '1.02fr 0.98fr', gap: '22px', alignItems: 'start' }}>
-          <div>
-            <div style={{ marginBottom: '22px' }}>
-              <p style={{ color: '#1a3f5d', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-                WHY SKI IN KASHMIR
-              </p>
-              <h2 style={{ margin: 0, fontSize: '34px', color: '#10263b' }}>A premier winter ski destination with pristine slopes and certified guides</h2>
-            </div>
+      {/* HIGHLIGHTS */}
+      <section className="max-w-287.5 mx-auto px-6 py-16 grid lg:grid-cols-2 gap-6">
 
-            <div className="ski-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '16px' }}>
-              {skiHighlights.map((item) => (
-                <article
-                  key={item.title}
-                  className="ski-card"
-                  style={{ background: '#fff', borderRadius: '16px', border: '1px solid #dfeaf1', boxShadow: '0 14px 32px rgba(10, 35, 58, 0.08)', padding: '18px' }}
-                >
-                  <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: 'linear-gradient(135deg, #1a3f5d, #2980b9)', marginBottom: '14px' }} />
-                  <h3 style={{ margin: '0 0 8px', fontSize: '18px', color: '#12304c' }}>{item.title}</h3>
-                  <p style={{ margin: 0, color: '#51667a', fontSize: '14px', lineHeight: 1.7 }}>{item.detail}</p>
-                </article>
-              ))}
-            </div>
-          </div>
+        <div>
+          <p className="text-xs tracking-wider font-bold text-[#1a3f5d] mb-2">
+            WHY SKI IN KASHMIR
+          </p>
 
-          <aside
-            style={{
-              background: 'linear-gradient(180deg, #ffffff 0%, #f4fbff 100%)',
-              borderRadius: '20px',
-              border: '1px solid #dce9f2',
-              boxShadow: '0 16px 36px rgba(10, 35, 58, 0.08)',
-              padding: '22px'
-            }}
-          >
-            <p style={{ color: '#1a3f5d', letterSpacing: '1.2px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              COMPLETE SKI PACKAGE
-            </p>
-            <h3 style={{ margin: '0 0 18px', fontSize: '24px', color: '#10263b' }}>Everything you need for a perfect day on the slopes</h3>
+          <h2 className="text-3xl font-semibold mb-6 text-[#10263b]">
+            A premier winter ski destination
+          </h2>
 
-            {skiIncluded.map((item) => (
-              <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '14px' }}>
-                <span style={{ color: '#1a3f5d', marginTop: '2px' }}>-</span>
-                <p style={{ margin: 0, color: '#486074', fontSize: '14px', lineHeight: 1.6 }}>{item}</p>
+          <div className="grid md:grid-cols-3 gap-4">
+            {skiHighlights.map((item) => (
+              <div key={item.title} className="bg-white p-5 rounded-xl border shadow hover:-translate-y-1 transition">
+                <div className="w-11 h-11 bg-linear-to-br from-[#1a3f5d] to-[#2980b9] rounded-lg mb-3"></div>
+                <h3 className="font-semibold">{item.title}</h3>
+                <p className="text-sm text-gray-600">{item.detail}</p>
               </div>
             ))}
-
-            <div style={{ marginTop: '20px', paddingTop: '18px', borderTop: '1px solid #e4eef5' }}>
-              <p style={{ margin: '0 0 8px', fontSize: '13px', color: '#6b859b', fontWeight: 700 }}>Perfect addition to</p>
-              <p style={{ margin: 0, color: '#10263b', fontSize: '15px', lineHeight: 1.7 }}>
-                A full winter Kashmir experience with stays in Gulmarg or Pahalgam, combined with cultural and adventure activities.
-              </p>
-            </div>
-          </aside>
+          </div>
         </div>
+
+        <aside className="bg-linear-to-b from-white to-[#f4fbff] p-6 rounded-2xl border shadow">
+          <p className="text-xs font-bold text-[#1a3f5d] mb-2">
+            COMPLETE SKI PACKAGE
+          </p>
+
+          <h3 className="text-xl font-semibold mb-4">
+            Everything you need
+          </h3>
+
+          {skiIncluded.map((item) => (
+            <div key={item} className="flex gap-2 mb-3 text-sm text-gray-600">
+              <span>-</span>
+              <p>{item}</p>
+            </div>
+          ))}
+        </aside>
       </section>
 
-      <section style={{ background: '#eef7fc', padding: '10px 24px 72px' }}>
-        <div style={{ maxWidth: '1150px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-            <p style={{ color: '#1a3f5d', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
+      {/* PACKAGES */}
+      <section className="bg-[#eef7fc] py-16 px-6">
+        <div className="max-w-287.5 mx-auto">
+          
+          <div className="text-center mb-8">
+            <p className="text-xs font-bold text-[#1a3f5d] mb-2">
               SKI PACKAGES
             </p>
-            <h2 style={{ margin: 0, fontSize: '34px', color: '#10263b' }}>Choose your slope difficulty and ski intensity</h2>
+            <h2 className="text-3xl font-semibold">
+              Choose your slope
+            </h2>
           </div>
 
           <div className="ski-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
-            {skiPackages.map((item) => (
+            {skiPackages.map((item, index) => {
+              const pickText = (...values) => {
+                for (const value of values) {
+                  if (typeof value === 'number') return String(value)
+                  if (typeof value !== 'string') continue
+                  const text = value.replace(/[\u200B-\u200D\uFEFF]/g, '').trim()
+                  if (text) return text
+                }
+                return ''
+              }
+
+              const levelText = pickText(item.level, item.terrain, item.type, 'All Levels')
+              const titleText = pickText(item.title, item.name, item.duration, 'Ski Package')
+              const descriptionText = pickText(item.description, item.note, item.includes, item.detail, 'Package details available')
+
+              return (
               <div
-                key={item.name}
+                key={`${item.level || item.terrain || item.title || item.name || 'ski-package'}-${index}`}
                 className="ski-card"
                 style={{ background: '#fff', borderRadius: '18px', border: '1px solid #d8e6ef', boxShadow: '0 12px 28px rgba(10, 35, 58, 0.07)', padding: '20px' }}
               >
-                <p style={{ margin: '0 0 10px', color: '#1a3f5d', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{item.terrain}</p>
-                <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#10263b' }}>{item.name}</h3>
-                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{item.note}</p>
+                <p style={{ margin: '0 0 10px', color: '#1a3f5d', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{levelText}</p>
+                <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#10263b' }}>{titleText}</h3>
+                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{descriptionText}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{item.price}</span>
+                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{pickText(item.price, 'On Request')}</span>
                   <button
-                    type="button"
                     onClick={() => navigate('/services/hotel-booking')}
-                    style={{ ...createPrimaryButtonStyle('#1a3f5d', '#fff'), padding: '10px 14px' }}
+                    className="bg-[#1a3f5d] text-white px-4 py-2 rounded-lg"
                   >
                     Reserve
                   </button>
                 </div>
+
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
 
-      <section style={{ maxWidth: '1150px', margin: '0 auto', padding: '56px 24px 72px' }}>
-        <div className="ski-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', alignItems: 'start' }}>
-          <div>
-            <p style={{ color: '#1a3f5d', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              SKI DAY FLOW
-            </p>
-            <h2 style={{ margin: '0 0 14px', fontSize: '32px', color: '#10263b' }}>From equipment fitting to final runs in three steps</h2>
+      {/* FLOW */}
+      <section className="max-w-287.5 mx-auto px-6 py-16 grid lg:grid-cols-2 gap-6">
 
-            <div style={{ display: 'grid', gap: '14px' }}>
-              {skiPhases.map((item) => (
-                <div key={item.step} style={{ background: '#fff', borderRadius: '16px', border: '1px solid #d9e6ef', padding: '16px' }}>
-                  <p style={{ margin: '0 0 6px', color: '#1a3f5d', fontSize: '12px', fontWeight: 800, letterSpacing: '1px' }}>{item.step}</p>
-                  <h3 style={{ margin: '0 0 8px', fontSize: '20px', color: '#10263b' }}>{item.title}</h3>
-                  <p style={{ margin: 0, color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div>
+          <p className="text-xs font-bold text-[#1a3f5d] mb-2">
+            SKI DAY FLOW
+          </p>
 
-          <div
-            style={{
-              background: 'linear-gradient(135deg, #10263b 0%, #1a3f5d 55%, #2980b9 100%)',
-              borderRadius: '22px',
-              padding: '24px',
-              color: '#fff',
-              boxShadow: '0 18px 40px rgba(8, 45, 71, 0.16)'
-            }}
-          >
-            <img
-              src="https://picsum.photos/id/29/1200/800"
-              alt="Snowy mountain slopes at sunrise"
-              style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '16px', marginBottom: '18px', display: 'block' }}
-            />
-            <p style={{ margin: '0 0 8px', color: '#a0d8ff', letterSpacing: '1px', fontSize: '12px', fontWeight: 700 }}>READY TO SKI</p>
-            <h3 style={{ margin: '0 0 12px', fontSize: '24px' }}>Winter skiing with a full Kashmir adventure plan</h3>
-            <p style={{ margin: '0 0 18px', color: '#d8edf8', fontSize: '14px', lineHeight: 1.8 }}>
-              Book your ski days, add Gulmarg lodge stays, combine with snowshoeing or heli-skiing, and plan a complete winter Kashmir experience.
-            </p>
-            <div style={heroActionRowStyle}>
-              <button
-                type="button"
-                onClick={() => navigate('/alltrips')}
-                style={createPrimaryButtonStyle('#ffd79d', '#13263b')}
-              >
-                Explore More Trips
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/services/group-tour')}
-                style={transparentCtaButtonStyle}
-              >
-                Build Group Plan
-              </button>
-            </div>
+          <h2 className="text-3xl mb-4">
+            From start to finish
+          </h2>
+
+          <div className="space-y-4">
+            {skiPhases.map((item) => (
+              <div key={item.step} className="bg-white p-4 rounded-xl border">
+                <p className="text-xs font-bold text-[#1a3f5d]">{item.step}</p>
+                <h3 className="font-semibold">{item.title}</h3>
+                <p className="text-sm text-gray-600">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
+
+        <div className="bg-linear-to-br from-[#10263b] via-[#1a3f5d] to-[#2980b9] text-white p-6 rounded-2xl shadow-xl">
+          
+          <img
+            src="https://picsum.photos/id/29/1200/800"
+            className="w-full h-62.5 object-cover rounded-xl mb-4"
+          />
+
+          <p className="text-xs text-[#a0d8ff] font-bold">
+            READY TO SKI
+          </p>
+
+          <h3 className="text-xl font-semibold mb-2">
+            Plan your winter adventure
+          </h3>
+
+          <p className="text-sm text-[#d8edf8] mb-4">
+            Combine skiing with stays and other snow activities.
+          </p>
+
+          <div className="flex gap-3 flex-wrap">
+            <button
+              onClick={() => navigate('/alltrips')}
+              className="bg-[#ffd79d] text-[#13263b] px-4 py-2 rounded-lg"
+            >
+              Explore More Trips
+            </button>
+
+            <button
+              onClick={() => navigate('/services/group-tour')}
+              className="border border-white/40 px-4 py-2 rounded-lg"
+            >
+              Build Group Plan
+            </button>
+          </div>
+        </div>
+
       </section>
 
       <Footer />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { validateAdminSession } from '../utils/adminAuth'
+import { validateAdminSession } from '../../utils/adminAuth'
 
 export default function AdminRoute({ children }) {
   const [isChecking, setIsChecking] = useState(true)

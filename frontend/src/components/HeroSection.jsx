@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Navbar from "../shared/Navbar";
-import { adminAPI } from "../utils/api";
+import { settingsAPI } from "../utils/api";
 
 const defaultHeroImage =
   "https://camo.githubusercontent.com/1b18608c396cc46626637014a8bf370ee07b60dd7602cd58f55bf1a64c6aa23d/68747470733a2f2f696d616765732e756e73706c6173682e636f6d2f70686f746f2d313539353831353737313631342d6164653964363532613635643f69786c69623d72622d342e302e33266175746f3d666f726d6174266669743d63726f7026773d3132303026713d3830";
@@ -12,7 +12,7 @@ export default function HeroSection() {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const data = await adminAPI.getSettings();
+        const data = await settingsAPI.getSettings();
         if (data.success && data.data.heroImages && data.data.heroImages.length > 0) {
           setHeroImages(data.data.heroImages);
         }
@@ -34,102 +34,36 @@ export default function HeroSection() {
   }, [heroImages.length]);
 
   return (
-    <div style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", margin: 0, width: "100%", padding: 0 }}>
+    <div className="m-0 w-full p-0 font-sans">
       {/* Navbar with TopHeader */}
       <Navbar />
       {/* Hero Section */}
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "420px",
-          overflow: "hidden",
-          backgroundColor: "#1a2b4a",
-          margin: 0,
-          padding: 0,
-        }}
-      >
+      <div className="relative m-0 h-105 w-full overflow-hidden bg-[#1a2b4a] p-0">
         {/* Transparent Images Wrapper for Transitions */}
         {heroImages.map((img, idx) => (
           <div
             key={idx}
             style={{
-              position: "absolute",
-              inset: 0,
               backgroundImage: `url(${img})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center 40%",
               opacity: idx === currentIndex ? 1 : 0,
-              transition: "opacity 1.5s ease-in-out",
               zIndex: idx === currentIndex ? 1 : 0,
             }}
+            className="absolute inset-0 bg-cover bg-position-[center_40%] transition-opacity duration-1500 ease-in-out"
           />
         ))}
         {/* Dark overlay on left - Softened for 'Modern & Open' feel */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 45%, transparent 100%)",
-            zIndex: 2,
-          }}
-        />
+        <div className="absolute inset-0 z-2 bg-[linear-gradient(to_right,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0.15)_45%,transparent_100%)]" />
 
         {/* Hero Content */}
-        <div
-          style={{
-            position: "relative",
-            zIndex: 3,
-            padding: "60px 40px",
-            maxWidth: "500px",
-          }}
-        >
-          <p
-            style={{
-              color: "#3dba8f", // BRAND COLOR
-              fontSize: "12px",
-              fontWeight: "700",
-              letterSpacing: "2px",
-              textTransform: "uppercase",
-              marginBottom: "10px",
-              textShadow: "0 2px 4px rgba(0,0,0,0.4)",
-            }}
-          >
+        <div className="relative z-3 max-w-125 px-10 py-15">
+          <p className="mb-2.5 text-xs font-bold uppercase tracking-[2px] text-[#3dba8f] [text-shadow:0_2px_4px_rgba(0,0,0,0.4)]">
             Explore Kashmir with Trusted Local Travel Experts
           </p>
-          <h1
-            style={{
-              color: "#fff",
-              fontSize: "42px",
-              fontWeight: "400",
-              lineHeight: "1.1",
-              margin: "0 0 24px 0",
-              textShadow: "0 4px 10px rgba(0,0,0,0.5)",
-            }}
-          >
-            Trust <strong style={{ fontWeight: "800", color: "#3dba8f" }}>Our Experience</strong>
+          <h1 className="mb-6 text-[42px] font-normal leading-[1.1] text-white [text-shadow:0_4px_10px_rgba(0,0,0,0.5)]">
+            Trust <strong className="font-extrabold text-[#3dba8f]">Our Experience</strong>
           </h1>
           <button
-            style={{
-              backgroundColor: "transparent",
-              color: "#fff",
-              border: "2px solid #fff",
-              padding: "12px 28px",
-              fontSize: "14px",
-              fontWeight: "500",
-              cursor: "pointer",
-              letterSpacing: "0.5px",
-              transition: "all 0.25s",
-              borderRadius: "2px",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "#fff";
-              e.currentTarget.style.color = "#1a2b4a";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.color = "#fff";
-            }}
+            className="rounded-sm border-2 border-white bg-transparent px-7 py-3 text-sm font-medium tracking-[0.5px] text-white transition-all duration-200 hover:bg-white hover:text-[#1a2b4a]"
           >
             Get in touch
           </button>

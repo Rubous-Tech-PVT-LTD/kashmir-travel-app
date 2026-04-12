@@ -1,8 +1,12 @@
 const crypto = require('crypto');
 
-const ADMIN_TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET || 'dev-change-me';
+const ADMIN_TOKEN_SECRET = process.env.ADMIN_TOKEN_SECRET;
 const ADMIN_TOKEN_TTL_MS = Number(process.env.ADMIN_TOKEN_TTL_MS || 8 * 60 * 60 * 1000); // 8h
 const ADMIN_COOKIE_NAME = process.env.ADMIN_COOKIE_NAME || 'ktt_admin_session';
+
+if (!ADMIN_TOKEN_SECRET) {
+  throw new Error('ADMIN_TOKEN_SECRET environment variable is not set');
+}
 
 const toBase64Url = (value) => Buffer.from(value, 'utf8').toString('base64url');
 const fromBase64Url = (value) => Buffer.from(value, 'base64url').toString('utf8');

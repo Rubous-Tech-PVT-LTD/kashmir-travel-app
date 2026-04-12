@@ -121,7 +121,7 @@ exports.updateItinerary = async (req, res) => {
         ...(Array.isArray(itineraryDays) ? { itinerary: itineraryDays } : {}),
         updatedAt: new Date()
       },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!itinerary) {

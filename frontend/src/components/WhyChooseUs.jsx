@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { DollarSign, Globe, PhoneCall, Users } from "lucide-react";
- 
+
 const reasons = [
-  
   {
     id: 1,
     icon: (
@@ -10,8 +9,10 @@ const reasons = [
     ),
     title: "Local Expert Guides",
     description: "Born-and-raised locals who know every hidden trail and secret viewpoint.",
-    accent: "#2563eb",
-    bg: "#eff6ff",
+    accentClass: "bg-blue-600",
+    softBgClass: "bg-blue-50",
+    borderClass: "border-blue-200",
+    textClass: "text-blue-600",
   },
   {
     id: 2,
@@ -20,10 +21,11 @@ const reasons = [
     ),
     title: "50,000+ Happy Travelers",
     description: "A 4.9★ average across 12,000 verified reviews from real travelers.",
-    accent: "#db2777",
-    bg: "#fdf2f8",
+    accentClass: "bg-pink-600",
+    softBgClass: "bg-pink-50",
+    borderClass: "border-pink-200",
+    textClass: "text-pink-600",
   },
-  
   {
     id: 3,
     icon: (
@@ -31,8 +33,10 @@ const reasons = [
     ),
     title: "No Hidden Charges",
     description: "All inclusions listed upfront. Best-price guarantee on every package.",
-    accent: "#ea580c",
-    bg: "#fff7ed",
+    accentClass: "bg-orange-600",
+    softBgClass: "bg-orange-50",
+    borderClass: "border-orange-200",
+    textClass: "text-orange-600",
   },
   {
     id: 4,
@@ -41,267 +45,112 @@ const reasons = [
     ),
     title: "24/7 On-Trip Support",
     description: "Real humans available round the clock — not bots, not voicemail.",
-    accent: "#0891b2",
-    bg: "#ecfeff",
+    accentClass: "bg-cyan-600",
+    softBgClass: "bg-cyan-50",
+    borderClass: "border-cyan-200",
+    textClass: "text-cyan-600",
   },
- 
- 
 ];
- 
+
 const stats = [
   { value: "15+", label: "Years Experience" },
   { value: "50K+", label: "Happy Travelers" },
   { value: "120+", label: "Destinations" },
   { value: "4.9★", label: "Avg. Rating" },
 ];
- 
-export default function WhyChooseUsWhite() {
+
+export default function WhyChooseUs() {
   const [hovered, setHovered] = useState(null);
- 
+
   return (
-    <div style={{ backgroundColor: "#fff", fontFamily: "'DM Sans', sans-serif" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
- 
-        .wcu-sm-card {
-          transition: all 0.26s cubic-bezier(.22,.68,0,1.2);
-          cursor: default;
-        }
-        .wcu-sm-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 12px 32px rgba(0,0,0,0.09) !important;
-        }
-        .wcu-sm-icon {
-          transition: transform 0.28s ease;
-        }
-        .wcu-sm-card:hover .wcu-sm-icon {
-          transform: scale(1.18) rotate(-6deg);
-        }
-        .stat-item {
-          transition: transform 0.2s ease;
-        }
-        .stat-item:hover { transform: translateY(-3px); }
-      `}</style>
- 
-      <div style={{ maxWidth: "1160px", margin: "0 auto", padding: "72px 32px 80px" }}>
- 
+    <div className="bg-white font-dm">
+      <div className="max-w-290 mx-auto lg:px-8 px-6 py-18 pb-20">
         {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "52px", flexWrap: "wrap", gap: "24px" }}>
+        <div className="flex justify-between items-end mb-13 flex-wrap gap-6">
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-              <div style={{ width: "28px", height: "3px", backgroundColor: "#3dba8f", borderRadius: "2px" }} />
-              <span style={{
-                color: "#3dba8f", fontSize: "11px", fontWeight: "700",
-                letterSpacing: "3px", textTransform: "uppercase",
-              }}>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-0.75 bg-[#3dba8f] rounded-sm" />
+              <span className="text-[#3dba8f] text-[11px] font-bold tracking-[3px] uppercase">
                 Why Haba Khatoon Travels?
               </span>
             </div>
-            <h2 style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
-              fontSize: "clamp(28px, 4vw, 44px)",
-              fontWeight: "800",
-              color: "#0f1923",
-              margin: 0,
-              lineHeight: "1.15",
-            }}>
+            <h2 className="font-playfair text-[clamp(28px,4vw,44px)] font-extrabold text-[#0f1923] m-0 leading-tight">
               Why Travelers Choose Us
             </h2>
           </div>
-          <p style={{
-            color: "#6b7280",
-            fontSize: "14.5px",
-            maxWidth: "380px",
-            lineHeight: "1.75",
-            fontWeight: "300",
-            margin: 0,
-          }}>
+          <p className="text-gray-500 text-[14.5px] max-w-95 leading-relaxed font-light m-0">
             We go beyond bookings — our experience, transparency, and care make every Kashmir trip extraordinary.
           </p>
         </div>
- 
+
         {/* Stats Row */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "16px",
-          marginBottom: "48px",
-        }}>
+        <div className="grid sm:grid-cols-4 grid-cols-2 gap-4 mb-12">
           {stats.map((s, i) => (
             <div
               key={i}
-              className="stat-item"
-              style={{
-                backgroundColor: "#f9fafb",
-                border: "1px solid #e5e7eb",
-                borderRadius: "12px",
-                padding: "22px 20px",
-                textAlign: "center",
-              }}
+              className="bg-gray-50 border border-gray-200 rounded-xl p-5 text-center hover:-translate-y-1 transition-transform duration-200"
             >
-              <div style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
-                fontSize: "32px",
-                fontWeight: "800",
-                color: "#1a2b4a",
-                lineHeight: 1,
-                marginBottom: "6px",
-              }}>
+              <div className="font-playfair text-3xl font-extrabold text-[#1a2b4a] leading-none mb-1.5">
                 {s.value}
               </div>
-              <div style={{ fontSize: "12px", color: "#9ca3af", fontWeight: "500", letterSpacing: "0.4px" }}>
+              <div className="text-xs text-gray-400 font-medium tracking-wide">
                 {s.label}
               </div>
             </div>
           ))}
         </div>
- 
+
         {/* Cards Grid — 4 columns */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "16px",
-        }}>
+        <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
           {reasons.map((r) => (
             <div
               key={r.id}
-              className="wcu-sm-card"
+              className={`rounded-xl border-2 p-4 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl lg:p-6 ${hovered === r.id ? `${r.softBgClass} ${r.borderClass}` : 'border-gray-100 bg-white'}`}
               onMouseEnter={() => setHovered(r.id)}
               onMouseLeave={() => setHovered(null)}
-              style={{
-                backgroundColor: hovered === r.id ? r.bg : "#fff",
-                border: `1.5px solid ${hovered === r.id ? r.accent + "44" : "#f0f0f0"}`,
-                borderRadius: "14px",
-                padding: "24px 22px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-              }}
             >
               {/* Icon box */}
               <div
-                className="wcu-sm-icon"
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
-                  backgroundColor: r.bg,
-                  border: `1px solid ${r.accent}30`,
-                  color: r.accent,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "16px",
-                }}
+                className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl border hover:-rotate-6 hover:scale-110 ${r.softBgClass} ${r.borderClass} ${r.textClass} transition-transform duration-300`}
               >
                 {r.icon}
               </div>
- 
+
               {/* Title */}
-              <h4 style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
-                fontSize: "15px",
-                fontWeight: "700",
-                color: "#0f1923",
-                margin: "0 0 8px",
-                lineHeight: "1.35",
-              }}>
+              <h4 className="font-playfair text-[15px] font-bold text-[#0f1923] m-0 mb-2 leading-tight">
                 {r.title}
               </h4>
- 
+
               {/* Description */}
-              <p style={{
-                color: "#6b7280",
-                fontSize: "13px",
-                lineHeight: "1.65",
-                margin: "0 0 16px",
-                fontWeight: "300",
-              }}>
+              <p className="text-gray-500 text-[13px] leading-relaxed m-0 mb-4 font-light">
                 {r.description}
               </p>
- 
+
               {/* Accent underline */}
-              <div style={{
-                width: hovered === r.id ? "32px" : "20px",
-                height: "2.5px",
-                backgroundColor: r.accent,
-                borderRadius: "2px",
-                transition: "width 0.3s ease",
-              }} />
+              <div className={`h-[2.5px] rounded-sm ${r.accentClass} transition-all duration-300 ${hovered === r.id ? 'w-8' : 'w-5'}`} />
             </div>
           ))}
         </div>
- 
+
         {/* Bottom CTA row */}
-        <div style={{
-          marginTop: "56px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          backgroundColor: "#1a2b4a",
-          borderRadius: "16px",
-          padding: "32px 40px",
-          flexWrap: "wrap",
-          gap: "20px",
-        }}>
+        <div className="mt-14 flex items-center justify-between bg-[#1a2b4a] rounded-2xl p-8 flex-wrap gap-5">
           <div>
-            <p style={{
-              color: "#3dba8f",
-              fontSize: "11px",
-              fontWeight: "700",
-              letterSpacing: "2.5px",
-              textTransform: "uppercase",
-              margin: "0 0 6px",
-            }}>
+            <p className="text-[#3dba8f] text-[11px] font-bold tracking-wider uppercase m-0 mb-1.5">
               Ready to Explore Kashmir?
             </p>
-            <h3 style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
-              fontSize: "22px",
-              fontWeight: "700",
-              color: "#fff",
-              margin: 0,
-            }}>
+            <h3 className="font-playfair text-xl font-bold text-white m-0">
               Let our experts plan your perfect trip — free of charge.
             </h3>
           </div>
-          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-            <button style={{
-              backgroundColor: "#3dba8f",
-              color: "#fff",
-              border: "none",
-              padding: "12px 28px",
-              borderRadius: "8px",
-              fontSize: "14px",
-              fontWeight: "600",
-              cursor: "pointer",
-              fontFamily: "'DM Sans', sans-serif",
-              letterSpacing: "0.3px",
-              transition: "background 0.2s",
-            }}
-              onMouseEnter={e => e.currentTarget.style.background = "#2ea87e"}
-              onMouseLeave={e => e.currentTarget.style.background = "#3dba8f"}
-            >
+          <div className="flex gap-3 flex-wrap">
+            <button className="bg-[#3dba8f] text-white border-none px-7 py-3 rounded-lg text-sm font-semibold cursor-pointer font-dm tracking-wide hover:bg-[#2ea87e] transition-colors duration-200">
               Get Free Quote
             </button>
-            <button style={{
-              backgroundColor: "transparent",
-              color: "#fff",
-              border: "1.5px solid rgba(255,255,255,0.25)",
-              padding: "12px 28px",
-              borderRadius: "8px",
-              fontSize: "14px",
-              fontWeight: "500",
-              cursor: "pointer",
-              fontFamily: "'DM Sans', sans-serif",
-              transition: "border-color 0.2s",
-            }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)"}
-              onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"}
-            >
+            <button className="bg-transparent text-white border-2 border-white/25 px-7 py-3 rounded-lg text-sm font-medium cursor-pointer font-dm hover:border-white/60 transition-colors duration-200">
               Talk to an Expert
             </button>
           </div>
         </div>
- 
       </div>
     </div>
   );

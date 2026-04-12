@@ -4,8 +4,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Navbar from '../shared/Navbar'
 import Footer from '../shared/Footer'
 import { itineraryAPI } from '../utils/api'
-import { sectionStyles } from '../ui/tripSectionStyles'
-import ui from '../ui/tripSection.module.css'
 
 const filters = ['2-4 Days', '5-7 Days', 'Family Trips']
 
@@ -46,6 +44,8 @@ export default function AllDaysWiseTrips() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
+  const selectedCategoryParam = searchParams.get('category') || 'daywise'
+  const selectedCategory = selectedCategoryParam === 'spiritual' ? 'spiritual-tour' : selectedCategoryParam
 
   // Fetch trips from backend
   useEffect(() => {
@@ -53,9 +53,8 @@ export default function AllDaysWiseTrips() {
       try {
         setLoading(true)
         setError('')
-        const selectedCategory = searchParams.get('category') || 'daywise'
         const trips = await itineraryAPI.getByCategory(selectedCategory)
-        
+
         // Transform MongoDB data to match expected format
         const transformedTrips = trips.map((trip, index) => ({
           id: trip._id || index + 1,
@@ -69,7 +68,7 @@ export default function AllDaysWiseTrips() {
           tagColor: trip.tagColor || '#0891b2',
           itinerary: trip.itinerary || []
         }))
-        
+
         setManagedTrips(transformedTrips)
       } catch (err) {
         console.error('Error fetching trips:', err)
@@ -81,9 +80,8 @@ export default function AllDaysWiseTrips() {
     }
 
     fetchTrips()
-  }, [searchParams])
+  }, [searchParams, selectedCategory])
 
-  const selectedCategory = searchParams.get('category') || 'daywise'
   const isDaywiseCategory = selectedCategory === 'daywise'
 
   const daysParam = Number(searchParams.get('days'))
@@ -91,11 +89,13 @@ export default function AllDaysWiseTrips() {
   const hasDaysFilter = Number.isFinite(daysParam) && daysParam > 0
 
   const spiritualTempleMap = {
+    vaish: { name: 'Vaishno Devi Temple', tripIds: [3, 6] },
+    kheer: { name: 'Mata Kheer Bhawani Temple', tripIds: [2, 4] },
     'vaishno-devi': { name: 'Vaishno Devi Temple', tripIds: [3, 6] },
     'kheer-bhawani': { name: 'Mata Kheer Bhawani Temple', tripIds: [2, 4] },
     shankaracharya: { name: 'Shankaracharya Temple', tripIds: [1, 2, 3] },
     amarnath: { name: 'Amar Nath Cave', tripIds: [5, 6] },
-    
+
   }
 
   const selectedTemple = templeParam ? spiritualTempleMap[templeParam] : null
@@ -148,68 +148,58 @@ export default function AllDaysWiseTrips() {
     ? `${daysParam} Days Kashmir Tours`
     : selectedCategory !== 'daywise'
       ? `${formatCategoryTitle(selectedCategory)} Tours`
-      : selectedTemple
-        ? `${selectedTemple.name} Tours`
-        : 'All Kashmir Tours'
+      : themeParam === 'family'
+        ? 'Family Kashmir Tours'
+        : themeParam === 'adventure'
+          ? 'Adventure Kashmir Tours'
+          : themeParam === 'honeymoon'
+            ? 'Honeymoon Kashmir Tours'
+            : themeParam === 'spiritual' && selectedTemple
+              ? `${selectedTemple.name} Tours`
+              : themeParam === 'spiritual'
+                ? 'Spiritual Kashmir Tours'
+                : 'All Kashmir Tours'
 
   const pageSubtitle = hasDaysFilter
     ? `Handpicked ${daysParam}-day itineraries with complete planning and transparent pricing.`
     : selectedCategory !== 'daywise'
       ? `Browse ${categoryLabelMap[selectedCategory] || selectedCategory} itineraries directly.`
-      : selectedTemple
-        ? `Pilgrimage-friendly Kashmir itineraries that include ${selectedTemple.name} with guided transport and comfortable stays.`
-        : 'Choose your perfect trip duration from 2 to 7 days with transparent pricing and curated day-by-day plans.'
+      : themeParam === 'family'
+        ? 'Comfort-focused Kashmir trips designed for families with smooth transfers and relaxed pacing.'
+        : themeParam === 'adventure'
+          ? 'Thrill-packed Kashmir itineraries featuring gondola rides, mountain trails, and alpine valleys.'
+          : themeParam === 'honeymoon'
+            ? 'Romantic Kashmir tours curated for couples with scenic stays, calm pacing, and cozy experiences.'
+            : themeParam === 'spiritual' && selectedTemple
+              ? `Pilgrimage-friendly Kashmir itineraries that include ${selectedTemple.name} with guided transport and comfortable stays.`
+              : themeParam === 'spiritual'
+                ? 'Temple and shrine focused Kashmir journeys with smooth logistics, relaxed pacing, and culturally rich experiences.'
+                : 'Choose your perfect trip duration from 2 to 7 days with transparent pricing and curated day-by-day plans.'
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb', display: 'flex', flexDirection: 'column' }}>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
 
-      <div style={{ flex: 1 }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '40px 20px' }}>
+      <div className="flex-1">
+        <div className="max-w-7xl mx-auto py-10 px-5">
           {/* Header */}
-          <div style={{ marginBottom: '20px' }}>
+          <div className="mb-5">
             <button
               onClick={() => navigate('/')}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                color: '#2563eb',
-                fontSize: '14px',
-                fontWeight: '600',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                marginBottom: '16px',
-                padding: '0',
-              }}
+              className="inline-flex items-center gap-1.5 text-blue-600 text-sm font-semibold bg-none border-none cursor-pointer mb-4 p-0 hover:text-blue-700 transition-colors duration-200"
             >
               ← Back to Home
             </button>
-            <h1
-              style={{
-                fontSize: '42px',
-                fontWeight: '700',
-                color: '#0f1923',
-                margin: '0 0 12px',
-                lineHeight: '1.2',
-              }}
-            >
+            <h1 className="text-4xl font-bold text-slate-900 mb-3 leading-tight font-['DM_Sans']">
               {pageTitle}
             </h1>
-            <p
-              style={{
-                fontSize: '16px',
-                color: '#6b7280',
-                margin: '0 0 32px',
-                maxWidth: '600px',
-              }}
-            >
+            <p className="text-base text-gray-600 mb-8 max-w-2xl font-['DM_Sans']">
               {pageSubtitle}
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '18px' }}>
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap gap-2.5 mb-4.5">
             {categoryFilters.map((category) => {
               const isActive = selectedCategory === category.value
 
@@ -218,16 +208,13 @@ export default function AllDaysWiseTrips() {
                   key={category.value}
                   type="button"
                   onClick={() => handleCategoryChange(category.value)}
-                  style={{
-                    border: '1px solid ' + (isActive ? '#2563eb' : '#cbd5e1'),
-                    background: isActive ? '#2563eb' : '#fff',
-                    color: isActive ? '#fff' : '#334155',
-                    padding: '10px 14px',
-                    borderRadius: '999px',
-                    cursor: 'pointer',
-                    fontSize: '13px',
-                    fontWeight: 600,
-                  }}
+                  className={`
+                    border px-3.5 py-2.5 rounded-full cursor-pointer text-xs font-semibold transition-colors duration-200
+                    ${isActive
+                      ? 'border-blue-600 bg-blue-600 text-white'
+                      : 'border-slate-300 bg-white text-slate-700 hover:border-blue-600 hover:text-blue-600'
+                    }
+                  `}
                 >
                   {category.label}
                 </button>
@@ -235,23 +222,25 @@ export default function AllDaysWiseTrips() {
             })}
           </div>
 
-          {/* Filters */}
+          {/* Day-wise Filters */}
           {isDaywiseCategory && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '40px' }}>
+            <div className="flex items-center gap-6 mb-10">
               {filters.map((f, i) => (
-                <span key={f} style={{ display: 'flex', alignItems: 'center' }}>
+                <span key={f} className="flex items-center">
                   <button
                     onClick={() => setActiveFilter(f)}
-                    className={ui.filterButton}
-                    style={{
-                      ...sectionStyles.filterButtonBase,
-                      ...(activeFilter === f ? sectionStyles.filterButtonActive : null),
-                    }}
+                    className={`
+                      sm:px-4 px-2 py-2 text-sm font-medium transition-colors duration-200 font-['DM_Sans']
+                      ${activeFilter === f
+                        ? 'text-blue-600 bg-blue-50'
+                        : 'text-gray-600 hover:text-gray-900'
+                      }
+                    `}
                   >
                     {f}
                   </button>
                   {i < filters.length - 1 && (
-                    <span style={{ ...sectionStyles.filterSeparator, margin: '0 24px' }}>|</span>
+                    <span className="text-gray-300 sm:mx-6 mx-3">|</span>
                   )}
                 </span>
               ))}
@@ -260,19 +249,19 @@ export default function AllDaysWiseTrips() {
 
           {/* Loading State */}
           {loading && (
-            <div style={sectionStyles.loadingWrap}>
-              <div style={{ textAlign: 'center' }}>
-                <Loader className={ui.spin} style={{ width: '48px', height: '48px', margin: '0 auto 16px' }} />
-                <p style={{ fontSize: '16px', color: '#6b7280' }}>Loading trips...</p>
+            <div className="flex justify-center items-center py-20">
+              <div className="text-center">
+                <Loader className="animate-spin w-12 h-12 mx-auto mb-4 text-blue-600" />
+                <p className="text-base text-gray-600 font-['DM_Sans']">Loading trips...</p>
               </div>
             </div>
           )}
 
           {/* Error State */}
           {error && !loading && (
-            <div style={{ backgroundColor: '#fee2e2', border: '1px solid #fecaca', borderRadius: '8px', padding: '16px', marginBottom: '24px', color: '#991b1b' }}>
-              <p style={{ margin: '0', fontWeight: '600' }}>⚠️ {error}</p>
-              <p style={{ margin: '8px 0 0', fontSize: '14px' }}>
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 text-red-800">
+              <p className="m-0 font-semibold">⚠️ {error}</p>
+              <p className="mt-2 mb-0 text-sm">
                 Make sure the backend server is running on http://localhost:5000
               </p>
             </div>
@@ -280,66 +269,73 @@ export default function AllDaysWiseTrips() {
 
           {/* Trips Grid */}
           {!loading && managedTrips.length > 0 && (
-          <div style={sectionStyles.cardsGrid}>
-            {filteredTrips.map((trip) => (
-              <div
-                key={trip.id}
-                className={ui.card}
-                style={sectionStyles.card}
-              >
-                <div style={sectionStyles.imageWrap}>
-                  <img
-                    className={ui.image}
-                    src={trip.image}
-                    alt={trip.title}
-                    style={sectionStyles.image}
-                  />
-                  <div style={{ ...sectionStyles.badge, backgroundColor: trip.tagColor }}>
-                    {trip.tag}
-                  </div>
-                </div>
-
-                <div style={sectionStyles.cardBody}>
-                  <div style={sectionStyles.duration}>
-                    <ClockIcon />
-                    {trip.duration}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredTrips.map((trip) => (
+                <div
+                  key={trip.id}
+                  className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden border border-gray-100 hover:border-gray-200"
+                >
+                  {/* Image */}
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={trip.image}
+                      alt={trip.title}
+                      className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                    <div
+                      className="absolute top-3 left-3 px-3 py-1 text-white text-xs font-semibold rounded-full shadow-lg"
+                      style={{ backgroundColor: trip.tagColor }}
+                    >
+                      {trip.tag}
+                    </div>
                   </div>
 
-                  <h3 style={sectionStyles.cardTitle}>
-                    {trip.title}
-                  </h3>
-
-                  <p style={sectionStyles.cardDescription}>
-                    {trip.description}
-                  </p>
-
-                  <div style={sectionStyles.priceRow}>
-                    <div>
-                      <span style={sectionStyles.priceMeta}>
-                        Starting from
-                      </span>
-                      <span style={sectionStyles.priceValue}>
-                        {trip.price}
-                      </span>
+                  {/* Body */}
+                  <div className="p-6">
+                    {/* Duration */}
+                    <div className="flex items-center gap-2 text-gray-500 text-sm mb-3 font-['DM_Sans']">
+                      <ClockIcon />
+                      {trip.duration}
                     </div>
 
-                    <button
-                      onClick={() => handleViewTrip(trip)}
-                      className={ui.readMore}
-                      style={sectionStyles.ctaButton}
-                    >
-                      View Trip <ArrowRight />
-                    </button>
+                    {/* Title */}
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 font-['DM_Sans']">
+                      {trip.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3 font-['DM_Sans']">
+                      {trip.description}
+                    </p>
+
+                    {/* Price + CTA row */}
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <span className="text-gray-500 text-xs block font-['DM_Sans']">
+                          Starting from
+                        </span>
+                        <span className="text-2xl font-bold text-gray-900 font-['DM_Sans']">
+                          {trip.price}
+                        </span>
+                      </div>
+
+                      <button
+                        onClick={() => handleViewTrip(trip)}
+                        className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors duration-200 font-['DM_Sans']"
+                      >
+                        View Trip <ArrowRight />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
           )}
 
+          {/* Empty State */}
           {filteredTrips.length === 0 && !loading && (
-            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-              <p style={{ color: '#6b7280', fontSize: '16px' }}>
+            <div className="text-center py-15 px-5">
+              <p className="text-gray-600 text-base font-['DM_Sans']">
                 No trips found for the selected filter.
               </p>
             </div>

@@ -1,387 +1,251 @@
-const activities = [
+module.exports = [
   {
-    slug: 'shikara-ride',
-    name: 'Shikara Ride',
-    rideHighlights: [
-      {
-        title: 'Golden Hour Cruising',
-        detail: 'Private Dal Lake and Nigeen Lake rides timed for sunset light, calm water, and better photography.'
-      },
-      {
-        title: 'Local Host Service',
-        detail: 'Experienced rowers, cultural storytellers, and route guidance for a smooth lake experience.'
-      },
-      {
-        title: 'Add-On Experiences',
-        detail: 'Kahwa tasting, floating market stops, flower garlands, and houseboat pickup on request.'
-      }
-    ],
-    ridePackages: [
-      {
-        name: 'Sunset Ride',
-        duration: '45-60 mins',
-        price: 'INR 1,499',
-        note: 'Best for first-time visitors and photo sessions'
-      },
-      {
-        name: 'Private Couple Cruise',
-        duration: '75 mins',
-        price: 'INR 2,499',
-        note: 'Flowers, kahwa, and a quiet premium route'
-      },
-      {
-        name: 'Family Lake Experience',
-        duration: '90 mins',
-        price: 'INR 3,499',
-        note: 'Spacious ride with flexible stops for all ages'
-      }
-    ],
-    rideMoments: [
-      {
-        label: 'Best Time',
-        value: '6:00 AM to 7:30 PM'
-      },
-      {
-        label: 'Pickup',
-        value: 'Houseboat, hotel, or lakefront jetty'
-      },
-      {
-        label: 'Add-ons',
-        value: 'Kahwa, flowers, musicians, and photography'
-      }
-    ],
-    scenicStops: [
-      'Dal Lake boulevard',
-      'Nigeen Lake quieter routes',
-      'Floating vegetable market area',
-      'Royal houseboat lanes'
-    ],
-    shikaraPlanIdeas: [
-      'Morning lake cruise and city sightseeing',
-      'Sunset shikara followed by dinner',
-      'Private couple package with houseboat stay'
-    ]
-  },
-  {
+    id: 1,
+    title: 'Gondola Ride',
     slug: 'gondola-ride',
-    name: 'Gondola Ride',
-    gondolaHighlights: [
-      {
-        title: 'High-Altitude Views',
-        detail: 'Soar above pine forests and snowfields with open vistas across Gulmarg valley.'
-      },
-      {
-        title: 'Two-Phase Adventure',
-        detail: 'Enjoy the Gulmarg to Kongdoori and Kongdoori to Apharwat sections for a complete mountain ride.'
-      },
-      {
-        title: 'Seasonal Magic',
-        detail: 'Fresh meadows in summer, bright skies in autumn, and deep snow scenes in winter.'
-      }
-    ],
-    rideTiers: [
-      {
-        name: 'Phase 1 Ticket',
-        duration: 'Gulmarg to Kongdoori',
-        price: 'INR 899',
-        note: 'Best for scenic views, beginners, and families'
-      },
-      {
-        name: 'Phase 2 Ticket',
-        duration: 'Kongdoori to Apharwat',
-        price: 'INR 1,499',
-        note: 'For higher altitude, snow cover, and sharper panoramas'
-      },
-      {
-        name: 'Full Mountain Pass',
-        duration: 'Complete return ride',
-        price: 'INR 2,199',
-        note: 'Ideal for a full experience with flexible stops'
-      }
-    ],
-    gondolaMoments: [
-      {
-        label: 'Best Season',
-        value: 'December to March for snow, April to October for greenery'
-      },
-      {
-        label: 'Starting Point',
-        value: 'Gulmarg base station'
-      },
-      {
-        label: 'Travel Style',
-        value: 'Family, couple, adventure, or photo-focused'
-      }
-    ],
-    activityFlow: [
-      {
-        step: '01',
-        title: 'Reach Gulmarg',
-        desc: 'Travel to the base station, collect tickets, and prepare for a smooth boarding sequence.'
-      },
-      {
-        step: '02',
-        title: 'Ride Upward',
-        desc: 'Take in valley views, tree lines, and changing terrain as the cabin climbs toward the ridge.'
-      },
-      {
-        step: '03',
-        title: 'Explore the Peaks',
-        desc: 'Pause for photos, snow play, or a short walk before returning to Gulmarg.'
-      }
-    ],
-    seasonalNotes: [
-      'Snow gear is recommended in peak winter months',
-      'Early booking helps on busy weekends and holiday periods',
-      'Cloud cover can change the view, so keep some schedule flexibility'
-    ]
+    coverImage: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1200&q=80',
+    content: {
+      gondolaHighlights: [
+        { title: 'Scenic Phase 1', detail: 'Ride through pine ranges with broad meadow views.' },
+        { title: 'High Altitude Phase 2', detail: 'Snow lines and sweeping Himalayan panoramas.' },
+        { title: 'Guided Ticket Support', detail: 'Queue handling and smart timing from local team.' },
+      ],
+      rideTiers: [
+        {
+          route: 'Gulmarg Base to Kongdoori',
+          title: 'Phase 1 Scenic Ride',
+          description: 'Smooth valley ascent with meadow views, pine stretches, and easy access for families.',
+          price: 'INR 1200',
+        },
+        {
+          route: 'Kongdoori to Apharwat',
+          title: 'Phase 2 Snow Peak Ride',
+          description: 'Higher altitude route with wide Himalayan views and snowline landscapes in peak season.',
+          price: 'INR 1800',
+        },
+        {
+          route: 'Combined Phase 1 + 2',
+          title: 'Full Gondola Experience',
+          description: 'Complete mountain cable-car journey ideal for day visitors wanting the full Gulmarg experience.',
+          price: 'INR 2800',
+        },
+      ],
+      gondolaMoments: [
+        { label: 'Best Window', value: '8:30 AM - 10:30 AM' },
+        { label: 'Ideal Season', value: 'Dec to Mar' },
+        { label: 'Starting Point', value: 'Gulmarg Base' },
+      ],
+      activityFlow: [
+        { phase: 'Pickup', step: 'Meet transport at hotel' },
+        { phase: 'Ticketing', step: 'Counter and boarding support' },
+        { phase: 'Ride', step: 'Phase rides with photo stops' },
+      ],
+      seasonalNotes: [
+        'Morning slots are smoother in peak season.',
+        'Snowfall days may shift ride timing slightly.',
+      ],
+    },
   },
   {
-    slug: 'paragliding',
-    name: 'Paragliding',
-    paraglideHighlights: [
-      {
-        title: 'Soar over Alpine Peaks',
-        detail: "Float above Kashmir's most dramatic mountain landscapes with professional pilots and thermal expertise."
-      },
-      {
-        title: 'Safe, Instructed Flights',
-        detail: 'Tandem flights with certified instructors mean you experience the thrill while they handle the technique.'
-      },
-      {
-        title: 'Aerial Photo Moments',
-        detail: 'Capture your flight from angles no ground camera can match-with optional video packages included.'
-      }
-    ],
-    flightPackages: [
-      {
-        name: 'Scenic Flight',
-        duration: '15-20 min',
-        price: 'INR 2,999',
-        note: 'Perfect introduction to paragliding with beautiful low-altitude valley and peak views.'
-      },
-      {
-        name: 'Mountain Flight',
-        duration: '25-30 min',
-        price: 'INR 4,999',
-        note: 'Extended flight covering higher peaks, thermals, and wider mountain panoramas.'
-      },
-      {
-        name: 'Premium Adventure',
-        duration: '40-50 min',
-        price: 'INR 7,499',
-        note: 'Full experience with acrobatics, maximum altitude, and cinematic aerial footage.'
-      }
-    ],
-    flightMoments: [
-      {
-        label: 'Best Season',
-        value: 'April to October'
-      },
-      {
-        label: 'Flight Type',
-        value: 'Tandem with certified pilots'
-      },
-      {
-        label: 'Weather Dependent',
-        value: 'Clear skies required'
-      }
-    ],
-    flightGear: [
-      'Tandem paraglider with backup parachute',
-      'Full body harness and helmet',
-      'Safety briefing and certification',
-      'Thermal awareness training',
-      'Emergency landing gear checks',
-      'Professional video/photo package'
-    ],
-    flightPhases: [
-      {
-        step: '01',
-        title: 'Launch Preparation',
-        desc: 'Suit up at the launch point, receive final briefing, check wind direction and thermal conditions.'
-      },
-      {
-        step: '02',
-        title: 'Lift and Soar',
-        desc: 'Gentle tow or running start, then catch thermals to climb higher and float longer over the landscape.'
-      },
-      {
-        step: '03',
-        title: 'Smooth Landing',
-        desc: 'Pilot guides you down with perfect landing technique, then walk back to base for debrief and footage.'
-      }
-    ],
-    prepNotes: [
-      'Wear layers-temperature drops significantly at altitude',
-      'Secure all loose items; bring only essentials in flight harness',
-      'Follow pilot instructions exactly and embrace the weightless freedom'
-    ]
+    id: 2,
+    title: 'Shikara Ride',
+    slug: 'shikara-ride',
+    coverImage: 'https://images.unsplash.com/photo-1544551763-92ab472cad5d?auto=format&fit=crop&w=900&q=80',
+    content: {
+      rideHighlights: [
+        { title: 'Sunrise Circuit', detail: 'Quiet lake lanes with soft morning light.' },
+        { title: 'Floating Market Route', detail: 'See local sellers and craft boats.' },
+        { title: 'Sunset Lens Spots', detail: 'Golden hour points for portraits and reels.' },
+      ],
+      ridePackages: [
+        { title: 'Classic Dal Ride', description: 'A relaxed lake circuit with calm water views and simple boarding points.', time: '45 mins', price: 'INR 900' },
+        { title: 'Market + Garden Ride', description: 'A longer ride covering floating market views and nearby garden surroundings.', time: '75 mins', price: 'INR 1400' },
+        { title: 'Sunset Special Ride', description: 'An evening cruise for warm light, scenic photos, and a quieter lake route.', time: '90 mins', price: 'INR 1700' },
+      ],
+      rideMoments: [
+        { label: 'Boarding Point', value: 'Boulevard Ghat' },
+        { label: 'Guide Language', value: 'Hindi / English' },
+        { label: 'Photo Stops', value: 'Included' },
+      ],
+      scenicStops: [
+        { title: 'Char Chinar View', detail: 'Open water framing with mountain backdrop.' },
+        { title: 'Floating Gardens', detail: 'Vegetable islands and lotus belts.' },
+      ],
+      shikaraPlanIdeas: [
+        'Book sunset ride one day in advance.',
+        'Carry light layers in evening breeze.',
+      ],
+    },
   },
   {
-    slug: 'skiing',
-    name: 'Skiing',
-    skiHighlights: [
-      {
-        title: 'Pristine Alpine Slopes',
-        detail: "Powder-filled runs from beginner greens to expert black diamonds, all in Kashmir's Himalayan setting."
-      },
-      {
-        title: 'Certified Instruction',
-        detail: "Professional ski guides adapt to your level-whether you're learning or seeking backcountry challenges."
-      },
-      {
-        title: 'Winter Magic Landscape',
-        detail: 'Snow-draped peaks, peaceful valleys, and world-class views that make every run feel like a postcard.'
-      }
-    ],
-    skiPackages: [
-      {
-        name: 'Beginner Slopes',
-        terrain: 'Green & Blue Runs',
-        price: 'INR 2,199',
-        note: 'Perfect for first-time skiers with equipment rental, lessons, and all-day lift passes.'
-      },
-      {
-        name: 'Intermediate Carving',
-        terrain: 'Blue & Red Runs',
-        price: 'INR 3,899',
-        note: 'Progress your technique across scenic varied terrain with moderate challenge and stunning views.'
-      },
-      {
-        name: 'Expert Backcountry',
-        terrain: 'Black Diamonds & Off-Piste',
-        price: 'INR 6,499',
-        note: 'Advanced terrain, backcountry access, avalanche training, and certified mountain guides included.'
-      }
-    ],
-    seasonalMoments: [
-      {
-        label: 'Best Season',
-        value: 'December to March'
-      },
-      {
-        label: 'Snow Type',
-        value: 'Powder and packed runs'
-      },
-      {
-        label: 'Altitude Range',
-        value: '2000-4000m'
-      }
-    ],
-    skiIncluded: [
-      'Full ski equipment rental (skis, boots, poles)',
-      'Professional certified instructor',
-      'Lift pass and slope access',
-      'Safety briefing and avalanche beacon',
-      'Warm lodge and hot beverages',
-      'Photo stops at scenic viewpoints'
-    ],
-    skiPhases: [
-      {
-        step: '01',
-        title: 'Fit and Learn',
-        desc: 'Equipment fitting, stance and balance instruction, safety briefing, and slopes introduction.'
-      },
-      {
-        step: '02',
-        title: 'Carve and Conquer',
-        desc: 'Progress through easier slopes, build speed and control, try steeper runs as confidence grows.'
-      },
-      {
-        step: '03',
-        title: 'Warm Up & Celebrate',
-        desc: 'Hot beverages and warm meals at the lodge, share stories, and plan your next run.'
-      }
-    ],
-    prepNotes: [
-      'Layer up with thermal underwear and waterproof outer shell-high altitude gets very cold',
-      'Bring sunscreen, goggles, and lip balm-snow reflection intensifies sun exposure',
-      'Leave valuables in lodge; take only essentials (ID, small wallet) in your jacket pocket'
-    ]
+    id: 3,
+    title: 'Houseboat Stay',
+    slug: 'houseboat-stay',
+    coverImage: 'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=1200&q=80',
+    content: {
+      houseboatStays: [
+        {
+          title: 'Royal Cedar Houseboat',
+          duration: '1N/2D',
+          location: 'Dal Lake, Srinagar',
+          image: 'https://picsum.photos/id/54/1200/800',
+          price: 'INR 4500',
+        },
+        {
+          title: 'Dal View Premium',
+          duration: '2N/3D',
+          location: 'Nigeen Lake, Srinagar',
+          image: 'https://picsum.photos/id/78/1200/800',
+          price: 'INR 8200',
+        },
+        {
+          title: 'Heritage Walnut Suite',
+          duration: '2N/3D',
+          location: 'Boulevard Side, Dal Lake',
+          image: 'https://picsum.photos/id/164/1200/800',
+          price: 'INR 9800',
+        },
+      ],
+      houseboatHighlights: [
+        { title: 'Lakefront Private Deck', detail: 'Morning tea with mountain reflections.' },
+        { title: 'Heritage Interiors', detail: 'Hand-carved walnut wood finishing.' },
+        { title: 'Chef-Prepared Meals', detail: 'Regional menu with custom options.' },
+      ],
+    },
   },
   {
+    id: 4,
+    title: 'River Rafting',
     slug: 'river-rafting',
-    name: 'River Rafting',
-    raftingHighlights: [
-      {
-        title: 'Adrenaline on the River',
-        detail: 'Fast-moving water, guide-led rapids, and the right balance of thrill and control.'
-      },
-      {
-        title: 'Beginner to Advanced',
-        detail: 'Routes can be matched to first-timers, families, or stronger adventure seekers.'
-      },
-      {
-        title: 'Scenic Valley Setting',
-        detail: 'Mountain banks, forest stretches, and dramatic river curves make the ride visual as well as exciting.'
-      }
-    ],
-    raftingPackages: [
-      {
-        name: 'Beginner Run',
-        duration: '4-6 km',
-        price: 'INR 1,299',
-        note: 'Shorter stretch with manageable rapids and guide support'
-      },
-      {
-        name: 'Adventure Run',
-        duration: '8-10 km',
-        price: 'INR 2,199',
-        note: 'The most balanced mix of thrill, scenery, and pacing'
-      },
-      {
-        name: 'Full Expedition',
-        duration: '12+ km',
-        price: 'INR 3,499',
-        note: 'Longer route for experienced groups and adventure travelers'
-      }
-    ],
-    safetyGear: [
-      'Certified life jacket and helmet',
-      'Professional river guide',
-      'Pre-ride safety briefing',
-      'Emergency support and route checks',
-      'Photo stop and rest points where available',
-      'Transport can be arranged from Srinagar on request'
-    ],
-    raftingMoments: [
-      {
-        label: 'Best Season',
-        value: 'April to September'
-      },
-      {
-        label: 'River Style',
-        value: 'Fast, scenic, and guide-led'
-      },
-      {
-        label: 'Ideal For',
-        value: 'Friends, couples, and adventure groups'
-      }
-    ],
-    tripPhases: [
-      {
-        step: '01',
-        title: 'Arrive and Gear Up',
-        desc: 'Meet your guide, fit safety equipment, and learn the basic commands before launch.'
-      },
-      {
-        step: '02',
-        title: 'Hit the Rapids',
-        desc: 'Paddle through fast sections with clear instructions and short bursts of teamwork.'
-      },
-      {
-        step: '03',
-        title: 'Cool Down on Shore',
-        desc: 'Wrap up with riverbank views, photos, and time to relax before the return transfer.'
-      }
-    ],
-    prepNotes: [
-      'Wear quick-dry clothing and secure footwear',
-      'Keep phones and valuables in a dry pouch',
-      'Follow guide instructions closely during rapids'
-    ]
-  }
-];
+    coverImage: 'https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1200&q=80',
+    content: {
+      raftingHighlights: [
+        { title: 'Rapid Variety', detail: 'Calm intro sections plus fun whitewater runs.' },
+        { title: 'Safety First', detail: 'Certified river guides and full briefings.' },
+        { title: 'Action Photos', detail: 'Photo/video captures at key rapids.' },
+      ],
+      raftingPackages: [
+        {
+          distance: '5 km Riverside Run',
+          title: 'Beginner Valley Splash',
+          description: 'A calm and fun route for first-time rafters with guide-led practice sections.',
+          price: 'INR 1800',
+        },
+        {
+          distance: '9 km Rapid Mix Route',
+          title: 'Intermediate Whitewater',
+          description: 'Balanced rapids and scenic stretches designed for returning adventure travelers.',
+          price: 'INR 2600',
+        },
+        {
+          distance: '14 km Extended Rapids',
+          title: 'Advanced Rapids Challenge',
+          description: 'Longer high-energy run with stronger waves and premium guide supervision.',
+          price: 'INR 3900',
+        },
+      ],
+      safetyGear: [
+        { item: 'Helmet', included: 'Yes' },
+        { item: 'Life Jacket', included: 'Yes' },
+        { item: 'Dry Bag', included: 'Yes' },
+      ],
+      raftingMoments: [
+        { label: 'Session', value: '2 to 3 hours' },
+        { label: 'Best Season', value: 'Apr to Jul' },
+        { label: 'Min Age', value: '12+' },
+      ],
+      tripPhases: [
+        { phase: 'Briefing', activity: 'Training and fit checks', time: '20 mins' },
+        { phase: 'Run', activity: 'Main rapid section', time: '90 mins' },
+      ],
+    },
+  },
+  {
+    id: 5,
+    title: 'Paragliding',
+    slug: 'paragliding',
+    coverImage: 'https://images.unsplash.com/photo-1465311440653-ba9b1d9b0f5b?auto=format&fit=crop&w=1200&q=80',
+    content: {
+      paraglideHighlights: [
+        { title: 'Tandem Flights', detail: 'Fly with experienced certified pilots.' },
+        { title: 'Panoramic Views', detail: 'Valley and ridge lines from above.' },
+        { title: 'GoPro Add-on', detail: 'Optional in-flight footage.' },
+      ],
+      flightPackages: [
+        {
+          time: '8-10 mins',
+          title: 'Classic Tandem Flight',
+          description: 'Entry-level glide with smooth takeoff and sweeping valley views for first-time flyers.',
+          price: 'INR 2200',
+        },
+        {
+          time: '12-15 mins',
+          title: 'Explorer Ridge Flight',
+          description: 'Longer airtime with wider mountain coverage and gentle thermal turns.',
+          price: 'INR 3200',
+        },
+        {
+          time: '18-22 mins',
+          title: 'Pro Glide Experience',
+          description: 'Extended high-view route with premium pilot control for maximum aerial exposure.',
+          price: 'INR 4300',
+        },
+      ],
+      flightMoments: [
+        { label: 'Takeoff Zone', value: 'Aru Ridge' },
+        { label: 'Landing Zone', value: 'Pahalgam Flats' },
+      ],
+      flightGear: [
+        { item: 'Harness', condition: 'Inspected daily' },
+        { item: 'Reserve Chute', condition: 'Included' },
+      ],
+      flightPhases: [
+        { phase: 'Prep', activity: 'Wind check and harness setup', time: '15 mins' },
+        { phase: 'Flight', activity: 'Main glide with turns', time: '10-20 mins' },
+      ],
+    },
+  },
+  {
+    id: 6,
+    title: 'Skiing',
+    slug: 'skiing',
+    coverImage: 'https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&w=1200&q=80',
+    content: {
+      skiHighlights: [
+        { title: 'Beginner Slopes', detail: 'Coached starts with balance drills.' },
+        { title: 'Powder Trails', detail: 'Mid-level runs in fresh snow windows.' },
+        { title: 'Lift Access', detail: 'Optimized run planning with guide.' },
+      ],
+      skiPackages: [
+        {
+          level: 'Starter',
+          title: 'Beginner Slope Session',
+          description: 'Guided basics with balance practice and full starter gear support.',
+          price: 'INR 2500',
+        },
+        {
+          level: 'Day Pass',
+          title: 'Intermediate Mountain Run',
+          description: 'Longer slope access with coaching and lift-assisted practice windows.',
+          price: 'INR 4300',
+        },
+        {
+          level: 'Full Pro',
+          title: 'Advanced Alpine Ski Plan',
+          description: 'Extended guided runs with premium gear and focused technical progression.',
+          price: 'INR 6200',
+        },
+      ],
+      seasonalMoments: [
+        { label: 'Peak Snow', value: 'Jan-Feb' },
+        { label: 'Skill Level', value: 'Beginner to Advanced' },
+      ],
+      skiIncluded: ['Helmet', 'Ski set', 'Boots', 'Trainer support'],
+      skiPhases: [
+        { phase: 'Warmup', activity: 'Mobility and balance prep', time: '20 mins' },
+        { phase: 'Training Runs', activity: 'Slope practice', time: '90 mins' },
+      ],
+    },
+  },
+]
 
-module.exports = activities;

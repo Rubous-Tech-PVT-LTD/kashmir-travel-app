@@ -132,30 +132,39 @@ export const activityAPI = {
   getBySlug: (slug) => safe(async () => dataOr(await request(`/activities/${slug}`), null), null, 'Error fetching activity'),
 }
 
+export const settingsAPI = {
+  getSettings: () => request('/settings'),
+}
+
 export const adminAPI = {
   login: (username, password) => request('/admin/login', { method: 'POST', body: { username, password } }),
   logout: () => request('/admin/logout', { method: 'POST' }),
   me: () => request('/admin/me'),
 
   getItineraries: () => request('/admin/itineraries'),
+  getHotels: () => request('/admin/hotels'),
+  getCarRentals: () => request('/admin/car-rentals'),
+  getActivities: () => request('/admin/activities'),
+  getInquiries: () => request('/admin/inquiries'),
   getReviews: (itineraryId, reviewType) => request('/admin/reviews', { query: { itineraryId, reviewType } }),
   createItinerary: (payload) => request('/admin/itineraries', { method: 'POST', body: payload }),
+  createHotel: (payload) => request('/admin/hotels', { method: 'POST', body: payload }),
+  createCarRental: (payload) => request('/admin/car-rentals', { method: 'POST', body: payload }),
+  createActivity: (payload) => request('/admin/activities', { method: 'POST', body: payload }),
   updateItinerary: (id, payload) => request(`/admin/itineraries/${id}`, { method: 'PUT', body: payload }),
+  updateHotel: (id, payload) => request(`/admin/hotels/${id}`, { method: 'PUT', body: payload }),
+  updateCarRental: (id, payload) => request(`/admin/car-rentals/${id}`, { method: 'PUT', body: payload }),
+  // Activities are slug-based
+  updateActivity: (slug, payload) => request(`/admin/activities/${slug}`, { method: 'PUT', body: payload }),
   addDay: (id, payload) => request(`/admin/itineraries/${id}/days`, { method: 'POST', body: payload }),
   updateDay: (id, dayIndex, payload) => request(`/admin/itineraries/${id}/days/${dayIndex}`, { method: 'PUT', body: payload }),
   deleteDay: (id, dayIndex) => request(`/admin/itineraries/${id}/days/${dayIndex}`, { method: 'DELETE' }),
   deleteReview: (id) => request(`/admin/reviews/${id}`, { method: 'DELETE' }),
   deleteItinerary: (id) => request(`/admin/itineraries/${id}`, { method: 'DELETE' }),
+  deleteHotel: (id) => request(`/admin/hotels/${id}`, { method: 'DELETE' }),
+  deleteCarRental: (id) => request(`/admin/car-rentals/${id}`, { method: 'DELETE' }),
+  deleteActivity: (slug) => request(`/admin/activities/${slug}`, { method: 'DELETE' }),
   getSettings: () => request('/admin/settings'),
   updateSettings: (payload) => request('/admin/settings', { method: 'PUT', body: payload }),
 }
 
-export { ApiError, API_URL }
-
-export default {
-  itineraryAPI,
-  reviewAPI,
-  hotelAPI,
-  carRentalAPI,
-  activityAPI,
-}
