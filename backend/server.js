@@ -55,7 +55,11 @@ app.use('/api/v1/settings', settingsRoutes);
 app.use('/api/v1/activities', activityRoutes);
 app.use('/api/v1/admin', adminRoutes);
 
-// Health check route
+// Health check routes
+app.get('/', (req, res) => {
+  res.json({ message: 'Kashmir Travel API is online', version: 'v1.0.0' });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ message: 'Server is running', status: 'OK' });
 });
