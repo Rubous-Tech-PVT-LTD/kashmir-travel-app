@@ -73,7 +73,6 @@ const safe = async (fn, fallback, label) => {
   try {
     return await fn()
   } catch (error) {
-    console.error(`${label}:`, error)
     return fallback
   }
 }

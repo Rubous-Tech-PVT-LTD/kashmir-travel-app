@@ -69,9 +69,8 @@ app.get('/api/health', (req, res) => {
 // Database connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/kashmir-travel-app')
   .then(() => {
-    console.log('✅ MongoDB connected successfully');
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
+      // Server started
     });
   })
   .catch(err => {

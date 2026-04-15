@@ -73,7 +73,6 @@ const PopUp_Form = () => {
             window.open(`https://wa.me/${inquiryNumber}?text=${message}`, '_blank');
             setIsVisible(false);
         } catch (error) {
-            console.error('Error saving inquiry:', error);
             // Fallback: Still try to open WhatsApp even if DB save fails
             const inquiryNumber = "916005888754";
             const message = encodeURIComponent(`Hi, I'm interested in a travel plan. My name is ${formData.name}.`);

@@ -71,7 +71,6 @@ export default function AllDaysWiseTrips() {
 
         setManagedTrips(transformedTrips)
       } catch (err) {
-        console.error('Error fetching trips:', err)
         setError('Failed to load trips from server')
         setManagedTrips([])
       } finally {

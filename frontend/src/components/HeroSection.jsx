@@ -17,7 +17,7 @@ export default function HeroSection() {
           setHeroImages(data.data.heroImages);
         }
       } catch (err) {
-        console.error("Error fetching hero banner:", err);
+        // Silent fail for hero banner
       }
     };
     fetchSettings();

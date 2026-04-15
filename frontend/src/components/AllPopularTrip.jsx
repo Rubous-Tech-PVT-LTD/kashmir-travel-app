@@ -83,7 +83,6 @@ export default function Alltrip() {
 
         setTrips(transformedTrips)
       } catch (fetchError) {
-        console.error('Error fetching trips:', fetchError)
         setError('Failed to load trips from server')
         setTrips([])
       } finally {
@@ -115,7 +114,7 @@ export default function Alltrip() {
 
   const pageSubtitle = activeCategory === 'all'
     ? 'Discover all our curated Haba Khatoon Travels packages and find the perfect trip for your next adventure.'
-    : `Browse ${categoryLabelMap[activeCategory] || activeCategory} itineraries directly from the live backend.`
+    : `Browse ${categoryLabelMap[activeCategory] || activeCategory} itineraries directly from our travel experts.`
 
   const handleCategoryChange = (value) => {
     const nextParams = new URLSearchParams(searchParams)
@@ -200,7 +199,7 @@ export default function Alltrip() {
             <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">
               <p className="m-0 font-semibold">⚠️ {error}</p>
               <p className="mt-2 text-sm">
-                Make sure the backend server is running on http://localhost:5000
+                Please try refreshing the page or check your internet connection.
               </p>
             </div>
           )}

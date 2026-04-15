@@ -6,14 +6,19 @@ const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
 
 const cookieMaxAgeMs = Number(process.env.ADMIN_TOKEN_TTL_MS || 8 * 60 * 60 * 1000);
 
-const getCookieOptions = () => ({
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: process.env.ADMIN_COOKIE_SAMESITE || 'lax',
-  maxAge: cookieMaxAgeMs,
-  path: '/',
-  ...(process.env.ADMIN_COOKIE_DOMAIN ? { domain: process.env.ADMIN_COOKIE_DOMAIN } : {}),
-});
+const getCookieOptions = () => {
+  const isProd = process.env.NODE_ENV === 'production';
+  const sameSite = process.env.ADMIN_COOKIE_SAMESITE || (isProd ? 'none' : 'lax');
+  
+  return {
+    httpOnly: true,
+    secure: isProd || sameSite === 'none',
+    sameSite: sameSite,
+    maxAge: cookieMaxAgeMs,
+    path: '/',
+    ...(process.env.ADMIN_COOKIE_DOMAIN ? { domain: process.env.ADMIN_COOKIE_DOMAIN } : {}),
+  };
+};
 
 exports.login = async (req, res) => {
   try {
@@ -65,13 +70,11 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie(ADMIN_COOKIE_NAME, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.ADMIN_COOKIE_SAMESITE || 'lax',
-    path: '/',
-    ...(process.env.ADMIN_COOKIE_DOMAIN ? { domain: process.env.ADMIN_COOKIE_DOMAIN } : {}),
-  });
+  const options = getCookieOptions();
+  // Remove maxAge for clearCookie
+  delete options.maxAge;
+  
+  res.clearCookie(ADMIN_COOKIE_NAME, options);
 
   return res.json({
     success: true,

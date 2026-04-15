@@ -31,7 +31,7 @@ export default function HotelDetail() {
         setHotel(data);
         setAllReviews(data?.reviews || []);
       } catch (e) {
-        console.error(e);
+        // Silent fail for hotel fetch
       } finally {
         setLoading(false);
       }
