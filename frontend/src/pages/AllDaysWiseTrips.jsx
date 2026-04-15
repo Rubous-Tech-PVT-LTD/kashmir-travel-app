@@ -262,7 +262,7 @@ export default function AllDaysWiseTrips() {
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 text-red-800">
               <p className="m-0 font-semibold">⚠️ {error}</p>
               <p className="mt-2 mb-0 text-sm">
-                Make sure the backend server is running on http://localhost:5000
+                Please try refreshing the page or check back later.
               </p>
             </div>
           )}
