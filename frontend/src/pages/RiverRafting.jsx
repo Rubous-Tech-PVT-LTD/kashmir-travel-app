@@ -198,8 +198,7 @@ export default function RiverRafting() {
                   </button>
                 </div>
               </div>
-              )
-            })}
+            ))}
           </div>
 
         </div>

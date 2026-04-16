@@ -213,8 +213,7 @@ export default function GondolaRide() {
                   </button>
                 </div>
               </div>
-              )
-            })}
+            ))}
           </div>
         </div>
       </section>

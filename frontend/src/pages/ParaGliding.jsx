@@ -184,8 +184,7 @@ export default function ParaGliding() {
                   </button>
                 </div>
               </div>
-              )
-            })}
+            ))}
           </div>
         </div>
       </section>

@@ -14,35 +14,35 @@ export default function ServiceSection() {
 
   const services = [
     {
-      image: 'https://picsum.photos/id/10/1200/800',
+      image: 'https://i.ibb.co/DfbJP98Q/OIP.webp',
       tagline: 'FAMILY & FUN',
       title: 'Family Tour',
       desc: 'Comfortable, kid-friendly itineraries with scenic spots, relaxed pacing, and experiences everyone in the family can enjoy.',
       path: '/services/family-tour'
     },
     {
-      image: 'https://picsum.photos/id/10/1200/800',
+      image: 'https://i.ibb.co/cXxKzH6x/OIP.webp',
       tagline: 'ROMANCE & ESCAPE',
       title: 'Couple Tour',
       desc: 'Romantic getaways with cozy stays, private sightseeing, and curated moments designed for couples.',
       path: '/services/couple-tour'
     },
     {
-      image: 'https://picsum.photos/id/10/1200/800',
+      image: 'https://i.ibb.co/vCyq3RJn/OIP.webp',
       tagline: 'TOGETHER & BOND',
       title: 'Group Tour',
       desc: 'Perfect for friends, families, and teams. Our guided plans make group travel smooth, social, and memorable.',
       path: '/services/group-tour'
     },
     {
-      image: 'https://picsum.photos/id/10/1200/800',
+      image: 'https://i.ibb.co/FkpB4YsD/facade.jpg',
       tagline: 'STAY & RELAX',
       title: 'Hotel Booking',
       desc: 'From boutique escapes to five-star resorts, we handpick stays that match your taste and budget.',
       path: '/services/hotel-booking'
     },
     {
-      image: 'https://picsum.photos/id/10/1200/800',
+      image: 'https://i.ibb.co/hFgSc0Xq/OIP.webp',
       tagline: 'DRIVE & EXPLORE',
       title: 'Car Rentals',
       desc: 'Choose from sedans, SUVs, or convertibles — with or without a driver. GPS included, unlimited...',
