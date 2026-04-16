@@ -501,7 +501,7 @@ export default function ActivitiesTab({
                 <ChevronRight size={13} className={`flex-shrink-0 transition-opacity ${
                   selected
                     ? 'text-sky-400 opacity-100'
-                    : 'text-slate-300 opacity-0 group-hover:opacity-100'
+                    : 'text-slate-300 opacity-100 lg:opacity-0 lg:group-hover:opacity-100'
                 }`} />
               </button>
                 )

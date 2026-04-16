@@ -130,7 +130,7 @@ export function DayRow({ day, index, onEdit, onDelete }) {
           )}
         </div>
       </div>
-      <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+      <div className="flex gap-1.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity shrink-0">
         <Btn variant="ghost" size="sm" onClick={() => onEdit(index)}><Edit2 size={13} /></Btn>
         <Btn variant="danger" size="sm" onClick={() => onDelete(index)}><Trash2 size={13} /></Btn>
       </div>
@@ -156,7 +156,7 @@ export function ReviewCard({ review, onDelete, deleting }) {
         <p className="text-sm text-slate-500 mt-1 leading-relaxed">{review.comment}</p>
         <p className="text-[11px] text-slate-300 mt-2">{new Date(review.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
       </div>
-      <Btn variant="danger" size="sm" onClick={() => onDelete(review._id)} disabled={deleting} className="opacity-0 group-hover:opacity-100 shrink-0">
+      <Btn variant="danger" size="sm" onClick={() => onDelete(review._id)} disabled={deleting} className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 shrink-0">
         <Trash2 size={13} />
       </Btn>
     </div>
