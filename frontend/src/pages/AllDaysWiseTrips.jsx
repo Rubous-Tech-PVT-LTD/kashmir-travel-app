@@ -331,6 +331,7 @@ export default function AllDaysWiseTrips() {
             </div>
           )}
 
+          {/* Empty State */}
           {filteredTrips.length === 0 && !loading && (
             <div className="px-5 py-20 text-center">
               <div className="mb-4 text-4xl">⛰️</div>
