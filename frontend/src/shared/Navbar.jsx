@@ -10,6 +10,7 @@ const kashimirPackagesDropdown = [
   "Adventure Tour Package",
   "3 Days Tour",
   "4 Days Tour",
+  "6 Days Tour",
   "7 Days Tour",
   "Family Tour Package",
   "All Kashmir Trips",
@@ -19,8 +20,6 @@ const honeymoonDropdown = [
   "Romantic Tour",
   "Couple Special",
   "3 Days Honeymoon",
-  "4 Days Honeymoon",
-  "6 Days Honeymoon",
   "View All Honeymoon",
 ];
 
@@ -63,6 +62,7 @@ export default function Navbar() {
         "Adventure Tour Package": "/alltrips?category=adventure-trek",
         "3 Days Tour": "/all-daywise-trips?days=3",
         "4 Days Tour": "/all-daywise-trips?days=4",
+        "6 Days Tour": "/all-daywise-trips?days=6",
         "7 Days Tour": "/all-daywise-trips?days=7",
         "Family Tour Package": "/alltrips?category=family-tour",
         "All Kashmir Trips": "/all-daywise-trips",
@@ -74,8 +74,6 @@ export default function Navbar() {
         "Romantic Tour": "/alltrips?category=romantic-tour",
         "Couple Special": "/alltrips?category=couple-special",
         "3 Days Honeymoon": "/all-daywise-trips?days=3&theme=honeymoon",
-        "4 Days Honeymoon": "/all-daywise-trips?days=4&theme=honeymoon",
-        "6 Days Honeymoon": "/all-daywise-trips?days=6&theme=honeymoon",
         "View All Honeymoon": "/alltrips?category=honeymoon-packages",
       },
     },
