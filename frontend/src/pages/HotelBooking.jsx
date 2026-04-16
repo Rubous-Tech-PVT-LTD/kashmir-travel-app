@@ -1,289 +1,175 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '../shared/Footer'
-import { hotelAPI } from '../utils/api'
-import {
-  backButtonStyle,
-  cardBodyStyle,
-  cardMetaRowStyle,
-  centeredHeadingStyle,
-  createPageShellStyle,
-  createPrimaryButtonStyle,
-  heroActionRowStyle,
-  heroSplitGridStyle,
-  listPanelRowStyle,
-  maxWidthContainerStyle,
-  sidePanelAlignStyle,
-  standardSectionStyle,
-  transparentCtaButtonStyle
-} from '../ui/servicePageStyles'
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../shared/Footer";
+import { hotelAPI } from "../utils/api";
 
 const bookingHighlights = [
-  'Verified stays with transparent rates',
-  'Breakfast and airport transfers available',
-  '24x7 travel support in Kashmir',
-  'Family, honeymoon, and group-friendly options'
-]
+  "Verified stays with transparent rates",
+  "Breakfast and airport transfers available",
+  "24x7 travel support in Kashmir",
+  "Family, honeymoon, and group-friendly options",
+];
 
 export default function HotelBooking() {
-  const navigate = useNavigate()
-  const [hotels, setHotels] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const navigate = useNavigate();
+  const [hotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        setLoading(true)
-        setError('')
-        const data = await hotelAPI.getAll()
-        setHotels(data.slice(0, 6))
+        setLoading(true);
+        setError("");
+        const data = await hotelAPI.getAll();
+        setHotels(data.slice(0, 6));
       } catch (err) {
-        console.error('Error fetching featured hotels:', err)
-        setError('Failed to load featured hotels')
-        setHotels([])
+        setError("Failed to load featured hotels");
+        setHotels([]);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchHotels()
-  }, [])
+    fetchHotels();
+  }, []);
 
   return (
-    <div style={createPageShellStyle('#f5f8fb')}>
-      <style>{`
-        .hotel-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          border: 1px solid rgba(224, 185, 106, 0.35);
-          border-radius: 999px;
-          background: rgba(255, 255, 255, 0.06);
-          color: #f1c969;
-          letter-spacing: 3px;
-          font-size: 13px;
-          font-weight: 700;
-          padding: 12px 24px;
-        }
-
-        .hotel-title {
-          font-family: 'Georgia', 'Times New Roman', serif;
-          font-size: 74px;
-          line-height: 1.04;
-          margin: 0;
-          color: #f5f7fa;
-          letter-spacing: -0.7px;
-        }
-
-        .hotel-accent {
-          color: #f1c969;
-        }
-
-        .hotel-hero-panel {
-          border-radius: 18px;
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          padding: 20px;
-        }
-
-        .hotel-grid {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 20px;
-          width: 100%;
-        }
-
-        .hotel-card {
-          background: #fff;
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: 0 14px 34px rgba(15, 32, 56, 0.11);
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
-          border: 1px solid #e5e9ef;
-        }
-
-        .hotel-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 20px 42px rgba(15, 32, 56, 0.16);
-        }
-
-        .hotel-card-image {
-          width: 100%;
-          height: 180px;
-          object-fit: cover;
-          display: block;
-        }
-
-        @media (max-width: 980px) {
-          .hotel-layout {
-            grid-template-columns: 1fr !important;
-          }
-
-          .hotel-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
-
-          .hotel-title {
-            font-size: 52px;
-          }
-        }
-
-        @media (max-width: 680px) {
-          .hotel-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .hotel-title {
-            font-size: 42px;
-          }
-        }
-      `}</style>
-
-      <section
-        style={{
-          background: 'linear-gradient(90deg, #00142f 0%, #04213f 55%, #0a2f45 100%)',
-          color: '#fff',
-          padding: '72px 24px 78px',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <div style={maxWidthContainerStyle}>
+    <div className="bg-[#f5f8fb]">
+      {/* HERO */}
+      <section className="bg-linear-to-r from-[#00142f] via-[#04213f] to-[#0a2f45] text-white px-6 py-20">
+        <div className="max-w-6xl mx-auto">
+          
+          {/* Back Button */}
           <button
-            type="button"
-            onClick={() => navigate('/')}
-            style={backButtonStyle}
+            onClick={() => navigate("/")}
+            className="mb-6 px-4 py-2 border border-white/40 rounded-md hover:bg-white/10 transition"
           >
             ← Back to Home
           </button>
 
-          <div className="hotel-layout" style={heroSplitGridStyle}>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            
+            {/* LEFT */}
             <div>
-              <div className="hotel-badge" style={{ marginBottom: '20px' }}>
-                <span>🏨</span>
-                <span>STAY & RELAX</span>
+              <div className="inline-flex items-center gap-2 border border-yellow-300/30 bg-white/10 px-5 py-2 rounded-full text-yellow-300 text-xs font-bold tracking-widest mb-5">
+                🏨 STAY & RELAX
               </div>
 
-              <h1 className="hotel-title" style={{ maxWidth: '700px', marginBottom: '18px' }}>
-                Find Your
-                <br />
-                <span className="hotel-accent">Perfect Stay.</span>
+              <h1 className="text-4xl md:text-6xl font-serif leading-tight mb-4">
+                Find Your <br />
+                <span className="text-[#f1c969]">Perfect Stay.</span>
               </h1>
 
-              <p style={{ fontSize: '17px', lineHeight: 1.65, color: 'rgba(245, 247, 250, 0.74)', maxWidth: '700px', marginBottom: '26px' }}>
-                From boutique escapes to five-star palaces, we handpick stays that match your taste, budget, and dreams.
+              <p className="text-white/80 text-base md:text-lg mb-6 max-w-xl">
+                From boutique escapes to five-star palaces, we handpick stays
+                that match your taste, budget, and dreams.
               </p>
 
-              <div style={heroActionRowStyle}>
+              <div className="flex flex-wrap gap-4">
                 <button
-                  type="button"
-                  onClick={() => navigate('/alltrips')}
-                  style={createPrimaryButtonStyle('#f1c969', '#0c1f38')}
+                  onClick={() => navigate("/alltrips")}
+                  className="bg-[#f1c969] text-[#0c1f38] px-6 py-3 rounded-lg font-semibold"
                 >
                   View Stay Packages
                 </button>
 
                 <button
-                  type="button"
-                  onClick={() => navigate('/services/family-tour')}
-                  style={transparentCtaButtonStyle}
+                  onClick={() => navigate("/services/family-tour")}
+                  className="border border-white/40 px-6 py-3 rounded-lg hover:bg-white/10"
                 >
                   Plan Full Kashmir Trip
                 </button>
               </div>
             </div>
 
-            <div
-              className="hotel-hero-panel"
-              style={sidePanelAlignStyle}
-            >
-              <h3 style={{ margin: '0 0 14px', fontSize: '22px', color: '#f6f8fa' }}>Why Book With Us</h3>
+            {/* RIGHT PANEL */}
+            <div className="bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur">
+              <h3 className="text-lg mb-4">Why Book With Us</h3>
+
               {bookingHighlights.map((item) => (
-                <div key={item} style={listPanelRowStyle}>
-                  <span style={{ color: '#f1c969', marginTop: '2px' }}>●</span>
-                  <p style={{ margin: 0, color: 'rgba(245, 247, 250, 0.9)', fontSize: '14px', lineHeight: 1.6 }}>{item}</p>
+                <div key={item} className="flex gap-2 mb-3">
+                  <span className="text-[#f1c969]">●</span>
+                  <p className="text-sm text-white/90">{item}</p>
                 </div>
               ))}
             </div>
+
           </div>
         </div>
       </section>
 
-      <section style={standardSectionStyle}>
-        <div style={centeredHeadingStyle}>
-          <p style={{ color: '#1d3655', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
+      {/* HOTELS */}
+      <section className="max-w-6xl mx-auto px-6 py-14">
+        
+        <div className="text-center mb-10">
+          <p className="text-xs font-bold tracking-widest text-[#1d3655] mb-2">
             TOP HOTELS IN KASHMIR
           </p>
-          <h2 style={{ fontSize: '34px', margin: 0, color: '#0f2946' }}>Handpicked Stays You Can Book With Confidence</h2>
+          <h2 className="text-2xl md:text-3xl text-[#0f2946]">
+            Handpicked Stays You Can Book With Confidence
+          </h2>
         </div>
 
-        <div className="hotel-grid">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          
           {loading ? (
-            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 20px' }}>
-              <p style={{ margin: 0, color: '#f6f8fa' }}>Loading hotels...</p>
+            <div className="col-span-full text-center py-10">
+              <p>Loading hotels...</p>
             </div>
           ) : error ? (
-            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 20px' }}>
-              <p style={{ margin: 0, color: '#ffd28f' }}>{error}</p>
+            <div className="col-span-full text-center py-10 text-orange-400">
+              <p>{error}</p>
             </div>
-          ) : hotels.map((hotel) => (
-            <div key={hotel.id} className="hotel-card">
-              <img src={hotel.image} alt={hotel.name} className="hotel-card-image" />
+          ) : (
+            hotels.map((hotel) => (
+              <div
+                key={hotel.id}
+                className="bg-white rounded-xl overflow-hidden border shadow-md hover:-translate-y-1 hover:shadow-lg transition"
+              >
+                <img
+                  src={hotel.image}
+                  alt={hotel.name}
+                  className="w-full h-45 object-cover"
+                />
 
-              <div style={cardBodyStyle}>
-                <p style={{ margin: '0 0 6px', fontSize: '12px', fontWeight: 700, color: '#3f5f89', letterSpacing: '0.6px' }}>
-                  {hotel.location} • {hotel.nights}
-                </p>
-
-                <h3 style={{ margin: '0 0 10px', fontSize: '20px', color: '#12263e', lineHeight: 1.25 }}>
-                  {hotel.name}
-                </h3>
-
-                <div style={cardMetaRowStyle}>
-                  <p style={{ margin: 0, color: '#f4c430', letterSpacing: '1px', fontSize: '14px' }}>
-                    {'★'.repeat(hotel.rating)}{'☆'.repeat(5 - hotel.rating)}
+                <div className="p-4">
+                  <p className="text-xs font-bold text-[#3f5f89] mb-1">
+                    {hotel.location} • {hotel.nights}
                   </p>
-                  <p style={{ margin: 0, color: '#0f2946', fontWeight: 700, fontSize: '18px' }}>
-                    INR {hotel.price}
-                  </p>
+
+                  <h3 className="text-lg font-semibold text-[#12263e] mb-2">
+                    {hotel.name}
+                  </h3>
+
+                  <div className="flex justify-between items-center mb-3">
+                    <p className="text-yellow-500 text-sm">
+                      {"★".repeat(hotel.rating)}
+                      {"☆".repeat(5 - hotel.rating)}
+                    </p>
+
+                    <p className="font-bold text-[#0f2946]">
+                      ₹ {hotel.price}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => navigate(`/hotel/${hotel.id}`)}
+                    className="w-full bg-linear-to-r from-[#0b3d66] to-[#1e5c91] text-white py-2 rounded-md font-semibold"
+                  >
+                    View Details
+                  </button>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={() => navigate(`/hotel/${hotel.id}`)}
-                  style={{
-                    width: '100%',
-                    border: 'none',
-                    borderRadius: '10px',
-                    padding: '11px 14px',
-                    background: 'linear-gradient(90deg, #0b3d66 0%, #1e5c91 100%)',
-                    color: '#fff',
-                    fontWeight: 700,
-                    cursor: 'pointer'
-                  }}
-                >
-                  View Details
-                </button>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '28px' }}>
+        {/* VIEW ALL */}
+        <div className="flex justify-center mt-10">
           <button
-            type="button"
-            onClick={() => navigate('/all-hotels')}
-            style={{
-              border: 'none',
-              borderRadius: '999px',
-              padding: '13px 22px',
-              background: 'linear-gradient(90deg, #0b3d66 0%, #1e5c91 100%)',
-              color: '#fff',
-              fontWeight: 700,
-              cursor: 'pointer',
-              boxShadow: '0 12px 26px rgba(11, 61, 102, 0.22)'
-            }}
+            onClick={() => navigate("/all-hotels")}
+            className="bg-linear-to-r from-[#0b3d66] to-[#1e5c91] text-white px-6 py-3 rounded-full font-semibold shadow-lg"
           >
             View All Hotels
           </button>
@@ -292,5 +178,5 @@ export default function HotelBooking() {
 
       <Footer />
     </div>
-  )
+  );
 }

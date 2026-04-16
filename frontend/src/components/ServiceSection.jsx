@@ -65,7 +65,7 @@ export default function ServiceSection() {
 
   return (
     <section className="w-full bg-gray-100 px-6 py-10">
-      <div className="mx-auto max-w-[1200px]">
+      <div className="mx-auto max-w-300">
         <h2 className="mb-10 text-center text-4xl font-bold tracking-[-0.5px] text-[#1a2b4a]">
           Explore Our Services
         </h2>
@@ -104,7 +104,7 @@ export default function ServiceSection() {
                   {service.title}
                 </h3>
 
-                <p className="mb-4 min-h-[45px] text-xs leading-relaxed text-gray-400">
+                <p className="mb-4 min-h-11.25 text-xs leading-relaxed text-gray-400">
                   {service.desc}
                 </p>
 

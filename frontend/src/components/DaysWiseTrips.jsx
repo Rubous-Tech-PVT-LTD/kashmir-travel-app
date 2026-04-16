@@ -41,7 +41,6 @@ export default function DaysWiseTrips() {
         }))
         setTrips(transformed)
       } catch (err) {
-        console.error('Error fetching trips:', err)
         setTrips([])
       } finally {
         setLoading(false)
@@ -87,7 +86,7 @@ export default function DaysWiseTrips() {
                 </h2>
                 <div className="w-16 h-1 bg-blue-600 rounded-full" />
               </div>
-              <p className="text-gray-600 text-lg leading-relaxed max-w-[520px] font-['DM_Sans']">
+              <p className="text-gray-600 text-lg leading-relaxed max-w-130 font-['DM_Sans']">
                 Choose your perfect trip duration from 2 to 7 days with transparent pricing and curated day-by-day plans.
               </p>
             </div>

@@ -85,7 +85,7 @@ export default function CarRentalsTab({
                   <p className={`text-sm font-medium truncate ${Number(selectedCarRentalId) === rental.id ? 'text-sky-700' : 'text-slate-700'}`}>{rental.name}</p>
                   <p className="text-xs text-slate-400 mt-0.5">{rental.type} · ₹{rental.price}</p>
                 </div>
-                <ChevronRight size={13} className={`flex-shrink-0 transition-opacity ${Number(selectedCarRentalId) === rental.id ? 'text-sky-400 opacity-100' : 'text-slate-300 opacity-0 group-hover:opacity-100'}`} />
+                <ChevronRight size={13} className={`flex-shrink-0 transition-opacity ${Number(selectedCarRentalId) === rental.id ? 'text-sky-400 opacity-100' : 'text-slate-300 opacity-100 lg:opacity-0 lg:group-hover:opacity-100'}`} />
               </button>
             ))}
           </div>

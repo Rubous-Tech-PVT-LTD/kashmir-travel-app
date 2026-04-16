@@ -2,14 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../shared/Footer'
 import { activityAPI } from '../utils/api'
-import {
-  backButtonStyle,
-  createPageShellStyle,
-  createPrimaryButtonStyle,
-  heroActionRowStyle,
-  maxWidthContainerStyle,
-  transparentCtaButtonStyle
-} from '../ui/servicePageStyles'
 
 export default function ParaGliding() {
   const navigate = useNavigate()
@@ -23,178 +15,100 @@ export default function ParaGliding() {
       setIsLoading(true)
       const data = await activityAPI.getBySlug('paragliding')
 
-      if (!mounted) {
-        return
-      }
+      if (!mounted) return
 
       setActivityData(data)
       setIsLoading(false)
     }
 
     loadActivity()
-
-    return () => {
-      mounted = false
-    }
+    return () => (mounted = false)
   }, [])
 
-  const paraglideHighlights = activityData?.paraglideHighlights || []
-  const flightPackages = activityData?.flightPackages || []
-  const flightMoments = activityData?.flightMoments || []
-  const flightGear = activityData?.flightGear || []
-  const flightPhases = activityData?.flightPhases || []
-
   if (isLoading) {
-    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Loading activity...</div>
+    return (
+      <div className="min-h-[60vh] grid place-items-center font-semibold text-[#10263b]">
+        Loading activity...
+      </div>
+    )
   }
 
   if (!activityData) {
-    return <div style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', color: '#10263b', fontWeight: 600 }}>Unable to load paragliding details.</div>
+    return (
+      <div className="min-h-[60vh] grid place-items-center font-semibold text-[#10263b]">
+        Unable to load paragliding details.
+      </div>
+    )
   }
 
+  const {
+    paraglideHighlights = [],
+    flightPackages = [],
+    flightMoments = [],
+    flightGear = [],
+    flightPhases = [],
+  } = activityData
+
   return (
-    <div style={createPageShellStyle('#f8fbff')}>
-      <style>{`
-        .paraglide-glow {
-          animation: paraglideFloat 6s ease-in-out infinite;
-        }
+    <div className="bg-[#f8fbff]">
 
-        .paraglide-fade {
-          opacity: 0;
-          transform: translateY(16px);
-          animation: paraglideFade 650ms ease forwards;
-        }
+      {/* HERO */}
+      <section className="relative overflow-hidden text-white py-20 px-6 bg-linear-to-br from-[#0a1929] via-[#1e5a8e] to-[#3b8bc9]">
 
-        .paraglide-fade.delay-1 { animation-delay: 100ms; }
-        .paraglide-fade.delay-2 { animation-delay: 220ms; }
-        .paraglide-fade.delay-3 { animation-delay: 340ms; }
+        <div className="absolute w-72 h-72 -right-24 -top-20 rounded-full bg-[radial-gradient(circle,rgba(100,200,255,0.44),transparent)] animate-pulse"></div>
+        <div className="absolute w-72 h-72 -left-24 -bottom-24 rounded-full bg-[radial-gradient(circle,rgba(200,220,255,0.34),transparent)]"></div>
 
-        .paraglide-card {
-          transition: transform 220ms ease, box-shadow 220ms ease;
-        }
-
-        .paraglide-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 18px 38px rgba(12, 30, 55, 0.12) !important;
-        }
-
-        @keyframes paraglideFloat {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-
-        @keyframes paraglideFade {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (max-width: 980px) {
-          .paraglide-grid,
-          .paraglide-hero-grid {
-            grid-template-columns: 1fr !important;
-          }
-
-          .paraglide-title {
-            font-size: 38px !important;
-          }
-        }
-      `}</style>
-
-      <section
-        style={{
-          background: 'linear-gradient(135deg, #0a1929 0%, #1e5a8e 52%, #3b8bc9 100%)',
-          color: '#fff',
-          padding: '74px 24px 84px',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <div
-          className="paraglide-glow"
-          style={{
-            position: 'absolute',
-            right: '-100px',
-            top: '-80px',
-            width: '280px',
-            height: '280px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(100, 200, 255, 0.44) 0%, rgba(100, 200, 255, 0) 72%)'
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            left: '-90px',
-            bottom: '-90px',
-            width: '300px',
-            height: '300px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(200, 220, 255, 0.34) 0%, rgba(200, 220, 255, 0) 72%)'
-          }}
-        />
-
-        <div style={maxWidthContainerStyle}>
+        <div className="max-w-6xl mx-auto relative">
           <button
-            type="button"
             onClick={() => navigate('/')}
-            style={{ ...backButtonStyle, marginBottom: '26px' }}
+            className="mb-6 text-sm font-semibold text-white/80 hover:text-white"
           >
-            Back to Home
+            ← Back to Home
           </button>
 
-          <div className="paraglide-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.18fr 0.82fr', gap: '28px', alignItems: 'center' }}>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <p className="paraglide-fade" style={{ letterSpacing: '1.8px', fontSize: '12px', marginBottom: '14px', color: '#a8d5ff' }}>
+              <p className="text-xs tracking-widest text-[#a8d5ff] mb-3">
                 KASHMIR PARAGLIDING
               </p>
-              <h1 className="paraglide-title paraglide-fade delay-1" style={{ fontSize: '58px', lineHeight: 1.08, margin: '0 0 18px', maxWidth: '720px' }}>
-                Soar Above the Himalayas with World-Class Pilots and Unforgettable Thrills
+
+              <h1 className="text-3xl md:text-5xl font-bold mb-4">
+                Soar Above the Himalayas with World-Class Pilots
               </h1>
-              <p className="paraglide-fade delay-2" style={{ fontSize: '17px', lineHeight: 1.75, color: '#d8edf8', maxWidth: '660px', marginBottom: '28px' }}>
-                Experience Kashmir's most stunning aerial view—tandem paragliding for every confidence level, with safety gear, thermal training, and cinematic footage of your adventure.
+
+              <p className="text-[#d8edf8] mb-6">
+                Experience Kashmir's most stunning aerial view with safe tandem paragliding.
               </p>
 
-              <div className="paraglide-fade delay-3" style={heroActionRowStyle}>
+              <div className="flex gap-4 flex-wrap">
                 <button
-                  type="button"
                   onClick={() => navigate('/alltrips')}
-                  style={createPrimaryButtonStyle('#ffd79d', '#13263b')}
+                  className="bg-[#ffd79d] text-[#13263b] px-5 py-3 rounded-lg font-semibold"
                 >
                   View Kashmir Trips
                 </button>
+
                 <button
-                  type="button"
                   onClick={() => navigate('/services/group-tour')}
-                  style={transparentCtaButtonStyle}
+                  className="border border-white/40 px-5 py-3 rounded-lg font-semibold"
                 >
                   Plan Group Adventure
                 </button>
               </div>
             </div>
 
-            <div
-              className="paraglide-fade delay-2"
-              style={{
-                borderRadius: '22px',
-                background: 'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
-                border: '1px solid rgba(255,255,255,0.22)',
-                padding: '20px',
-                backdropFilter: 'blur(4px)',
-                boxShadow: '0 18px 40px rgba(0, 0, 0, 0.14)'
-              }}
-            >
+            <div className="bg-white/10 border border-white/20 rounded-2xl p-5 backdrop-blur shadow-lg">
               <img
                 src="https://picsum.photos/id/10/1200/800"
-                alt="Paragliding over mountain peaks"
-                style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '16px', display: 'block', marginBottom: '16px' }}
+                className="w-full h-72 object-cover rounded-xl mb-4"
+                alt=""
               />
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '10px' }}>
+
+              <div className="grid grid-cols-3 gap-3">
                 {flightMoments.map((item) => (
-                  <div key={item.label} style={{ background: 'rgba(255,255,255,0.08)', borderRadius: '14px', padding: '12px' }}>
-                    <p style={{ margin: '0 0 6px', color: '#a8d5ff', fontSize: '11px', letterSpacing: '1px', fontWeight: 700 }}>{item.label}</p>
-                    <p style={{ margin: 0, color: '#f7fcff', fontSize: '13px', lineHeight: 1.5 }}>{item.value}</p>
+                  <div key={item.label} className="bg-white/10 rounded-lg p-3">
+                    <p className="text-xs text-[#a8d5ff] font-bold">{item.label}</p>
+                    <p className="text-xs">{item.value}</p>
                   </div>
                 ))}
               </div>
@@ -203,127 +117,68 @@ export default function ParaGliding() {
         </div>
       </section>
 
-      <section style={{ maxWidth: '1150px', margin: '0 auto', padding: '54px 24px 72px' }}>
-        <div className="paraglide-grid" style={{ display: 'grid', gridTemplateColumns: '1.02fr 0.98fr', gap: '22px', alignItems: 'start' }}>
-          <div>
-            <div style={{ marginBottom: '22px' }}>
-              <p style={{ color: '#1e5a8e', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-                WHY PARAGLIDE IN KASHMIR
-              </p>
-              <h2 style={{ margin: 0, fontSize: '34px', color: '#10263b' }}>An epic aerial adventure with certified pilots and world-class views</h2>
-            </div>
+      {/* HIGHLIGHTS */}
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-6">
+        <div>
+          <p className="text-xs text-[#1e5a8e] font-bold mb-2">WHY PARAGLIDE</p>
+          <h2 className="text-2xl font-bold text-[#10263b] mb-4">
+            Aerial adventure with certified pilots
+          </h2>
 
-            <div className="paraglide-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '16px' }}>
-              {paraglideHighlights.map((item) => (
-                <article
-                  key={item.title}
-                  className="paraglide-card"
-                  style={{ background: '#fff', borderRadius: '16px', border: '1px solid #dfeaf1', boxShadow: '0 14px 32px rgba(10, 35, 58, 0.08)', padding: '18px' }}
-                >
-                  <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: 'linear-gradient(135deg, #1e5a8e, #3b8bc9)', marginBottom: '14px' }} />
-                  <h3 style={{ margin: '0 0 8px', fontSize: '18px', color: '#12304c' }}>{item.title}</h3>
-                  <p style={{ margin: 0, color: '#51667a', fontSize: '14px', lineHeight: 1.7 }}>{item.detail}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <aside
-            style={{
-              background: 'linear-gradient(180deg, #ffffff 0%, #f4fbff 100%)',
-              borderRadius: '20px',
-              border: '1px solid #dce9f2',
-              boxShadow: '0 16px 36px rgba(10, 35, 58, 0.08)',
-              padding: '22px'
-            }}
-          >
-            <p style={{ color: '#1e5a8e', letterSpacing: '1.2px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              FLIGHT SAFETY PACKAGE
-            </p>
-            <h3 style={{ margin: '0 0 18px', fontSize: '24px', color: '#10263b' }}>Complete paragliding setup with backup systems</h3>
-
-            {flightGear.map((item) => (
-              <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '14px' }}>
-                <span style={{ color: '#1e5a8e', marginTop: '2px' }}>-</span>
-                <p style={{ margin: 0, color: '#486074', fontSize: '14px', lineHeight: 1.6 }}>{item}</p>
+          <div className="grid md:grid-cols-3 gap-4">
+            {paraglideHighlights.map((item) => (
+              <div key={item.title} className="bg-white p-4 rounded-xl shadow hover:-translate-y-1 transition">
+                <div className="w-10 h-10 bg-linear-to-br from-[#1e5a8e] to-[#3b8bc9] rounded-lg mb-3"></div>
+                <h3 className="font-semibold">{item.title}</h3>
+                <p className="text-sm text-gray-600">{item.detail}</p>
               </div>
             ))}
+          </div>
+        </div>
 
-            <div style={{ marginTop: '20px', paddingTop: '18px', borderTop: '1px solid #e4eef5' }}>
-              <p style={{ margin: '0 0 8px', fontSize: '13px', color: '#6b859b', fontWeight: 700 }}>Perfect add-on to</p>
-              <p style={{ margin: 0, color: '#10263b', fontSize: '15px', lineHeight: 1.7 }}>
-                A Srinagar base with multi-day adventure packages or Gulmarg alpine experiences.
-              </p>
-            </div>
-          </aside>
+        <div className="bg-white rounded-xl p-6 shadow">
+          <h3 className="text-lg font-semibold mb-4">Flight Safety Package</h3>
+          {flightGear.map((item) => (
+            <p key={item} className="text-sm text-gray-600 mb-2">• {item}</p>
+          ))}
         </div>
       </section>
 
-      <section style={{ background: '#eef7fc', padding: '10px 24px 72px' }}>
-        <div style={{ maxWidth: '1150px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-            <p style={{ color: '#1e5a8e', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              FLIGHT PACKAGES
-            </p>
-            <h2 style={{ margin: 0, fontSize: '34px', color: '#10263b' }}>Choose your flight duration and intensity</h2>
+      {/* PACKAGES */}
+      <section className="bg-[#eef7fc] py-14 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-[#10263b]">
+              Flight Packages
+            </h2>
           </div>
 
-          <div className="paraglide-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
-            {flightPackages.map((item, index) => {
-              const pickText = (...values) => {
-                for (const value of values) {
-                  if (typeof value === 'number') return String(value)
-                  if (typeof value !== 'string') continue
-                  const text = value.replace(/[\u200B-\u200D\uFEFF]/g, '').trim()
-                  if (text) return text
-                }
-                return ''
-              }
-
-              const timeText = pickText(
-                item.time,
-                item.duration,
-                item.height,
-                item.type,
-                item.level,
-                item.distance,
-                item.route,
-                'Time details available on request'
-              )
-              const titleText = pickText(
-                item.title,
-                item.name,
-                item.type,
-                item.level,
-                item.package,
-                'Flight Package'
-              )
-              const descriptionText = pickText(
-                item.description,
-                item.note,
-                item.detail,
-                item.height,
-                item.duration,
-                item.grade,
-                item.route,
-                'Package details available'
-              )
-
-              return (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {flightPackages.map((item, index) => (
               <div
-                key={`${item.title || item.name || item.time || item.type || 'flight-package'}-${index}`}
-                className="paraglide-card"
-                style={{ background: '#fff', borderRadius: '18px', border: '1px solid #d8e6ef', boxShadow: '0 12px 28px rgba(10, 35, 58, 0.07)', padding: '20px' }}
+                key={index}
+                className="bg-white rounded-xl border border-blue-100 shadow p-5"
               >
-                <p style={{ margin: '0 0 10px', color: '#1e5a8e', letterSpacing: '0.8px', fontSize: '12px', fontWeight: 700 }}>{timeText}</p>
-                <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#10263b' }}>{titleText}</h3>
-                <p style={{ margin: '0 0 18px', color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{descriptionText}</p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{item.price || 'On Request'}</span>
+                <p className="text-xs text-[#1e5a8e] font-bold mb-2">
+                  {item.time || item.duration || "Details"}
+                </p>
+
+                <h3 className="text-lg font-semibold mb-2">
+                  {item.title || item.name || "Flight Package"}
+                </h3>
+
+                <p className="text-sm text-gray-600 mb-4">
+                  {item.description || item.note || "Package details"}
+                </p>
+
+                <div className="flex justify-between items-center">
+                  <span className="font-bold text-lg">
+                    {item.price || "On Request"}
+                  </span>
+
                   <button
-                    type="button"
                     onClick={() => navigate('/services/hotel-booking')}
-                    style={{ ...createPrimaryButtonStyle('#1e5a8e', '#fff'), padding: '10px 14px' }}
+                    className="bg-[#1e5a8e] text-white px-4 py-2 rounded-md hover:bg-[#17496f]"
                   >
                     Reserve
                   </button>
@@ -335,60 +190,49 @@ export default function ParaGliding() {
         </div>
       </section>
 
-      <section style={{ maxWidth: '1150px', margin: '0 auto', padding: '56px 24px 72px' }}>
-        <div className="paraglide-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', alignItems: 'start' }}>
-          <div>
-            <p style={{ color: '#1e5a8e', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
-              FLIGHT FLOW
-            </p>
-            <h2 style={{ margin: '0 0 14px', fontSize: '32px', color: '#10263b' }}>From launch to landing in three thrilling steps</h2>
+      {/* FLOW */}
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-6">
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Flight Flow</h2>
 
-            <div style={{ display: 'grid', gap: '14px' }}>
-              {flightPhases.map((item) => (
-                <div key={item.step} style={{ background: '#fff', borderRadius: '16px', border: '1px solid #d9e6ef', padding: '16px' }}>
-                  <p style={{ margin: '0 0 6px', color: '#1e5a8e', fontSize: '12px', fontWeight: 800, letterSpacing: '1px' }}>{item.step}</p>
-                  <h3 style={{ margin: '0 0 8px', fontSize: '20px', color: '#10263b' }}>{item.title}</h3>
-                  <p style={{ margin: 0, color: '#4f667a', fontSize: '14px', lineHeight: 1.7 }}>{item.desc}</p>
-                </div>
-              ))}
+          {flightPhases.map((item) => (
+            <div key={item.step} className="bg-white p-4 rounded-xl shadow mb-3">
+              <p className="text-xs font-bold text-[#1e5a8e]">{item.step}</p>
+              <h3 className="font-semibold">{item.title}</h3>
+              <p className="text-sm text-gray-600">{item.desc}</p>
             </div>
-          </div>
+          ))}
+        </div>
 
-          <div
-            style={{
-              background: 'linear-gradient(135deg, #10263b 0%, #1e5a8e 55%, #3b8bc9 100%)',
-              borderRadius: '22px',
-              padding: '24px',
-              color: '#fff',
-              boxShadow: '0 18px 40px rgba(8, 45, 71, 0.16)'
-            }}
-          >
-            <img
-              src="https://picsum.photos/id/10/1200/800"
-              alt="Mountain landscape from aerial view"
-              style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '16px', marginBottom: '18px', display: 'block' }}
-            />
-            <p style={{ margin: '0 0 8px', color: '#a8d5ff', letterSpacing: '1px', fontSize: '12px', fontWeight: 700 }}>READY TO TAKE FLIGHT</p>
-            <h3 style={{ margin: '0 0 12px', fontSize: '24px' }}>Paragliding with a full Kashmir adventure plan</h3>
-            <p style={{ margin: '0 0 18px', color: '#d8edf8', fontSize: '14px', lineHeight: 1.8 }}>
-              Choose your flight time, pair it with Gulmarg or Pahalgam stays, and combine with other aerial activities or mountain tours.
-            </p>
-            <div style={heroActionRowStyle}>
-              <button
-                type="button"
-                onClick={() => navigate('/alltrips')}
-                style={createPrimaryButtonStyle('#ffd79d', '#13263b')}
-              >
-                Explore More Trips
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/services/group-tour')}
-                style={transparentCtaButtonStyle}
-              >
-                Build Group Plan
-              </button>
-            </div>
+        <div className="bg-linear-to-br from-[#10263b] via-[#1e5a8e] to-[#3b8bc9] text-white rounded-2xl p-6">
+          <img
+            src="https://picsum.photos/id/10/1200/800"
+            className="rounded-xl mb-4 h-64 w-full object-cover"
+            alt=""
+          />
+
+          <h3 className="text-xl font-semibold mb-2">
+            Ready to Take Flight?
+          </h3>
+
+          <p className="text-sm mb-4">
+            Combine paragliding with your Kashmir trip.
+          </p>
+
+          <div className="flex gap-3">
+            <button
+              onClick={() => navigate('/alltrips')}
+              className="bg-[#ffd79d] text-[#13263b] px-4 py-2 rounded"
+            >
+              Explore Trips
+            </button>
+
+            <button
+              onClick={() => navigate('/services/group-tour')}
+              className="border border-white px-4 py-2 rounded"
+            >
+              Group Plan
+            </button>
           </div>
         </div>
       </section>

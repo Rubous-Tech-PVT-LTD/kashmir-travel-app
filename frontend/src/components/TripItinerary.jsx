@@ -36,7 +36,7 @@ export default function TripItinerary({ tripData }) {
             {/* Day Header */}
             <div
               onClick={() => toggleDay(index)}
-              className={`flex cursor-pointer items-center justify-between px-5 py-[18px] transition-colors ${expandedDay === index ? 'bg-slate-50' : 'bg-white'}`}
+              className={`flex cursor-pointer items-center justify-between px-5 py-4.5 transition-colors ${expandedDay === index ? 'bg-slate-50' : 'bg-white'}`}
             >
               <div className="flex flex-1 items-center gap-3.5">
                 <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-emerald-100 text-base font-bold text-emerald-700">
@@ -58,7 +58,7 @@ export default function TripItinerary({ tripData }) {
 
             {/* Day Details */}
             {expandedDay === index && (
-              <div className="border-t border-slate-200 bg-white px-5 py-[18px]">
+              <div className="border-t border-slate-200 bg-white px-5 py-4.5">
                 {/* Activities */}
                 {day.activities && day.activities.length > 0 && (
                   <div className="mb-5">

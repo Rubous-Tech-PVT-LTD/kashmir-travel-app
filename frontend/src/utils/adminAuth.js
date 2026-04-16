@@ -14,6 +14,7 @@ export const loginAdmin = async (username, password) => {
 
     return { success: true, message: response.message || 'Admin login successful' }
   } catch (error) {
+    console.error('loginAdmin: Error:', error)
     return { success: false, message: error.message || 'Unable to login admin' }
   }
 }
@@ -21,8 +22,17 @@ export const loginAdmin = async (username, password) => {
 export const validateAdminSession = async () => {
   try {
     const response = await adminAPI.me()
-    return Boolean(response?.success)
+    const isValid = Boolean(response?.success)
+    if (!isValid) {
+      console.warn('validateAdminSession: Server returned success: false', response)
+    }
+    return isValid
   } catch (error) {
+    console.error('validateAdminSession: Error fetching session:', {
+      message: error.message,
+      status: error.status,
+      data: error.data
+    })
     return false
   }
 }
@@ -31,6 +41,7 @@ export const logoutAdmin = async () => {
   try {
     await adminAPI.logout()
   } catch (error) {
+    console.error('logoutAdmin: Error:', error)
     // Ignore logout failures so UI can still redirect to login.
   }
 }

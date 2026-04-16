@@ -73,7 +73,6 @@ const PopUp_Form = () => {
             window.open(`https://wa.me/${inquiryNumber}?text=${message}`, '_blank');
             setIsVisible(false);
         } catch (error) {
-            console.error('Error saving inquiry:', error);
             // Fallback: Still try to open WhatsApp even if DB save fails
             const inquiryNumber = "916005888754";
             const message = encodeURIComponent(`Hi, I'm interested in a travel plan. My name is ${formData.name}.`);
@@ -87,7 +86,7 @@ const PopUp_Form = () => {
     if (!isVisible) return null;
 
     return (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md transition-opacity duration-500 opacity-100">
+        <div className="fixed inset-0 z-9999 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md transition-opacity duration-500 opacity-100">
             <div className="relative w-full max-w-md overflow-hidden bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 transition-transform duration-300 scale-100">
                 
                 {/* Decorative Background Element */}

@@ -123,7 +123,6 @@ export default function AdminPanel() {
       }
     } catch (err) {
       setError('Error connecting to server: ' + err.message)
-      console.error(err)
     } finally {
       setLoading(false)
     }
@@ -140,7 +139,6 @@ export default function AdminPanel() {
         setError(data.message || 'Failed to load reviews')
       }
     } catch (err) {
-      console.error('Error fetching reviews:', err)
       setReviews([])
       setError('Error fetching reviews: ' + err.message)
     }
@@ -155,7 +153,6 @@ export default function AdminPanel() {
         setError(data.message || 'Failed to load settings')
       }
     } catch (err) {
-      console.error('Error fetching settings:', err)
       setError('Error fetching settings: ' + err.message)
     }
   }
@@ -492,7 +489,7 @@ export default function AdminPanel() {
       {/* Mobile Header with Hamburger Menu */}
       <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 text-white text-sm font-black">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 text-white text-sm font-black">
             K
           </div>
         </div>
@@ -532,7 +529,7 @@ export default function AdminPanel() {
 
             <div className="mb-10">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 text-white text-lg font-black">
+                <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-linear-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20 text-white text-lg font-black">
                   K
                 </div>
                 <div>
@@ -670,7 +667,7 @@ export default function AdminPanel() {
               )}
 
               {activeTab === 'itineraries' && (
-                <div className="min-h-[400px]">
+                <div className="min-h-100">
                   <ItinerariesTab
                     itineraries={itineraries}
                     showNewItineraryForm={showNewItineraryForm}
@@ -694,7 +691,7 @@ export default function AdminPanel() {
               )}
 
               {activeTab === 'reviews' && (
-                <div className="min-h-[400px]">
+                <div className="min-h-100">
                   <ReviewsTab
                     reviews={reviews}
                     itineraries={itineraries}
@@ -716,7 +713,7 @@ export default function AdminPanel() {
               )}
 
               {activeTab === 'settings' && (
-                <div className="min-h-[400px]">
+                <div className="min-h-100">
                   <SettingsTab
                     settings={settings}
                     addHeroImageUrl={addHeroImageUrl}
@@ -728,13 +725,7 @@ export default function AdminPanel() {
                 </div>
               )}
 
-              {/* Fallback content for debugging */}
-              {!['dashboard', 'itineraries', 'reviews', 'settings'].includes(activeTab) && (
-                <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-                  <h3 className="text-2xl font-bold text-slate-900">Tab: {activeTab}</h3>
-                  <p className="mt-3 text-slate-600">This tab content is not yet implemented.</p>
-                </div>
-              )}
+
             </div>
           </div>
         </main>

@@ -1,214 +1,181 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '../shared/Footer'
-import {
-  backButtonStyle,
-  createPageShellStyle,
-  createPrimaryButtonStyle,
-  heroActionRowStyle,
-  maxWidthContainerStyle,
-  transparentCtaButtonStyle
-} from '../ui/servicePageStyles'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../shared/Footer";
 
 const groupHighlights = [
   {
-    title: 'Smooth Group Logistics',
-    detail: 'Coordinated transport, rooming plans, and timings that keep large groups stress free.'
+    title: "Smooth Group Logistics",
+    detail:
+      "Coordinated transport, rooming plans, and timings that keep large groups stress free.",
   },
   {
-    title: 'Shared Adventure Moments',
-    detail: 'From gondola rides to valley camps, every day is planned for fun and bonding.'
+    title: "Shared Adventure Moments",
+    detail:
+      "From gondola rides to valley camps, every day is planned for fun and bonding.",
   },
   {
-    title: 'Custom Budget Bands',
-    detail: 'Student squads, corporate teams, or family circles - choose a package that fits your group.'
-  }
-]
+    title: "Custom Budget Bands",
+    detail:
+      "Student squads, corporate teams, or family circles - choose a package that fits your group.",
+  },
+];
 
 const groupPlan = [
-  { day: 'Day 1', title: 'Srinagar Group Arrival', desc: 'Airport pickup, welcome briefing, room allocation, and Dal Lake evening cruise.' },
-  { day: 'Day 2', title: 'Gulmarg Adventure Day', desc: 'Gondola phases, snow activities, and team challenge moments with guided support.' },
-  { day: 'Day 3', title: 'Pahalgam Escape', desc: 'Riverside leisure, optional horse rides, picnic setup, and bonfire-style gathering.' },
-  { day: 'Day 4', title: 'Culture and Departure', desc: 'Handicraft walk, local tasting trail, group photos, and coordinated airport drops.' }
-]
+  {
+    day: "Day 1",
+    title: "Srinagar Group Arrival",
+    desc:
+      "Airport pickup, welcome briefing, room allocation, and Dal Lake evening cruise.",
+  },
+  {
+    day: "Day 2",
+    title: "Gulmarg Adventure Day",
+    desc:
+      "Gondola phases, snow activities, and team challenge moments with guided support.",
+  },
+  {
+    day: "Day 3",
+    title: "Pahalgam Escape",
+    desc:
+      "Riverside leisure, optional horse rides, picnic setup, and bonfire-style gathering.",
+  },
+  {
+    day: "Day 4",
+    title: "Culture and Departure",
+    desc:
+      "Handicraft walk, local tasting trail, group photos, and coordinated airport drops.",
+  },
+];
 
 export default function GroupTour() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
-    <div style={createPageShellStyle('#f8fbff')}>
+    <div className="bg-[#f8fbff]">
+      {/* Animations */}
       <style>{`
-        .group-orb {
-          animation: groupFloat 6.2s ease-in-out infinite;
-        }
+        .group-orb { animation: float 6s ease-in-out infinite; }
+        .fade-up { opacity: 0; transform: translateY(16px); animation: fade 650ms ease forwards; }
+        .delay-1 { animation-delay: 110ms; }
+        .delay-2 { animation-delay: 220ms; }
+        .delay-3 { animation-delay: 330ms; }
 
-        .group-reveal {
-          opacity: 0;
-          transform: translateY(16px);
-          animation: groupReveal 650ms ease forwards;
-        }
-
-        .group-reveal.delay-1 { animation-delay: 110ms; }
-        .group-reveal.delay-2 { animation-delay: 220ms; }
-        .group-reveal.delay-3 { animation-delay: 330ms; }
-
-        @keyframes groupFloat {
-          0%, 100% { transform: translateY(0); }
+        @keyframes float {
+          0%,100% { transform: translateY(0); }
           50% { transform: translateY(-12px); }
         }
 
-        @keyframes groupReveal {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (max-width: 980px) {
-          .group-grid {
-            grid-template-columns: 1fr !important;
-          }
-
-          .group-title {
-            font-size: 36px !important;
-          }
+        @keyframes fade {
+          to { opacity:1; transform:translateY(0); }
         }
       `}</style>
 
-      <section
-        style={{
-          background: 'linear-gradient(140deg, #13213b 0%, #3b2a78 45%, #5d47d8 100%)',
-          color: '#fff',
-          padding: '76px 24px 86px',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <div
-          className="group-orb"
-          style={{
-            position: 'absolute',
-            left: '-90px',
-            top: '-85px',
-            width: '270px',
-            height: '270px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(167,139,250,0.48) 0%, rgba(167,139,250,0) 72%)'
-          }}
-        />
+      {/* HERO */}
+      <section className="relative overflow-hidden bg-linear-to-br from-[#13213b] via-[#3b2a78] to-[#5d47d8] text-white px-6 py-20">
+        
+        {/* Glow Orbs */}
+        <div className="group-orb absolute -left-24 -top-20 w-67.5 h-67.5 rounded-full bg-[radial-gradient(circle,rgba(167,139,250,0.5)_0%,transparent_70%)]" />
+        <div className="absolute -right-20 -bottom-24 w-75 h-75 rounded-full bg-[radial-gradient(circle,rgba(196,181,253,0.4)_0%,transparent_70%)]" />
 
-        <div
-          style={{
-            position: 'absolute',
-            right: '-80px',
-            bottom: '-95px',
-            width: '300px',
-            height: '300px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(196,181,253,0.36) 0%, rgba(196,181,253,0) 72%)'
-          }}
-        />
-
-        <div style={maxWidthContainerStyle}>
+        <div className="max-w-6xl mx-auto">
+          
+          {/* Back Button */}
           <button
-            type="button"
-            onClick={() => navigate('/')}
-            style={backButtonStyle}
+            onClick={() => navigate("/")}
+            className="mb-6 px-4 py-2 border border-white/40 rounded-md hover:bg-white/10 transition"
           >
             ← Back to Home
           </button>
 
-          <div className="group-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '30px', alignItems: 'center' }}>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            
+            {/* LEFT */}
             <div>
-              <p className="group-reveal" style={{ letterSpacing: '1.8px', fontSize: '12px', marginBottom: '14px', color: '#ddd6fe' }}>
+              <p className="fade-up text-xs tracking-widest text-purple-200 mb-3">
                 GROUP JOURNEY EDITION
               </p>
 
-              <h1 className="group-title group-reveal delay-1" style={{ fontSize: '54px', lineHeight: 1.1, margin: '0 0 18px', maxWidth: '670px' }}>
+              <h1 className="fade-up delay-1 text-3xl md:text-5xl leading-tight mb-4 max-w-xl">
                 Group Tour Built for Shared Adventures, Easy Planning, and Big Memories
               </h1>
 
-              <p className="group-reveal delay-2" style={{ fontSize: '17px', lineHeight: 1.7, color: '#e9e5ff', maxWidth: '640px', marginBottom: '30px' }}>
-                Perfect for friends, office teams, student circles, and extended families. We handle transport, stay coordination,
-                activity timing, and group-friendly experiences so your trip runs smooth from start to finish.
+              <p className="fade-up delay-2 text-purple-100 mb-6 leading-relaxed max-w-xl">
+                Perfect for friends, office teams, student circles, and extended families.
+                We handle transport, stay coordination, activity timing, and group-friendly experiences.
               </p>
 
-              <div className="group-reveal delay-3" style={heroActionRowStyle}>
+              <div className="fade-up delay-3 flex gap-4 flex-wrap">
                 <button
-                  type="button"
-                  onClick={() => navigate('/alltrips?category=group-tour')}
-                  style={createPrimaryButtonStyle('#ddd6fe', '#2f236f')}
+                  onClick={() => navigate("/alltrips?category=group-tour")}
+                  className="bg-[#ddd6fe] text-[#2f236f] px-5 py-3 rounded-lg font-semibold"
                 >
                   Browse Group Tour
                 </button>
 
-                <button
-                  type="button"
-                  style={transparentCtaButtonStyle}
-                >
+                <button className="border border-white/40 px-5 py-3 rounded-lg hover:bg-white/10">
                   Get Group Quote
                 </button>
               </div>
             </div>
 
-            <div
-              className="group-reveal delay-2"
-              style={{
-                borderRadius: '18px',
-                background: 'linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.1) 100%)',
-                border: '1px solid rgba(255,255,255,0.4)',
-                backdropFilter: 'blur(2px)',
-                padding: '22px'
-              }}
-            >
-              <h3 style={{ margin: '0 0 14px', fontSize: '20px' }}>Why Groups Choose Us</h3>
+            {/* RIGHT CARD */}
+            <div className="fade-up delay-2 bg-white/10 border border-white/30 rounded-xl p-5 backdrop-blur">
+              <h3 className="text-lg mb-4">Why Groups Choose Us</h3>
+
               {groupHighlights.map((item) => (
-                <div key={item.title} style={{ marginBottom: '14px', paddingBottom: '12px', borderBottom: '1px solid rgba(255,255,255,0.16)' }}>
-                  <p style={{ margin: '0 0 6px', fontSize: '15px', fontWeight: 700 }}>{item.title}</p>
-                  <p style={{ margin: 0, color: '#e9e5ff', fontSize: '13px', lineHeight: 1.6 }}>{item.detail}</p>
+                <div
+                  key={item.title}
+                  className="mb-4 pb-3 border-b border-white/20"
+                >
+                  <p className="font-semibold text-sm mb-1">
+                    {item.title}
+                  </p>
+                  <p className="text-sm text-purple-100 leading-relaxed">
+                    {item.detail}
+                  </p>
                 </div>
               ))}
             </div>
+
           </div>
         </div>
       </section>
 
-      <section style={{ maxWidth: '1150px', margin: '0 auto', padding: '54px 24px 74px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-          <p style={{ color: '#5b4bc4', letterSpacing: '1.4px', fontSize: '12px', marginBottom: '10px', fontWeight: 700 }}>
+      {/* ITINERARY */}
+      <section className="max-w-6xl mx-auto px-6 py-14">
+        
+        <div className="text-center mb-8">
+          <p className="text-xs font-bold tracking-widest text-[#5b4bc4] mb-2">
             SAMPLE GROUP FLOW
           </p>
-          <h2 style={{ fontSize: '34px', margin: 0, color: '#1f2a56' }}>4-Day Group Itinerary</h2>
+          <h2 className="text-2xl md:text-3xl text-[#1f2a56]">
+            4-Day Group Itinerary
+          </h2>
         </div>
 
-        <div className="group-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '18px' }}>
+        <div className="grid md:grid-cols-2 gap-5">
           {groupPlan.map((plan, index) => (
             <div
               key={plan.day}
-              style={{
-                background: '#fff',
-                borderRadius: '14px',
-                border: '1px solid #e4e6fb',
-                boxShadow: '0 16px 34px rgba(44, 35, 111, 0.11)',
-                padding: '18px'
-              }}
+              className="bg-white rounded-xl border border-[#e4e6fb] shadow-md p-5"
             >
               <span
-                style={{
-                  display: 'inline-block',
-                  padding: '6px 10px',
-                  borderRadius: '8px',
-                  background: index % 2 === 0 ? '#ddd6fe' : '#dbeafe',
-                  color: '#2f236f',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  marginBottom: '10px'
-                }}
+                className={`inline-block px-3 py-1 rounded-md text-xs font-bold mb-3 ${
+                  index % 2 === 0
+                    ? "bg-[#ddd6fe] text-[#2f236f]"
+                    : "bg-blue-100 text-[#2f236f]"
+                }`}
               >
                 {plan.day}
               </span>
-              <h3 style={{ margin: '0 0 8px', fontSize: '21px', color: '#1f2a56' }}>{plan.title}</h3>
-              <p style={{ margin: 0, color: '#4b5563', fontSize: '14px', lineHeight: 1.7 }}>{plan.desc}</p>
+
+              <h3 className="text-lg font-semibold mb-2 text-[#1f2a56]">
+                {plan.title}
+              </h3>
+
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {plan.desc}
+              </p>
             </div>
           ))}
         </div>
@@ -216,5 +183,5 @@ export default function GroupTour() {
 
       <Footer />
     </div>
-  )
+  );
 }

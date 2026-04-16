@@ -2,26 +2,6 @@ import { Link } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
 
-const sectionStyle = {
-  maxWidth: '1100px',
-  margin: '0 auto',
-  padding: '72px 24px 56px',
-}
-
-const cardStyle = {
-  background: '#fff',
-  borderRadius: '20px',
-  boxShadow: '0 20px 60px rgba(15, 23, 42, 0.08)',
-  border: '1px solid #e5e7eb',
-  padding: '32px',
-}
-
-const linkStyle = {
-  color: '#0f172a',
-  textDecoration: 'none',
-  fontWeight: '600',
-}
-
 const routeGroups = [
   {
     title: 'Core Pages',
@@ -53,26 +33,43 @@ const routeGroups = [
 
 export default function Sitemap() {
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+    <div className="min-h-screen bg-slate-50">
       <Navbar />
-      <main style={sectionStyle}>
-        <div style={{ marginBottom: '28px' }}>
-          <p style={{ color: '#3dba8f', fontSize: '12px', fontWeight: '700', letterSpacing: '1.4px', textTransform: 'uppercase', marginBottom: '10px' }}>
+
+      <main className="max-w-6xl mx-auto px-6 py-16">
+        {/* Header */}
+        <div className="mb-8">
+          <p className="text-emerald-500 text-xs font-bold tracking-widest uppercase mb-2">
             Site Map
           </p>
-          <h1 style={{ fontSize: '44px', lineHeight: 1.05, color: '#0f172a', margin: '0 0 12px' }}>Find what you need</h1>
-          <p style={{ color: '#64748b', fontSize: '16px', maxWidth: '760px', lineHeight: 1.7, margin: 0 }}>
+
+          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-3 leading-tight">
+            Find what you need
+          </h1>
+
+          <p className="text-slate-500 text-base max-w-2xl leading-7">
             Use this directory to jump to the main pages, service routes, and legal pages in the travel app.
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
+        {/* Grid */}
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {routeGroups.map((group) => (
-            <section key={group.title} style={cardStyle}>
-              <h2 style={{ fontSize: '22px', color: '#0f172a', margin: '0 0 16px' }}>{group.title}</h2>
-              <div style={{ display: 'grid', gap: '12px' }}>
+            <section
+              key={group.title}
+              className="bg-white border border-slate-200 rounded-2xl shadow-lg p-6 hover:shadow-xl transition"
+            >
+              <h2 className="text-lg font-semibold text-slate-900 mb-4">
+                {group.title}
+              </h2>
+
+              <div className="flex flex-col gap-3">
                 {group.items.map((item) => (
-                  <Link key={item.label} to={item.to} style={linkStyle}>
+                  <Link
+                    key={item.label}
+                    to={item.to}
+                    className="font-semibold text-slate-800 hover:text-emerald-500 transition"
+                  >
                     {item.label}
                   </Link>
                 ))}
@@ -81,6 +78,7 @@ export default function Sitemap() {
           ))}
         </div>
       </main>
+
       <Footer />
     </div>
   )

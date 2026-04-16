@@ -15,15 +15,7 @@ function StarPicker({ value, active, onClick }) {
       type="button"
       onClick={onClick}
       aria-label={`${value} star${value > 1 ? 's' : ''}`}
-      style={{
-        border: 'none',
-        background: 'transparent',
-        padding: 0,
-        cursor: 'pointer',
-        color: active ? '#f97316' : '#d1d5db',
-        display: 'inline-flex',
-        alignItems: 'center',
-      }}
+      className={`inline-flex items-center border-none bg-transparent p-0 cursor-pointer ${active ? 'text-orange-500' : 'text-gray-300'}`}
     >
       <StarIcon width={18} height={18} fill="currentColor" color="currentColor" strokeWidth={1.5} />
     </button>
@@ -55,7 +47,6 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
         setReviews(transformed)
       } catch (err) {
         setError('Failed to load reviews')
-        console.error('Error fetching reviews:', err)
         setReviews([])
       } finally {
         setLoading(false)
@@ -109,96 +100,60 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
       setReviewText('')
       setRating(5)
     } catch (err) {
-      console.error('Error posting review:', err)
       setError('Failed to save review')
     }
   }
 
   return (
-    <section
-      style={{
-        marginTop: 28,
-        borderRadius: 20,
-        background: 'linear-gradient(135deg, #fffaf4 0%, #ffffff 55%, #f8fbff 100%)',
-        border: '1px solid #f3dfc6',
-        boxShadow: '0 18px 44px rgba(15, 23, 42, 0.08)',
-        overflow: 'hidden',
-      }}
-    >
-      <style>{`
-        .daywise-review-grid {
-          display: grid;
-          grid-template-columns: 0.95fr 1.05fr;
-          gap: 18px;
-        }
-
-        .daywise-review-panel {
-          border: 1px solid #f1e3cf;
-          border-radius: 16px;
-          background: #fff;
-        }
-
-        .daywise-review-list {
-          display: grid;
-          gap: 14px;
-          max-height: 500px;
-          overflow: auto;
-          padding-right: 4px;
-        }
-
-        .daywise-review-list::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        .daywise-review-list::-webkit-scrollbar-thumb {
-          background: #f0cfa4;
-          border-radius: 999px;
-        }
-
-        @media (max-width: 980px) {
-          .daywise-review-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
-
-      <div style={{ padding: '22px 22px 0' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+    <section className="mt-7 overflow-hidden rounded-[20px] border border-[#f3dfc6] bg-[linear-gradient(135deg,#fffaf4_0%,#ffffff_55%,#f8fbff_100%)] shadow-[0_18px_44px_rgba(15,23,42,0.08)]">
+      <div className="px-5 pb-0 pt-5 sm:px-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p style={{ margin: '0 0 8px', color: '#f97316', fontSize: 12, fontWeight: 800, letterSpacing: '1.3px', textTransform: 'uppercase' }}>
+            <p className="mb-2 text-xs font-extrabold uppercase tracking-[0.2em] text-orange-500">
               Daywise Reviews
             </p>
-            <h3 style={{ margin: 0, color: '#13213b', fontSize: 24 }}>Traveler feedback for {tripTitle}</h3>
+            <h3 className="m-0 text-2xl text-[#13213b]">Traveler feedback for {tripTitle}</h3>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderRadius: 999, background: '#fff4e8', border: '1px solid #f7d6b1' }}>
-            <span style={{ color: '#13213b', fontWeight: 800, fontSize: 18 }}>{summary.average ? summary.average.toFixed(1) : '0.0'}</span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#f97316' }}>
+          <div className="flex items-center gap-2.5 rounded-full border border-[#f7d6b1] bg-[#fff4e8] px-3.5 py-2.5">
+            <span className="text-lg font-extrabold text-[#13213b]">
+              {summary.average ? summary.average.toFixed(1) : '0.0'}
+            </span>
+            <span className="flex items-center gap-1 text-orange-500">
               {[1, 2, 3, 4, 5].map((star) => (
-                <StarIcon key={star} width={14} height={14} fill={star <= Math.round(summary.average || 0) ? 'currentColor' : 'none'} color="currentColor" strokeWidth={1.6} />
+                <StarIcon
+                  key={star}
+                  width={14}
+                  height={14}
+                  fill={star <= Math.round(summary.average || 0) ? 'currentColor' : 'none'}
+                  color="currentColor"
+                  strokeWidth={1.6}
+                />
               ))}
             </span>
-            <span style={{ color: '#475569', fontSize: 13 }}>({summary.count} reviews)</span>
+            <span className="text-[13px] text-slate-600">({summary.count} reviews)</span>
           </div>
         </div>
       </div>
 
-      <div className="daywise-review-grid" style={{ padding: '22px' }}>
-        <div className="daywise-review-panel" style={{ padding: 18 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-            <div style={{ width: 38, height: 38, borderRadius: 12, background: '#fff1e4', color: '#c2410c', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="grid grid-cols-1 gap-4.5 p-5 sm:p-6 min-[981px]:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+        <div className="rounded-2xl border border-[#f1e3cf] bg-white p-4 sm:p-4.5">
+          <div className="mb-3.5 flex items-center gap-2.5">
+            <div className="flex h-9.5 w-9.5 items-center justify-center rounded-xl bg-[#fff1e4] text-orange-700">
               <MessageSquare width={18} height={18} />
             </div>
             <div>
-              <h4 style={{ margin: 0, color: '#13213b', fontSize: 18 }}>Add a review</h4>
-              <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: 13 }}>This review will be saved to the database for this daywise trip.</p>
+              <h4 className="m-0 text-lg text-[#13213b]">Add a review</h4>
+              <p className="mt-1 mb-0 text-[13px] text-slate-500">
+                This review will be saved to the database for this daywise trip.
+              </p>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 14 }}>
+          <form onSubmit={handleSubmit} className="grid gap-3.5">
             <div>
-              <label style={{ display: 'block', marginBottom: 8, color: '#334155', fontSize: 13, fontWeight: 700 }}>Your rating</label>
-              <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <label className="mb-2 block text-[13px] font-bold text-slate-700">Your rating</label>
+              <div className="flex items-center gap-1.5">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <StarPicker key={star} value={star} active={star <= rating} onClick={() => setRating(star)} />
                 ))}
@@ -206,7 +161,7 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
             </div>
 
             <div>
-              <label htmlFor={`daywise-review-name-${tripId}`} style={{ display: 'block', marginBottom: 8, color: '#334155', fontSize: 13, fontWeight: 700 }}>
+              <label htmlFor={`daywise-review-name-${tripId}`} className="mb-2 block text-[13px] font-bold text-slate-700">
                 Name
               </label>
               <input
@@ -214,12 +169,12 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
                 value={reviewerName}
                 onChange={(event) => setReviewerName(event.target.value)}
                 placeholder="Your name"
-                style={{ width: '100%', border: '1px solid #d6c2aa', borderRadius: 12, padding: '12px 14px', fontSize: 14, outline: 'none' }}
+                className="w-full rounded-xl border border-[#d6c2aa] px-3.5 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
               />
             </div>
 
             <div>
-              <label htmlFor={`daywise-review-comment-${tripId}`} style={{ display: 'block', marginBottom: 8, color: '#334155', fontSize: 13, fontWeight: 700 }}>
+              <label htmlFor={`daywise-review-comment-${tripId}`} className="mb-2 block text-[13px] font-bold text-slate-700">
                 Review
               </label>
               <textarea
@@ -228,44 +183,31 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
                 onChange={(event) => setReviewText(event.target.value)}
                 placeholder="Share your travel experience"
                 rows={5}
-                style={{ width: '100%', border: '1px solid #d6c2aa', borderRadius: 12, padding: '12px 14px', fontSize: 14, outline: 'none', resize: 'vertical', minHeight: 124 }}
+                className="min-h-31 w-full resize-y rounded-xl border border-[#d6c2aa] px-3.5 py-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
               />
             </div>
 
             <button
               type="submit"
-              style={{
-                width: '100%',
-                border: 'none',
-                borderRadius: 12,
-                background: 'linear-gradient(90deg, #c2410c 0%, #f97316 100%)',
-                color: '#fff',
-                padding: '12px 16px',
-                fontWeight: 800,
-                cursor: 'pointer',
-              }}
+              className="w-full cursor-pointer rounded-xl border-none bg-linear-to-r from-orange-800 to-orange-500 px-4 py-3 font-extrabold text-white hover:opacity-95"
             >
               Post daywise review
             </button>
           </form>
         </div>
 
-        <div className="daywise-review-panel" style={{ padding: 18 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 14 }}>
+        <div className="rounded-2xl border border-[#f1e3cf] bg-white p-4 sm:p-4.5">
+          <div className="mb-3.5 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h4 style={{ margin: 0, color: '#13213b', fontSize: 18 }}>Trip feedback</h4>
-              <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: 13 }}>Only reviews for this specific daywise itinerary appear here.</p>
+              <h4 className="m-0 text-lg text-[#13213b]">Trip feedback</h4>
+              <p className="mt-1 mb-0 text-[13px] text-slate-500">
+                Only reviews for this specific daywise itinerary appear here.
+              </p>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#64748b', fontSize: 13 }}>
+            <div className="flex items-center gap-2 text-[13px] text-slate-500">
               {loading ? (
                 <>
-                  <Loader size={15} style={{ animation: 'spin 1s linear infinite' }} />
-                  <style>{`
-                    @keyframes spin {
-                      from { transform: rotate(0deg); }
-                      to { transform: rotate(360deg); }
-                    }
-                  `}</style>
+                  <Loader size={15} className="animate-spin" />
                   Loading...
                 </>
               ) : (
@@ -277,21 +219,31 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
             </div>
           </div>
 
-          <div className="daywise-review-list">
+          <div className="grid max-h-125 gap-3.5 overflow-auto pr-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#f0cfa4]">
             {reviews.length ? (
               reviews.map((review, index) => (
-                <article key={`${review.createdAt}-${index}`} style={{ border: '1px solid #f1e3cf', borderRadius: 14, padding: 16, background: index === 0 ? '#fffaf4' : '#fff' }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#fff0e5', color: '#c2410c', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <article
+                  key={`${review.createdAt}-${index}`}
+                  className={`rounded-[14px] border border-[#f1e3cf] p-4 ${index === 0 ? 'bg-[#fffaf4]' : 'bg-white'}`}
+                >
+                  <div className="mb-2.5 flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex h-9.5 w-9.5 items-center justify-center rounded-full bg-[#fff0e5] text-orange-700">
                         <UserCircle2 width={18} height={18} />
                       </div>
                       <div>
-                        <h5 style={{ margin: 0, color: '#13213b', fontSize: 15 }}>{review.name}</h5>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4, color: '#64748b', fontSize: 12 }}>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: 2, color: '#f97316' }}>
+                        <h5 className="m-0 text-[15px] text-[#13213b]">{review.name}</h5>
+                        <div className="mt-1 flex items-center gap-2 text-xs text-slate-500">
+                          <span className="flex items-center gap-0.5 text-orange-500">
                             {[1, 2, 3, 4, 5].map((star) => (
-                              <StarIcon key={star} width={12} height={12} fill={star <= review.rating ? 'currentColor' : 'none'} color="currentColor" strokeWidth={1.7} />
+                              <StarIcon
+                                key={star}
+                                width={12}
+                                height={12}
+                                fill={star <= review.rating ? 'currentColor' : 'none'}
+                                color="currentColor"
+                                strokeWidth={1.7}
+                              />
                             ))}
                           </span>
                           <span>{formatDate(review.createdAt)}</span>
@@ -300,11 +252,11 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
                     </div>
                   </div>
 
-                  <p style={{ margin: 0, color: '#475569', fontSize: 14, lineHeight: 1.7 }}>{review.comment}</p>
+                  <p className="m-0 text-sm leading-relaxed text-slate-600">{review.comment}</p>
                 </article>
               ))
             ) : (
-              <div style={{ border: '1px dashed #d6c2aa', borderRadius: 14, padding: 18, color: '#64748b', fontSize: 14, lineHeight: 1.7 }}>
+              <div className="rounded-[14px] border border-dashed border-[#d6c2aa] p-4 text-sm leading-relaxed text-slate-500 sm:p-9.5">
                 No daywise reviews yet. Add the first one for this itinerary.
               </div>
             )}

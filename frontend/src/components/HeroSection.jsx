@@ -17,7 +17,7 @@ export default function HeroSection() {
           setHeroImages(data.data.heroImages);
         }
       } catch (err) {
-        console.error("Error fetching hero banner:", err);
+        // Silent fail for hero banner
       }
     };
     fetchSettings();
@@ -38,7 +38,7 @@ export default function HeroSection() {
       {/* Navbar with TopHeader */}
       <Navbar />
       {/* Hero Section */}
-      <div className="relative m-0 h-[420px] w-full overflow-hidden bg-[#1a2b4a] p-0">
+      <div className="relative m-0 h-105 w-full overflow-hidden bg-[#1a2b4a] p-0">
         {/* Transparent Images Wrapper for Transitions */}
         {heroImages.map((img, idx) => (
           <div
@@ -48,25 +48,28 @@ export default function HeroSection() {
               opacity: idx === currentIndex ? 1 : 0,
               zIndex: idx === currentIndex ? 1 : 0,
             }}
-            className="absolute inset-0 bg-cover bg-[center_40%] transition-opacity duration-[1500ms] ease-in-out"
+            className="absolute inset-0 bg-cover bg-position-[center_40%] transition-opacity duration-1500 ease-in-out"
           />
         ))}
         {/* Dark overlay on left - Softened for 'Modern & Open' feel */}
-        <div className="absolute inset-0 z-[2] bg-[linear-gradient(to_right,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0.15)_45%,transparent_100%)]" />
+        <div className="absolute inset-0 z-2 bg-[linear-gradient(to_right,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0.15)_45%,transparent_100%)]" />
 
         {/* Hero Content */}
-        <div className="relative z-[3] max-w-[500px] px-10 py-[60px]">
+        <div className="relative z-3 max-w-125 px-10 py-15">
           <p className="mb-2.5 text-xs font-bold uppercase tracking-[2px] text-[#3dba8f] [text-shadow:0_2px_4px_rgba(0,0,0,0.4)]">
             Explore Kashmir with Trusted Local Travel Experts
           </p>
           <h1 className="mb-6 text-[42px] font-normal leading-[1.1] text-white [text-shadow:0_4px_10px_rgba(0,0,0,0.5)]">
             Trust <strong className="font-extrabold text-[#3dba8f]">Our Experience</strong>
           </h1>
-          <button
-            className="rounded-sm border-2 border-white bg-transparent px-7 py-3 text-sm font-medium tracking-[0.5px] text-white transition-all duration-200 hover:bg-white hover:text-[#1a2b4a]"
+          <a
+            href="https://wa.me/919149680276?text=Hi!%20I%20would%20like%20to%20get%20in%20touch%20regarding%20a%20Kashmir%20trip."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block rounded-sm border-2 border-white bg-transparent px-7 py-3 text-sm font-medium tracking-[0.5px] text-white transition-all duration-200 hover:bg-white hover:text-[#1a2b4a] no-underline"
           >
             Get in touch
-          </button>
+          </a>
         </div>
 
       </div>

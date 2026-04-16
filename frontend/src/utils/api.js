@@ -7,7 +7,9 @@ const getApiUrl = () => {
   const envUrl = import.meta.env.VITE_API_URL?.trim()
 
   if (envUrl) {
-    return envUrl.replace(/\/+$/, '')
+    const baseUrl = envUrl.replace(/\/+$/, '')
+    // Ensure the /api/v1 prefix is present if the user only provided the domain
+    return baseUrl.includes('/api/') ? baseUrl : `${baseUrl}${DEFAULT_API_PATH}`
   }
 
   if (typeof window !== 'undefined') {
@@ -71,7 +73,6 @@ const safe = async (fn, fallback, label) => {
   try {
     return await fn()
   } catch (error) {
-    console.error(`${label}:`, error)
     return fallback
   }
 }

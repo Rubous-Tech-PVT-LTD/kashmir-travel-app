@@ -7,6 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
+  'https://www.habakhatoon.com',
+  'https://habakhatoon.com',
   'http://localhost:5173',
   'http://127.0.0.1:5173',
   'http://localhost:3000',
@@ -55,7 +57,11 @@ app.use('/api/v1/settings', settingsRoutes);
 app.use('/api/v1/activities', activityRoutes);
 app.use('/api/v1/admin', adminRoutes);
 
-// Health check route
+// Health check routes
+app.get('/', (req, res) => {
+  res.json({ message: 'Kashmir Travel API is online', version: 'v1.0.0' });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ message: 'Server is running', status: 'OK' });
 });
@@ -63,9 +69,8 @@ app.get('/api/health', (req, res) => {
 // Database connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/kashmir-travel-app')
   .then(() => {
-    console.log('✅ MongoDB connected successfully');
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
+      // Server started
     });
   })
   .catch(err => {
