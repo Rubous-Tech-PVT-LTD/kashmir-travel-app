@@ -201,8 +201,8 @@ export default function GondolaRide() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-5">
-            {rideTiers.map((item, idx) => (
-              <div key={`${item.title || item.name || ''}-${item.route || ''}-${idx}`} className="bg-white rounded-xl p-5 shadow">
+            {rideTiers.map((item) => (
+              <div key={item._id || item.id || `${item.title || item.name || ''}-${item.route || item.price || ''}`} className="bg-white rounded-xl p-5 shadow">
                 <p className="text-xs text-[#1d5c86] font-bold mb-2">
                   {item.route || item.duration || item.tier || 'Gondola Tier'}
                 </p>
