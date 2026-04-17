@@ -46,6 +46,7 @@ export default function AllDaysWiseTrips() {
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedCategoryParam = searchParams.get('category') || 'daywise'
   const selectedCategory = selectedCategoryParam === 'spiritual' ? 'spiritual-tour' : selectedCategoryParam
+  const themeParam = searchParams.get('theme') || ''
 
   // Fetch trips from backend
   useEffect(() => {

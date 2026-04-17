@@ -8,6 +8,12 @@ export default function RiverRafting() {
   const [activityData, setActivityData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const handleReserveClick = (packageTitle) => {
+    const message = encodeURIComponent(`Hi, I want to reserve ${packageTitle} for River Rafting.`);
+    const whatsappUrl = `https://wa.me/919149680276?text=${message}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  };
+
   useEffect(() => {
     let mounted = true;
 
@@ -100,7 +106,7 @@ export default function RiverRafting() {
             {/* Image */}
             <div className="bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/20 shadow-lg">
               <img
-                src="https://picsum.photos/id/10/1200/800"
+                src="https://i.ibb.co/fz2t0Gc5/rafting-jondachi-river.jpg"
                 className="w-full h-64 object-cover rounded-xl mb-4"
                 alt=""
               />
@@ -191,7 +197,7 @@ export default function RiverRafting() {
                   </span>
 
                   <button
-                    onClick={() => navigate("/services/hotel-booking")}
+                    onClick={() => handleReserveClick(item.title || 'Rafting Package')}
                     className="bg-[#0d6b95] text-white px-4 py-2 rounded-lg"
                   >
                     Reserve
@@ -224,7 +230,7 @@ export default function RiverRafting() {
 
         <div className="bg-linear-to-br from-[#10263b] via-[#15506e] to-[#0d6b95] text-white p-6 rounded-2xl">
           <img
-            src="https://picsum.photos/id/10/1200/800"
+            src="https://i.ibb.co/8n09bfQQ/OIP.webp"
             className="w-full h-60 object-cover rounded-xl mb-4"
             alt=""
           />

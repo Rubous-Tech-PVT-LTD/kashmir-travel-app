@@ -8,6 +8,12 @@ export default function ParaGliding() {
   const [activityData, setActivityData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
+  const handleReserveClick = (packageTitle) => {
+    const message = encodeURIComponent(`Hi, I want to reserve ${packageTitle} for Paragliding.`)
+    const whatsappUrl = `https://wa.me/919149680276?text=${message}`
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
+  }
+
   useEffect(() => {
     let mounted = true
 
@@ -99,7 +105,7 @@ export default function ParaGliding() {
 
             <div className="bg-white/10 border border-white/20 rounded-2xl p-5 backdrop-blur shadow-lg">
               <img
-                src="https://picsum.photos/id/10/1200/800"
+                src="https://i.ibb.co/6R8MzRkL/Paragliding-in-kashmir-1536x1075.webp"
                 className="w-full h-72 object-cover rounded-xl mb-4"
                 alt=""
               />
@@ -177,7 +183,7 @@ export default function ParaGliding() {
                   </span>
 
                   <button
-                    onClick={() => navigate('/services/hotel-booking')}
+                    onClick={() => handleReserveClick(item.title || item.name || 'Flight Package')}
                     className="bg-[#1e5a8e] text-white px-4 py-2 rounded-md hover:bg-[#17496f]"
                   >
                     Reserve
@@ -205,7 +211,7 @@ export default function ParaGliding() {
 
         <div className="bg-linear-to-br from-[#10263b] via-[#1e5a8e] to-[#3b8bc9] text-white rounded-2xl p-6">
           <img
-            src="https://picsum.photos/id/10/1200/800"
+            src="https://i.ibb.co/fdVrDNPB/OIP.webp"
             className="rounded-xl mb-4 h-64 w-full object-cover"
             alt=""
           />

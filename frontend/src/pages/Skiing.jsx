@@ -8,6 +8,12 @@ export default function Skiing() {
   const [activityData, setActivityData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
+  const handleReserveClick = (packageTitle) => {
+    const message = encodeURIComponent(`Hi, I want to reserve ${packageTitle} for Skiing.`)
+    const whatsappUrl = `https://wa.me/919149680276?text=${message}`
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
+  }
+
   useEffect(() => {
     let mounted = true
 
@@ -105,7 +111,7 @@ export default function Skiing() {
             {/* RIGHT */}
             <div className="bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/20 shadow-xl">
               <img
-                src="https://picsum.photos/id/29/1200/800"
+                src="https://i.ibb.co/sdB5SrpM/skiing-snowboarding-600x440.jpg"
                 className="w-full h-75 object-cover rounded-xl mb-4"
               />
 
@@ -207,7 +213,7 @@ export default function Skiing() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
                   <span style={{ color: '#10263b', fontSize: '18px', fontWeight: 800 }}>{pickText(item.price, 'On Request')}</span>
                   <button
-                    onClick={() => navigate('/services/hotel-booking')}
+                    onClick={() => handleReserveClick(titleText)}
                     className="bg-[#1a3f5d] text-white px-4 py-2 rounded-lg"
                   >
                     Reserve
@@ -247,7 +253,7 @@ export default function Skiing() {
         <div className="bg-linear-to-br from-[#10263b] via-[#1a3f5d] to-[#2980b9] text-white p-6 rounded-2xl shadow-xl">
           
           <img
-            src="https://picsum.photos/id/29/1200/800"
+            src="https://i.ibb.co/WNbLnVYX/OIP.webp"
             className="w-full h-62.5 object-cover rounded-xl mb-4"
           />
 
