@@ -8,6 +8,12 @@ export default function ShikaraRide() {
   const [activityData, setActivityData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
+  const handleReserveClick = (packageTitle) => {
+    const message = encodeURIComponent(`Hi, I want to reserve ${packageTitle} for Shikara Ride.`)
+    const whatsappUrl = `https://wa.me/919149680276?text=${message}`
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
+  }
+
   useEffect(() => {
     let mounted = true
 
@@ -101,7 +107,7 @@ export default function ShikaraRide() {
             {/* RIGHT */}
             <div className="bg-white/10 border border-white/20 backdrop-blur rounded-2xl p-5 shadow-lg">
               <img
-                src="https://picsum.photos/id/13/1200/800"
+                src="https://i.ibb.co/TxYjQThh/shikara-ride.webp"
                 className="w-full h-64 object-cover rounded-xl mb-4"
                 alt="Shikara"
               />
@@ -189,7 +195,7 @@ export default function ShikaraRide() {
                   </span>
 
                   <button
-                    onClick={() => navigate('/services/hotel-booking')}
+                    onClick={() => handleReserveClick(item.title || 'Shikara Package')}
                     className="bg-[#0f6f8a] text-white px-4 py-2 rounded-lg"
                   >
                     Reserve
@@ -221,7 +227,7 @@ export default function ShikaraRide() {
 
         <div className="bg-linear-to-br from-[#10263b] via-[#184d66] to-[#0f8db2] text-white rounded-2xl p-6 shadow-lg">
           <img
-            src="https://picsum.photos/id/13/1200/800"
+            src="https://i.ibb.co/SwV384WS/shikara-ride.webp"
             className="w-full h-60 object-cover rounded-xl mb-4"
             alt=""
           />

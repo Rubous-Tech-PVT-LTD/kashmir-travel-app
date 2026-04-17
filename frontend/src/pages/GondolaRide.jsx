@@ -8,6 +8,12 @@ export default function GondolaRide() {
   const [activityData, setActivityData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const handleReserveClick = (packageTitle) => {
+    const message = encodeURIComponent(`Hi, I want to reserve ${packageTitle} for Gondola Ride.`);
+    const whatsappUrl = `https://wa.me/919149680276?text=${message}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  };
+
   useEffect(() => {
     let mounted = true;
 
@@ -121,7 +127,7 @@ export default function GondolaRide() {
             {/* RIGHT */}
             <div className="fade-up delay-2 bg-white/10 border border-white/20 rounded-xl p-5 backdrop-blur">
               <img
-                src="https://picsum.photos/id/29/1200/800"
+                src="https://i.ibb.co/k21njFQ5/Gandola-ride.jpg"
                 className="w-full h-62.5 object-cover rounded-lg mb-4"
                 alt=""
               />
@@ -196,17 +202,17 @@ export default function GondolaRide() {
 
           <div className="grid md:grid-cols-3 gap-5">
             {rideTiers.map((item) => (
-              <div key={item.name} className="bg-white rounded-xl p-5 shadow">
+              <div key={item.title || item.name || item.route || item.price} className="bg-white rounded-xl p-5 shadow">
                 <p className="text-xs text-[#1d5c86] font-bold mb-2">
-                  {item.duration}
+                  {item.route || item.duration || item.tier || 'Gondola Tier'}
                 </p>
-                <h3 className="text-lg font-semibold">{item.name}</h3>
-                <p className="text-sm text-gray-600 mb-4">{item.note}</p>
+                <h3 className="text-lg font-semibold">{item.title || item.name || 'Ride Package'}</h3>
+                <p className="text-sm text-gray-600 mb-4">{item.description || item.note || item.detail || 'Scenic gondola experience package.'}</p>
 
                 <div className="flex justify-between items-center">
-                  <span className="font-bold">{item.price}</span>
+                  <span className="font-bold">{item.price || 'Contact'}</span>
                   <button
-                    onClick={() => navigate("/services/hotel-booking")}
+                    onClick={() => handleReserveClick(item.title || item.name || 'Gondola package')}
                     className="bg-[#1d5c86] text-white px-4 py-2 rounded-md"
                   >
                     Reserve
@@ -235,7 +241,7 @@ export default function GondolaRide() {
 
         <div className="bg-linear-to-br from-[#10263b] to-[#1d5c86] text-white rounded-xl p-5">
           <img
-            src="https://picsum.photos/id/29/1200/800"
+            src="https://i.ibb.co/d0pHgY1p/Gandola-ride.jpg"
             className="w-full h-55 object-cover rounded-lg mb-4"
             alt=""
           />

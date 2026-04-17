@@ -26,6 +26,7 @@ import PrivacyPolicy from './shared/PrivacyPolicy'
 import TermsOfService from './shared/TermsOfService'
 import Sitemap from './shared/Sitemap'
 import Feedback from './pages/Feedback'
+import FounderStory from './pages/FounderStory'
 
 const routeMetadata = {
   '/': {
@@ -75,6 +76,10 @@ const routeMetadata = {
   '/sitemap': {
     title: 'Sitemap | Haba Khatoon Travels',
     description: 'Explore all the pages and services offered by Haba Khatoon Travels in one place.'
+  },
+  '/founder-story': {
+    title: 'Founder Story | Haba Khatoon Travels',
+    description: 'Read the journey of the founder of Haba Khatoon Travels and the vision behind authentic Kashmir travel experiences.'
   },
   '/admin/login': {
     title: 'Admin Login | Haba Khatoon Travels',
@@ -157,6 +162,7 @@ function App() {
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/sitemap" element={<Sitemap />} />
           <Route path="/feedback" element={<Feedback />} />
+          <Route path="/founder-story" element={<FounderStory />} />
         </Routes>
       </div>
     </BrowserRouter>

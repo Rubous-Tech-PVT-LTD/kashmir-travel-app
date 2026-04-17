@@ -10,6 +10,7 @@ const quickLinks = [
   { label: 'Hotels', to: '/services/hotel-booking' },
   { label: 'Car Rental', to: '/services/car-rentals' },
   { label: 'Travel Blog', to: '/alltrips' },
+  { label: 'Founder Story', to: '/founder-story' },
   { label: 'Feedback', to: '/feedback' },
   { label: 'Contact Us', href: 'mailto:info@habakhatoon.com' },
 ]
