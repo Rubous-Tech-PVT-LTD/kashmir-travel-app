@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../shared/Navbar";
 import { settingsAPI } from "../utils/api";
 
@@ -17,7 +18,7 @@ export default function HeroSection() {
           setHeroImages(data.data.heroImages);
         }
       } catch (err) {
-        console.error("Error fetching hero banner:", err);
+        // Silent fail for hero banner
       }
     };
     fetchSettings();
@@ -62,11 +63,23 @@ export default function HeroSection() {
           <h1 className="mb-6 text-[42px] font-normal leading-[1.1] text-white [text-shadow:0_4px_10px_rgba(0,0,0,0.5)]">
             Trust <strong className="font-extrabold text-[#3dba8f]">Our Experience</strong>
           </h1>
-          <button
-            className="rounded-sm border-2 border-white bg-transparent px-7 py-3 text-sm font-medium tracking-[0.5px] text-white transition-all duration-200 hover:bg-white hover:text-[#1a2b4a]"
-          >
-            Get in touch
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href="https://wa.me/919149680276?text=Hi!%20I%20would%20like%20to%20get%20in%20touch%20regarding%20a%20Kashmir%20trip."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded-sm border-2 border-white bg-transparent px-7 py-3 text-sm font-medium tracking-[0.5px] text-white transition-all duration-200 hover:bg-white hover:text-[#1a2b4a] no-underline"
+            >
+              Get in touch
+            </a>
+
+            <Link
+              to="/founder-story"
+              className="inline-block rounded-sm border-2 border-[#3dba8f] bg-[#3dba8f] px-7 py-3 text-sm font-medium tracking-[0.5px] text-white transition-all duration-200 hover:bg-[#2ea27a] hover:border-[#2ea27a] no-underline"
+            >
+              Founder Story
+            </Link>
+          </div>
         </div>
 
       </div>

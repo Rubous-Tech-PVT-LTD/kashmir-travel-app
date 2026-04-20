@@ -47,7 +47,6 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
         setReviews(transformed)
       } catch (err) {
         setError('Failed to load reviews')
-        console.error('Error fetching reviews:', err)
         setReviews([])
       } finally {
         setLoading(false)
@@ -101,7 +100,6 @@ export default function DaywiseTripReviews({ tripId, tripTitle }) {
       setReviewText('')
       setRating(5)
     } catch (err) {
-      console.error('Error posting review:', err)
       setError('Failed to save review')
     }
   }

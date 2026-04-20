@@ -74,10 +74,17 @@ export default function TermsOfService() {
             <p className="text-slate-600 leading-[1.75] mb-2">
               Questions about these terms can be sent to{" "}
               <a
+<<<<<<< HEAD
                 href="mailto:info@habakhatoontravels.com"
                 className="text-[#3dba8f] no-underline"
               >
                 info@habakhatoontravels.com
+=======
+                href="mailto:info@habakhatoon.com"
+                className="text-[#3dba8f] no-underline"
+              >
+                info@habakhatoon.com
+>>>>>>> c785085ab22552ebaaba20b206ba389c4de6ae91
               </a>.
             </p>
 

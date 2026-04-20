@@ -143,12 +143,22 @@ export default function WhyChooseUs() {
             </h3>
           </div>
           <div className="flex gap-3 flex-wrap">
-            <button className="bg-[#3dba8f] text-white border-none px-7 py-3 rounded-lg text-sm font-semibold cursor-pointer font-dm tracking-wide hover:bg-[#2ea87e] transition-colors duration-200">
+            <a
+              href="https://wa.me/919149680276?text=Hi!%20I%20would%20like%20to%20get%20a%20free%20quote%20for%20a%20Kashmir%20trip."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#3dba8f] text-white border-none px-7 py-3 rounded-lg text-sm font-semibold cursor-pointer font-dm tracking-wide hover:bg-[#2ea87e] transition-colors duration-200 no-underline"
+            >
               Get Free Quote
-            </button>
-            <button className="bg-transparent text-white border-2 border-white/25 px-7 py-3 rounded-lg text-sm font-medium cursor-pointer font-dm hover:border-white/60 transition-colors duration-200">
+            </a>
+            <a
+              href="https://wa.me/919149680276?text=Hi!%20I%20would%20like%20to%20talk%20to%20a%20Kashmir%20travel%20expert."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-transparent text-white border-2 border-white/25 px-7 py-3 rounded-lg text-sm font-medium cursor-pointer font-dm hover:border-white/60 transition-colors duration-200 no-underline"
+            >
               Talk to an Expert
-            </button>
+            </a>
           </div>
         </div>
       </div>

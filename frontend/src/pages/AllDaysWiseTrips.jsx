@@ -46,6 +46,7 @@ export default function AllDaysWiseTrips() {
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedCategoryParam = searchParams.get('category') || 'daywise'
   const selectedCategory = selectedCategoryParam === 'spiritual' ? 'spiritual-tour' : selectedCategoryParam
+  const themeParam = searchParams.get('theme') || ''
 
   // Fetch trips from backend
   useEffect(() => {
@@ -71,7 +72,6 @@ export default function AllDaysWiseTrips() {
 
         setManagedTrips(transformedTrips)
       } catch (err) {
-        console.error('Error fetching trips:', err)
         setError('Failed to load trips from server')
         setManagedTrips([])
       } finally {
@@ -262,7 +262,7 @@ export default function AllDaysWiseTrips() {
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 text-red-800">
               <p className="m-0 font-semibold">⚠️ {error}</p>
               <p className="mt-2 mb-0 text-sm">
-                Make sure the backend server is running on http://localhost:5000
+                Please try refreshing the page or check back later.
               </p>
             </div>
           )}
@@ -334,9 +334,12 @@ export default function AllDaysWiseTrips() {
 
           {/* Empty State */}
           {filteredTrips.length === 0 && !loading && (
-            <div className="text-center py-15 px-5">
-              <p className="text-gray-600 text-base font-['DM_Sans']">
-                No trips found for the selected filter.
+            <div className="px-5 py-20 text-center">
+              <div className="mb-4 text-4xl">⛰️</div>
+              <h3 className="text-xl font-bold text-slate-800 mb-2 font-['DM_Sans']">Coming Soon!</h3>
+              <p className="text-gray-500 max-w-md mx-auto font-['DM_Sans'] text-base leading-relaxed">
+                We're currently hand-picking the best itineraries for this category. 
+                Stay tuned or contact us to build your own custom Kashmir experience!
               </p>
             </div>
           )}

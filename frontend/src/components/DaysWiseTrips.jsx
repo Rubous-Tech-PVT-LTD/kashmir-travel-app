@@ -41,7 +41,6 @@ export default function DaysWiseTrips() {
         }))
         setTrips(transformed)
       } catch (err) {
-        console.error('Error fetching trips:', err)
         setTrips([])
       } finally {
         setLoading(false)

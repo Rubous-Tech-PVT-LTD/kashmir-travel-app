@@ -8,6 +8,12 @@ export default function HouseboatStay() {
   const [activityData, setActivityData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
+  const handleReserveClick = (packageTitle) => {
+    const message = encodeURIComponent(`Hi, I want to reserve ${packageTitle} for Houseboat Stay.`)
+    const whatsappUrl = `https://wa.me/919149680276?text=${message}`
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
+  }
+
   useEffect(() => {
     let mounted = true
 
@@ -101,7 +107,7 @@ export default function HouseboatStay() {
             {/* Image Card */}
             <div className="bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/20 shadow-xl">
               <img
-                src="https://picsum.photos/id/54/1200/800"
+                src="https://i.ibb.co/XrBkxD21/Shikara-ride-in-Dal-Lake-4.webp"
                 className="w-full h-72 object-cover rounded-xl mb-4"
                 alt=""
               />
@@ -206,7 +212,7 @@ export default function HouseboatStay() {
                   </span>
 
                   <button
-                    onClick={() => navigate('/services/hotel-booking')}
+                    onClick={() => handleReserveClick(item.title || item.name || 'Houseboat Stay')}
                     className="bg-[#2a6f92] text-white px-4 py-2 rounded-md hover:bg-[#1f5672]"
                   >
                     Reserve
@@ -246,7 +252,7 @@ export default function HouseboatStay() {
 
         <div className="bg-linear-to-br from-[#10263b] to-[#2a6f92] text-white p-6 rounded-xl shadow">
           <img
-            src="https://picsum.photos/id/54/1200/800"
+            src="https://i.ibb.co/FkCYCqyt/House-Boat-3.jpg"
             className="rounded-lg mb-4"
             alt=""
           />

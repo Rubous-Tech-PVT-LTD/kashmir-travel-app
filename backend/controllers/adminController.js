@@ -1,29 +1,30 @@
 const bcrypt = require('bcryptjs');
+const Admin = require('../models/Admin');
 const { createAdminToken, ADMIN_COOKIE_NAME } = require('../middleware/adminAuth');
-
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
-const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
 
 const cookieMaxAgeMs = Number(process.env.ADMIN_TOKEN_TTL_MS || 8 * 60 * 60 * 1000);
 
-const getCookieOptions = () => ({
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: process.env.ADMIN_COOKIE_SAMESITE || 'lax',
-  maxAge: cookieMaxAgeMs,
-  path: '/',
-  ...(process.env.ADMIN_COOKIE_DOMAIN ? { domain: process.env.ADMIN_COOKIE_DOMAIN } : {}),
-});
+const getCookieOptions = () => {
+  const isProd = process.env.NODE_ENV === 'production';
+  const sameSite = process.env.ADMIN_COOKIE_SAMESITE || (isProd ? 'none' : 'lax');
+  
+  const options = {
+    httpOnly: true,
+    secure: isProd || sameSite === 'none',
+    sameSite: sameSite,
+    maxAge: cookieMaxAgeMs,
+    path: '/',
+  };
+
+  if (process.env.ADMIN_COOKIE_DOMAIN) {
+    options.domain = process.env.ADMIN_COOKIE_DOMAIN;
+  }
+
+  return options;
+};
 
 exports.login = async (req, res) => {
   try {
-    if (!ADMIN_USERNAME || !ADMIN_PASSWORD_HASH || !process.env.ADMIN_TOKEN_SECRET) {
-      return res.status(500).json({
-        success: false,
-        message: 'Admin auth is not configured on server',
-      });
-    }
-
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -33,29 +34,40 @@ exports.login = async (req, res) => {
       });
     }
 
-    const isUsernameValid = username === ADMIN_USERNAME;
-    const isPasswordValid = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
-    const isValid = isUsernameValid && isPasswordValid;
-    if (!isValid) {
+    // Lookup admin in database
+    const admin = await Admin.findOne({ username: username.toLowerCase().trim() });
+    
+    if (!admin) {
       return res.status(401).json({
         success: false,
         message: 'Invalid admin credentials',
       });
     }
 
-    const token = createAdminToken(username);
+    // Verify password using the method on Admin model
+    const isPasswordValid = await admin.comparePassword(password);
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid admin credentials',
+      });
+    }
 
-    res.cookie(ADMIN_COOKIE_NAME, token, getCookieOptions());
+    const token = createAdminToken(admin.username);
+
+    const cookieOptions = getCookieOptions();
+    res.cookie(ADMIN_COOKIE_NAME, token, cookieOptions);
 
     return res.json({
       success: true,
       message: 'Admin login successful',
       data: {
-        username,
-        role: 'admin',
+        username: admin.username,
+        role: admin.role,
       },
     });
   } catch (error) {
+    console.error('Login error:', error);
     return res.status(500).json({
       success: false,
       message: 'Error logging in admin',
@@ -65,13 +77,11 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie(ADMIN_COOKIE_NAME, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.ADMIN_COOKIE_SAMESITE || 'lax',
-    path: '/',
-    ...(process.env.ADMIN_COOKIE_DOMAIN ? { domain: process.env.ADMIN_COOKIE_DOMAIN } : {}),
-  });
+  const options = getCookieOptions();
+  // Remove maxAge for clearCookie
+  delete options.maxAge;
+  
+  res.clearCookie(ADMIN_COOKIE_NAME, options);
 
   return res.json({
     success: true,

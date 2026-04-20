@@ -5,22 +5,22 @@ const services = [
   {
     title: 'Custom Tour Planning',
     desc: 'Day-wise plans for families, honeymooners, and groups with flexible pace and seasonal recommendations.',
-    image: '/images/general.jpg',
+    image: '/images/operator/tour-planning.jpg',
   },
   {
     title: 'Hotel and Houseboat Booking',
     desc: 'Handpicked stays in Srinagar, Gulmarg, Pahalgam, and Sonmarg with transparent options for every budget.',
-    image: '/images/hotel.jpg',
+    image: '/images/operator/hotels-stays.jpg',
   },
   {
     title: 'Local Transport and Pickup',
     desc: 'Airport transfers, sightseeing cabs, and intercity travel with experienced local drivers.',
-    image: '/images/shikara.jpg',
+    image: '/images/operator/local-transport.jpg',
   },
   {
     title: 'Adventure Activities',
     desc: 'Pre-arranged gondola rides, skiing, rafting, and guided adventure slots with local support.',
-    image: '/images/gondola.jpg',
+    image: '/images/operator/adventure-fun.jpg',
   },
 ]
 
@@ -31,7 +31,7 @@ const supportPoints = [
   'Quick support for date, stay, and transport updates',
 ]
 
-const adminWhatsappNumber = '917006259761'
+const adminWhatsappNumber = '919149680276'
 const whatsappMessage = encodeURIComponent('Hi Admin, I want a service plan for my Kashmir trip.')
 const adminWhatsappAppLink = `whatsapp://send?phone=${adminWhatsappNumber}&text=${whatsappMessage}`
 const adminWhatsappWebLink = `https://wa.me/${adminWhatsappNumber}?text=${whatsappMessage}`

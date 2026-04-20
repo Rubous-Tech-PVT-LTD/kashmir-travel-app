@@ -83,7 +83,6 @@ export default function Alltrip() {
 
         setTrips(transformedTrips)
       } catch (fetchError) {
-        console.error('Error fetching trips:', fetchError)
         setError('Failed to load trips from server')
         setTrips([])
       } finally {
@@ -115,7 +114,7 @@ export default function Alltrip() {
 
   const pageSubtitle = activeCategory === 'all'
     ? 'Discover all our curated Haba Khatoon Travels packages and find the perfect trip for your next adventure.'
-    : `Browse ${categoryLabelMap[activeCategory] || activeCategory} itineraries directly from the live backend.`
+    : `Browse ${categoryLabelMap[activeCategory] || activeCategory} itineraries directly from our travel experts.`
 
   const handleCategoryChange = (value) => {
     const nextParams = new URLSearchParams(searchParams)
@@ -200,7 +199,7 @@ export default function Alltrip() {
             <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">
               <p className="m-0 font-semibold">⚠️ {error}</p>
               <p className="mt-2 text-sm">
-                Make sure the backend server is running on http://localhost:5000
+                Please try refreshing the page or check your internet connection.
               </p>
             </div>
           )}
@@ -264,8 +263,13 @@ export default function Alltrip() {
           )}
 
           {!loading && visibleTrips.length === 0 && (
-            <div className="px-5 py-14 text-center text-gray-500">
-              No trips found for the selected category.
+            <div className="px-5 py-20 text-center">
+              <div className="mb-4 text-4xl">⛰️</div>
+              <h3 className="text-xl font-bold text-slate-800 mb-2 font-['DM_Sans']">Coming Soon!</h3>
+              <p className="text-gray-500 max-w-md mx-auto font-['DM_Sans']">
+                Exciting new Kashmir itineraries are being curated for this category. 
+                Stay tuned or contact us to build your own custom tour!
+              </p>
             </div>
           )}
         </div>

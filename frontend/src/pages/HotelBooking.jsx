@@ -24,7 +24,6 @@ export default function HotelBooking() {
         const data = await hotelAPI.getAll();
         setHotels(data.slice(0, 6));
       } catch (err) {
-        console.error(err);
         setError("Failed to load featured hotels");
         setHotels([]);
       } finally {

@@ -30,7 +30,7 @@ const CheckIcon = () => <Check className="w-4 h-4 text-green-600" />;
 export default function TripDetail() {
   const { tripId } = useParams();
   const navigate = useNavigate();
-  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "917006259761";
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "919149680276";
 
   const [wishlisted, setWishlisted] = useState(false);
   const [trip, setTrip] = useState(null);

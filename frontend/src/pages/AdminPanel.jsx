@@ -123,7 +123,6 @@ export default function AdminPanel() {
       }
     } catch (err) {
       setError('Error connecting to server: ' + err.message)
-      console.error(err)
     } finally {
       setLoading(false)
     }
@@ -140,7 +139,6 @@ export default function AdminPanel() {
         setError(data.message || 'Failed to load reviews')
       }
     } catch (err) {
-      console.error('Error fetching reviews:', err)
       setReviews([])
       setError('Error fetching reviews: ' + err.message)
     }
@@ -155,7 +153,6 @@ export default function AdminPanel() {
         setError(data.message || 'Failed to load settings')
       }
     } catch (err) {
-      console.error('Error fetching settings:', err)
       setError('Error fetching settings: ' + err.message)
     }
   }
@@ -728,13 +725,7 @@ export default function AdminPanel() {
                 </div>
               )}
 
-              {/* Fallback content for debugging */}
-              {!['dashboard', 'itineraries', 'reviews', 'settings'].includes(activeTab) && (
-                <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-                  <h3 className="text-2xl font-bold text-slate-900">Tab: {activeTab}</h3>
-                  <p className="mt-3 text-slate-600">This tab content is not yet implemented.</p>
-                </div>
-              )}
+
             </div>
           </div>
         </main>
