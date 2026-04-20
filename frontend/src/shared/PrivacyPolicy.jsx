@@ -72,17 +72,10 @@ export default function PrivacyPolicy() {
             <p className="text-slate-600 leading-7 mb-2">
               For privacy questions, email{" "}
               <a
-<<<<<<< HEAD
-                href="mailto:info@habakhatoontravels.com"
-                className="text-emerald-500 hover:underline"
-              >
-                info@habakhatoontravels.com
-=======
                 href="mailto:info@habakhatoon.com"
                 className="text-emerald-500 hover:underline"
               >
                 info@habakhatoon.com
->>>>>>> c785085ab22552ebaaba20b206ba389c4de6ae91
               </a>
             </p>
             <p className="text-slate-600 leading-7">
