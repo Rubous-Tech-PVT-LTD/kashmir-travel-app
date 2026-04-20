@@ -17,6 +17,7 @@ import { hotelAPI } from "../utils/api";
 export default function HotelDetail() {
   const { hotelId } = useParams();
   const navigate = useNavigate();
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "919149680276";
 
   const [hotel, setHotel] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -63,6 +64,13 @@ export default function HotelDetail() {
     setCurrentImageIndex((i) => (i + 1) % images.length);
   const prev = () =>
     setCurrentImageIndex((i) => (i - 1 + images.length) % images.length);
+
+  const handleBookNow = () => {
+    const message = encodeURIComponent(
+      `Hi, I want to book ${hotel.name} in ${hotel.location}. Please share room availability and the best price.`
+    );
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <div className="bg-gray-100">
@@ -222,7 +230,10 @@ export default function HotelDetail() {
         {/* BOOK */}
         <div className="bg-white p-6 rounded-xl text-center">
           <h3 className="text-lg font-semibold mb-2">Ready to Book?</h3>
-          <button className="bg-emerald-500 text-white px-6 py-3 rounded-lg">
+          <button
+            onClick={handleBookNow}
+            className="bg-emerald-500 text-white px-6 py-3 rounded-lg"
+          >
             Book Now ₹{hotel.price}
           </button>
         </div>

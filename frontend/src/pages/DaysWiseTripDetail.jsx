@@ -11,46 +11,74 @@ export default function DaysWiseTripDetail() {
   const { tripId } = useParams()
   const location = useLocation()
   const navigate = useNavigate()
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '919149680276'
   const [trip, setTrip] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false)
+
+  const normalizeTrip = (data) => {
+    const cover = data.coverImage || data.image || ''
+    const gallery = Array.isArray(data.gallery)
+      ? data.gallery.filter(Boolean)
+      : []
+
+    return {
+      id: data._id || data.id,
+      category: data.category,
+      title: data.title,
+      description: data.description || '',
+      image: cover,
+      gallery,
+      duration: data.duration || `${data.itinerary?.length || 0} Days`,
+      price: typeof data.price === 'number' ? `₹${data.price}` : data.price,
+      tag: data.tag || 'Daywise',
+      tagColor: data.tagColor || '#2563eb',
+      itinerary: data.itinerary || [],
+    }
+  }
 
   useEffect(() => {
+    let mounted = true
     const fallbackTrip = location.state?.trip
 
     if (fallbackTrip && fallbackTrip.category === 'daywise') {
-      setTrip(fallbackTrip)
+      setTrip(normalizeTrip(fallbackTrip))
       setLoading(false)
-      return
     }
 
     const fetchTrip = async () => {
-      setLoading(true)
+      if (!fallbackTrip) {
+        setLoading(true)
+      }
+
       const data = await itineraryAPI.getById(tripId)
 
+      if (!mounted) return
+
       if (!data || data.category !== 'daywise') {
-        setTrip(null)
+        if (!fallbackTrip) {
+          setTrip(null)
+        }
         setLoading(false)
         return
       }
 
-      setTrip({
-        id: data._id,
-        category: data.category,
-        title: data.title,
-        description: data.description || '',
-        image: data.coverImage,
-        duration: data.duration || `${data.itinerary?.length || 0} Days`,
-        price: typeof data.price === 'number' ? `₹${data.price}` : data.price,
-        tag: data.tag || 'Daywise',
-        tagColor: data.tagColor || '#2563eb',
-        itinerary: data.itinerary || [],
-      })
+      setTrip(normalizeTrip(data))
 
       setLoading(false)
     }
 
     fetchTrip()
+
+    return () => {
+      mounted = false
+    }
   }, [location.state, tripId])
+
+  const openWhatsApp = (message) => {
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
+  }
 
   /* ================= LOADING ================= */
   if (loading) {
@@ -80,7 +108,7 @@ export default function DaysWiseTripDetail() {
             </p>
             <button
               onClick={() => navigate('/')}
-              className="px-5 py-2 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700"
+              className="px-5 py-2 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 focus:outline-none focus-visible:outline-none focus:ring-0"
             >
               Back to Home
             </button>
@@ -90,6 +118,10 @@ export default function DaysWiseTripDetail() {
       </div>
     )
   }
+
+  const galleryImages = trip.gallery?.length
+    ? trip.gallery
+    : [trip.image].filter(Boolean)
 
   /* ================= MAIN ================= */
   return (
@@ -102,7 +134,7 @@ export default function DaysWiseTripDetail() {
         <div className="mb-10">
           <button
             onClick={() => navigate('/all-daywise-trips')}
-            className="mb-5 text-sm bg-blue-100 text-blue-700 px-4 py-2 rounded hover:bg-blue-200"
+            className="mb-5 text-sm bg-blue-100 text-blue-700 px-4 py-2 rounded hover:bg-blue-200 focus:outline-none focus-visible:outline-none focus:ring-0"
           >
             ← All Kashmir Tours
           </button>
@@ -125,12 +157,7 @@ export default function DaysWiseTripDetail() {
           />
 
           <div className="absolute inset-0 bg-black/40 flex flex-col justify-end p-6 text-white">
-            <span
-              className="inline-block px-3 py-1 rounded text-xs font-bold mb-3"
-              style={{ backgroundColor: trip.tagColor }}
-            >
-              {trip.tag}
-            </span>
+          
 
             <h2 className="text-2xl font-semibold mb-2">
               {trip.title}
@@ -190,12 +217,33 @@ export default function DaysWiseTripDetail() {
             </div>
 
             {/* Buttons */}
-            <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 mb-3">
+            <button
+              onClick={() =>
+                openWhatsApp(
+                  `Hi, I want to book ${trip.title}. Please share the availability, dates, and best pricing.`
+                )
+              }
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 mb-3 focus:outline-none focus-visible:outline-none focus:ring-0"
+            >
               Book Now
             </button>
 
-            <button className="w-full border border-blue-500 text-blue-600 py-3 rounded-lg font-semibold hover:bg-blue-50">
+            <button
+              onClick={() =>
+                openWhatsApp(
+                  `Hi, I would like to customize ${trip.title}. Please share options for itinerary changes, hotels, and transport.`
+                )
+              }
+              className="w-full border border-blue-500 text-blue-600 py-3 rounded-lg font-semibold hover:bg-blue-50 focus:outline-none focus-visible:outline-none focus:ring-0"
+            >
               Ask for Customization
+            </button>
+
+            <button
+              onClick={() => setIsGalleryOpen(true)}
+              className="w-full border border-slate-300 text-slate-700 py-3 rounded-lg font-semibold hover:bg-slate-100 mt-3 focus:outline-none focus-visible:outline-none focus:ring-0"
+            >
+              View Gallery
             </button>
 
             {/* Includes */}
@@ -223,6 +271,40 @@ export default function DaysWiseTripDetail() {
           </div>
         </div>
       </div>
+
+      {isGalleryOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 px-4 py-6">
+          <div className="w-full max-w-5xl rounded-2xl bg-white p-4 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600">
+                  Gallery
+                </p>
+                <h3 className="text-lg font-bold text-slate-900">{trip.title}</h3>
+              </div>
+
+              <button
+                onClick={() => setIsGalleryOpen(false)}
+                className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="grid max-h-[75vh] grid-cols-1 gap-3 overflow-y-auto sm:grid-cols-2 lg:grid-cols-3">
+              {galleryImages.map((image, index) => (
+                <div key={`${image}-${index}`} className="overflow-hidden rounded-xl bg-slate-100">
+                  <img
+                    src={image}
+                    alt={`${trip.title} gallery ${index + 1}`}
+                    className="h-56 w-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>

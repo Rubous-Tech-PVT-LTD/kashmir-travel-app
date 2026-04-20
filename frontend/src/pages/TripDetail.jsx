@@ -33,6 +33,7 @@ export default function TripDetail() {
   const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "919149680276";
 
   const [wishlisted, setWishlisted] = useState(false);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [trip, setTrip] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -102,6 +103,7 @@ export default function TripDetail() {
     : [trip.coverImage].filter(Boolean);
 
   const [heroImage, ...smallImages] = galleryImages;
+  const galleryPreviewImages = [heroImage, ...smallImages].filter(Boolean);
 
   return (
     <div className="bg-white text-slate-800 min-h-screen">
@@ -124,7 +126,8 @@ export default function TripDetail() {
         {/* Top Row */}
         <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="bg-indigo-50 text-blue-700 border px-3 py-1 text-xs font-bold rounded">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600">
+              <span className="h-2 w-2 rounded-full bg-blue-600" />
               {trip.tag}
             </span>
 
@@ -152,6 +155,13 @@ export default function TripDetail() {
 
             <button className="flex items-center gap-2 font-semibold text-slate-600">
               <Share2 className="w-4 h-4" /> Share
+            </button>
+
+            <button
+              onClick={() => setIsGalleryOpen(true)}
+              className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700 transition-colors hover:bg-emerald-100"
+            >
+              View Gallery
             </button>
           </div>
         </div>
@@ -254,6 +264,40 @@ export default function TripDetail() {
           </aside>
         </div>
       </div>
+
+      {isGalleryOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 px-4 py-6">
+          <div className="w-full max-w-5xl rounded-2xl bg-white p-4 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-600">
+                  Gallery
+                </p>
+                <h3 className="text-lg font-bold text-slate-900">{trip.title}</h3>
+              </div>
+
+              <button
+                onClick={() => setIsGalleryOpen(false)}
+                className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="grid max-h-[75vh] grid-cols-1 gap-3 overflow-y-auto sm:grid-cols-2 lg:grid-cols-3">
+              {galleryPreviewImages.map((image, index) => (
+                <div key={`${image}-${index}`} className="overflow-hidden rounded-xl bg-slate-100">
+                  <img
+                    src={image}
+                    alt={`${trip.title} gallery ${index + 1}`}
+                    className="h-56 w-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
