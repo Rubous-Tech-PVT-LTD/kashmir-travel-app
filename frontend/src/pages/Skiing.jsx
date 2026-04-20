@@ -109,7 +109,7 @@ export default function Skiing() {
                 className="w-full h-75 object-cover rounded-xl mb-4"
               />
 
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid sm:grid-cols-2 grid-cols-1  md:grid-cols-3 gap-2">
                 {seasonalMoments.map((item) => (
                   <div key={item.label} className="bg-white/10 rounded-lg p-3">
                     <p className="text-[11px] font-bold text-[#a0d8ff]">
