@@ -44,6 +44,10 @@ router.delete('/itineraries/:id', requireAdminAuth, adminLimiter, itineraryContr
 router.post('/itineraries/:id/days', requireAdminAuth, adminLimiter, itineraryController.addDay);
 router.put('/itineraries/:id/days/:dayIndex', requireAdminAuth, adminLimiter, itineraryController.updateDay);
 router.delete('/itineraries/:id/days/:dayIndex', requireAdminAuth, adminLimiter, itineraryController.deleteDay);
+router.get('/itineraries/:id/gallery', requireAdminAuth, adminLimiter, itineraryController.getGallery);
+router.post('/itineraries/:id/gallery', requireAdminAuth, adminLimiter, itineraryController.addGalleryImages);
+router.put('/itineraries/:id/gallery/:imageIndex', requireAdminAuth, adminLimiter, itineraryController.updateGalleryImage);
+router.delete('/itineraries/:id/gallery/:imageIndex', requireAdminAuth, adminLimiter, itineraryController.deleteGalleryImage);
 
 // Admin hotel management
 router.get('/hotels', requireAdminAuth, adminLimiter, hotelController.getAllHotels);

@@ -92,26 +92,13 @@ export default function FounderStory() {
                 </div>
               </div>
  
-              <div className="rounded-2xl bg-[#1a2b4a] p-6 shadow-lg">
-                <Quote className="mb-3 h-7 w-7 text-[#3dba8f]" />
-                <p className="font-playfair text-lg font-semibold italic leading-8 text-white">
-                  "Kashmir isn't just a destination — it's a feeling.
-                  My job is to make sure you carry that feeling home."
-                </p>
-              </div>
+             
  
-              <p className="font-dm text-center text-xs text-slate-500">
-                Replace founder photo at{' '}
-                <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-700">
-                  public/images/founder.jpg
-                </code>
-              </p>
+              
             </div>
  
             <div>
-              <span className="font-dm text-[11px] font-bold uppercase tracking-[3px] text-[#3dba8f]">
-                Chapter One
-              </span>
+              
  
               <h2 className="font-playfair mt-3 text-[clamp(28px,3.2vw,44px)] font-extrabold leading-tight text-[#1a2b4a]">
                 From Local Roots to<br />Trusted Journeys
@@ -139,25 +126,6 @@ export default function FounderStory() {
                 </p>
               </div>
  
-              <div className="my-10 h-px bg-gradient-to-r from-emerald-200 to-transparent" />
-
-              <h3 className="font-playfair mb-6 text-2xl font-bold text-[#1a2b4a]">
-                What we stand for
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-3">
-                {values.map(({ icon: Icon, title, body }) => (
-                  <div
-                    key={title}
-                    className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
-                  >
-                    <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100">
-                      <Icon className="h-5 w-5 text-emerald-700" />
-                    </div>
-                    <p className="font-dm mb-2 text-sm font-semibold text-slate-800">{title}</p>
-                    <p className="font-dm text-sm leading-6 text-slate-500">{body}</p>
-                  </div>
-                ))}
-              </div>
  
               <div className="mt-10 flex flex-col gap-4 rounded-2xl bg-[#1a2b4a] p-6 sm:flex-row sm:items-center sm:justify-between">
                 <div>

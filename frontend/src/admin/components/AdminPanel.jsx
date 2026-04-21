@@ -69,6 +69,7 @@ export default function AdminPanel() {
   const [isEditingTrip, setIsEditingTrip] = useState(false)
   const [editTripForm, setEditTripForm] = useState(INITIAL_ITINERARY_FORM)
   const [updatingTrip, setUpdatingTrip] = useState(false)
+  const [gallerySubmitting, setGallerySubmitting] = useState(false)
 
   const [editingDayIndex, setEditingDayIndex] = useState(null)
   const [dayForm, setDayForm] = useState(INITIAL_DAY_FORM)
@@ -338,6 +339,66 @@ export default function AdminPanel() {
       setError('Error: ' + err.message)
     } finally {
       setUpdatingTrip(false)
+    }
+  }
+
+  const syncSelectedItineraryGallery = (gallery) => {
+    setItineraries((prev) => prev.map((it) => (
+      it._id === selectedItineraryId ? { ...it, gallery: Array.isArray(gallery) ? gallery : [] } : it
+    )))
+  }
+
+  const handleAddGalleryImages = async (gallery) => {
+    if (!selectedItineraryId) return
+    try {
+      setGallerySubmitting(true)
+      setError('')
+      const data = await adminAPI.addItineraryGalleryImages(selectedItineraryId, gallery)
+      if (data.success) {
+        syncSelectedItineraryGallery(data.data)
+      } else {
+        setError(data.message || 'Failed to add gallery images')
+      }
+    } catch (err) {
+      setError('Error: ' + err.message)
+    } finally {
+      setGallerySubmitting(false)
+    }
+  }
+
+  const handleUpdateGalleryImage = async (imageIndex, image) => {
+    if (!selectedItineraryId) return
+    try {
+      setGallerySubmitting(true)
+      setError('')
+      const data = await adminAPI.updateItineraryGalleryImage(selectedItineraryId, imageIndex, image)
+      if (data.success) {
+        syncSelectedItineraryGallery(data.data)
+      } else {
+        setError(data.message || 'Failed to update gallery image')
+      }
+    } catch (err) {
+      setError('Error: ' + err.message)
+    } finally {
+      setGallerySubmitting(false)
+    }
+  }
+
+  const handleDeleteGalleryImage = async (imageIndex) => {
+    if (!selectedItineraryId) return
+    try {
+      setGallerySubmitting(true)
+      setError('')
+      const data = await adminAPI.deleteItineraryGalleryImage(selectedItineraryId, imageIndex)
+      if (data.success) {
+        syncSelectedItineraryGallery(data.data)
+      } else {
+        setError(data.message || 'Failed to delete gallery image')
+      }
+    } catch (err) {
+      setError('Error: ' + err.message)
+    } finally {
+      setGallerySubmitting(false)
     }
   }
 
@@ -694,7 +755,7 @@ export default function AdminPanel() {
                 onClick={() => setActiveTab(t.id)}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                   activeTab === t.id
-                    ? 'bg-white text-[#0b3d66] shadow-sm'
+                    ? 'bg-whieen-te text-[#0b3d66] shadow-sm'
                     : 'text-sky-100 hover:text-white hover:bg-white/15'
                 }`}
               >
@@ -821,6 +882,10 @@ export default function AdminPanel() {
             setEditTripForm={setEditTripForm}
             handleUpdateTrip={handleUpdateTrip}
             updatingTrip={updatingTrip}
+            gallerySubmitting={gallerySubmitting}
+            handleAddGalleryImages={handleAddGalleryImages}
+            handleUpdateGalleryImage={handleUpdateGalleryImage}
+            handleDeleteGalleryImage={handleDeleteGalleryImage}
             dayForm={dayForm}
             setDayForm={setDayForm}
             handleAddDay={handleAddDay}

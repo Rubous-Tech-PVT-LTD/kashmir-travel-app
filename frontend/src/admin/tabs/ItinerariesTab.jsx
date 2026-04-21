@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Plus, X, Loader, MapPin, ChevronRight, Clock, DollarSign, Calendar, Image, Check, Edit2, Trash2, Utensils, Bed, FileText } from 'lucide-react'
 import { Badge, Btn, Card, DayRow, FieldGroup, Input, SectionHeader, Select, Textarea, tripCategoryOptions } from '../components/AdminPanelUI'
 
@@ -22,6 +23,10 @@ export default function ItinerariesTab({
   setEditTripForm,
   handleUpdateTrip,
   updatingTrip,
+  gallerySubmitting,
+  handleAddGalleryImages,
+  handleUpdateGalleryImage,
+  handleDeleteGalleryImage,
   dayForm,
   setDayForm,
   handleAddDay,
@@ -30,6 +35,21 @@ export default function ItinerariesTab({
   handleEditDay,
   handleDeleteDay,
 }) {
+  const [galleryUrl, setGalleryUrl] = useState('')
+
+  const onAddGalleryUrl = () => {
+    const nextUrl = galleryUrl.trim()
+    if (!nextUrl) return
+    handleAddGalleryImages([nextUrl])
+    setGalleryUrl('')
+  }
+
+  const onReplaceGalleryImage = (index, currentImage) => {
+    const nextImage = window.prompt('Enter new gallery image URL', currentImage)
+    if (!nextImage || !nextImage.trim()) return
+    handleUpdateGalleryImage(index, nextImage.trim())
+  }
+
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       <div className="w-full lg:w-72 lg:flex-shrink-0 space-y-4">
@@ -142,8 +162,58 @@ export default function ItinerariesTab({
                 </div>
 
                 {selectedItinerary.coverImage && !isEditingTrip && (
-                  <div className="mt-4 h-36 rounded-xl overflow-hidden bg-slate-100">
-                    <img src={selectedItinerary.coverImage} alt="cover" className="w-full h-full object-cover" />
+                  <div className="mt-4 space-y-4">
+                    <div className="h-36 rounded-xl overflow-hidden bg-slate-100">
+                      <img src={selectedItinerary.coverImage} alt="cover" className="w-full h-full object-cover" />
+                    </div>
+
+                    <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Gallery</p>
+                        <span className="text-xs text-slate-500">{selectedItinerary.gallery?.length || 0} image(s)</span>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="https://..."
+                          value={galleryUrl}
+                          onChange={(e) => setGalleryUrl(e.target.value)}
+                        />
+                        <Btn variant="default" size="sm" onClick={onAddGalleryUrl} disabled={gallerySubmitting}>
+                          {gallerySubmitting ? 'Adding...' : 'Add URL'}
+                        </Btn>
+                      </div>
+
+                      {!selectedItinerary.gallery?.length ? (
+                        <p className="text-xs text-slate-400">No gallery images yet.</p>
+                      ) : (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                          {selectedItinerary.gallery.map((imageUrl, index) => (
+                            <div key={`${imageUrl}-${index}`} className="relative rounded-lg overflow-hidden border border-slate-200 bg-white">
+                              <img src={imageUrl} alt={`Gallery ${index + 1}`} className="h-24 w-full object-cover" />
+                              <div className="absolute right-1 top-1 flex gap-1">
+                                <button
+                                  type="button"
+                                  onClick={() => onReplaceGalleryImage(index, imageUrl)}
+                                  className="rounded bg-black/70 px-2 py-1 text-[10px] font-bold text-white hover:bg-black"
+                                  disabled={gallerySubmitting}
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteGalleryImage(index)}
+                                  className="rounded bg-red-600/85 px-2 py-1 text-[10px] font-bold text-white hover:bg-red-600"
+                                  disabled={gallerySubmitting}
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
