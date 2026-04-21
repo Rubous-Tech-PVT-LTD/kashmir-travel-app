@@ -51,15 +51,15 @@ export default function CoupleTour() {
             {/* LEFT */}
             <div className="space-y-5">
               <p className="text-xs tracking-widest text-pink-200 font-bold">
-                ROMANTIC KASHMIR EDITION
+                ROMANTIC KASHMIR TRIP
               </p>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight max-w-xl">
-                Couple Tour Crafted for Love, Slow Moments, and Mountain Magic
+                Book the Perfect Kashmir Honeymoon Package
               </h1>
 
               <p className="text-pink-100 max-w-lg">
-                From candlelight dinners to private lakeside experiences, enjoy a cinematic romantic journey.
+                From candlelight dinners to private lakeside experiences, enjoy a cinematic romantic Kashmir trip crafted for love and mountain magic.
               </p>
 
               <div className="flex gap-4 flex-wrap">

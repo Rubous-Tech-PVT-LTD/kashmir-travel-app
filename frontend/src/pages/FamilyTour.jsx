@@ -103,12 +103,11 @@ export default function FamilyTour() {
               </p>
 
               <h1 className="family-fade-up delay-1 text-3xl md:text-5xl leading-tight mb-4 max-w-xl">
-                Family Tour in Kashmir Designed for Joy, Comfort, and Togetherness
+                The Best Kashmir Family Tour Packages
               </h1>
 
               <p className="family-fade-up delay-2 text-base text-blue-100 leading-relaxed mb-6 max-w-xl">
-                Explore valleys, lakes, and cozy stays with itineraries that keep every age group happy.
-                Our team manages transport, hotel coordination, and family-safe activities while you focus on making memories.
+                Explore valleys, lakes, and cozy stays with itineraries that keep every age group happy. Want to know the Kashmir trip cost for family? Our team offers transparent pricing, managing transport, hotel coordination, and family-safe activities while you focus on making memories.
               </p>
 
               <div className="family-fade-up delay-3 flex flex-wrap gap-4">

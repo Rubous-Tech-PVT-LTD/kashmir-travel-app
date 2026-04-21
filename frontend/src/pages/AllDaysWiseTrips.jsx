@@ -158,7 +158,7 @@ export default function AllDaysWiseTrips() {
               ? `${selectedTemple.name} Tours`
               : themeParam === 'spiritual'
                 ? 'Spiritual Kashmir Tours'
-                : 'All Kashmir Tours'
+                : 'All Kashmir Tour Packages'
 
   const pageSubtitle = hasDaysFilter
     ? `Handpicked ${daysParam}-day itineraries with complete planning and transparent pricing.`
@@ -174,7 +174,7 @@ export default function AllDaysWiseTrips() {
               ? `Pilgrimage-friendly Kashmir itineraries that include ${selectedTemple.name} with guided transport and comfortable stays.`
               : themeParam === 'spiritual'
                 ? 'Temple and shrine focused Kashmir journeys with smooth logistics, relaxed pacing, and culturally rich experiences.'
-                : 'Choose your perfect trip duration from 2 to 7 days with transparent pricing and curated day-by-day plans.'
+                : 'Choose your perfect Kashmir tour packages from 2 to 7 days with transparent pricing and the best itinerary for Kashmir.'
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
