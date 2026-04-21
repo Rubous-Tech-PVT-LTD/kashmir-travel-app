@@ -58,10 +58,10 @@ export default function HeroSection() {
         {/* Hero Content */}
         <div className="relative z-3 max-w-125 px-10 py-15">
           <p className="mb-2.5 text-xs font-bold uppercase tracking-[2px] text-[#3dba8f] [text-shadow:0_2px_4px_rgba(0,0,0,0.4)]">
-            Explore Kashmir with Trusted Local Travel Experts
+            Your Trusted Kashmir Travel Agent
           </p>
           <h1 className="mb-6 text-[42px] font-normal leading-[1.1] text-white [text-shadow:0_4px_10px_rgba(0,0,0,0.5)]">
-            Trust <strong className="font-extrabold text-[#3dba8f]">Our Experience</strong>
+            Book the Best <strong className="font-extrabold text-[#3dba8f]">Kashmir Packages</strong>
           </h1>
           <div className="flex flex-wrap items-center gap-3">
             <a

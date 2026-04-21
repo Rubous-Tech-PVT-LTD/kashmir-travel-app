@@ -71,15 +71,15 @@ export default function WhyChooseUs() {
             <div className="flex items-center gap-2 mb-3">
               <div className="w-7 h-0.75 bg-[#3dba8f] rounded-sm" />
               <span className="text-[#3dba8f] text-[11px] font-bold tracking-[3px] uppercase">
-                Why Haba Khatoon Travels?
+                The Best Travel Agency in Kashmir
               </span>
             </div>
             <h2 className="font-playfair text-[clamp(28px,4vw,44px)] font-extrabold text-[#0f1923] m-0 leading-tight">
-              Why Travelers Choose Us
+              Why Choose Our Kashmir Tour and Travels
             </h2>
           </div>
           <p className="text-gray-500 text-[14.5px] max-w-95 leading-relaxed font-light m-0">
-            We go beyond bookings — our experience, transparency, and care make every Kashmir trip extraordinary.
+            Looking for a cheap travel agency that doesn't compromise on quality? We craft the perfect Kashmir tour with transparent pricing, expert guides, and premium care.
           </p>
         </div>
 
