@@ -1,9 +1,7 @@
-import { useState } from 'react'
+
 import { ArrowRight, Quote, MapPin, Star, Heart } from 'lucide-react'
 import Navbar from '../shared/Navbar'
 import Footer from '../shared/Footer'
- 
-const fallbackFounderImage = '/images/operator/hero-bg.jpg'
  
 const stats = [
   { value: '12+', label: 'Years in Kashmir Travel' },
@@ -31,7 +29,7 @@ const values = [
 ]
  
 export default function FounderStory() {
-  const [founderImage, setFounderImage] = useState('/images/founder.jpg')
+  const founderImage = '/images/founder.jpg'
  
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
@@ -80,7 +78,6 @@ export default function FounderStory() {
                   alt="Founder of Haba Khatoon Travels"
                   className="h-[460px] w-full object-cover object-center"
                   loading="lazy"
-                  onError={() => setFounderImage(fallbackFounderImage)}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 z-10 p-6">
