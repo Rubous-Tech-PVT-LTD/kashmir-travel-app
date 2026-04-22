@@ -76,7 +76,7 @@ export default function FounderStory() {
                 <img
                   src={founderImage}
                   alt="Founder of Haba Khatoon Travels"
-                  className="h-[460px] w-full object-cover object-center"
+                  className="h-[460px] w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent" />
