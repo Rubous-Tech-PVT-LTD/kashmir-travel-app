@@ -3,7 +3,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TopHeader from "./TopHeader";
 
-const navLinks = ["Kashmir Packages", "Honeymoon", "Services", "Spiritual tour", "Activities"];
+const navLinks = ["Kashmir Packages", "Honeymoon", "Services", "Spiritual tour", "Activities", "Blogs"];
 
 
 const kashimirPackagesDropdown = [
@@ -146,9 +146,12 @@ export default function Navbar() {
                 onMouseEnter={() => setOpenDropdown(link)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
-                <button className="flex items-center gap-2 px-5 py-4 text-sm text-slate-300 hover:text-white">
+                <button 
+                  onClick={() => link === 'Blogs' ? navigate('/blogs') : null}
+                  className="flex items-center gap-2 px-5 py-4 text-sm text-slate-300 hover:text-white"
+                >
                   {link}
-                  <ChevronDown size={12} />
+                  {link !== 'Blogs' && <ChevronDown size={12} />}
                 </button>
 
                 {openDropdown === link && (
@@ -203,11 +206,11 @@ export default function Navbar() {
             {navLinks.map((link) => (
               <div key={link}>
                 <button
-                  onClick={() => setOpenDropdown(openDropdown === link ? null : link)}
+                  onClick={() => link === 'Blogs' ? navigate('/blogs') : setOpenDropdown(openDropdown === link ? null : link)}
                   className="w-full text-left py-3 text-white flex justify-between"
                 >
                   {link}
-                  <ChevronDown className={`${openDropdown === link ? "rotate-180" : ""}`} />
+                  {link !== 'Blogs' && <ChevronDown className={`${openDropdown === link ? "rotate-180" : ""}`} />}
                 </button>
 
                 {openDropdown === link && (

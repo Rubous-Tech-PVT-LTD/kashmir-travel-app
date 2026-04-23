@@ -27,6 +27,8 @@ import TermsOfService from './shared/TermsOfService'
 import Sitemap from './shared/Sitemap'
 import Feedback from './pages/Feedback'
 import FounderStory from './pages/FounderStory'
+import BlogList from './pages/BlogList'
+import BlogDetail from './pages/BlogDetail'
 
 const routeMetadata = {
   '/': {
@@ -163,6 +165,8 @@ function App() {
           <Route path="/sitemap" element={<Sitemap />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/founder-story" element={<FounderStory />} />
+          <Route path="/blogs" element={<BlogList />} />
+          <Route path="/blogs/:slug" element={<BlogDetail />} />
         </Routes>
       </div>
     </BrowserRouter>

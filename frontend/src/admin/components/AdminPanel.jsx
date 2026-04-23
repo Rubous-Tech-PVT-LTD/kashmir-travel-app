@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { X, Menu, AlertCircle, MapPin, Star, Settings, Building2, Car, Compass, Inbox } from 'lucide-react'
+import { X, Menu, AlertCircle, MapPin, Star, Settings, Building2, Car, Compass, Inbox, FileText } from 'lucide-react'
 import { logoutAdmin } from '../../utils/adminAuth'
 import { adminAPI } from '../../utils/api'
 import { Btn } from './AdminPanelUI'
@@ -11,6 +11,7 @@ import ActivitiesTab from '../tabs/ActivitiesTab'
 import ReviewsTab from '../tabs/ReviewsTab'
 import SettingsTab from '../tabs/SettingsTab'
 import InquiriesTab from '../tabs/InquiriesTab'
+import BlogsTab from '../tabs/BlogsTab'
 
 const INITIAL_ITINERARY_FORM = { title: '', duration: '', price: '', coverImage: '', category: 'popular', isComingSoon: false }
 const INITIAL_DAY_FORM = { day: '', title: '', activitiesText: '', accommodation: '', meals: '', notes: '' }
@@ -49,6 +50,7 @@ const ADMIN_TABS = [
   { id: 'car-rentals', label: 'Car Rentals', icon: Car },
   { id: 'activities', label: 'Activities', icon: Compass },
   { id: 'inquiries', label: 'Inquiries', icon: Inbox },
+  { id: 'blogs', label: 'Blogs', icon: FileText },
   { id: 'reviews', label: 'Reviews', icon: Star },
   { id: 'settings', label: 'Settings', icon: Settings },
 ]
@@ -978,6 +980,10 @@ export default function AdminPanel() {
             setSelectedInquiryId={setSelectedInquiryId}
             selectedInquiry={selectedInquiry}
           />
+        )}
+
+        {activeTab === 'blogs' && (
+          <BlogsTab />
         )}
 
         {activeTab === 'settings' && (

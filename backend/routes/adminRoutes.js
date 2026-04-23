@@ -10,6 +10,7 @@ const reviewController = require('../controllers/reviewController');
 const inquiryController = require('../controllers/inquiryController');
 const settingsController = require('../controllers/settingsController');
 const activityController = require('../controllers/activityController');
+const blogController = require('../controllers/blogController');
 const { requireAdminAuth } = require('../middleware/adminAuth');
 
 // Strict rate limit for login to prevent brute-force attacks
@@ -77,5 +78,11 @@ router.get('/activities', requireAdminAuth, adminLimiter, activityController.get
 router.post('/activities', requireAdminAuth, adminLimiter, activityController.createActivity);
 router.put('/activities/:slug', requireAdminAuth, adminLimiter, activityController.updateActivity);
 router.delete('/activities/:slug', requireAdminAuth, adminLimiter, activityController.deleteActivity);
+
+// Admin blog management
+router.get('/blogs', requireAdminAuth, adminLimiter, blogController.getAllBlogs);
+router.post('/blogs', requireAdminAuth, adminLimiter, blogController.createBlog);
+router.put('/blogs/:id', requireAdminAuth, adminLimiter, blogController.updateBlog);
+router.delete('/blogs/:id', requireAdminAuth, adminLimiter, blogController.deleteBlog);
 
 module.exports = router;

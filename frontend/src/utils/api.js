@@ -129,8 +129,12 @@ export const inquiryAPI = {
 }
 
 export const activityAPI = {
-  getAll: () => safe(async () => dataOr(await request('/activities'), []), [], 'Error fetching activities'),
   getBySlug: (slug) => safe(async () => dataOr(await request(`/activities/${slug}`), null), null, 'Error fetching activity'),
+}
+
+export const blogAPI = {
+  getAll: () => safe(async () => dataOr(await request('/blogs'), []), [], 'Error fetching blogs'),
+  getBySlug: (slug) => safe(async () => dataOr(await request(`/blogs/${slug}`), null), null, 'Error fetching blog'),
 }
 
 export const settingsAPI = {
@@ -171,5 +175,9 @@ export const adminAPI = {
   deleteActivity: (slug) => request(`/admin/activities/${slug}`, { method: 'DELETE' }),
   getSettings: () => request('/admin/settings'),
   updateSettings: (payload) => request('/admin/settings', { method: 'PUT', body: payload }),
+  getBlogs: () => request('/admin/blogs'),
+  createBlog: (payload) => request('/admin/blogs', { method: 'POST', body: payload }),
+  updateBlog: (id, payload) => request(`/admin/blogs/${id}`, { method: 'PUT', body: payload }),
+  deleteBlog: (id) => request(`/admin/blogs/${id}`, { method: 'DELETE' }),
 }
 
