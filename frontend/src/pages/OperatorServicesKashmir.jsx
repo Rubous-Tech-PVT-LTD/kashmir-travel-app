@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import SEO from '../components/SEO'
 import Footer from '../shared/Footer'
 
 const services = [
@@ -50,6 +51,11 @@ export default function OperatorServicesKashmir() {
 
   return (
     <div className="min-h-screen bg-linear-to-b from-[#f7fbff] to-[#eef5ff]">
+      <SEO 
+        title="Kashmir Tour Operator Services - Full Planning"
+        description="Full-service Kashmir tour operator. We manage your entire travel flow including custom tour planning, hotel bookings, local transport, and 24/7 on-trip support."
+        url="https://habakhatoon.com/operator-services"
+      />
 
       {/* HERO */}
       <section className="relative overflow-hidden text-white bg-[linear-gradient(120deg,rgba(10,25,47,0.92),rgba(20,57,95,0.88),rgba(17,97,117,0.8)),url('/images/general.jpg')] bg-cover bg-center py-24 px-6">

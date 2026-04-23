@@ -46,6 +46,7 @@ const inquiryRoutes = require('./routes/inquiryRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const activityRoutes = require('./routes/activityRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const sitemapRoutes = require('./routes/sitemapRoutes');
 
 // Routes
 app.use('/api/v1/itineraries', itineraryRoutes);
@@ -56,6 +57,7 @@ app.use('/api/v1/inquiries', inquiryRoutes);
 app.use('/api/v1/settings', settingsRoutes);
 app.use('/api/v1/activities', activityRoutes);
 app.use('/api/v1/admin', adminRoutes);
+app.use('/sitemap.xml', sitemapRoutes);
 
 // Health check routes
 app.get('/', (req, res) => {

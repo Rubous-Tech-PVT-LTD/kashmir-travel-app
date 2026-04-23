@@ -137,7 +137,9 @@ export default function PopularKashmirTrips() {
                     <div className="relative overflow-hidden">
                       <img
                         src={trip.image}
-                        alt={trip.title}
+                        alt={`Scenic view of ${trip.title} in Kashmir`}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
                       />
                       {/* Tag badge */}

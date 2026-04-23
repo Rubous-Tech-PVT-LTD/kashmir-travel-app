@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import SEO from '../components/SEO'
 import Footer from '../shared/Footer'
 import { activityAPI } from '../utils/api'
 
@@ -57,6 +58,12 @@ export default function ParaGliding() {
 
   return (
     <div className="bg-[#f8fbff]">
+      <SEO 
+        title="Paragliding in Kashmir - Adventure Tour"
+        description="Experience the thrill of paragliding in Kashmir. Safe tandem flights with certified pilots and breathtaking aerial views of the Himalayan valleys."
+        url="https://habakhatoon.com/activities/paragliding"
+        image="https://i.ibb.co/6R8MzRkL/Paragliding-in-kashmir-1536x1075.webp"
+      />
 
       {/* HERO */}
       <section className="relative overflow-hidden text-white py-20 px-6 bg-linear-to-br from-[#0a1929] via-[#1e5a8e] to-[#3b8bc9]">
@@ -107,7 +114,7 @@ export default function ParaGliding() {
               <img
                 src="https://i.ibb.co/6R8MzRkL/Paragliding-in-kashmir-1536x1075.webp"
                 className="w-full h-72 object-cover rounded-xl mb-4"
-                alt=""
+                alt="Tandem paragliding experience above the scenic valleys of Kashmir"
               />
 
               <div className="grid grid-cols-3 gap-3">

@@ -3,9 +3,11 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { Loader } from 'lucide-react'
 import TripItinerary from '../components/TripItinerary'
 import DaywiseTripReviews from '../components/DaywiseTripReviews'
+import SEO from '../components/SEO'
 import Navbar from '../shared/Navbar'
 import Footer from '../shared/Footer'
 import { itineraryAPI } from '../utils/api'
+import { generateTripSchema } from '../utils/schemaGenerator';
 
 export default function DaysWiseTripDetail() {
   const { tripId } = useParams()
@@ -124,8 +126,17 @@ export default function DaysWiseTripDetail() {
     : [trip.image].filter(Boolean)
 
   /* ================= MAIN ================= */
+  const tripSchema = generateTripSchema(trip);
+
   return (
     <div className="bg-gray-50 min-h-screen">
+      <SEO 
+        title={`${trip.title} Package - Daywise Itinerary`}
+        description={trip.description?.substring(0, 160) || `Check out the detailed day-by-day itinerary for ${trip.title} by Haba Khatoon Travels.`}
+        image={trip.image}
+        url={`https://habakhatoon.com/daywise-trip/${trip.id}`}
+        schema={tripSchema}
+      />
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-4 py-10">

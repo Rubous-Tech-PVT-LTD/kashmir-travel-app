@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import SEO from "../components/SEO";
 import Footer from "../shared/Footer";
 
 const highlights = [
@@ -49,6 +50,11 @@ export default function FamilyTour() {
 
   return (
     <div className="bg-[#f8fbff]">
+      <SEO 
+        title="Best Kashmir Family Tour Packages" 
+        description="Explore valleys, lakes, and cozy stays with itineraries that keep every age group happy. Transparent pricing and family-safe activities." 
+        url="https://habakhatoon.com/services/family-tour"
+      />
       {/* Animations */}
       <style>{`
         .family-hero-glow {

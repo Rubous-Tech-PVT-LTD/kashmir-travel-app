@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import SEO from '../components/SEO'
 import Footer from '../shared/Footer'
 import { carRentalAPI } from '../utils/api'
 
@@ -42,6 +43,11 @@ export default function CarRentals() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
+      <SEO 
+        title="Car Rentals in Kashmir - Reliable Local Cabs"
+        description="Rent reliable cars with professional drivers in Kashmir. SUV, Tempo Travellers, and luxury cars available for Srinagar, Gulmarg, and Pahalgam sightseeing."
+        url="https://habakhatoon.com/services/car-rentals"
+      />
 
       {/* HERO SECTION */}
       <section className="bg-linear-to-r from-blue-950 via-blue-800 to-blue-600 text-white py-16 px-4">
@@ -139,7 +145,9 @@ export default function CarRentals() {
                 >
                   <img
                     src={car.image}
-                    alt={car.name}
+                    alt={`${car.name} rental service in Kashmir`}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-44 object-cover"
                   />
 

@@ -8,6 +8,8 @@ import {
   User
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
+import SEO from "../components/SEO";
+import { generateTripSchema } from "../utils/schemaGenerator";
 import Navbar from "../shared/Navbar";
 import Footer from "../shared/Footer";
 import { itineraryAPI } from "../utils/api";
@@ -105,8 +107,17 @@ export default function TripDetail() {
   const [heroImage, ...smallImages] = galleryImages;
   const galleryPreviewImages = [heroImage, ...smallImages].filter(Boolean);
 
+  const tripSchema = generateTripSchema(trip);
+
   return (
     <div className="bg-white text-slate-800 min-h-screen">
+      <SEO 
+        title={`${trip.title} Package`}
+        description={trip.description?.substring(0, 160) || `Check out ${trip.title} tour package by Haba Khatoon Travels.`}
+        image={heroImage}
+        url={`https://habakhatoon.com/trip/${tripId}`}
+        schema={tripSchema}
+      />
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-6 py-8">

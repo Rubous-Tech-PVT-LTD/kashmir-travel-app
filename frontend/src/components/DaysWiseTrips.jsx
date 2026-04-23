@@ -136,7 +136,9 @@ export default function DaysWiseTrips() {
                     <div className="relative overflow-hidden">
                       <img
                         src={trip.image}
-                        alt={trip.title}
+                        alt={`Day-wise itinerary view for ${trip.title}, Kashmir`}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
                       />
                       {/* Tag badge */}

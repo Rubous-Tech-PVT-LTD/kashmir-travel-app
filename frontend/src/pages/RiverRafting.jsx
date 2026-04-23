@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SEO from "../components/SEO";
 import Footer from "../shared/Footer";
 import { activityAPI } from "../utils/api";
 
@@ -55,6 +56,12 @@ export default function RiverRafting() {
 
   return (
     <div className="min-h-screen bg-[#f8fbff]">
+      <SEO 
+        title="River Rafting in Kashmir - Adventure Packages"
+        description="Experience the thrill of river rafting in Kashmir's Lidder and Sindh rivers. Guided adventure tours with certified safety gear and professional instructors."
+        url="https://habakhatoon.com/activities/river-rafting"
+        image="https://i.ibb.co/fz2t0Gc5/rafting-jondachi-river.jpg"
+      />
 
       {/* HERO */}
       <section className="relative overflow-hidden text-white bg-linear-to-br from-[#07111d] via-[#12355a] to-[#1a78a6] px-6 py-20">
@@ -108,7 +115,7 @@ export default function RiverRafting() {
               <img
                 src="https://i.ibb.co/fz2t0Gc5/rafting-jondachi-river.jpg"
                 className="w-full h-64 object-cover rounded-xl mb-4"
-                alt=""
+                alt="White water river rafting adventure in Kashmir with professional guides"
               />
 
               <div className="grid grid-cols-3 gap-3">

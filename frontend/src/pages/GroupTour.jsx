@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import SEO from "../components/SEO";
 import Footer from "../shared/Footer";
 
 const groupHighlights = [
@@ -52,6 +53,11 @@ export default function GroupTour() {
 
   return (
     <div className="bg-[#f8fbff]">
+      <SEO 
+        title="Kashmir Group Tour Packages"
+        description="Plan your office retreat, student trip, or large family gathering in Kashmir. Group handles transport, stay, and activities for a stress-free shared adventure."
+        url="https://habakhatoon.com/services/group-tour"
+      />
       {/* Animations */}
       <style>{`
         .group-orb { animation: float 6s ease-in-out infinite; }

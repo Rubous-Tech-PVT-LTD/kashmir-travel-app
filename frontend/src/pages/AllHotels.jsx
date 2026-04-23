@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
+import SEO from '../components/SEO'
 import Navbar from '../shared/Navbar'
 import Footer from '../shared/Footer'
 import { hotelAPI } from '../utils/api'
@@ -36,6 +37,11 @@ export default function AllHotels() {
 
   return (
     <div className="font-sans w-full">
+      <SEO 
+        title="Best Hotels and Houseboats in Kashmir"
+        description="Book your perfect stay in Kashmir. Choose from luxury houseboats in Dal Lake to cozy hotels in Gulmarg and Pahalgam."
+        url="https://habakhatoon.com/all-hotels"
+      />
       <Navbar />
 
       <div className="bg-gray-100 min-h-screen py-6 px-4">
@@ -83,7 +89,9 @@ export default function AllHotels() {
               >
                 <img
                   src={hotel.image}
-                  alt={hotel.name}
+                  alt={`${hotel.name} in ${hotel.location}, Kashmir`}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-44 object-cover"
                 />
 

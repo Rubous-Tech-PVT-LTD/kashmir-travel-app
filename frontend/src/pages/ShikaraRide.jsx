@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import SEO from '../components/SEO'
 import Footer from '../shared/Footer'
 import { activityAPI } from '../utils/api'
 
@@ -55,6 +56,12 @@ export default function ShikaraRide() {
 
   return (
     <div className="bg-[#f8fbff] min-h-screen">
+      <SEO 
+        title="Shikara Ride in Dal Lake, Srinagar"
+        description="Book a peaceful Shikara ride experience in Dal Lake. Sunset tours, private rides, and floating market visits in Srinagar, Kashmir."
+        url="https://habakhatoon.com/activities/shikara-ride"
+        image="https://i.ibb.co/TxYjQThh/shikara-ride.webp"
+      />
 
       {/* HERO */}
       <section className="relative overflow-hidden bg-linear-to-br from-[#071b2c] via-[#0e3b57] to-[#1d7a8c] text-white px-6 py-20">
@@ -109,7 +116,7 @@ export default function ShikaraRide() {
               <img
                 src="https://i.ibb.co/TxYjQThh/shikara-ride.webp"
                 className="w-full h-64 object-cover rounded-xl mb-4"
-                alt="Shikara"
+                alt="Shikara Ride experience on Dal Lake, Srinagar, Kashmir"
               />
 
               <div className="grid grid-cols-3 gap-3">

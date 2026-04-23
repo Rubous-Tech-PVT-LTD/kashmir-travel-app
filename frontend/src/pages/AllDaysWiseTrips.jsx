@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ArrowRight as ArrowRightIcon, Clock3, Loader } from 'lucide-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Navbar from '../shared/Navbar'
+import SEO from '../components/SEO'
 import Footer from '../shared/Footer'
 import { itineraryAPI } from '../utils/api'
 
@@ -178,6 +179,11 @@ export default function AllDaysWiseTrips() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      <SEO 
+        title={pageTitle}
+        description={pageSubtitle}
+        url={`https://habakhatoon.com/alltrips${window.location.search}`}
+      />
       <Navbar />
 
       <div className="flex-1">

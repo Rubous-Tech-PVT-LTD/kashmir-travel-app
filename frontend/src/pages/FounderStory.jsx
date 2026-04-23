@@ -1,15 +1,16 @@
 
 import { ArrowRight, Quote, MapPin, Star, Heart } from 'lucide-react'
+import SEO from '../components/SEO'
 import Navbar from '../shared/Navbar'
 import Footer from '../shared/Footer'
- 
+
 const stats = [
   { value: '12+', label: 'Years in Kashmir Travel' },
   { value: '3,000+', label: 'Happy Travellers' },
   { value: '50+', label: 'Curated Routes' },
   { value: '4.9★', label: 'Average Rating' },
 ]
- 
+
 const values = [
   {
     icon: Heart,
@@ -27,13 +28,17 @@ const values = [
     body: 'No hidden costs, no bait-and-switch upgrades. What we quote is what you pay — always.',
   },
 ]
- 
+
 export default function FounderStory() {
   const founderImage = '/images/founder.jpg'
- 
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
- 
+      <SEO 
+        title="Our Founder's Story" 
+        description="Read the story of Haba Khatoon Travels and our founder's journey to becoming the best Kashmir travel agency for authentic tourism." 
+        url="https://habakhatoon.com/about/founder-story"
+      />
       <Navbar />
  
       <main className="flex-1">

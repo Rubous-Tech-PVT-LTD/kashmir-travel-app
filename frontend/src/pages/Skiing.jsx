@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import SEO from '../components/SEO'
 import Footer from '../shared/Footer'
 import { activityAPI } from '../utils/api'
 
@@ -58,6 +59,12 @@ export default function Skiing() {
 
   return (
     <div className="bg-[#f8fbff]">
+      <SEO 
+        title="Skiing in Gulmarg, Kashmir - Packages & Guides"
+        description="Experience world-class skiing in Gulmarg. Professional guides, ski equipment rentals, and packages for beginners to advanced skiers in Kashmir."
+        url="https://habakhatoon.com/activities/skiing"
+        image="https://i.ibb.co/sdB5SrpM/skiing-snowboarding-600x440.jpg"
+      />
 
       {/* HERO */}
       <section className="relative overflow-hidden bg-linear-to-br from-[#0f1823] via-[#1a3f5d] to-[#2980b9] text-white px-4 sm:px-6 py-14 sm:py-20">
@@ -99,7 +106,7 @@ export default function Skiing() {
               <img
                 src="https://i.ibb.co/sdB5SrpM/skiing-snowboarding-600x440.jpg"
                 className="w-full h-48 sm:h-60 md:h-72 object-cover rounded-xl mb-4"
-                alt="Skiing in Kashmir"
+                alt="Skiing and snowboarding adventure on the slopes of Gulmarg, Kashmir"
               />
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {seasonalMoments.map((item) => (

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import SEO from '../components/SEO'
 import Footer from '../shared/Footer'
 
 const romanticMoments = [
@@ -29,6 +30,11 @@ export default function CoupleTour() {
 
   return (
     <div className="bg-blue-50 min-h-screen">
+      <SEO 
+        title="Best Kashmir Honeymoon Packages"
+        description="Book your romantic 4-day honeymoon tour to Kashmir. Private Shikara rides, cozy houseboat stays, and mountain magic for couples."
+        url="https://habakhatoon.com/services/couple-tour"
+      />
 
       {/* HERO */}
       <section className="relative overflow-hidden bg-linear-to-br from-pink-900 via-pink-700 to-pink-500 text-white py-20 px-4">

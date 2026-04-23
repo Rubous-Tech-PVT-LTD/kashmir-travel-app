@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import SEO from '../components/SEO'
 import Footer from '../shared/Footer'
 import { activityAPI } from '../utils/api'
 
@@ -55,6 +56,12 @@ export default function HouseboatStay() {
 
   return (
     <div className="bg-[#f8fbff]">
+      <SEO 
+        title="Houseboat Stay in Dal Lake, Srinagar"
+        description="Experience authentic Kashmiri hospitality with a luxury houseboat stay in Dal Lake. Traditional decor, lake-view decks, and serene floating accommodation in Srinagar."
+        url="https://habakhatoon.com/activities/houseboat-stay"
+        image="https://i.ibb.co/XrBkxD21/Shikara-ride-in-Dal-Lake-4.webp"
+      />
 
       {/* HERO */}
       <section className="relative overflow-hidden bg-linear-to-br from-[#081525] via-[#163a56] to-[#3b6c8f] text-white py-20 px-6">
@@ -109,7 +116,7 @@ export default function HouseboatStay() {
               <img
                 src="https://i.ibb.co/XrBkxD21/Shikara-ride-in-Dal-Lake-4.webp"
                 className="w-full h-72 object-cover rounded-xl mb-4"
-                alt=""
+                alt="Traditional luxury houseboat stay experience on Dal Lake, Srinagar, Kashmir"
               />
 
               <div className="grid grid-cols-3 gap-2">

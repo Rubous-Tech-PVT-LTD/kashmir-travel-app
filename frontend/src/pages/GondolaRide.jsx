@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SEO from "../components/SEO";
 import Footer from "../shared/Footer";
 import { activityAPI } from "../utils/api";
 
@@ -56,6 +57,12 @@ export default function GondolaRide() {
 
   return (
     <div className="bg-[#f8fbff]">
+      <SEO 
+        title="Gulmarg Gondola Ride - Tickets & Experience"
+        description="Book your Gulmarg Gondola ride. Phase 1 and Phase 2 ticket information, seasonal guides, and the best mountain views in Kashmir."
+        url="https://habakhatoon.com/activities/gondola-ride"
+        image="https://i.ibb.co/k21njFQ5/Gandola-ride.jpg"
+      />
       {/* Animations */}
       <style>{`
         .gondola-glow { animation: float 6s ease-in-out infinite; }
@@ -129,7 +136,7 @@ export default function GondolaRide() {
               <img
                 src="https://i.ibb.co/k21njFQ5/Gandola-ride.jpg"
                 className="w-full h-62.5 object-cover rounded-lg mb-4"
-                alt=""
+                alt="Gulmarg Gondola ride experience with snow-capped mountain views, Kashmir"
               />
 
               <div className="grid grid-cols-3 gap-3">
