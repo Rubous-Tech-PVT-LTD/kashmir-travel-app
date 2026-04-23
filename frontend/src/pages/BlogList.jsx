@@ -86,7 +86,7 @@ export default function BlogList() {
                   </h2>
                   
                   <p className="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-3">
-                    {blog.excerpt}
+                    {(blog.excerpt || '').replace(/<[^>]*>?/gm, '')}
                   </p>
                   
                   <div className="flex items-center text-emerald-600 font-bold text-sm gap-2">
