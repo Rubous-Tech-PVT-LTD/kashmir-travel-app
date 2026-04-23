@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Itinerary = require('../models/Itinerary');
 const Hotel = require('../models/Hotel');
+const Blog = require('../models/Blog');
 
 router.get('/', async (req, res) => {
   try {
@@ -28,12 +29,14 @@ router.get('/', async (req, res) => {
       '/privacy-policy',
       '/terms-of-service',
       '/founder-story',
-      '/feedback'
+      '/feedback',
+      '/blogs'
     ];
 
     // Fetch dynamic content
     const itineraries = await Itinerary.find({}, '_id category').lean();
     const hotels = await Hotel.find({}, '_id').lean();
+    const blogs = await Blog.find({}, 'slug').lean();
 
     let xml = '<?xml version="1.0" encoding="UTF-8"?>';
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
@@ -66,6 +69,16 @@ router.get('/', async (req, res) => {
     <loc>${baseUrl}/hotel/${item._id}</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>`;
+    });
+
+    // Add blogs
+    blogs.forEach(item => {
+      xml += `
+  <url>
+    <loc>${baseUrl}/blogs/${item.slug}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>`;
     });
 

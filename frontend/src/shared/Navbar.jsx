@@ -154,7 +154,7 @@ export default function Navbar() {
                   {link !== 'Blogs' && <ChevronDown size={12} />}
                 </button>
 
-                {openDropdown === link && (
+                {openDropdown === link && routesMap[link] && (
                   <div className="absolute bg-slate-800 shadow-lg rounded-md min-w-62.5">
                     {routesMap[link].data.map((item) => (
                       <button
@@ -213,7 +213,7 @@ export default function Navbar() {
                   {link !== 'Blogs' && <ChevronDown className={`${openDropdown === link ? "rotate-180" : ""}`} />}
                 </button>
 
-                {openDropdown === link && (
+                {openDropdown === link && routesMap[link] && (
                   <div className="bg-slate-700 rounded">
                     {routesMap[link].data.map((item) => (
                       <button
