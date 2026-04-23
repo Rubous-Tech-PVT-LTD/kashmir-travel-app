@@ -1,4 +1,4 @@
-import { Bed, Utensils, Edit2, Trash2, Star } from 'lucide-react'
+import { Bed, Utensils, Edit2, Trash2, Star, X } from 'lucide-react'
 
 export const tripCategoryOptions = [
   { label: 'Popular', value: 'popular' },
@@ -159,6 +159,35 @@ export function ReviewCard({ review, onDelete, deleting }) {
       <Btn variant="danger" size="sm" onClick={() => onDelete(review._id)} disabled={deleting} className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 shrink-0">
         <Trash2 size={13} />
       </Btn>
+    </div>
+  )
+}
+
+export function FormField({ label, required, children }) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label className="text-[11px] font-bold tracking-widest text-[#0b3d66] uppercase flex items-center gap-1">
+        {label} {required && <span className="text-rose-500">*</span>}
+      </label>
+      {children}
+    </div>
+  )
+}
+
+export function Modal({ title, children, onClose }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden border border-white animate-in zoom-in-95 duration-200">
+        <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-linear-to-r from-slate-50 to-white">
+          <h3 className="text-xl font-bold text-slate-800">{title}</h3>
+          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-xl transition-colors text-slate-400 hover:text-slate-600">
+            <X size={20} />
+          </button>
+        </div>
+        <div className="p-8">
+          {children}
+        </div>
+      </div>
     </div>
   )
 }
