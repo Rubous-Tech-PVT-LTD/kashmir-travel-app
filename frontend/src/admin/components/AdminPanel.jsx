@@ -320,6 +320,8 @@ export default function AdminPanel() {
       coverImage: selectedItinerary.coverImage,
       category: selectedItinerary.category || 'popular',
       isComingSoon: selectedItinerary.isComingSoon || false,
+      tag: selectedItinerary.tag || '',
+      tagColor: selectedItinerary.tagColor || '#2563eb',
     })
     setIsEditingTrip(true)
     setError('')

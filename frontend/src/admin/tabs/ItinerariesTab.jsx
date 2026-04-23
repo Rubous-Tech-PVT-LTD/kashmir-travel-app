@@ -240,6 +240,17 @@ export default function ItinerariesTab({
                   <FieldGroup label="Cover image URL" icon={Image}>
                     <Input value={editTripForm.coverImage} onChange={(e) => setEditTripForm({ ...editTripForm, coverImage: e.target.value })} />
                   </FieldGroup>
+                  <div className="grid grid-cols-2 gap-4">
+                    <FieldGroup label="Badge Text (e.g. Best Seller)" icon={FileText}>
+                      <Input value={editTripForm.tag} onChange={(e) => setEditTripForm({ ...editTripForm, tag: e.target.value })} />
+                    </FieldGroup>
+                    <FieldGroup label="Badge Color (Hex)" icon={Clock}>
+                      <div className="flex gap-2">
+                        <Input type="color" className="w-12 h-10 p-1" value={editTripForm.tagColor || '#2563eb'} onChange={(e) => setEditTripForm({ ...editTripForm, tagColor: e.target.value })} />
+                        <Input placeholder="#2563eb" value={editTripForm.tagColor} onChange={(e) => setEditTripForm({ ...editTripForm, tagColor: e.target.value })} />
+                      </div>
+                    </FieldGroup>
+                  </div>
                   <label className="flex items-center gap-2 cursor-pointer select-none">
                     <input type="checkbox" checked={editTripForm.isComingSoon} onChange={(e) => setEditTripForm({ ...editTripForm, isComingSoon: e.target.checked })} className="rounded accent-sky-600" />
                     <span className="text-xs text-slate-600">Show "Coming Soon" badge</span>
