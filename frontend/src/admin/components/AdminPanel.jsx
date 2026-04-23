@@ -332,7 +332,11 @@ export default function AdminPanel() {
     try {
       setUpdatingTrip(true)
       setError('')
-      const data = await adminAPI.updateItinerary(selectedItineraryId, { ...editTripForm, price: Number(editTripForm.price) })
+      const data = await adminAPI.updateItinerary(selectedItineraryId, { 
+        ...editTripForm, 
+        price: Number(editTripForm.price),
+        category: editTripForm.category 
+      })
       if (data.success) {
         setItineraries(itineraries.map((it) => (it._id === selectedItineraryId ? data.data : it)))
         setIsEditingTrip(false)
