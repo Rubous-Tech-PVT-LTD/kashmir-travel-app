@@ -101,8 +101,9 @@ export default function Alltrip() {
     const normalizedSearch = searchQuery.toLowerCase().trim()
 
     return trips.filter((trip) => {
-      const matchesCategory = activeCategory === 'all' || trip.category === activeCategory
-      const matchesSearch = !normalizedSearch || `${trip.title} ${trip.description} ${trip.category}`.toLowerCase().includes(normalizedSearch)
+      const tripCategory = Array.isArray(trip.category) ? trip.category : [trip.category]
+      const matchesCategory = activeCategory === 'all' || tripCategory.includes(activeCategory)
+      const matchesSearch = !normalizedSearch || `${trip.title} ${trip.description} ${tripCategory.join(' ')}`.toLowerCase().includes(normalizedSearch)
 
       return matchesCategory && matchesSearch
     })

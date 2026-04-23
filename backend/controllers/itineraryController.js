@@ -13,21 +13,9 @@ exports.getAllItineraries = async (req, res) => {
   try {
     const { category } = req.query;
     const filter = {};
-    const allowedCategories = new Set([
-      'popular',
-      'daywise',
-      'romantic-tour',
-      'couple-tour',
-      'group-tour',
-      'family-tour',
-      'honeymoon-packages',
-      'adventure-trek',
-      'couple-special',
-      'spiritual-tour'
-    ]);
 
-    if (category && allowedCategories.has(category)) {
-      filter.category = category;
+    if (category && category !== 'all') {
+      filter.category = { $in: [category] };
     }
 
     const itineraries = await Itinerary.find(filter).sort({ createdAt: -1 }).lean();

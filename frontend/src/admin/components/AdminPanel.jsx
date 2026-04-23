@@ -13,7 +13,7 @@ import SettingsTab from '../tabs/SettingsTab'
 import InquiriesTab from '../tabs/InquiriesTab'
 import BlogsTab from '../tabs/BlogsTab'
 
-const INITIAL_ITINERARY_FORM = { title: '', duration: '', price: '', coverImage: '', category: 'popular', isComingSoon: false }
+const INITIAL_ITINERARY_FORM = { title: '', duration: '', price: '', coverImage: '', category: ['popular'], isComingSoon: false }
 const INITIAL_DAY_FORM = { day: '', title: '', activitiesText: '', accommodation: '', meals: '', notes: '' }
 const INITIAL_HOTEL_FORM = {
   name: '',

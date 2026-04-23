@@ -80,10 +80,26 @@ export default function ItinerariesTab({
               <FieldGroup label="Cover image URL" icon={Image}>
                 <Input placeholder="https://..." value={newItineraryForm.coverImage} onChange={(e) => setNewItineraryForm({ ...newItineraryForm, coverImage: e.target.value })} />
               </FieldGroup>
-              <FieldGroup label="Category">
-                <Select value={newItineraryForm.category} onChange={(e) => setNewItineraryForm({ ...newItineraryForm, category: e.target.value })}>
-                  {tripCategoryOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                </Select>
+              <FieldGroup label="Categories">
+                <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-xl border border-slate-100 max-h-40 overflow-y-auto">
+                  {tripCategoryOptions.map((o) => (
+                    <label key={o.value} className="flex items-center gap-2 cursor-pointer hover:bg-slate-100 p-1 rounded transition-colors">
+                      <input 
+                        type="checkbox" 
+                        className="rounded accent-sky-600"
+                        checked={(newItineraryForm.category || []).includes(o.value)}
+                        onChange={(e) => {
+                          const current = newItineraryForm.category || [];
+                          const next = e.target.checked 
+                            ? [...current, o.value]
+                            : current.filter(v => v !== o.value);
+                          setNewItineraryForm({ ...newItineraryForm, category: next });
+                        }}
+                      />
+                      <span className="text-[11px] text-slate-600 font-medium">{o.label}</span>
+                    </label>
+                  ))}
+                </div>
               </FieldGroup>
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <input type="checkbox" checked={newItineraryForm.isComingSoon} onChange={(e) => setNewItineraryForm({ ...newItineraryForm, isComingSoon: e.target.checked })} className="rounded accent-sky-600" />
@@ -231,10 +247,26 @@ export default function ItinerariesTab({
                     <FieldGroup label="Duration" icon={Clock}>
                       <Input value={editTripForm.duration} onChange={(e) => setEditTripForm({ ...editTripForm, duration: e.target.value })} />
                     </FieldGroup>
-                    <FieldGroup label="Category">
-                      <Select value={editTripForm.category} onChange={(e) => setEditTripForm({ ...editTripForm, category: e.target.value })}>
-                        {tripCategoryOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                      </Select>
+                    <FieldGroup label="Categories">
+                      <div className="grid grid-cols-2 gap-2 bg-white p-3 rounded-xl border border-slate-200 mt-1 max-h-40 overflow-y-auto">
+                        {tripCategoryOptions.map((o) => (
+                          <label key={o.value} className="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-1 rounded transition-colors">
+                            <input 
+                              type="checkbox" 
+                              className="rounded accent-sky-600"
+                              checked={(editTripForm.category || []).includes(o.value)}
+                              onChange={(e) => {
+                                const current = editTripForm.category || [];
+                                const next = e.target.checked 
+                                  ? [...current, o.value]
+                                  : current.filter(v => v !== o.value);
+                                setEditTripForm({ ...editTripForm, category: next });
+                              }}
+                            />
+                            <span className="text-[11px] text-slate-600 font-medium">{o.label}</span>
+                          </label>
+                        ))}
+                      </div>
                     </FieldGroup>
                   </div>
                   <FieldGroup label="Cover image URL" icon={Image}>

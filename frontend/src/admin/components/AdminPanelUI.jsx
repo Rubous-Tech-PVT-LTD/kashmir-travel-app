@@ -27,13 +27,20 @@ const categoryColors = {
 }
 
 export function Badge({ category }) {
-  const cls = categoryColors[category] || 'bg-slate-100 text-slate-600'
-  const label = tripCategoryOptions.find((o) => o.value === category)?.label || category
+  const categories = Array.isArray(category) ? category : [category]
 
   return (
-    <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wide uppercase ${cls}`}>
-      {label}
-    </span>
+    <div className="flex flex-wrap gap-1">
+      {categories.map((cat) => {
+        const cls = categoryColors[cat] || 'bg-slate-100 text-slate-600'
+        const label = tripCategoryOptions.find((o) => o.value === cat)?.label || cat
+        return (
+          <span key={cat} className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wide uppercase ${cls}`}>
+            {label}
+          </span>
+        )
+      })}
+    </div>
   )
 }
 
