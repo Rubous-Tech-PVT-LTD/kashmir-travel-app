@@ -91,7 +91,7 @@ export default function BlogDetail() {
 
       <div className="max-w-4xl mx-auto px-6 py-20">
         <div 
-          className="prose prose-lg prose-emerald max-w-none text-slate-700 leading-relaxed"
+          className="blog-content prose prose-lg prose-emerald max-w-none text-slate-700 leading-relaxed"
           dangerouslySetInnerHTML={{ __html: blog.content }}
         />
       </div>

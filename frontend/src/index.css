@@ -30,3 +30,12 @@ body {
   color: #12304c;
   background: linear-gradient(180deg, #f3f8fd 0%, #eaf3fb 100%);
 }
+
+/* Blog Content Styling */
+.blog-content h1 { @apply text-4xl font-bold mb-6 text-slate-800; }
+.blog-content h2 { @apply text-2xl font-bold mt-10 mb-4 text-slate-800 border-b border-slate-100 pb-2; }
+.blog-content p { @apply mb-6 text-slate-600 leading-relaxed; }
+.blog-content a { @apply text-emerald-600 font-bold underline hover:text-emerald-700 transition-colors; }
+.blog-content strong { @apply font-bold text-slate-800; }
+.blog-content ul { @apply list-disc ml-6 mb-6 text-slate-600; }
+.blog-content li { @apply mb-2; }
