@@ -8,7 +8,7 @@ export const tripCategoryOptions = [
   { label: 'Group Tour', value: 'group-tour' },
   { label: 'Family Tour', value: 'family-tour' },
   { label: 'Honeymoon Packages', value: 'honeymoon-packages' },
-  { label: 'Adventure Trek', value: 'adventure-trek' },
+  { label: 'Adventure Kashmir Trek', value: 'adventure-trek' },
   { label: 'Spiritual Tour', value: 'spiritual-tour' },
   { label: 'Couple Special', value: 'couple-special' },
 ]

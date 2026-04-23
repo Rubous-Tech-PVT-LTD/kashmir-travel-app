@@ -7,7 +7,7 @@ const navLinks = ["Kashmir Packages", "Honeymoon", "Services", "Spiritual tour",
 
 
 const kashimirPackagesDropdown = [
-  "Adventure Tour Package",
+  "Adventure Kashmir Trek",
   "3 Days Tour",
   "4 Days Tour",
   "6 Days Tour",
@@ -59,7 +59,7 @@ export default function Navbar() {
     "Kashmir Packages": {
       data: kashimirPackagesDropdown,
       routes: {
-        "Adventure Tour Package": "/alltrips?category=adventure-trek",
+        "Adventure Kashmir Trek": "/alltrips?category=adventure-trek",
         "3 Days Tour": "/all-daywise-trips?days=3",
         "4 Days Tour": "/all-daywise-trips?days=4",
         "6 Days Tour": "/all-daywise-trips?days=6",
