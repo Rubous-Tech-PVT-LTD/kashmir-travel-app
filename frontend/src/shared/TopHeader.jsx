@@ -14,11 +14,6 @@ const WhatsAppIcon = () => (
 export default function TopHeader() {
   return (
     <>
-      {/* Beta Banner */}
-      <div className="w-full bg-amber-400 text-gray-900 text-center py-2 px-4 text-sm font-medium tracking-wide">
-        🚧 This website is currently in Beta version. Some features may still be under development.
-      </div>
-
       <div className="flex items-center justify-between py-1.5 px-5 sm:px-8 border-b border-gray-200 bg-white w-full">
         {/* Logo */}
         <Link
